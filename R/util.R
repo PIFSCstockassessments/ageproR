@@ -7,7 +7,7 @@
 #'
 #' @export
 power1 <- function(exp) {
-  #force(exp)
+  force(exp)
   function(x){
     x^exp
   }
