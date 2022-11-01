@@ -164,39 +164,6 @@ set_stochasticWeightAge <- function (df, sd, flag=1, timeFlag=TRUE) {
 
 }
 
-# set_stockWeight <- function (df, sd, flag=c(1,2), timeFlag=TRUE) {
-#
-#   #validate flag
-#   flag <- match.arg(flag)
-#   return(set_stochasticWeightAge(df, sd, flag,timeFlag))
-# }
-#
-# set_ssbWeight <- function (df, sd, flag=c(1,2,3), timeFlag=TRUE) {
-#   flag <- match.arg(flag)
-#   return(set_stochasticWeightAge(df, sd, flag, timeFlag))
-# }
-#
-# set_meanWeight <- function (df, sd, flag=c(1,2,3,4), timeFlag=TRUE) {
-#   flag <- match.arg(flag)
-#   return(set_stochasticWeightAge(df, sd, flag, timeFlag))
-# }
-#
-# set_catchWeight <- function (df, sd, flag=c(1,2,3,4,5), timeFlag=TRUE) {
-#   flag <- match.arg(flag)
-#   return(set_stochasticWeightAge(df, sd, flag, timeFlag))
-# }
-#
-# set_discardWeight <- function(df, sd, flag=c(1,2,3,4,5,6), timeFlag=TRUE) {
-#   flag <- match.arg(flag)
-#   return(set_stochasticWeightAge(df, sd, flag, timeFlag))
-# }
-
-# set_stochasticAge <- function(df, sd, flag=c(1,2), timeFlag=TRUE) {
-#   if(!flag %in% c(1,2)){
-#     stop("Invalid Stochastic Parameter of Age flag")
-#   }
-#   return(set_stochasticWeightAge(df, sd, flag, timeFlag))
-# }
 
 set_stochasticAge <- function(validFlag=c(1,2)) {
   force(validFlag)
@@ -217,32 +184,17 @@ set_discardWeight <- set_stochasticAge(validFlag = c(1,2,3,4,5,6))
 
 set_maturity <- set_stochasticAge()
 set_fishery <- set_stochasticAge()
+set_natMort <- set_stochasticAge()
+
+
+
+
+
+
 
 
 
 new_inpfile <- function () {
-
-  version <- list("legacyVersionString"="AGEPRO VERSION 4.0",
-                  "versionNumber"="4.0.0.0")
-
-  caseID <- "REDFISH - RECRUITMENT MODEL 14"
-  general <- list(
-    "nFYear": 2004,
-    "nXYear": 2009,
-    "nFAge": 1,
-    "nXAge": 26,
-    "nSims": 100,
-    "nFleet": 2,
-    "nRecModel": 1,
-    "discFlag": 0,
-    "seed": 49667890
-  )
-
-  bootstrap <- list(
-    "nboot" : 1000,
-    "bootFac": 1000,
-    "bootFile": ""
-  )
 
   return(list())
 }
