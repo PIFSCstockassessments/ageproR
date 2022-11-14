@@ -90,18 +90,19 @@ EmpiricalRecruitModel <- R6Class(
     #'Create Obs table
     #'
     #' @param num_obs Number of Recruitmebt Observations
-    #'
+    #' @export
     new_obs_table = function () {
       message("Has SSB? ", self$with_ssb)
       message("Number of OBS: ", self$num_obs)
 
-      self$obs_array <- rep(0,self$num_obs)
+      self$obs_array <- rep("0",self$num_obs)
       if(self$with_ssb){
-        self$obs_array <- matrix(c(self$obs_array,rep(0,self$num_obs)),
+        self$obs_array <- matrix(c(self$obs_array,rep("0",self$num_obs)),
                                   nrow=2,ncol=self$num_obs)
       }
       print(self$obs_array)
     }
+    #TODO:populate json data to class
 
   )
 )
