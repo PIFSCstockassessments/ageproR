@@ -51,7 +51,8 @@ Initializes the Recruitment Class
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 
-\item{\code{seq_years}}{Arrau representing the Projection Time Horizon}
+\item{\code{seq_years}}{\cr
+Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
@@ -61,7 +62,6 @@ AGEPRO Recruitment Model Number}
 \if{latex}{\out{\hypertarget{method-Recruitment-get_recruit_data}{}}}
 \subsection{Method \code{get_recruit_data()}}{
 Gets Recruitment Data
-
 
 
     #' set recruitment
@@ -104,7 +104,7 @@ Gets Recruitment Data
 
     }
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Recruitment$get_recruit_data(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$get_recruit_data(model_num, seq_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -112,6 +112,9 @@ Gets Recruitment Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
+
+\item{\code{seq_years}}{\cr
+Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }

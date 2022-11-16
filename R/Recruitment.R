@@ -10,6 +10,7 @@
 #' these models.
 #'
 #' @template model_num
+#' @template seq_years
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -43,14 +44,14 @@ Recruitment <- R6Class(
     #' @description
     #' Initializes the Recruitment Class
     #'
-    #' @param seq_years Arrau representing the Projection Time Horizon
     initialize = function (model_num, seq_years) {
 
       #TODO:Assert params are numeric
 
+      private$seq_yrs <- seq_years
       num_rec_models <- length(model_num)
 
-      message(num_rec_models, " recruitment model(s) for ", seq_years, " year(s)")
+      message(num_rec_models, " recruitment model(s) for ", private$seq_yrs, " year(s)")
 
       self$recruit_prob <- vector ("list", num_rec_models)
       self$model_collection <- vector ("list", num_rec_models)
@@ -61,12 +62,11 @@ Recruitment <- R6Class(
 
         # Fill recruit_prob
         # TODO: Check validity
-        self$recruit_prob[[recruit]] <- rep("1", seq_years)
+        self$recruit_prob[[recruit]] <- rep("1", private$seq_yrs)
 
         #Add Recruitment Data
-        self$model_collection[[recruit]] <- self$get_recruit_data()
-        #RecruitModel$new
-
+        self$model_collection[[recruit]] <-
+          self$get_recruit_data(model_num, private$seq_yrs)
 
       }
       message("\nRecruitment Probability:")
@@ -76,10 +76,12 @@ Recruitment <- R6Class(
     #'@description
     #'Gets Recruitment Data
     #'
-    #'
-    get_recruit_data = function(model_num){
+    get_recruit_data = function(model_num, seq_years){
 
       if (model_num == 14) {
+        EmpiricalRecruitModel$new(model_num,
+                                  seq_years,
+                                  with_ssb = FALSE)
 
       }
 
@@ -125,6 +127,9 @@ Recruitment <- R6Class(
 #'
 #'     }
 
+  ), private = list (
+
+    seq_yrs = NULL
   )
 )
 
