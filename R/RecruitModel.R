@@ -65,8 +65,8 @@ EmpiricalRecruitModel <- R6Class(
   inherit = RecruitModel,
   public = list (
 
-    #' @field num_obs num obs
-    num_obs = NULL,
+    #' @field rec_points num obs
+    rec_points = NULL,
 
     #' @field with_ssb with ssb
     with_ssb = NULL,
@@ -74,19 +74,18 @@ EmpiricalRecruitModel <- R6Class(
     #' @field low_bound Lowest significant number bound
     low_bound = 0.0001,
 
-    #' @field obs_array Obs Array (data)
-    obs_array = NULL,
+    #' @field rec_array Recruitment Inupt Array (data)
+    rec_array = NULL,
 
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param num_obs Number of Recruitmebt Observations
+    #' @param rec_points Number of Recruitmebt Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    #'
-    initialize = function (model_num, num_obs, with_ssb = FALSE) {
-      self$num_obs = num_obs
+    initialize = function (model_num, rec_points, with_ssb = FALSE) {
+      self$rec_points = rec_points
       self$with_ssb = with_ssb
 
       super$initialize(model_num, 1)
@@ -95,31 +94,29 @@ EmpiricalRecruitModel <- R6Class(
     #'@description
     #'Create Obs table
     #'
-    #' @param num_obs Number of Recruitmebt Observations
     new_obs_table = function () {
       message("Has SSB? ", self$with_ssb)
-      message("Number of OBS: ", self$num_obs)
+      message("Number of Recruitment Data Points: ", self$rec_points)
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
-        self$obs_array <- matrix(rep("0",self$num_obs),
-                                  nrow=2, ncol=self$num_obs)
+        self$rec_array <- matrix(rep("0",self$rec_points),
+                                  nrow=2, ncol=self$rec_points)
       }else{
-        self$obs_array <- matrix(rep("0",self$num_obs),
-                                 nrow=1, ncol= self$num_obs)
+        self$rec_array <- matrix(rep("0",self$rec_points),
+                                 nrow=1, ncol= self$rec_points)
       }
-      print(self$obs_array)
+      print(self$rec_array)
     },
-    #TODO:populate json data to class
     #' @description
-    #' Return Recuit data as JSON
+    #' Returns Recuit data as JSON
     #'
     print_json = function () {
       #check
-      toJSON(list(points=self$num_obs,
-                  recruits=self$obs_array),
+      toJSON(list(points=self$rec_points,
+                  recruits=self$rec_array),
              pretty = TRUE,
-             auto_unbox = TRUE)
+             auto_unbox = TRUE )
     }
 
   )

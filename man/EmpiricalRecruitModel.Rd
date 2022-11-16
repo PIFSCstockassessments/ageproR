@@ -12,13 +12,13 @@ Recruitment Model Description
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{num_obs}}{num obs}
+\item{\code{rec_points}}{num obs}
 
 \item{\code{with_ssb}}{with ssb}
 
 \item{\code{low_bound}}{Lowest significant number bound}
 
-\item{\code{obs_array}}{Obs Array (data)}
+\item{\code{rec_array}}{Recruitment Inupt Array (data)}
 }
 \if{html}{\out{</div>}}
 }
@@ -37,7 +37,7 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$new(model_num, num_obs, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$new(model_num, rec_points, with_ssb = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -46,7 +46,7 @@ Creates an Empirical Recruit instance
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 
-\item{\code{num_obs}}{Number of Recruitmebt Observations}
+\item{\code{rec_points}}{Number of Recruitmebt Observations}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}
@@ -63,19 +63,12 @@ Create Obs table
 \if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$new_obs_table()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{num_obs}}{Number of Recruitmebt Observations}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-EmpiricalRecruitModel-print_json"></a>}}
 \if{latex}{\out{\hypertarget{method-EmpiricalRecruitModel-print_json}{}}}
 \subsection{Method \code{print_json()}}{
-Return Recuit data as JSON
+Returns Recuit data as JSON
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$print_json()}\if{html}{\out{</div>}}
 }
