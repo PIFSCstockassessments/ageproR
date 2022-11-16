@@ -5,6 +5,8 @@
 #' @description
 #' Recruitment Model Description
 #'
+#' @template model_num
+#'
 #' @field model_num Model number
 #' @field model_type Model Type
 #' @field model_name Name of Recruitment Model
@@ -23,7 +25,6 @@ RecruitModel <- R6Class(
     #' @description
     #' Creates a new instance of this class
     #'
-    #' @param model_num Model Number
     #' @param model_type Model Type
     initialize = function (model_num, model_type) {
       self$model_num <- model_num
@@ -54,6 +55,10 @@ NullRecruitModel <- R6Class(
 #' Empirical Recritment Model Data
 #' @inherit RecruitModel description
 #'
+#' @template model_num
+#'
+#' @importFrom jsonlite toJSON
+#'
 #' @export
 EmpiricalRecruitModel <- R6Class(
   "EmpiricalRecruitModel",
@@ -78,31 +83,44 @@ EmpiricalRecruitModel <- R6Class(
     #' @param num_obs Number of Recruitmebt Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
-    #' @param model_num AGEPRO Recruitment Model Number
+    #'
     #'
     initialize = function (model_num, num_obs, with_ssb = FALSE) {
       self$num_obs = num_obs
       self$with_ssb = with_ssb
 
       super$initialize(model_num, 1)
+      self$new_obs_table()
     },
     #'@description
     #'Create Obs table
     #'
     #' @param num_obs Number of Recruitmebt Observations
-    #' @export
     new_obs_table = function () {
       message("Has SSB? ", self$with_ssb)
       message("Number of OBS: ", self$num_obs)
 
-      self$obs_array <- rep("0",self$num_obs)
+      # Fill Data fill Default Values (0)
       if(self$with_ssb){
-        self$obs_array <- matrix(c(self$obs_array,rep("0",self$num_obs)),
-                                  nrow=2,ncol=self$num_obs)
+        self$obs_array <- matrix(rep("0",self$num_obs),
+                                  nrow=2, ncol=self$num_obs)
+      }else{
+        self$obs_array <- matrix(rep("0",self$num_obs),
+                                 nrow=1, ncol= self$num_obs)
       }
       print(self$obs_array)
-    }
+    },
     #TODO:populate json data to class
+    #' @description
+    #' Return Recuit data as JSON
+    #'
+    print_json = function () {
+      #check
+      toJSON(list(points=self$num_obs,
+                  recruits=self$obs_array),
+             pretty = TRUE,
+             auto_unbox = TRUE)
+    }
 
   )
 )

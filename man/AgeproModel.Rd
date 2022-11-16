@@ -52,7 +52,51 @@ last age class.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-AgeproModel-new}{\code{AgeproModel$new()}}
 \item \href{#method-AgeproModel-clone}{\code{AgeproModel$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AgeproModel-new"></a>}}
+\if{latex}{\out{\hypertarget{method-AgeproModel-new}{}}}
+\subsection{Method \code{new()}}{
+Starts an instances of the AGEPRO Model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$new(
+  yr_start = 0,
+  yr_end = 1,
+  age_begin = 0,
+  age_end = 1,
+  num_fleets = 1,
+  num_rec_models = 1,
+  num_pop_sims = 1000,
+  discards = FALSE,
+  seed = 0
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{yr_start}}{First Year of Projection}
+
+\item{\code{yr_end}}{Last Year of Projection}
+
+\item{\code{age_begin}}{age begin}
+
+\item{\code{age_end}}{age end}
+
+\item{\code{num_fleets}}{Number of fleets}
+
+\item{\code{num_rec_models}}{Number of Recruit Modles}
+
+\item{\code{num_pop_sims}}{Number of population sims}
+
+\item{\code{discards}}{discards}
+
+\item{\code{seed}}{Random Number seed}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

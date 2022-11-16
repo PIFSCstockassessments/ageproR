@@ -27,6 +27,7 @@ Recruitment Model Description
 \itemize{
 \item \href{#method-EmpiricalRecruitModel-new}{\code{EmpiricalRecruitModel$new()}}
 \item \href{#method-EmpiricalRecruitModel-new_obs_table}{\code{EmpiricalRecruitModel$new_obs_table()}}
+\item \href{#method-EmpiricalRecruitModel-print_json}{\code{EmpiricalRecruitModel$print_json()}}
 \item \href{#method-EmpiricalRecruitModel-clone}{\code{EmpiricalRecruitModel$clone()}}
 }
 }
@@ -42,7 +43,8 @@ Creates an Empirical Recruit instance
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{AGEPRO Recruitment Model Number}
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
 
 \item{\code{num_obs}}{Number of Recruitmebt Observations}
 
@@ -68,6 +70,16 @@ Create Obs table
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-EmpiricalRecruitModel-print_json"></a>}}
+\if{latex}{\out{\hypertarget{method-EmpiricalRecruitModel-print_json}{}}}
+\subsection{Method \code{print_json()}}{
+Return Recuit data as JSON
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$print_json()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-EmpiricalRecruitModel-clone"></a>}}

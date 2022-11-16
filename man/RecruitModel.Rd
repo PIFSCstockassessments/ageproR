@@ -36,7 +36,8 @@ Creates a new instance of this class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{Model Number}
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
 
 \item{\code{model_type}}{Model Type}
 }
