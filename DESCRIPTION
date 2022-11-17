@@ -9,6 +9,7 @@ Description: More about what it does (maybe more than one line)
 Imports:
   jsonlite,
   here,
+  checkmate,
   R6
 License: GPL-3
 Encoding: UTF-8

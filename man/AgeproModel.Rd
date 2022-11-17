@@ -53,6 +53,7 @@ last age class.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-AgeproModel-new}{\code{AgeproModel$new()}}
+\item \href{#method-AgeproModel-get_json}{\code{AgeproModel$get_json()}}
 \item \href{#method-AgeproModel-clone}{\code{AgeproModel$clone()}}
 }
 }
@@ -98,6 +99,16 @@ Starts an instances of the AGEPRO Model
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AgeproModel-get_json"></a>}}
+\if{latex}{\out{\hypertarget{method-AgeproModel-get_json}{}}}
+\subsection{Method \code{get_json()}}{
+Get json
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$get_json()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AgeproModel-clone"></a>}}

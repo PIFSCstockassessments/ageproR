@@ -11,10 +11,12 @@
 #'
 #' @export
 #' @importFrom R6 R6Class
+#' @importFrom checkmate test_logical assert_number
 AgeproModel <- R6Class(
   classname = "AgeproModel",
 
   public = list(
+
     #' @field yr_start First Year in Projection
     yr_start = NULL,
 
@@ -45,6 +47,9 @@ AgeproModel <- R6Class(
     #' @field inp_file File name of opened/imported input file
     inp_file = NULL,
 
+    #@field case_id Name of the AGEPRO model
+    #case_id = NULL,
+
     #' @description
     #' Starts an instances of the AGEPRO Model
     #'
@@ -67,6 +72,10 @@ AgeproModel <- R6Class(
                            num_pop_sims=1000,
                            discards=FALSE,
                            seed=0) {
+
+      #TODO:Assert discard logicals
+      test_logiceal(discards)
+
       self$yr_start <- yr_start
       self$yr_end <- yr_end
       self$age_begin <- age_begin
@@ -74,9 +83,32 @@ AgeproModel <- R6Class(
       self$num_fleets <- num_fleets
       self$num_rec_models <- num_rec_models
       self$num_pop_sims <- num_pop_sims
+      self$discards <- discards
       self$seed <- seed
 
 
+    },
+
+    #' @description
+    #' Get json
+    get_json = function () {
+
+      if(!test_logical(self$discard)){
+        assert_number(self$discard,lower=0,upper=1)
+        self$discard <- as.numeric(self$discard)
+      }
+
+      general_json <- list(
+        nFYear= self$yr_start,
+        nXYear= self$yr_end,
+        nFAge= self$age_begin,
+        nXAge= self$age_end,
+        nSims= self$num_pop_sims,
+        nFleet= self$num_fleets,
+        nRecModel= self$num_rec_model,
+        discFlag= self$discard,
+        seed= self$seed
+      )
     }
 
   ),
