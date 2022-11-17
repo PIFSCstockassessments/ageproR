@@ -119,5 +119,14 @@ EmpiricalRecruitModel <- R6Class(
              auto_unbox = TRUE )
     }
 
+  ),
+  active = list(
+
+    #' @field recruit_data gets JSON-ready Recruit Model Data
+    #'
+    recruit_data = function () {
+      return(list(points=self$rec_points,
+           recruits=self$rec_array))
+    }
   )
 )
