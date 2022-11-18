@@ -98,6 +98,11 @@ AgeproModel <- R6Class(
         self$discard <- as.numeric(self$discard)
       }
 
+      version_json <- list (
+        legacyVer= private$str_legacy_ver,
+        ver= private$ver
+      )
+
       general_json <- list(
         nFYear= self$yr_start,
         nXYear= self$yr_end,
@@ -131,5 +136,11 @@ AgeproModel <- R6Class(
       seq(self$yr_start,self$yr_end)
     }
 
+  ),
+
+  private = list (
+
+    str_legacy_ver = "AGEPRO VERSION 4.0",
+    str_ver = "4.0.0.0"
   )
 )
