@@ -8,7 +8,7 @@
 #' @template model_num
 #'
 #' @field model_num Model number
-#' @field model_type Model Type
+#' @field model_group Group type of Recruitment Model
 #' @field model_name Name of Recruitment Model
 #'
 #' @importFrom R6 R6Class
@@ -19,16 +19,16 @@ RecruitModel <- R6Class(
   public = list (
 
     model_num = NULL,
-    model_type = NULL,
+    model_group = NULL,
     model_name = NULL,
 
     #' @description
     #' Creates a new instance of this class
     #'
-    #' @param model_type Model Type
-    initialize = function (model_num, model_type) {
+    #' @param model_group Model Type
+    initialize = function (model_num, model_group) {
       self$model_num <- model_num
-      self$model_type <- model_type
+      self$model_group <- model_group
     }
   )
 )
