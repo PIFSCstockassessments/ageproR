@@ -81,5 +81,26 @@ GeneralParams <- R6Class(
 
     }
 
+  ),
+  active = list(
+
+    #' @field num_years Determines the number of years in projection by the (absolute) difference
+    #' of the last and first year of projection.
+    num_years = function () {
+      abs(self$yr_end - self$yr_start) + 1
+    },
+
+    #' @field num_ages Determines number of ages by the (absolute) difference of the first and
+    #' last age class.
+    num_ages = function() {
+      abs(self$age_begin - self$age_end) + 1
+    },
+
+    #' @field seq_years Returns a sequence of years from First year of projection
+    seq_years = function() {
+      seq(self$yr_start,self$yr_end)
+    }
+
   )
+
 )

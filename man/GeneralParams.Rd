@@ -34,6 +34,19 @@ projections.
 }
 \if{html}{\out{</div>}}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{num_years}}{Determines the number of years in projection by the (absolute) difference
+of the last and first year of projection.}
+
+\item{\code{num_ages}}{Determines number of ages by the (absolute) difference of the first and
+last age class.}
+
+\item{\code{seq_years}}{Returns a sequence of years from First year of projection}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
