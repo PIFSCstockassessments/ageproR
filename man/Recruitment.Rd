@@ -24,7 +24,7 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 
 \item{\code{recruit_prob}}{recruitment probabilities}
 
-\item{\code{model_collection}}{List of recruitment models}
+\item{\code{model_collection_list}}{List of recruitment models}
 }
 \if{html}{\out{</div>}}
 }

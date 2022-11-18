@@ -37,8 +37,8 @@ Recruitment <- R6Class(
     #' @field recruit_prob recruitment probabilities
     recruit_prob = NULL,
 
-    #' @field model_collection List of recruitment models
-    model_collection = NULL,
+    #' @field model_collection_list List of recruitment models
+    model_collection_list = NULL,
 
 
     #' @description
@@ -57,7 +57,7 @@ Recruitment <- R6Class(
       message(num_rec_models, " recruitment model(s) for ", private$seq_yrs, " year(s)")
 
       self$recruit_prob <- vector ("list", num_rec_models)
-      self$model_collection <- vector ("list", num_rec_models)
+      self$model_collection_list <- vector ("list", num_rec_models)
 
       seq_rec_models <- 1:num_rec_models
 
@@ -69,7 +69,7 @@ Recruitment <- R6Class(
         self$recruit_prob[[recruit]] <- rep("1", private$seq_yrs)
 
         #Add Recruitment Data
-        self$model_collection[[recruit]] <-
+        self$model_collection_list[[recruit]] <-
           self$get_recruit_data(self$recruit_type[[recruit]], private$seq_yrs)
 
       }
@@ -100,7 +100,7 @@ Recruitment <- R6Class(
       #Gather Recruit Model Data
       model_data_list <- vector("list", length(self$recruit_type))
       for(recruit in length(self$recruit_type)){
-        model_data_list[[recruit]] <- self$model_collection[[recruit]][["recruit_data"]]
+        model_data_list[[recruit]] <- self$model_collection_list[[recruit]][["recruit_data"]]
       }
 
       recruit_json <- list(
