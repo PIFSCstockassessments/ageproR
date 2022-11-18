@@ -7,7 +7,7 @@
 #' projections.
 #'
 #' @importFrom R6 R6Class
-#' @importFrom checkmate test_logical assert_number
+#' @importFrom checkmate test_logical test_true assert_number
 GeneralParams <- R6Class(
   classname = "GeneralParams",
 
@@ -65,8 +65,12 @@ GeneralParams <- R6Class(
                            discards=FALSE,
                            seed=0) {
 
-      #TODO:Assert discard logicals
-      test_logiceal(discards)
+      # Discards: Assert logical format
+      if(!test_logical(discards)){
+        assert_number(discards,lower=0,upper=1)
+        discards <- as.logical(discards)
+      }
+      message("Discards: ", test_true(discards))
 
 
       self$yr_start <- yr_start

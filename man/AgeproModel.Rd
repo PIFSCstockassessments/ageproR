@@ -14,38 +14,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{yr_start}}{First Year in Projection}
-
-\item{\code{yr_end}}{Last Year in Projection}
-
-\item{\code{age_begin}}{First Age Class}
-
-\item{\code{age_end}}{Last Age Class}
-
-\item{\code{num_fleets}}{Number of Fleets}
-
-\item{\code{num_rec_models}}{Number of Recruitment Models}
-
-\item{\code{num_pop_sims}}{Number of Population Simulations}
-
-\item{\code{discards}}{Are discards present?}
-
-\item{\code{seed}}{Psuedorandom number seed}
-
-\item{\code{inp_file}}{File name of opened/imported input file}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{num_years}}{Determines the number of years in projection by the (absolute) difference
-of the last and first year of projection.}
-
-\item{\code{num_ages}}{Determines number of ages by the (absolute) difference of the first and
-last age class.}
-
-\item{\code{seq_years}}{Returns a sequence of years from First year of projection}
+\item{\code{general_par}}{General Parameters}
 }
 \if{html}{\out{</div>}}
 }
@@ -63,39 +32,13 @@ last age class.}
 \subsection{Method \code{new()}}{
 Starts an instances of the AGEPRO Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$new(
-  yr_start = 0,
-  yr_end = 1,
-  age_begin = 0,
-  age_end = 1,
-  num_fleets = 1,
-  num_rec_models = 1,
-  num_pop_sims = 1000,
-  discards = FALSE,
-  seed = 0
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$new(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{yr_start}}{First Year of Projection}
-
-\item{\code{yr_end}}{Last Year of Projection}
-
-\item{\code{age_begin}}{age begin}
-
-\item{\code{age_end}}{age end}
-
-\item{\code{num_fleets}}{Number of fleets}
-
-\item{\code{num_rec_models}}{Number of Recruit Modles}
-
-\item{\code{num_pop_sims}}{Number of population sims}
-
-\item{\code{discards}}{discards}
-
-\item{\code{seed}}{Random Number seed}
+\item{\code{...}}{Parameters to pass to GeneralParams}
 }
 \if{html}{\out{</div>}}
 }
