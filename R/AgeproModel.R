@@ -18,8 +18,8 @@ AgeproModel <- R6Class(
   public = list(
 
 
-    #' @field general_par General Parameters
-    general_par = NULL,
+    #' @field general General Parameters
+    general = NULL,
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -31,7 +31,7 @@ AgeproModel <- R6Class(
       #TODO:Assert discard logicals
       #test_logical(discards)
 
-      self$general_par <- GeneralParams$new(...)
+      self$general <- GeneralParams$new(...)
 
     },
 
@@ -39,9 +39,9 @@ AgeproModel <- R6Class(
     #' Get json
     get_json = function () {
 
-      if(!test_logical(general_par$discard)){
-        assert_number(general_par$discard,lower=0,upper=1)
-        general_par$discard <- as.numeric(general_par$discard)
+      if(!test_logical(general$discard)){
+        assert_number(general$discard,lower=0,upper=1)
+        general$discard <- as.numeric(general$discard)
       }
 
       version_json <- list (
@@ -50,15 +50,15 @@ AgeproModel <- R6Class(
       )
 
       general_json <- list(
-        nFYear=  general_par$yr_start,
-        nXYear= general_par$yr_end,
-        nFAge= general_par$age_begin,
-        nXAge= general_par$age_end,
-        nSims= general_par$num_pop_sims,
-        nFleet= general_par$num_fleets,
-        nRecModel= general_par$num_rec_model,
-        discFlag= general_par$discard,
-        seed= general_par$seed
+        nFYear=  general$yr_start,
+        nXYear= general$yr_end,
+        nFAge= general$age_begin,
+        nXAge= general$age_end,
+        nSims= general$num_pop_sims,
+        nFleet= general$num_fleets,
+        nRecModel= general$num_rec_model,
+        discFlag= general$discard,
+        seed= general$seed
       )
 
 

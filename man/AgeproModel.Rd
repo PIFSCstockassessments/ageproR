@@ -14,7 +14,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{general_par}}{General Parameters}
+\item{\code{general}}{General Parameters}
 }
 \if{html}{\out{</div>}}
 }
