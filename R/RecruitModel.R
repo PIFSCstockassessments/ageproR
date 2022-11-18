@@ -46,8 +46,8 @@ NullRecruitModel <- R6Class(
     #'Initialize
     #'
     initialize = function() {
-      self$model_num = 0
-      self$model_type = 0
+
+      super$initialize(0, 0)
     }
   )
 )

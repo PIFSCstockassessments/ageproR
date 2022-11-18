@@ -87,6 +87,8 @@ Recruitment <- R6Class(
                                   seq_years,
                                   with_ssb = FALSE)
 
+      }else{
+        NullRecruitModel$new()
       }
 
     },
