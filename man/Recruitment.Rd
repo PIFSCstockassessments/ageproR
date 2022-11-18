@@ -20,9 +20,9 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 
 \item{\code{max_rec_obs}}{Recruitment submodel's maximum number of observations}
 
-\item{\code{recruit_type}}{Recruitment Type}
+\item{\code{rec_model_num}}{Recruitment Type}
 
-\item{\code{recruit_prob}}{recruitment probabilities}
+\item{\code{rec_prob}}{recruitment probabilities}
 
 \item{\code{model_collection_list}}{List of recruitment models}
 }

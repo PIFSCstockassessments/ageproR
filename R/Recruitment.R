@@ -31,11 +31,11 @@ Recruitment <- R6Class(
     #' @field max_rec_obs Recruitment submodel's maximum number of observations
     max_rec_obs = 1000,
 
-    #' @field recruit_type Recruitment Type
-    recruit_type = NULL,
+    #' @field rec_model_num Recruitment Type
+    rec_model_num = NULL,
 
-    #' @field recruit_prob recruitment probabilities
-    recruit_prob = NULL,
+    #' @field rec_prob recruitment probabilities
+    rec_prob = NULL,
 
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
@@ -49,14 +49,14 @@ Recruitment <- R6Class(
       #TODO:Assert params are numeric
 
       private$seq_yrs <- seq_years
-      self$recruit_type <- model_num
-      num_rec_models <- length(self$recruit_type)
+      self$rec_model_num <- model_num
+      num_rec_models <- length(self$rec_model_num)
 
-      #TODO: Assert num_rec_models & recruit_type (model_num) vector are valid
+      #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
 
       message(num_rec_models, " recruitment model(s) for ", private$seq_yrs, " year(s)")
 
-      self$recruit_prob <- vector ("list", num_rec_models)
+      self$rec_prob <- vector ("list", num_rec_models)
       self$model_collection_list <- vector ("list", num_rec_models)
 
       seq_rec_models <- 1:num_rec_models
@@ -64,17 +64,17 @@ Recruitment <- R6Class(
 
       for (recruit in seq_rec_models) {
 
-        # Fill recruit_prob
+        # Fill rec_prob
         # TODO: Check validity
-        self$recruit_prob[[recruit]] <- rep("1", private$seq_yrs)
+        self$rec_prob[[recruit]] <- rep("1", private$seq_yrs)
 
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
-          self$get_recruit_data(self$recruit_type[[recruit]], private$seq_yrs)
+          self$get_recruit_data(self$rec_model_num[[recruit]], private$seq_yrs)
 
       }
       message("\nRecruitment Probability:")
-      print(self$recruit_prob)
+      print(self$rec_prob)
     },
 
     #'@description
@@ -100,8 +100,8 @@ Recruitment <- R6Class(
     get_json = function (print = FALSE) {
 
       #Gather Recruit Model Data
-      model_data_list <- vector("list", length(self$recruit_type))
-      for(recruit in length(self$recruit_type)){
+      model_data_list <- vector("list", length(self$rec_model_num))
+      for(recruit in length(self$rec_model_num)){
         model_data_list[[recruit]] <- self$model_collection_list[[recruit]][["recruit_data"]]
       }
 
@@ -109,8 +109,8 @@ Recruitment <- R6Class(
         recFac=self$rec_fac,
         ssbFac=self$ssb_fac,
         maxRecObs=self$max_rec_obs,
-        type=self$recruit_type,
-        prob=self$recruit_prob,
+        type=self$rec_model_num,
+        prob=self$rec_prob,
         modelData=model_data_list)
 
       if(print){
