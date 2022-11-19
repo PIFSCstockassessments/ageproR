@@ -40,6 +40,8 @@ Recruitment <- R6Class(
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
 
+    #' @field seq_yrs Sequence of projected years
+    seq_yrs = NULL,
 
     #' @description
     #' Initializes the Recruitment Class
@@ -49,14 +51,14 @@ Recruitment <- R6Class(
       #TODO:Assert params are numeric
       #TODO:Assert/handle seq_years as a vector or a single value
 
-      private$seq_yrs <- seq_years
+      self$seq_yrs <- seq_years
       num_rec_models <- length(model_num)
       self$rec_model_num <- vector("list", num_rec_models) #model_num
 
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
 
-      message(num_rec_models, " recruitment model(s) for ", private$seq_yrs, " year(s)")
+      message(num_rec_models, " recruitment model(s) for ", self$seq_yrs, " year(s)")
 
       self$rec_prob <- vector ("list", num_rec_models)
       self$model_collection_list <- vector ("list", num_rec_models)
@@ -68,14 +70,13 @@ Recruitment <- R6Class(
 
         # Fill rec_prob
         # TODO: Check validity
-        self$rec_prob[[recruit]] <- rep("1", length(private$seq_yrs))
+        self$rec_prob[[recruit]] <- rep("1", length(self$seq_yrs))
 
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
-        message(self$rec_model_num[[recruit]],", ", private$seq_yrs)
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
-          self$get_recruit_data(self$rec_model_num[[recruit]], private$seq_yrs)
+          self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
 
       }
       message("\nRecruitment Probability:")
@@ -87,12 +88,12 @@ Recruitment <- R6Class(
     get_recruit_data = function(model_num, seq_years){
 
       if (model_num == 14) {
-        EmpiricalRecruitModel$new(model_num,
+        return(EmpiricalRecruitModel$new(model_num,
                                   seq_years,
-                                  with_ssb = FALSE)
+                                  with_ssb = FALSE))
 
       }else{
-        NullRecruitModel$new()
+        return(NullRecruitModel$new())
       }
 
     },
@@ -128,12 +129,9 @@ Recruitment <- R6Class(
       }
 
     }
-
-  ),
-  private = list (
-
-    seq_yrs = NULL
+    #TODO: Create a active field function for showing model_collection_list
   )
+
 )
 
 
