@@ -85,7 +85,7 @@ EmpiricalRecruitModel <- R6Class(
     #' Stock Biomass (SSB)
     #'
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
-      self$rec_points = rec_points
+      self$rec_points = length(rec_points)
       self$with_ssb = with_ssb
 
       super$initialize(model_num, 1)
