@@ -24,6 +24,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-AgeproModel-new}{\code{AgeproModel$new()}}
+\item \href{#method-AgeproModel-set_recruit_model}{\code{AgeproModel$set_recruit_model()}}
 \item \href{#method-AgeproModel-get_json}{\code{AgeproModel$get_json()}}
 \item \href{#method-AgeproModel-clone}{\code{AgeproModel$clone()}}
 }
@@ -46,12 +47,27 @@ Starts an instances of the AGEPRO Model
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AgeproModel-set_recruit_model"></a>}}
+\if{latex}{\out{\hypertarget{method-AgeproModel-set_recruit_model}{}}}
+\subsection{Method \code{set_recruit_model()}}{
+Set model's Recruitment model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AgeproModel-get_json"></a>}}
 \if{latex}{\out{\hypertarget{method-AgeproModel-get_json}{}}}
 \subsection{Method \code{get_json()}}{
-Set model's Recruitment model
-
-
 Get json
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AgeproModel$get_json()}\if{html}{\out{</div>}}

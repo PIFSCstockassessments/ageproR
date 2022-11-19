@@ -43,12 +43,12 @@ AgeproModel <- R6Class(
 
     ##' @description
     ##' Set model's Recruitment model
-    #set_recruit_model = function (model_num) {
+    set_recruit_model = function (model_num) {
 
-      #self$Recruit <-
+      self$Recruit <- self$recruit$get_recruit_data(model_num,self$general$seq_years)
 
 
-    #},
+    },
 
     #' @description
     #' Get json
