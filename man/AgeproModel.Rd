@@ -15,6 +15,8 @@ determine age-structured population over a time period. Brodziak, 2022
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{general}}{General Parameters}
+
+\item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
 }
 \if{html}{\out{</div>}}
 }
@@ -47,6 +49,9 @@ Starts an instances of the AGEPRO Model
 \if{html}{\out{<a id="method-AgeproModel-get_json"></a>}}
 \if{latex}{\out{\hypertarget{method-AgeproModel-get_json}{}}}
 \subsection{Method \code{get_json()}}{
+Set model's Recruitment model
+
+
 Get json
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AgeproModel$get_json()}\if{html}{\out{</div>}}

@@ -9,6 +9,8 @@
 #' AGEPRO performs stochastic projections on exploited fisheries stock to
 #' determine age-structured population over a time period. Brodziak, 2022
 #'
+#' @template model_num
+#'
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number
@@ -21,6 +23,9 @@ AgeproModel <- R6Class(
     #' @field general General Parameters
     general = NULL,
 
+    #' @field recruit AGEPRO Recruitmment Model(s)
+    recruit = NULL,
+
     #' @description
     #' Starts an instances of the AGEPRO Model
     #'
@@ -32,8 +37,18 @@ AgeproModel <- R6Class(
       #test_logical(discards)
 
       self$general <- GeneralParams$new(...)
+      self$recruit <- Recruitment$new(0,self$general$num_years)
 
     },
+
+    ##' @description
+    ##' Set model's Recruitment model
+    #set_recruit_model = function (model_num) {
+
+      #self$Recruit <-
+
+
+    #},
 
     #' @description
     #' Get json

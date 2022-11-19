@@ -47,10 +47,12 @@ Recruitment <- R6Class(
     initialize = function (model_num, seq_years) {
 
       #TODO:Assert params are numeric
+      #TODO:Assert/handle seq_years as a vector or a single value
 
       private$seq_yrs <- seq_years
-      self$rec_model_num <- model_num
-      num_rec_models <- length(self$rec_model_num)
+      num_rec_models <- length(model_num)
+      self$rec_model_num <- vector("list", num_rec_models) #model_num
+
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
 
@@ -66,8 +68,11 @@ Recruitment <- R6Class(
 
         # Fill rec_prob
         # TODO: Check validity
-        self$rec_prob[[recruit]] <- rep("1", private$seq_yrs)
+        self$rec_prob[[recruit]] <- rep("1", length(private$seq_yrs))
 
+        self$rec_model_num[[recruit]] <- model_num[[recruit]]
+
+        message(self$rec_model_num[[recruit]],", ", private$seq_yrs)
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
           self$get_recruit_data(self$rec_model_num[[recruit]], private$seq_yrs)
@@ -77,9 +82,8 @@ Recruitment <- R6Class(
       print(self$rec_prob)
     },
 
-    #'@description
-    #'Gets Recruitment Data
-    #'
+    #' @description
+    #' Gets Recruitment Data
     get_recruit_data = function(model_num, seq_years){
 
       if (model_num == 14) {
@@ -92,6 +96,8 @@ Recruitment <- R6Class(
       }
 
     },
+
+
     #'@description
     #' Prints out Recruitment object data as JSON
     #'
@@ -123,7 +129,8 @@ Recruitment <- R6Class(
 
     }
 
-  ), private = list (
+  ),
+  private = list (
 
     seq_yrs = NULL
   )
