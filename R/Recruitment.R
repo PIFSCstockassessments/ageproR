@@ -15,6 +15,8 @@
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
+#' @importFrom checkmate test_int
+#'
 Recruitment <- R6Class(
   "Recruitment",
 
@@ -49,16 +51,24 @@ Recruitment <- R6Class(
     initialize = function (model_num, seq_years) {
 
       #TODO:Assert params are numeric
-      #TODO:Assert/handle seq_years as a vector or a single value
 
+      #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
+      if(test_int(self$seq_yrs)){
+        num_rec_seq <- self$seq_yrs
+      }
+      else{
+        num_rec_seq <- length(self$seq_yrs)
+      }
+
+
       num_rec_models <- length(model_num)
       self$rec_model_num <- vector("list", num_rec_models) #model_num
 
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
 
-      message(num_rec_models, " recruitment model(s) for ", self$seq_yrs, " year(s)")
+      message(num_rec_models, " recruitment model(s) for ", num_rec_seq, " year(s)")
 
       self$rec_prob <- vector ("list", num_rec_models)
       self$model_collection_list <- vector ("list", num_rec_models)
@@ -70,7 +80,7 @@ Recruitment <- R6Class(
 
         # Fill rec_prob
         # TODO: Check validity
-        self$rec_prob[[recruit]] <- rep("1", length(self$seq_yrs))
+        self$rec_prob[[recruit]] <- rep("1", num_rec_seq)
 
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
