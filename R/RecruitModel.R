@@ -96,7 +96,7 @@ EmpiricalRecruitModel <- R6Class(
     #'
     new_obs_table = function () {
       message("Has SSB? ", self$with_ssb)
-      message("Number of Recruitment Data Points: ", self$rec_points)
+      message("\nNumber of Recruitment Data Points: ", self$rec_points)
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
