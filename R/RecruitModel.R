@@ -58,6 +58,7 @@ NullRecruitModel <- R6Class(
 #' @template model_num
 #'
 #' @importFrom jsonlite toJSON
+#' @importFrom checkmate test_int assert_integerish
 #'
 #' @export
 EmpiricalRecruitModel <- R6Class(
@@ -87,7 +88,14 @@ EmpiricalRecruitModel <- R6Class(
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
 
       #TODO!! Handle/Check rec_points for single or array vector
-      self$rec_points = length(rec_points)
+      assert_integerish(rec_points)
+      if(test_int(rec_points)){
+        self$rec_points = rec_points
+      }else{
+        self$rec_points = length(rec_points)
+      }
+
+      #self$rec_points = length(rec_points)
       self$with_ssb = with_ssb
 
       super$initialize(model_num, 1)
