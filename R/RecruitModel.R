@@ -47,6 +47,7 @@ NullRecruitModel <- R6Class(
     #'
     initialize = function() {
 
+      self$model_name <- "Null Recruitment"
       super$initialize(0, 0)
     }
   )
@@ -87,7 +88,9 @@ EmpiricalRecruitModel <- R6Class(
     #'
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
 
-      #TODO!! Handle/Check rec_points for single or array vector
+      self$model_name = "Empirical Recruitment"
+
+      #Handle/Check rec_points for single or array vector
       assert_integerish(rec_points)
       if(test_int(rec_points)){
         self$rec_points = rec_points
