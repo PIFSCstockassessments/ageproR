@@ -50,7 +50,14 @@ Recruitment <- R6Class(
     #'
     initialize = function (model_num, seq_years) {
 
-      #TODO:Assert params are numeric
+      self$set_recruit_data(model_num, seq_years)
+
+    },
+
+    #' @description
+    #' Creates Recruitment Model Data
+    set_recruit_data = function(model_num, seq_years){
+
 
       #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
@@ -61,10 +68,8 @@ Recruitment <- R6Class(
         num_rec_seq <- length(self$seq_yrs)
       }
 
-
       num_rec_models <- length(model_num)
       self$rec_model_num <- vector("list", num_rec_models) #model_num
-
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
 
@@ -86,12 +91,15 @@ Recruitment <- R6Class(
 
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
-          self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
+          self$get_recruit_data(self$rec_model_num[[recruit]], num_rec_seq)
 
       }
       message("\nRecruitment Probability:")
       print(self$rec_prob)
+
+
     },
+
 
     #' @description
     #' Gets Recruitment Data

@@ -34,8 +34,10 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Recruitment-new}{\code{Recruitment$new()}}
+\item \href{#method-Recruitment-set_recruit_data}{\code{Recruitment$set_recruit_data()}}
 \item \href{#method-Recruitment-get_recruit_data}{\code{Recruitment$get_recruit_data()}}
 \item \href{#method-Recruitment-get_json}{\code{Recruitment$get_json()}}
+\item \href{#method-Recruitment-view_recruit_data}{\code{Recruitment$view_recruit_data()}}
 \item \href{#method-Recruitment-clone}{\code{Recruitment$clone()}}
 }
 }
@@ -46,6 +48,27 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 Initializes the Recruitment Class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Recruitment$new(model_num, seq_years)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
+
+\item{\code{seq_years}}{\cr
+Array representing the Projection Time Horizon}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Recruitment-set_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-Recruitment-set_recruit_data}{}}}
+\subsection{Method \code{set_recruit_data()}}{
+Creates Recruitment Model Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$set_recruit_data(model_num, seq_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

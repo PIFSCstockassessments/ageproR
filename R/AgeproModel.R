@@ -10,6 +10,7 @@
 #' determine age-structured population over a time period. Brodziak, 2022
 #'
 #' @template model_num
+#' @template seq_years
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -33,6 +34,9 @@ AgeproModel <- R6Class(
     #'
     initialize = function (...) {
 
+      ## TODO TODO: Consider a helper function to create a new instance of
+      ## AgeproModel
+
       #TODO:Assert discard logicals
       #test_logical(discards)
 
@@ -43,9 +47,9 @@ AgeproModel <- R6Class(
 
     ##' @description
     ##' Set model's Recruitment model
-    set_recruit_model = function (model_num) {
+    set_recruit_model = function (model_num, seq_years) {
 
-      self$Recruit <- self$recruit$get_recruit_data(model_num,self$general$seq_years)
+      self$recruit$set_recruit_data(model_num, seq_years)
 
 
     },
