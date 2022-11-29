@@ -80,11 +80,13 @@ EmpiricalRecruitModel <- R6Class(
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param rec_points Number of Recruitmebt Observations
+    #' @param rec_points Number of Recuitment Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
+
+      #TODO!! Handle/Check rec_points for single or array vector
       self$rec_points = length(rec_points)
       self$with_ssb = with_ssb
 
