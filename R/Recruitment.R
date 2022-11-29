@@ -126,7 +126,7 @@ Recruitment <- R6Class(
 
       #Gather Recruit Model Data
       model_data_list <- vector("list", length(self$rec_model_num))
-      for(recruit in length(self$rec_model_num)){
+      for(recruit in 1:length(self$rec_model_num)){
         model_data_list[[recruit]] <- self$model_collection_list[[recruit]][["recruit_data"]]
       }
 
@@ -146,8 +146,23 @@ Recruitment <- R6Class(
         return(recruit_json)
       }
 
-    }
+    },
     #TODO: Create a active field function for showing model_collection_list
+
+    #' @description
+    #' Helper Function To View Recruitment Model Collection Data
+    view_recruit_data = function () {
+
+      message("Recruitment Model(s):")
+      for(recruit in 1:length(self$model_collection_list)){
+        message(self$model_collection_list[[recruit]]$model_num,
+                " ", appendLF = FALSE)
+      }
+
+
+
+    }
+
   )
 
 )

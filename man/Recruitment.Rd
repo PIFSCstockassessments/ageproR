@@ -123,6 +123,16 @@ format into console}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Recruitment-view_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-Recruitment-view_recruit_data}{}}}
+\subsection{Method \code{view_recruit_data()}}{
+Helper Function To View Recruitment Model Collection Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$view_recruit_data()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Recruitment-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Recruitment-clone}{}}}
 \subsection{Method \code{clone()}}{
