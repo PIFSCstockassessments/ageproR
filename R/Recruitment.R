@@ -105,6 +105,7 @@ Recruitment <- R6Class(
     #' Gets Recruitment Data
     get_recruit_data = function(model_num, seq_years){
 
+      message("Recruitment Model #", model_num)
       if (model_num == 14) {
         return(EmpiricalRecruitModel$new(model_num,
                                   seq_years,
