@@ -98,12 +98,12 @@ EmpiricalRecruitModel <- R6Class(
         self$rec_points = length(rec_points)
       }
 
-      #self$rec_points = length(rec_points)
       self$with_ssb = with_ssb
 
       super$initialize(model_num, 1)
       self$new_obs_table()
     },
+
     #'@description
     #'Create Obs table
     #'
@@ -121,6 +121,7 @@ EmpiricalRecruitModel <- R6Class(
       }
       print(self$rec_array)
     },
+
     #' @description
     #' Returns Recuit data as JSON
     #'
