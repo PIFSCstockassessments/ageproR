@@ -90,6 +90,7 @@ Recruitment <- R6Class(
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
+        message("\nRecruit ", recruit, " of ", num_rec_models, ": ", appendLF = FALSE)
         self$model_collection_list[[recruit]] <-
           self$get_recruit_data(self$rec_model_num[[recruit]], num_rec_seq)
 
@@ -119,11 +120,12 @@ Recruitment <- R6Class(
 
 
     #'@description
-    #' Prints out Recruitment object data as JSON
+    #' Prints out Recruitment object data to console, with an option to display
+    #' recruit object data to JSON format.
     #'
-    #' @param print Option to print recruitment object as written in JSON
+    #' @param print_json Option to print recruitment object as written in JSON
     #' format into console
-    get_json = function (print = FALSE) {
+    print_recruit = function (print_json = TRUE) {
 
       #Gather Recruit Model Data
       model_data_list <- vector("list", length(self$rec_model_num))
@@ -139,7 +141,7 @@ Recruitment <- R6Class(
         prob=self$rec_prob,
         modelData=model_data_list)
 
-      if(print){
+      if(print_json){
         toJSON(recruit_json,
                pretty =TRUE,
                auto_unbox =TRUE)

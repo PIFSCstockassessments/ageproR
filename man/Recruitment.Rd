@@ -36,7 +36,7 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 \item \href{#method-Recruitment-new}{\code{Recruitment$new()}}
 \item \href{#method-Recruitment-set_recruit_data}{\code{Recruitment$set_recruit_data()}}
 \item \href{#method-Recruitment-get_recruit_data}{\code{Recruitment$get_recruit_data()}}
-\item \href{#method-Recruitment-get_json}{\code{Recruitment$get_json()}}
+\item \href{#method-Recruitment-print_recruit}{\code{Recruitment$print_recruit()}}
 \item \href{#method-Recruitment-view_recruit_data}{\code{Recruitment$view_recruit_data()}}
 \item \href{#method-Recruitment-clone}{\code{Recruitment$clone()}}
 }
@@ -105,18 +105,19 @@ Array representing the Projection Time Horizon}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Recruitment-get_json"></a>}}
-\if{latex}{\out{\hypertarget{method-Recruitment-get_json}{}}}
-\subsection{Method \code{get_json()}}{
-Prints out Recruitment object data as JSON
+\if{html}{\out{<a id="method-Recruitment-print_recruit"></a>}}
+\if{latex}{\out{\hypertarget{method-Recruitment-print_recruit}{}}}
+\subsection{Method \code{print_recruit()}}{
+Prints out Recruitment object data to console, with an option to display
+recruit object data to JSON format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Recruitment$get_json(print = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$print_recruit(print_json = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{print}}{Option to print recruitment object as written in JSON
+\item{\code{print_json}}{Option to print recruitment object as written in JSON
 format into console}
 }
 \if{html}{\out{</div>}}
