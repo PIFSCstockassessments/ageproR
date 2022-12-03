@@ -30,9 +30,25 @@ AgeproModel <- R6Class(
     #' @description
     #' Starts an instances of the AGEPRO Model
     #'
-    #' @param ... Parameters to pass to GeneralParams
+    #' @param yr_start First Year of Projection
+    #' @param yr_end Last Year of Projection
+    #' @param age_begin age begin
+    #' @param age_end age end
+    #' @param num_fleets Number of fleets
+    #' @param num_rec_models Number of Recruit Modles
+    #' @param num_pop_sims Number of population sims
+    #' @param discards discards
+    #' @param seed Random Number seed
     #'
-    initialize = function (...) {
+    initialize = function (yr_start,
+                           yr_end,
+                           age_begin,
+                           age_end,
+                           num_fleets,
+                           num_rec_models,
+                           num_pop_sims,
+                           discards=FALSE,
+                           seed=sample.int(1e8,1)) {
 
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
@@ -40,7 +56,17 @@ AgeproModel <- R6Class(
       #TODO:Assert discard logicals
       #test_logical(discards)
 
-      self$general <- GeneralParams$new(...)
+
+      self$general <- GeneralParams$new(yr_start,
+                                        yr_end,
+                                        age_begin,
+                                        age_end,
+                                        num_fleets,
+                                        num_rec_models,
+                                        num_pop_sims,
+                                        discards,
+                                        seed)
+
       self$recruit <- Recruitment$new(0,self$general$num_years)
 
     },

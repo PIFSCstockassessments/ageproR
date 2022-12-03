@@ -35,13 +35,39 @@ determine age-structured population over a time period. Brodziak, 2022
 \subsection{Method \code{new()}}{
 Starts an instances of the AGEPRO Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$new(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$new(
+  yr_start,
+  yr_end,
+  age_begin,
+  age_end,
+  num_fleets,
+  num_rec_models,
+  num_pop_sims,
+  discards = FALSE,
+  seed = sample.int(1e+08, 1)
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{Parameters to pass to GeneralParams}
+\item{\code{yr_start}}{First Year of Projection}
+
+\item{\code{yr_end}}{Last Year of Projection}
+
+\item{\code{age_begin}}{age begin}
+
+\item{\code{age_end}}{age end}
+
+\item{\code{num_fleets}}{Number of fleets}
+
+\item{\code{num_rec_models}}{Number of Recruit Modles}
+
+\item{\code{num_pop_sims}}{Number of population sims}
+
+\item{\code{discards}}{discards}
+
+\item{\code{seed}}{Random Number seed}
 }
 \if{html}{\out{</div>}}
 }
