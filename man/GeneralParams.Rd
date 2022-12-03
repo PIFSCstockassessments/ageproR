@@ -62,9 +62,9 @@ Starts an instances of the AGEPRO Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{GeneralParams$new(
   yr_start = 0,
-  yr_end = 1,
-  age_begin = 0,
-  age_end = 1,
+  yr_end = 2,
+  age_begin = 1,
+  age_end = 6,
   num_fleets = 1,
   num_rec_models = 1,
   num_pop_sims = 1000,

@@ -56,21 +56,22 @@ GeneralParams <- R6Class(
     #' @param seed Random Number seed
     #'
     initialize = function (yr_start = 0,
-                           yr_end = 1,
-                           age_begin= 0,
-                           age_end=1,
+                           yr_end = 2,
+                           age_begin= 1,
+                           age_end=6,
                            num_fleets=1,
                            num_rec_models=1,
                            num_pop_sims=1000,
                            discards=FALSE,
                            seed=0) {
 
+      message("\nGeneral\n")
       # Discards: Assert logical format
       if(!test_logical(discards)){
         assert_number(discards,lower=0,upper=1)
         discards <- as.logical(discards)
       }
-      message("Discards: ", test_true(discards))
+      message("Discards are present: ", test_true(discards))
 
 
       self$yr_start <- yr_start
@@ -82,6 +83,16 @@ GeneralParams <- R6Class(
       self$num_pop_sims <- num_pop_sims
       self$discards <- discards
       self$seed <- seed
+
+      message("First Year in Projection: ", self$yr_start)
+      message("Last Year in Projection: ", self$yr_end)
+      message("First Age Class: ", self$age_begin)
+      message("Last Age Class: ", self$age_end)
+      message("Number of Fleets: ", self$num_fleets)
+      message("Number of Recruitment Model(s): ", num_rec_models)
+      message("Number of Population Simulations: ", num_pop_sims)
+      message("Calculation Engine Random Number Seed: ", seed)
+      message("")
 
     }
 
