@@ -84,30 +84,47 @@ AgeproModel <- R6Class(
     #' Get json
     get_json = function () {
 
-      if(!test_logical(general$discard)){
-        assert_number(general$discard,lower=0,upper=1)
-        general$discard <- as.numeric(general$discard)
+      if(!test_logical(self$general$discards)){
+        #Assert for 0 and 1
+        assert_number(self$general$discards,lower=0,upper=1)
       }
+      self$general$discards <- as.numeric(self$general$discards)
+
 
       version_json <- list (
         legacyVer= private$str_legacy_ver,
-        ver= private$ver
+        ver= private$str_ver
       )
 
       general_json <- list(
-        nFYear=  general$yr_start,
-        nXYear= general$yr_end,
-        nFAge= general$age_begin,
-        nXAge= general$age_end,
-        nSims= general$num_pop_sims,
-        nFleet= general$num_fleets,
-        nRecModel= general$num_rec_model,
-        discFlag= general$discard,
-        seed= general$seed
+        nFYear= self$general$yr_start,
+        nXYear= self$general$yr_end,
+        nFAge= self$general$age_begin,
+        nXAge= self$general$age_end,
+        nSims= self$general$num_pop_sims,
+        nFleet= self$general$num_fleets,
+        nRecModel= self$general$num_rec_models,
+        discFlag= self$general$discards,
+        seed= self$general$seed
       )
 
+      #TODO: Rename print_recruit to describe returning
+      #recruitment object data
+      recruit_json <- self$recruit$print_recruit(print_json=FALSE)
+
+
+      agepro_json <- list("version"=version_json,
+                          "general"=general_json,
+                          "recruit"=recruit_json)
+
+
+      # TODO: use the write() function to write JSON files
+      toJSON(agepro_json,
+             pretty =TRUE,
+             auto_unbox =TRUE)
 
     }
+
 
 
   ),
