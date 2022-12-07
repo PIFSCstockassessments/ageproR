@@ -71,7 +71,7 @@ GeneralParams <- R6Class(
         assert_number(discards,lower=0,upper=1)
         discards <- as.logical(discards)
       }
-      message("Discards are present: ", test_true(discards))
+
 
 
       self$yr_start <- yr_start
@@ -91,6 +91,7 @@ GeneralParams <- R6Class(
       message("Number of Fleets: ", self$num_fleets)
       message("Number of Recruitment Model(s): ", num_rec_models)
       message("Number of Population Simulations: ", num_pop_sims)
+      message("Discards are present: ", test_true(discards))
       message("Calculation Engine Random Number Seed: ", seed)
       message("")
 
