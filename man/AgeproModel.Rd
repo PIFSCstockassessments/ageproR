@@ -26,6 +26,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \item \href{#method-AgeproModel-new}{\code{AgeproModel$new()}}
 \item \href{#method-AgeproModel-set_recruit_model}{\code{AgeproModel$set_recruit_model()}}
 \item \href{#method-AgeproModel-get_json}{\code{AgeproModel$get_json()}}
+\item \href{#method-AgeproModel-write_json}{\code{AgeproModel$write_json()}}
 \item \href{#method-AgeproModel-clone}{\code{AgeproModel$clone()}}
 }
 }
@@ -100,6 +101,16 @@ Array representing the Projection Time Horizon}
 Get json
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AgeproModel$get_json()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-AgeproModel-write_json"></a>}}
+\if{latex}{\out{\hypertarget{method-AgeproModel-write_json}{}}}
+\subsection{Method \code{write_json()}}{
+Write JSON file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$write_json()}\if{html}{\out{</div>}}
 }
 
 }

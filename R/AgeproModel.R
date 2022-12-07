@@ -123,8 +123,16 @@ AgeproModel <- R6Class(
              pretty =TRUE,
              auto_unbox =TRUE)
 
-    }
+    },
 
+    #' @description
+    #' Write JSON file
+    write_json = function () {
+      tmp <- tempfile("agepro_", fileext = ".json")
+      write(self$get_json(), tmp)
+
+      message("Saved at :\n", tmp)
+    }
 
 
   ),
