@@ -31,13 +31,13 @@ AgeproModel <- R6Class(
     #'
     #' @param yr_start First Year of Projection
     #' @param yr_end Last Year of Projection
-    #' @param age_begin age begin
-    #' @param age_end age end
+    #' @param age_begin Age begin
+    #' @param age_end Age end
     #' @param num_fleets Number of fleets
-    #' @param num_rec_models Number of Recruit Modles
-    #' @param num_pop_sims Number of population sims
-    #' @param discards discards
-    #' @param seed Random Number seed
+    #' @param num_rec_models Number of Recruit Modules
+    #' @param num_pop_sims Number of population simuations
+    #' @param discards discards. FALSE by default
+    #' @param seed Random Number seed. A pesdorandom number is set as default.
     #'
     initialize = function (yr_start,
                            yr_end,

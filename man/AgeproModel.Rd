@@ -56,19 +56,19 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{yr_end}}{Last Year of Projection}
 
-\item{\code{age_begin}}{age begin}
+\item{\code{age_begin}}{Age begin}
 
-\item{\code{age_end}}{age end}
+\item{\code{age_end}}{Age end}
 
 \item{\code{num_fleets}}{Number of fleets}
 
-\item{\code{num_rec_models}}{Number of Recruit Modles}
+\item{\code{num_rec_models}}{Number of Recruit Modules}
 
-\item{\code{num_pop_sims}}{Number of population sims}
+\item{\code{num_pop_sims}}{Number of population simuations}
 
-\item{\code{discards}}{discards}
+\item{\code{discards}}{discards. FALSE by default}
 
-\item{\code{seed}}{Random Number seed}
+\item{\code{seed}}{Random Number seed. A pesdorandom number is set as default.}
 }
 \if{html}{\out{</div>}}
 }
