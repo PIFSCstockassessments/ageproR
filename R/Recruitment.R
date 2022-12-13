@@ -72,21 +72,17 @@ Recruitment <- R6Class(
       self$rec_model_num <- vector("list", num_rec_models) #model_num
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
-
       message(num_rec_models, " recruitment model(s) for ", num_rec_seq, " year(s)")
 
       self$rec_prob <- vector ("list", num_rec_models)
       self$model_collection_list <- vector ("list", num_rec_models)
 
       seq_rec_models <- 1:num_rec_models
-
-
       for (recruit in seq_rec_models) {
 
         # Fill rec_prob
         # TODO: Check validity
         self$rec_prob[[recruit]] <- rep("1", num_rec_seq)
-
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
