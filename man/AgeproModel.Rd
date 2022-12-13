@@ -107,9 +107,16 @@ Get json
 \subsection{Method \code{write_json()}}{
 Write JSON file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$write_json()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$write_json(show_dir = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{show_dir}}{Option to show directory after JSON file is written.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-AgeproModel-clone"></a>}}

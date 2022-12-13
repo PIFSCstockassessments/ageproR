@@ -14,6 +14,7 @@
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number
+#' @importFrom utils browseURL
 AgeproModel <- R6Class(
   classname = "AgeproModel",
 
@@ -125,11 +126,16 @@ AgeproModel <- R6Class(
 
     #' @description
     #' Write JSON file
-    write_json = function () {
+    #'
+    #' @param show_dir Option to show directory after JSON file is written.
+    write_json = function (show_dir=FALSE) {
       tmp <- tempfile("agepro_", fileext = ".json")
       write(self$get_json(), tmp)
 
       message("Saved at :\n", tmp)
+      if(show_dir){
+        browseURL(dirname(tmp))
+      }
     }
 
 
