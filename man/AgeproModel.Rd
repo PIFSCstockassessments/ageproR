@@ -79,7 +79,7 @@ Starts an instances of the AGEPRO Model
 \subsection{Method \code{set_recruit_model()}}{
 Set model's Recruitment model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$set_recruit_model(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{AgeproModel$set_recruit_model(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -87,9 +87,6 @@ Set model's Recruitment model
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
