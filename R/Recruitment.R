@@ -103,7 +103,7 @@ Recruitment <- R6Class(
     get_recruit_data = function(model_num, seq_years){
 
       message("Recruitment Model #", model_num)
-      if (model_num == 14) {
+      if (model_num == 14 || model_num == 3) {
         return(EmpiricalRecruitModel$new(model_num,
                                   seq_years,
                                   with_ssb = FALSE))
