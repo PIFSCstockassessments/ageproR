@@ -57,6 +57,7 @@ NullRecruitModel <- R6Class(
 #' @inherit RecruitModel description
 #'
 #' @template model_num
+#' @template recruit_data
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish
@@ -136,11 +137,64 @@ EmpiricalRecruitModel <- R6Class(
   ),
   active = list(
 
-    #' @field recruit_data gets JSON-ready Recruit Model Data
-    #'
     recruit_data = function () {
       return(list(points=self$rec_points,
            recruits=self$rec_array))
+    }
+  )
+)
+
+#' Parametric Recruitment Model
+#' @inherit RecruitModel description
+#'
+#' @template parametric_curve
+#' @template recruit_data
+#'
+#' @export
+ParametricCurveModel <- R6Class(
+  "ParametricRecruitModel",
+  inherit = RecruitModel,
+  public = list (
+
+    #' @field alpha Stock Recruitment Parameter
+    alpha = NULL,
+
+    #' @field beta Stock Recruitment Parameter
+    beta = NULL,
+
+    #' @field variance Variance
+    variance = NULL,
+
+    #'@description
+    #'Instatiate Parameteric Recruitment Curve Model
+    #'
+    initialize = function (alpha=0,
+                           beta=0,
+                           variance=0) {
+
+      self$set(alpha, beta, variance)
+
+    },
+
+    #' @description
+    #' Sets Parametric Curve parameters
+    set = function (alpha, beta, variance) {
+      self$alpha = alpha
+      self$beta = beta
+      self$variance = variance
+
+      message("Alpha: ", self$alpha)
+      message("Beta: ", self$beta)
+      message("Variance: ", self$variance)
+    }
+
+  ),
+  active = list (
+
+    recruit_data = function () {
+      return(list(alpha=self$alpha,
+                  beta=self$beta,
+                  variance=self$variance))
     }
   )
 )

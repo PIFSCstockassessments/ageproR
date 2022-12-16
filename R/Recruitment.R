@@ -108,6 +108,9 @@ Recruitment <- R6Class(
                                   seq_years,
                                   with_ssb = FALSE))
 
+      }else if(model_num == 5){
+        return(ParametricCurveModel$new())
+
       }else{
         return(NullRecruitModel$new())
       }

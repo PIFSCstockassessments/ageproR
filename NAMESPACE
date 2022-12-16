@@ -3,6 +3,7 @@
 export(AgeproModel)
 export(EmpiricalRecruitModel)
 export(NullRecruitModel)
+export(ParametricCurveModel)
 export(RecruitModel)
 export(Recruitment)
 export(icube)
