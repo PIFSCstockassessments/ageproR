@@ -41,12 +41,15 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Instatiate Parameteric Recruitment Curve Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$new(alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$new(model_num, alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
+
 \item{\code{alpha}}{\cr
 alpha}
 

@@ -142,11 +142,13 @@ EmpiricalRecruitModel <- R6Class(
            recruits=self$rec_array))
     }
   )
+  #TODO: Set MaxRecObs
 )
 
 #' Parametric Recruitment Model
 #' @inherit RecruitModel description
 #'
+#' @template model_num
 #' @template parametric_curve
 #' @template recruit_data
 #'
@@ -168,7 +170,8 @@ ParametricCurveModel <- R6Class(
     #'@description
     #'Instatiate Parameteric Recruitment Curve Model
     #'
-    initialize = function (alpha=0,
+    initialize = function (model_num,
+                           alpha=0,
                            beta=0,
                            variance=0) {
 
@@ -179,6 +182,9 @@ ParametricCurveModel <- R6Class(
     #' @description
     #' Sets Parametric Curve parameters
     set = function (alpha, beta, variance) {
+
+      #TODO: get Model Name
+
       self$alpha = alpha
       self$beta = beta
       self$variance = variance

@@ -109,7 +109,7 @@ Recruitment <- R6Class(
                                   with_ssb = FALSE))
 
       }else if(model_num == 5){
-        return(ParametricCurveModel$new())
+        return(ParametricCurveModel$new(model_num))
 
       }else{
         return(NullRecruitModel$new())
