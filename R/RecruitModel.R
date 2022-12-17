@@ -11,6 +11,7 @@
 #' @field model_group Group type of Recruitment Model
 #' @field model_name Name of Recruitment Model
 #'
+#' @import cli
 #' @importFrom R6 R6Class
 #' @export
 RecruitModel <- R6Class(
@@ -109,8 +110,9 @@ EmpiricalRecruitModel <- R6Class(
     #'Create Obs table
     #'
     new_obs_table = function () {
-      message("Has SSB? ", self$with_ssb)
-      message("\nNumber of Recruitment Data Points: ", self$rec_points)
+      cli_ul()
+      cli_li("Has SSB?  {.val {self$with_ssb}}")
+      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
@@ -120,7 +122,7 @@ EmpiricalRecruitModel <- R6Class(
         self$rec_array <- matrix(rep("0",self$rec_points),
                                  nrow=1, ncol= self$rec_points)
       }
-      print(self$rec_array)
+      cat_print(self$rec_array)
     },
 
     #' @description
