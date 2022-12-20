@@ -61,15 +61,20 @@ Recruitment <- R6Class(
 
       private$cli_recruit_rule()
       cli_alert("Recruitment Data Setup")
+
       #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
       if(test_int(self$seq_yrs)){
+        #single
         num_rec_seq <- self$seq_yrs
+        seq_yr_array <- 1:self$seq_yrs
       }
       else{
         num_rec_seq <- length(self$seq_yrs)
+        seq_yr_array <- self$seq_yrs
       }
 
+      #Recuitment Models
       num_rec_models <- length(model_num)
       self$rec_model_num <- vector("list", num_rec_models) #model_num
 
@@ -86,6 +91,7 @@ Recruitment <- R6Class(
         # Fill rec_prob
         # TODO: Check validity
         self$rec_prob[[recruit]] <- rep("1", num_rec_seq)
+        names(self$rec_prob[[recruit]]) <- seq_yr_array
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -93,7 +99,7 @@ Recruitment <- R6Class(
         cli_par()
         cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
         self$model_collection_list[[recruit]] <-
-          self$get_recruit_data(self$rec_model_num[[recruit]], num_rec_seq)
+          self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
         cli_end()
 
       }
