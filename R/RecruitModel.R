@@ -115,8 +115,8 @@ EmpiricalRecruitModel <- R6Class(
     #'
     new_obs_table = function () {
       cli_ul()
-      cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
+      cli_li("Has SSB?  {.field {self$with_ssb}}")
+      cli_li("Number of Recruitment Data Points: {.field  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
@@ -198,9 +198,9 @@ ParametricCurveModel <- R6Class(
       self$variance = variance
 
       cli_ul()
-      cli_li("Alpha: {.val {self$alpha}}")
-      cli_li("Beta: {.val {self$beta}}")
-      cli_li("Variance: {.val {self$variance}}")
+      cli_li("Alpha: {.field {self$alpha}}")
+      cli_li("Beta: {.field {self$beta}}")
+      cli_li("Variance: {.field {self$variance}}")
     }
 
   ),
