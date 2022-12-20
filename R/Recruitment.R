@@ -51,11 +51,6 @@ Recruitment <- R6Class(
     #'
     initialize = function (model_num, seq_years) {
 
-      d <- cli_div(theme= list(rule= list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
       self$set_recruit_data(model_num, seq_years)
 
     },
@@ -64,6 +59,7 @@ Recruitment <- R6Class(
     #' Creates Recruitment Model Data
     set_recruit_data = function(model_num, seq_years){
 
+      private$cli_recruit_rule()
       cli_alert("Recruitment Data Setup")
       #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
@@ -95,8 +91,7 @@ Recruitment <- R6Class(
         #Add Recruitment Data
         #message("\nRecruit ", recruit, " of ", num_rec_models, ": ", appendLF = FALSE)
         cli_par()
-        cli_text("Recruit {recruit} of {num_rec_models} :
-                 Recruitment Model #{self$rec_model_num[[recruit]]} ")
+        cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
         self$model_collection_list[[recruit]] <-
           self$get_recruit_data(self$rec_model_num[[recruit]], num_rec_seq)
         cli_end()
@@ -176,6 +171,14 @@ Recruitment <- R6Class(
 
     }
 
+  ), private = list (
+    cli_recruit_rule = function() {
+      d <- cli_div(theme= list(rule= list(
+        color = "cyan",
+        "line-type" = "double")))
+      cli_rule("Recruitment")
+      cli_end(d)
+    }
   )
 
 )

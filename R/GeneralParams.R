@@ -66,7 +66,8 @@ GeneralParams <- R6Class(
                            discards=FALSE,
                            seed=0) {
 
-      cli_h2("General")
+      #cli_h2("General")
+      private$cli_general_rule()
       # Discards: Assert logical format
       if(!test_logical(discards)){
         assert_number(discards,lower=0,upper=1)
@@ -129,6 +130,14 @@ GeneralParams <- R6Class(
       seq(self$yr_start,self$yr_end)
     }
 
+  ), private = list (
+    cli_general_rule = function () {
+      d <- cli_div(theme= list(rule= list(
+          color = "cyan",
+          "line-type" = "double")))
+      cli_rule("General")
+      cli_end(d)
+    }
   )
 
 )
