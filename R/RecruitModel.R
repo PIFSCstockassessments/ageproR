@@ -10,6 +10,7 @@
 #' @field model_num Model number
 #' @field model_group Group type of Recruitment Model
 #' @field model_name Name of Recruitment Model
+#' @field seq_yrs Time Series of Projected Years
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -22,6 +23,7 @@ RecruitModel <- R6Class(
     model_num = NULL,
     model_group = NULL,
     model_name = NULL,
+    seq_yrs = NULL,
 
     #' @description
     #' Creates a new instance of this class
@@ -96,8 +98,10 @@ EmpiricalRecruitModel <- R6Class(
       assert_integerish(rec_points)
       if(test_int(rec_points)){
         self$rec_points = rec_points
+        self$seq_yrs = 1:rec_points
       }else{
         self$rec_points = length(rec_points)
+        self$seq_yrs = rec_points
       }
 
       self$with_ssb = with_ssb
@@ -122,6 +126,8 @@ EmpiricalRecruitModel <- R6Class(
         self$rec_array <- matrix(rep("0",self$rec_points),
                                  nrow=1, ncol= self$rec_points)
       }
+      #Set data matrix Column names to projected years time series array,
+      colnames(self$rec_array) <- self$seq_yrs
       cat_print(self$rec_array)
     },
 
