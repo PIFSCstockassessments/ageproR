@@ -176,7 +176,7 @@ ParametricCurveModel <- R6Class(
     variance = NULL,
 
     #'@description
-    #'Instatiate Parameteric Recruitment Curve Model
+    #'Instantiate Parametric Recruitment Curve Model
     #'
     initialize = function (model_num,
                            alpha=0,
@@ -184,6 +184,7 @@ ParametricCurveModel <- R6Class(
                            variance=0) {
 
       self$set(alpha, beta, variance)
+      super$initialize(model_num,2)
 
     },
 
