@@ -66,15 +66,12 @@ GeneralParams <- R6Class(
                            discards=FALSE,
                            seed=0) {
 
-      #cli_h2("General")
       private$cli_general_rule()
       # Discards: Assert logical format
       if(!test_logical(discards)){
         assert_number(discards,lower=0,upper=1)
         discards <- as.logical(discards)
       }
-
-
 
       self$yr_start <- yr_start
       self$yr_end <- yr_end
@@ -96,17 +93,6 @@ GeneralParams <- R6Class(
       cli_li("Number of Population Simulations: {.field {num_pop_sims}}")
       cli_li("Discards are present: {.field {test_true(discards)}} ")
       cli_li("Calculation Engine Random Number Seed: {.field {seed}}")
-
-      # message("First Year in Projection: ", self$yr_start)
-      # message("Last Year in Projection: ", self$yr_end)
-      # message("First Age Class: ", self$age_begin)
-      # message("Last Age Class: ", self$age_end)
-      # message("Number of Fleets: ", self$num_fleets)
-      # message("Number of Recruitment Model(s): ", num_rec_models)
-      # message("Number of Population Simulations: ", num_pop_sims)
-      # message("Discards are present: ", test_true(discards))
-      # message("Calculation Engine Random Number Seed: ", seed)
-      # message("")
 
     }
 
