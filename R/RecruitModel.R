@@ -191,9 +191,10 @@ ParametricCurveModel <- R6Class(
       self$beta = beta
       self$variance = variance
 
-      message("Alpha: ", self$alpha)
-      message("Beta: ", self$beta)
-      message("Variance: ", self$variance)
+      cli_ul()
+      cli_li("Alpha: {.val {self$alpha}}")
+      cli_li("Beta: {.val {self$beta}}")
+      cli_li("Variance: {.val {self$variance}}")
     }
 
   ),
