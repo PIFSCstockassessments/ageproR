@@ -79,7 +79,6 @@ Recruitment <- R6Class(
       self$rec_model_num <- vector("list", num_rec_models) #model_num
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
-      #message(num_rec_models, " recruitment model(s) for ", num_rec_seq, " year(s)")
       cli_alert_info("{num_rec_models} recruitment model{?s} for {num_rec_seq} year{?s}.")
 
       self$rec_prob <- vector ("list", num_rec_models)
@@ -95,7 +94,6 @@ Recruitment <- R6Class(
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
-        #message("\nRecruit ", recruit, " of ", num_rec_models, ": ", appendLF = FALSE)
         cli_par()
         cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
         self$model_collection_list[[recruit]] <-
@@ -103,9 +101,9 @@ Recruitment <- R6Class(
         cli_end()
 
       }
-      cli_bullets(c("Recruitment Probability:"))
-      cat_print( self$rec_prob)
-      #print(self$rec_prob)
+      cli_alert_info("Recruitment Probability:")
+      cat_print(self$rec_prob)
+
 
     },
 
@@ -114,7 +112,6 @@ Recruitment <- R6Class(
     #' Gets Recruitment Data
     get_recruit_data = function(model_num, seq_years){
 
-      #message("Recruitment Model #", model_num)
       if (model_num == 14 || model_num == 3) {
         return(EmpiricalRecruitModel$new(model_num,
                                   seq_years,
@@ -167,7 +164,7 @@ Recruitment <- R6Class(
     #' Helper Function To View Recruitment Model Collection Data
     view_recruit_data = function () {
 
-      message("Recruitment Model(s):")
+      cli_alert_info("Recruitment Model(s):")
       for(recruit in 1:length(self$model_collection_list)){
         message(self$model_collection_list[[recruit]]$model_num,
                 " ", appendLF = FALSE)
