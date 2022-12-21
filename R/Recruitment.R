@@ -74,9 +74,11 @@ Recruitment <- R6Class(
         seq_yr_array <- self$seq_yrs
       }
 
-      #Recuitment Models
+      #Number of Recruitment Models
       num_rec_models <- length(model_num)
-      self$rec_model_num <- vector("list", num_rec_models) #model_num
+
+      #Recruitment Model Number list
+      self$rec_model_num <- vector("list", num_rec_models)
 
       #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
       cli_alert_info("{num_rec_models} recruitment model{?s} for {num_rec_seq} year{?s}.")
@@ -164,13 +166,7 @@ Recruitment <- R6Class(
     #' Helper Function To View Recruitment Model Collection Data
     view_recruit_data = function () {
 
-      cli_alert_info("Recruitment Model(s):")
-      for(recruit in 1:length(self$model_collection_list)){
-        message(self$model_collection_list[[recruit]]$model_num,
-                " ", appendLF = FALSE)
-      }
-
-
+      cli_alert_info("Recruitment Model{?s}: {.field {self$rec_model_num}} ")
 
     }
 
