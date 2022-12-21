@@ -214,3 +214,43 @@ ParametricCurveModel <- R6Class(
     }
   )
 )
+
+#' Beverton-Holt w/ Lognormal Error
+#'
+#' @template parametric_curve
+#'
+BevertonHoltCurveModel <- R6Class (
+  "BevertonHoltCurveModel",
+  inherit = ParametricCurveModel,
+  public = list (
+    #' @description
+    #' Initializes the Beverton Holt Curve Model
+    initialize = function(alpha = 0,
+                         beta = 0,
+                         variance = 0) {
+
+      self$model_name = "Beverton-Holt Curve w/ Lognormal Error"
+      super$initialize(5, alpha, beta, variance)
+    }
+  )
+)
+
+#'Ricker Curve #/ Lognormal Error (Model #6)
+#'
+#'@template parametric_curve
+#'
+RickerCurveModel <- R6Class (
+  "RickerCurveModel",
+  inherit = ParametricCurveModel,
+  public = list (
+    #' @description
+    #' Initalizes the Ricker Curve Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance =0) {
+      self$model_name = "Ricker Curve w/ Lognonormal Error"
+      super$initialize(6, alpha, beta, variance)
+
+    }
+  )
+)
