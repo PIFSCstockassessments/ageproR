@@ -6,6 +6,7 @@
 #' quantity of recruitment models used, and fishery processes that affect
 #' projections.
 #'
+#' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical test_true assert_number
 GeneralParams <- R6Class(
@@ -65,14 +66,12 @@ GeneralParams <- R6Class(
                            discards=FALSE,
                            seed=0) {
 
-      message("\nGeneral\n")
+      private$cli_general_rule()
       # Discards: Assert logical format
       if(!test_logical(discards)){
         assert_number(discards,lower=0,upper=1)
         discards <- as.logical(discards)
       }
-
-
 
       self$yr_start <- yr_start
       self$yr_end <- yr_end
@@ -84,16 +83,16 @@ GeneralParams <- R6Class(
       self$discards <- discards
       self$seed <- seed
 
-      message("First Year in Projection: ", self$yr_start)
-      message("Last Year in Projection: ", self$yr_end)
-      message("First Age Class: ", self$age_begin)
-      message("Last Age Class: ", self$age_end)
-      message("Number of Fleets: ", self$num_fleets)
-      message("Number of Recruitment Model(s): ", num_rec_models)
-      message("Number of Population Simulations: ", num_pop_sims)
-      message("Discards are present: ", test_true(discards))
-      message("Calculation Engine Random Number Seed: ", seed)
-      message("")
+      cli_ul()
+      cli_li("First Year in Projection: {.field {self$yr_start}}")
+      cli_li("Last Year in Projection: {.field {self$yr_end}}")
+      cli_li("First Age Class: {.field {self$age_begin}}")
+      cli_li("Last Age Class: {.field {self$age_end}}")
+      cli_li("Number of Fleets: {.field {self$num_fleets}}")
+      cli_li("Number of Recruitment Model(s): {.field {num_rec_models}}")
+      cli_li("Number of Population Simulations: {.field {num_pop_sims}}")
+      cli_li("Discards are present: {.field {test_true(discards)}} ")
+      cli_li("Calculation Engine Random Number Seed: {.field {seed}}")
 
     }
 
@@ -117,6 +116,14 @@ GeneralParams <- R6Class(
       seq(self$yr_start,self$yr_end)
     }
 
+  ), private = list (
+    cli_general_rule = function () {
+      d <- cli_div(theme= list(rule= list(
+          color = "cyan",
+          "line-type" = "double")))
+      cli_rule("General")
+      cli_end(d)
+    }
   )
 
 )

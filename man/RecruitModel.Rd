@@ -14,6 +14,8 @@ Recruitment Model Description
 \item{\code{model_group}}{Group type of Recruitment Model}
 
 \item{\code{model_name}}{Name of Recruitment Model}
+
+\item{\code{seq_yrs}}{Time Series of Projected Years}
 }
 \if{html}{\out{</div>}}
 }

@@ -67,7 +67,7 @@ AgeproModel <- R6Class(
                                         discards,
                                         seed)
 
-      self$recruit <- Recruitment$new(0,self$general$num_years)
+      self$recruit <- Recruitment$new(0,self$general$seq_years)
 
     },
 

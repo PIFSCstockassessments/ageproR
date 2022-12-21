@@ -39,7 +39,7 @@ Recruitment Model Description
 \if{html}{\out{<a id="method-ParametricRecruitModel-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ParametricRecruitModel-new}{}}}
 \subsection{Method \code{new()}}{
-Instatiate Parameteric Recruitment Curve Model
+Instantiate Parametric Recruitment Curve Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$new(model_num, alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
 }

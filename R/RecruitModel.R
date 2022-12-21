@@ -10,7 +10,9 @@
 #' @field model_num Model number
 #' @field model_group Group type of Recruitment Model
 #' @field model_name Name of Recruitment Model
+#' @field seq_yrs Time Series of Projected Years
 #'
+#' @import cli
 #' @importFrom R6 R6Class
 #' @export
 RecruitModel <- R6Class(
@@ -21,6 +23,7 @@ RecruitModel <- R6Class(
     model_num = NULL,
     model_group = NULL,
     model_name = NULL,
+    seq_yrs = NULL,
 
     #' @description
     #' Creates a new instance of this class
@@ -95,8 +98,10 @@ EmpiricalRecruitModel <- R6Class(
       assert_integerish(rec_points)
       if(test_int(rec_points)){
         self$rec_points = rec_points
+        self$seq_yrs = 1:rec_points
       }else{
         self$rec_points = length(rec_points)
+        self$seq_yrs = rec_points
       }
 
       self$with_ssb = with_ssb
@@ -109,8 +114,9 @@ EmpiricalRecruitModel <- R6Class(
     #'Create Obs table
     #'
     new_obs_table = function () {
-      message("Has SSB? ", self$with_ssb)
-      message("\nNumber of Recruitment Data Points: ", self$rec_points)
+      cli_ul()
+      cli_li("Has SSB?  {.field {self$with_ssb}}")
+      cli_li("Number of Recruitment Data Points: {.field  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
@@ -120,7 +126,9 @@ EmpiricalRecruitModel <- R6Class(
         self$rec_array <- matrix(rep("0",self$rec_points),
                                  nrow=1, ncol= self$rec_points)
       }
-      print(self$rec_array)
+      #Set data matrix Column names to projected years time series array,
+      colnames(self$rec_array) <- self$seq_yrs
+      cat_print(self$rec_array)
     },
 
     #' @description
@@ -168,7 +176,7 @@ ParametricCurveModel <- R6Class(
     variance = NULL,
 
     #'@description
-    #'Instatiate Parameteric Recruitment Curve Model
+    #'Instantiate Parametric Recruitment Curve Model
     #'
     initialize = function (model_num,
                            alpha=0,
@@ -176,6 +184,7 @@ ParametricCurveModel <- R6Class(
                            variance=0) {
 
       self$set(alpha, beta, variance)
+      super$initialize(model_num,2)
 
     },
 
@@ -189,9 +198,10 @@ ParametricCurveModel <- R6Class(
       self$beta = beta
       self$variance = variance
 
-      message("Alpha: ", self$alpha)
-      message("Beta: ", self$beta)
-      message("Variance: ", self$variance)
+      cli_ul()
+      cli_li("Alpha: {.field {self$alpha}}")
+      cli_li("Beta: {.field {self$beta}}")
+      cli_li("Variance: {.field {self$variance}}")
     }
 
   ),
