@@ -153,6 +153,42 @@ EmpiricalRecruitModel <- R6Class(
   #TODO: Set MaxRecObs
 )
 
+#' Empirical Recruitment Distribution (Model #3)
+#'
+#' @template seq_years
+#'
+EmpiricalDistributionModel <- R6Class (
+  "EmpiricalDistributionModel",
+  inherit = EmpiricalRecruitModel,
+  public = list(
+    #' @description
+    #' Initialize the Empirical Recruitment Distribution Model
+    initialize = function (seq_years) {
+
+      super$initialize(3, seq_years, FALSE)
+      self$model_name = "Empirical Recruitment Distribution"
+    }
+  )
+)
+
+#' Empirical CDF of Recruitment (Model #14)
+#'
+#' @template seq_years
+EmpiricalCDFModel <- R6Class(
+  "EmpiricalCDFModel",
+  inherit = EmpiricalRecruitModel,
+  public = list (
+    #' @description
+    #' Initialize the Empirical CDF Model
+    initialize = function (seq_years) {
+
+      super$initialize(14, seq_years, FALSE)
+      self$model_name = "Empirical Cumulative Distribution Function of Recruitment"
+    }
+  )
+
+)
+
 #' Parametric Recruitment Model
 #' @inherit RecruitModel description
 #'
@@ -229,8 +265,8 @@ BevertonHoltCurveModel <- R6Class (
                          beta = 0,
                          variance = 0) {
 
-      self$model_name = "Beverton-Holt Curve w/ Lognormal Error"
       super$initialize(5, alpha, beta, variance)
+      self$model_name = "Beverton-Holt Curve w/ Lognormal Error"
     }
   )
 )
@@ -248,9 +284,9 @@ RickerCurveModel <- R6Class (
     initialize = function(alpha = 0,
                           beta = 0,
                           variance =0) {
-      self$model_name = "Ricker Curve w/ Lognonormal Error"
-      super$initialize(6, alpha, beta, variance)
 
+      super$initialize(6, alpha, beta, variance)
+      self$model_name = "Ricker Curve w/ Lognonormal Error"
     }
   )
 )

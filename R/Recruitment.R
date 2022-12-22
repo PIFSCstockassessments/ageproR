@@ -114,11 +114,8 @@ Recruitment <- R6Class(
     #' Gets Recruitment Data
     get_recruit_data = function(model_num, seq_years){
 
-      # TODO: 'Switch' if statement to switch statement
-      if (model_num == 14 || model_num == 3) {
-        return(EmpiricalRecruitModel$new(model_num,
-                                  seq_years,
-                                  with_ssb = FALSE))
+      if(model_num == 3){
+        return(EmpiricalDistributionModel$new(seq_years))
 
       }else if(model_num == 5){
         return(BevertonHoltCurveModel$new())
@@ -126,7 +123,10 @@ Recruitment <- R6Class(
       }else if(model_num == 6){
         return(RickerCurveModel$new())
 
-      }else{
+      }else if(model_num == 14) {
+        return(EmpiricalCDFModel$new(seq_years))
+      }
+      else{
         return(NullRecruitModel$new())
       }
 
