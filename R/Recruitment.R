@@ -123,6 +123,9 @@ Recruitment <- R6Class(
       }else if(model_num == 6){
         return(RickerCurveModel$new())
 
+      }else if(model_num ==7) {
+        return(ShepherdCurveModel$new())
+
       }else if(model_num == 14) {
         return(EmpiricalCDFModel$new(seq_years))
       }

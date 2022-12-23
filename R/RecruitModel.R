@@ -226,6 +226,7 @@ ParametricCurveModel <- R6Class(
 
     #' @description
     #' Sets Parametric Curve parameters
+    #'
     set = function (alpha, beta, variance) {
 
       #TODO: get Model Name
@@ -235,9 +236,9 @@ ParametricCurveModel <- R6Class(
       self$variance = variance
 
       cli_ul()
-      cli_li("Alpha: {.field {self$alpha}}")
-      cli_li("Beta: {.field {self$beta}}")
-      cli_li("Variance: {.field {self$variance}}")
+      cli_li("Alpha: {.val {self$alpha}}")
+      cli_li("Beta: {.val {self$beta}}")
+      cli_li("Variance: {.val {self$variance}}")
     }
 
   ),
@@ -290,3 +291,52 @@ RickerCurveModel <- R6Class (
     }
   )
 )
+
+#' Shepherd Curve with Lognormal Error (Model #7)
+#'
+#' @template parametric_curve
+#'
+ShepherdCurveModel <- R6Class (
+  "ShepherdCurveModel",
+  inherit = ParametricCurveModel,
+  public = list (
+
+    #' @field kpar Recruitment Parameter k
+    kpar = NULL,
+
+    #' @description
+    #' Initializes the Shepherd Curve Model
+    #'
+    #' @param kpar kpar
+    initialize = function (alpha = 0,
+                           beta = 0,
+                           kpar = 0,
+                           variance = 0) {
+
+      self$set(alpha, beta, kpar, variance)
+      self$model_num = 7
+      self$model_group = 2
+      self$model_name = "Shepherd Curve w/ Lognormal Error"
+
+    },
+
+    #' @description
+    #' Sets Parametric Recruitment Parameters
+    #'
+    #' @param kpar kpar
+    set = function (alpha, beta, kpar, variance) {
+
+      self$alpha = alpha
+      self$beta = beta
+      self$kpar = kpar
+      self$variance = variance
+
+      cli_ul()
+      cli_li("Alpha: {.val {self$alpha}}")
+      cli_li("Beta: {.val {self$beta}}")
+      cli_li("k: {.val {self$kpar}}")
+      cli_li("Variance: {.val {self$variance}}")
+
+    }
+
+  )
