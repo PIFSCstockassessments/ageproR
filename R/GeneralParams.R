@@ -84,15 +84,15 @@ GeneralParams <- R6Class(
       self$seed <- seed
 
       cli_ul()
-      cli_li("First Year in Projection: {.field {self$yr_start}}")
-      cli_li("Last Year in Projection: {.field {self$yr_end}}")
-      cli_li("First Age Class: {.field {self$age_begin}}")
-      cli_li("Last Age Class: {.field {self$age_end}}")
-      cli_li("Number of Fleets: {.field {self$num_fleets}}")
-      cli_li("Number of Recruitment Model(s): {.field {num_rec_models}}")
-      cli_li("Number of Population Simulations: {.field {num_pop_sims}}")
-      cli_li("Discards are present: {.field {test_true(discards)}} ")
-      cli_li("Calculation Engine Random Number Seed: {.field {seed}}")
+      cli_li("First Year in Projection: {.val {self$yr_start}}")
+      cli_li("Last Year in Projection: {.val {self$yr_end}}")
+      cli_li("First Age Class: {.val {self$age_begin}}")
+      cli_li("Last Age Class: {.val {self$age_end}}")
+      cli_li("Number of Fleets: {.val {self$num_fleets}}")
+      cli_li("Number of Recruitment Model(s): {.val {num_rec_models}}")
+      cli_li("Number of Population Simulations: {.val {num_pop_sims}}")
+      cli_li("Discards are present: {.val {test_true(discards)}} ")
+      cli_li("Calculation Engine Random Number Seed: {.val {seed}}")
 
     }
 

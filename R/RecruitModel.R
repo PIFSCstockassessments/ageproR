@@ -115,8 +115,8 @@ EmpiricalRecruitModel <- R6Class(
     #'
     new_obs_table = function () {
       cli_ul()
-      cli_li("Has SSB?  {.field {self$with_ssb}}")
-      cli_li("Number of Recruitment Data Points: {.field  {self$rec_points}}")
+      cli_li("Has SSB?  {.val {self$with_ssb}}")
+      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
@@ -284,7 +284,7 @@ RickerCurveModel <- R6Class (
     #' Initalizes the Ricker Curve Model
     initialize = function(alpha = 0,
                           beta = 0,
-                          variance =0) {
+                          variance = 0) {
 
       super$initialize(6, alpha, beta, variance)
       self$model_name = "Ricker Curve w/ Lognonormal Error"
@@ -340,3 +340,4 @@ ShepherdCurveModel <- R6Class (
     }
 
   )
+)
