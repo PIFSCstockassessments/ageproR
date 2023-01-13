@@ -89,9 +89,10 @@ Recruitment <- R6Class(
       seq_rec_models <- 1:num_rec_models
       for (recruit in seq_rec_models) {
 
-        # Fill rec_prob
+        # Recruitment Probability: Fill the timeseries with a recruitment probability sums equal to unity
         # TODO: Check validity
-        self$rec_prob[[recruit]] <- rep("1", num_rec_seq)
+        # TODO: Refactor to function
+        self$rec_prob[[recruit]] <- format(round(rep(1, num_rec_seq)/num_rec_seq,  4), nsmall=4)
         names(self$rec_prob[[recruit]]) <- seq_yr_array
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
