@@ -51,6 +51,7 @@ last age class.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-GeneralParams-new}{\code{GeneralParams$new()}}
+\item \href{#method-GeneralParams-print}{\code{GeneralParams$print()}}
 \item \href{#method-GeneralParams-clone}{\code{GeneralParams$clone()}}
 }
 }
@@ -93,6 +94,23 @@ Starts an instances of the AGEPRO Model
 \item{\code{discards}}{discards}
 
 \item{\code{seed}}{Random Number seed}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GeneralParams-print"></a>}}
+\if{latex}{\out{\hypertarget{method-GeneralParams-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out General Parameters
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GeneralParams$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
