@@ -51,7 +51,7 @@ NullRecruitModel <- R6Class(
     #'
     initialize = function() {
 
-      self$model_name <- "Null Recruitment"
+      self$model_name <- "NULL Recruitment"
       super$initialize(0, 0)
       self$print()
     },
