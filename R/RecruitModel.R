@@ -95,15 +95,17 @@ EmpiricalRecruitModel <- R6Class(
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param rec_points Number of Recuitment Observations
+    #' @param rec_points Number of Recruitment Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
 
-      self$model_name = "Empirical Recruitment"
+      self$model_name = "Empirical Recruitment Class"
+      self$with_ssb = with_ssb
 
       #Handle/Check rec_points for single or array vector
+      #TODO: Modularize this rec_points check
       assert_integerish(rec_points)
       if(test_int(rec_points)){
         self$rec_points = rec_points
@@ -113,8 +115,6 @@ EmpiricalRecruitModel <- R6Class(
         self$seq_yrs = rec_points
       }
 
-      self$with_ssb = with_ssb
-
       super$initialize(model_num, 1)
       self$new_obs_table()
     },
@@ -123,9 +123,6 @@ EmpiricalRecruitModel <- R6Class(
     #'Create Obs table
     #'
     new_obs_table = function () {
-      #cli_ul()
-      #cli_li("Has SSB?  {.val {self$with_ssb}}")
-      #cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
