@@ -63,23 +63,26 @@ Recruitment <- R6Class(
       private$cli_recruit_rule()
       cli_alert("Recruitment Data Setup")
 
-      # #Handle seq_years as a single int or a vector of sequential values
+      # Handle seq_years as a single int or a vector of sequential values
       private$assert_seq_years(seq_years)
 
-      #Number of Recruitment Models
-      num_rec_models <- length(model_num)
+      #Setup vectors based on number of recruitment models.
+      #num_rec_models <- length(model_num)
+      #self$rec_model_num <- vector("list", num_rec_models) #Recruitment Model Number list
+      #self$rec_prob <- vector ("list", num_rec_models) #Recruitment Probability
+      #self$model_collection_list <- vector ("list", num_rec_models) #Recruitment Model Data List
+      private$qty_rec_models <- length(model_num)
+      self$rec_model_num <- vector("list", private$qty_rec_models) #Recruitment Model Number list
+      self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability
+      self$model_collection_list <- vector ("list", private$qty_rec_models) #Recruitment Model Data List
 
-      #Recruitment Model Number list
-      self$rec_model_num <- vector("list", num_rec_models)
 
-      #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
-      cli_alert_info("{num_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      #TODO: Assert num_rec_models & private$qty_seq_years vector are valid
+      #cli_alert_info("{num_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
 
-      self$rec_prob <- vector ("list", num_rec_models)
-      self$model_collection_list <- vector ("list", num_rec_models)
-
-      #seq_rec_models <- 1:num_rec_models
-      for (recruit in 1:num_rec_models) {
+      #Set recruitment probability and model data for each recruitment model.
+      for (recruit in 1:private$qty_rec_models) {
 
         # Recruitment Probability: Fill the timeseries with a recruitment probability sums equal to unity
         # TODO: Check validity
@@ -93,7 +96,8 @@ Recruitment <- R6Class(
 
         #Add Recruitment Data
         cli_par()
-        cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
+        #cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
+        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
         self$model_collection_list[[recruit]] <- self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
         cli_end()
 
@@ -127,6 +131,31 @@ Recruitment <- R6Class(
       else{
         return(NullRecruitModel$new())
       }
+
+    },
+
+    #' @description
+    #' Prints out Recruitment
+    #'
+    #' @param ... further arguments passed to or from other methods
+    #'
+    print = function(...){
+
+      #self$print_recruit()
+      checkmate::assert_numeric(private$qty_rec_models)
+      checkmate::assert_numeric(private$qty_seq_years)
+
+      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      cli_alert_info("Recruitment Probability:")
+      cat_print(self$rec_prob)
+      cli_par()
+      for (recruit in 1:private$qty_rec_models){
+        cli_par()
+        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")
+        cat_print( self$model_collection_list[[recruit]])
+        cli_end()
+      }
+      cli_par()
 
     },
 
@@ -174,6 +203,7 @@ Recruitment <- R6Class(
 
   ), private = list (
     qty_seq_years = NULL,
+    qty_rec_models = NULL,
     req_prob_years = NULL,
 
     cli_recruit_rule = function() {

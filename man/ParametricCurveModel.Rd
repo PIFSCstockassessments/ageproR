@@ -32,6 +32,7 @@ Recruitment Model Description
 \itemize{
 \item \href{#method-ParametricRecruitModel-new}{\code{ParametricCurveModel$new()}}
 \item \href{#method-ParametricRecruitModel-set}{\code{ParametricCurveModel$set()}}
+\item \href{#method-ParametricRecruitModel-print}{\code{ParametricCurveModel$print()}}
 \item \href{#method-ParametricRecruitModel-clone}{\code{ParametricCurveModel$clone()}}
 }
 }
@@ -82,6 +83,23 @@ beta}
 
 \item{\code{variance}}{\cr
 variance}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ParametricRecruitModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-ParametricRecruitModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Parametric Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

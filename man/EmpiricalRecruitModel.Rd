@@ -34,6 +34,7 @@ Recruitment Model Description
 \itemize{
 \item \href{#method-EmpiricalRecruitModel-new}{\code{EmpiricalRecruitModel$new()}}
 \item \href{#method-EmpiricalRecruitModel-new_obs_table}{\code{EmpiricalRecruitModel$new_obs_table()}}
+\item \href{#method-EmpiricalRecruitModel-print}{\code{EmpiricalRecruitModel$print()}}
 \item \href{#method-EmpiricalRecruitModel-print_json}{\code{EmpiricalRecruitModel$print_json()}}
 \item \href{#method-EmpiricalRecruitModel-clone}{\code{EmpiricalRecruitModel$clone()}}
 }
@@ -70,6 +71,23 @@ Create Obs table
 \if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$new_obs_table()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-EmpiricalRecruitModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-EmpiricalRecruitModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Recruitment Model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{EmpiricalRecruitModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-EmpiricalRecruitModel-print_json"></a>}}

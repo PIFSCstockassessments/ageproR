@@ -22,6 +22,7 @@ Empirical CDF of Recruitment (Model #14)
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="EmpiricalRecruitModel" data-id="new_obs_table"><a href='../../AGEPROjson/html/EmpiricalRecruitModel.html#method-EmpiricalRecruitModel-new_obs_table'><code>AGEPROjson::EmpiricalRecruitModel$new_obs_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="EmpiricalRecruitModel" data-id="print"><a href='../../AGEPROjson/html/EmpiricalRecruitModel.html#method-EmpiricalRecruitModel-print'><code>AGEPROjson::EmpiricalRecruitModel$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="EmpiricalRecruitModel" data-id="print_json"><a href='../../AGEPROjson/html/EmpiricalRecruitModel.html#method-EmpiricalRecruitModel-print_json'><code>AGEPROjson::EmpiricalRecruitModel$print_json()</code></a></span></li>
 </ul>
 </details>

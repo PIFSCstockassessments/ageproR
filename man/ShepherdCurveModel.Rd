@@ -23,6 +23,7 @@ Shepherd Curve with Lognormal Error (Model #7)
 \itemize{
 \item \href{#method-ShepherdCurveModel-new}{\code{ShepherdCurveModel$new()}}
 \item \href{#method-ShepherdCurveModel-set}{\code{ShepherdCurveModel$set()}}
+\item \href{#method-ShepherdCurveModel-print}{\code{ShepherdCurveModel$print()}}
 \item \href{#method-ShepherdCurveModel-clone}{\code{ShepherdCurveModel$clone()}}
 }
 }
@@ -74,6 +75,23 @@ beta}
 
 \item{\code{variance}}{\cr
 variance}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ShepherdCurveModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-ShepherdCurveModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Parameteric Curve Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShepherdCurveModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

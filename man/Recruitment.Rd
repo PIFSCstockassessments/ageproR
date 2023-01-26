@@ -36,6 +36,7 @@ Biomass (SSB) to absolute spawning weight of fish in kilograms}
 \item \href{#method-Recruitment-new}{\code{Recruitment$new()}}
 \item \href{#method-Recruitment-set_recruit_data}{\code{Recruitment$set_recruit_data()}}
 \item \href{#method-Recruitment-get_recruit_data}{\code{Recruitment$get_recruit_data()}}
+\item \href{#method-Recruitment-print}{\code{Recruitment$print()}}
 \item \href{#method-Recruitment-print_recruit}{\code{Recruitment$print_recruit()}}
 \item \href{#method-Recruitment-view_recruit_data}{\code{Recruitment$view_recruit_data()}}
 \item \href{#method-Recruitment-clone}{\code{Recruitment$clone()}}
@@ -100,6 +101,23 @@ AGEPRO Recruitment Model Number}
 
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Recruitment-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Recruitment-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Recruitment
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
