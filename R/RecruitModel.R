@@ -224,10 +224,10 @@ ParametricCurveModel <- R6Class(
   inherit = RecruitModel,
   public = list (
 
-    #' @field alpha Stock Recruitment Parameter
+    #' @field alpha Stock Recruitment Parameter, alpha
     alpha = NULL,
 
-    #' @field beta Stock Recruitment Parameter
+    #' @field beta Stock Recruitment Parameter, beta
     beta = NULL,
 
     #' @field variance Variance
@@ -333,7 +333,7 @@ ShepherdCurveModel <- R6Class (
   inherit = ParametricCurveModel,
   public = list (
 
-    #' @field kpar Recruitment Parameter k
+    #' @field kpar Stock Recruitment Parameter, k
     kpar = NULL,
 
     #' @description
@@ -366,7 +366,7 @@ ShepherdCurveModel <- R6Class (
     },
 
     #' @description
-    #' Prints out Parameteric Curve Data
+    #' Prints out Parametric Curve Data
     #'
     print = function (...) {
 

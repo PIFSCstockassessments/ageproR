@@ -54,7 +54,7 @@ Creates an Empirical Recruit instance
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 
-\item{\code{rec_points}}{Number of Recuitment Observations}
+\item{\code{rec_points}}{Number of Recruitment Observations}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}

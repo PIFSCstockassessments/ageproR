@@ -11,6 +11,7 @@
 #'
 #' @template model_num
 #' @template seq_years
+#' @template elipses
 #'
 #' @export
 #' @import cli
@@ -129,8 +130,6 @@ Recruitment <- R6Class(
 
     #' @description
     #' Prints out Recruitment
-    #'
-    #' @param ... further arguments passed to or from other methods
     #'
     print = function(...){
 

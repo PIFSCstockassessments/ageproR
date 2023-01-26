@@ -6,6 +6,8 @@
 #' quantity of recruitment models used, and fishery processes that affect
 #' projections.
 #'
+#' @template elipses
+#'
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical test_true assert_number
@@ -90,8 +92,6 @@ GeneralParams <- R6Class(
 
     #' @description
     #' Prints out General Parameters
-    #'
-    #' @param ... further arguments passed to or from other methods
     #'
     print = function (...) {
       cli_ul()

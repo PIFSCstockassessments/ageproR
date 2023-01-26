@@ -39,10 +39,10 @@ Initalizes the Ricker Curve Model
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}

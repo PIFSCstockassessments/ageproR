@@ -12,9 +12,9 @@ Recruitment Model Description
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{alpha}}{Stock Recruitment Parameter}
+\item{\code{alpha}}{Stock Recruitment Parameter, alpha}
 
-\item{\code{beta}}{Stock Recruitment Parameter}
+\item{\code{beta}}{Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{Variance}
 }
@@ -52,10 +52,10 @@ Instantiate Parametric Recruitment Curve Model
 AGEPRO Recruitment Model Number}
 
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}
@@ -76,10 +76,10 @@ Sets Parametric Curve parameters
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}
