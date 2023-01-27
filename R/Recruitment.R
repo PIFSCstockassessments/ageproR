@@ -17,7 +17,7 @@
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int
+#' @importFrom checkmate test_int assert_numeric assert_list assert_r6
 #'
 Recruitment <- R6Class(
   "Recruitment",
@@ -70,7 +70,7 @@ Recruitment <- R6Class(
       #Setup vectors based on number of recruitment models.
       private$qty_rec_models <- length(model_num)
       self$rec_model_num <- vector("list", private$qty_rec_models) #Recruitment Model Number list
-      self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability
+      self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability list
       self$model_collection_list <- vector ("list", private$qty_rec_models) #Recruitment Model Data List
 
 
@@ -133,18 +133,21 @@ Recruitment <- R6Class(
     #'
     print = function(...){
 
-      #self$print_recruit()
-      checkmate::assert_numeric(private$qty_rec_models)
-      checkmate::assert_numeric(private$qty_seq_years)
+      #verify private fields are numeric
+      assert_numeric(private$qty_rec_models)
+      assert_numeric(private$qty_seq_years)
+      assert_numeric(private$qty_rec_models)
 
       cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
       cli_alert_info("Recruitment Probability:")
+      assert_list(self$rec_prob) #verify recruit_prob list
       cat_print(self$rec_prob)
       cli_par()
       for (recruit in 1:private$qty_rec_models){
         cli_par()
         cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")
-        cat_print( self$model_collection_list[[recruit]])
+        assert_r6(self$model_collection_list[[recruit]],"RecruitModel") #Verify class inherits from "RecruitModel"
+        cat_print(self$model_collection_list[[recruit]])
         cli_end()
       }
       cli_par()
