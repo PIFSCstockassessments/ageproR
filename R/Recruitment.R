@@ -24,12 +24,13 @@ Recruitment <- R6Class(
 
   public = list(
 
-    #' @field rec_fac multiplier to convert recruitment submodel's recruitment
-    #' units to absolute numbers of fish
+    #' @field rec_fac Recruitment Scaling Factor. Multiplier to convert
+    #' recruitment submodel's recruitment units to absolute numbers of fish
     rec_fac = 0,
 
-    #' @field ssb_fac multiplier to convert recruitment submodel's Spawning
-    #' Biomass (SSB) to absolute spawning weight of fish in kilograms
+    #' @field ssb_fac Spawning Biomass (SSB) Scaling Factor. Multiplier to
+    #' convert recruitment submodel's SSB to absolute spawning weight of fish
+    #' in kilograms (kg)
     ssb_fac = 0,
 
     #' @field max_rec_obs Recruitment submodel's maximum number of observations
@@ -53,6 +54,9 @@ Recruitment <- R6Class(
     initialize = function (model_num, seq_years) {
 
       self$set_recruit_data(model_num, seq_years)
+      self$recruit_scaling_factor <- 1000
+      self$ssb_scaling_factor <- 0
+      self$print()
 
     },
 
@@ -139,6 +143,11 @@ Recruitment <- R6Class(
       assert_numeric(private$qty_rec_models)
 
       cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      cli_ul()
+      cli_li("Recruitment Scaling Factor: {.val {self$rec_fac}}")
+      cli_li("SSB Scaling Factor: {.val {self$ssb_fac}}")
+
+
       cli_alert_info("Recruitment Probability:")
       assert_list(self$rec_prob) #verify recruit_prob list
       cat_print(self$rec_prob)
@@ -195,6 +204,22 @@ Recruitment <- R6Class(
       cli_alert_info("Recruitment Model{?s}: {.field {self$rec_model_num}} ")
 
     }
+
+  ), active = list (
+    #' @field recruit_scaling_factor Sets the Recruitment Scaling factor
+    recruit_scaling_factor = function(x) {
+      assert_numeric(x)
+      self$rec_fac <- x
+    },
+
+    #' @field ssb_scaling_factor Sets the SSB Scaling Factor
+    ssb_scaling_factor = function(x) {
+      assert_numeric(x)
+      self$ssb_fac <- x
+    }
+
+
+
 
   ), private = list (
     qty_seq_years = NULL,
