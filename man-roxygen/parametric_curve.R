@@ -1,8 +1,8 @@
 #' @param alpha \cr
-#' alpha
+#' Stock Recruitment Parameter, alpha
 #'
 #' @param beta \cr
-#' beta
+#' Stock Recruitment Parameter, beta
 #'
 #' @param variance \cr
 #' variance

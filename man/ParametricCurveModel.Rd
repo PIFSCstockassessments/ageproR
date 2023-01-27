@@ -12,9 +12,9 @@ Recruitment Model Description
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{alpha}}{Stock Recruitment Parameter}
+\item{\code{alpha}}{Stock Recruitment Parameter, alpha}
 
-\item{\code{beta}}{Stock Recruitment Parameter}
+\item{\code{beta}}{Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{Variance}
 }
@@ -32,6 +32,7 @@ Recruitment Model Description
 \itemize{
 \item \href{#method-ParametricRecruitModel-new}{\code{ParametricCurveModel$new()}}
 \item \href{#method-ParametricRecruitModel-set}{\code{ParametricCurveModel$set()}}
+\item \href{#method-ParametricRecruitModel-print}{\code{ParametricCurveModel$print()}}
 \item \href{#method-ParametricRecruitModel-clone}{\code{ParametricCurveModel$clone()}}
 }
 }
@@ -51,10 +52,10 @@ Instantiate Parametric Recruitment Curve Model
 AGEPRO Recruitment Model Number}
 
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}
@@ -75,13 +76,30 @@ Sets Parametric Curve parameters
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ParametricRecruitModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-ParametricRecruitModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Parametric Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

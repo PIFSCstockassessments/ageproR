@@ -39,6 +39,7 @@ RecruitModel <- R6Class(
 
 #' Null Recruitment UI Fallback Default
 #' @inherit RecruitModel description
+#' @template elipses
 #' @export
 NullRecruitModel <- R6Class(
   "NullRecruitModel",
@@ -50,8 +51,15 @@ NullRecruitModel <- R6Class(
     #'
     initialize = function() {
 
-      self$model_name <- "Null Recruitment"
+      self$model_name <- "NULL Recruitment"
       super$initialize(0, 0)
+      self$print()
+    },
+    #' @description
+    #' Prints out NULL Recruiment Model Data
+    print = function (...) {
+      cli_alert_info("{self$model_name}")
+      cli_alert_warning("Replace with a valid recruitment model before processing to AGEPRO calcualtion engine")
     }
   )
 )
@@ -61,6 +69,7 @@ NullRecruitModel <- R6Class(
 #'
 #' @template model_num
 #' @template recruit_data
+#' @template elipses
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish
@@ -86,15 +95,17 @@ EmpiricalRecruitModel <- R6Class(
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param rec_points Number of Recuitment Observations
+    #' @param rec_points Number of Recruitment Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
     initialize = function (model_num, rec_points, with_ssb = FALSE) {
 
-      self$model_name = "Empirical Recruitment"
+      self$model_name = "Empirical Recruitment Class"
+      self$with_ssb = with_ssb
 
       #Handle/Check rec_points for single or array vector
+      #TODO: Modularize this rec_points check
       assert_integerish(rec_points)
       if(test_int(rec_points)){
         self$rec_points = rec_points
@@ -104,8 +115,6 @@ EmpiricalRecruitModel <- R6Class(
         self$seq_yrs = rec_points
       }
 
-      self$with_ssb = with_ssb
-
       super$initialize(model_num, 1)
       self$new_obs_table()
     },
@@ -114,9 +123,6 @@ EmpiricalRecruitModel <- R6Class(
     #'Create Obs table
     #'
     new_obs_table = function () {
-      cli_ul()
-      cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
 
       # Fill Data fill Default Values (0)
       if(self$with_ssb){
@@ -128,7 +134,20 @@ EmpiricalRecruitModel <- R6Class(
       }
       #Set data matrix Column names to projected years time series array,
       colnames(self$rec_array) <- self$seq_yrs
+      #cat_print(self$rec_array)
+    },
+
+    #' @description
+    #' Prints out Recruitment Model
+    print = function (...) {
+
+      cli_ul()
+      cli_alert_info("{self$model_name}")
+      cli_li("Has SSB?  {.val {self$with_ssb}}")
+      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
+      cli_li("Observations:")
       cat_print(self$rec_array)
+
     },
 
     #' @description
@@ -167,6 +186,7 @@ EmpiricalDistributionModel <- R6Class (
 
       super$initialize(3, seq_years, FALSE)
       self$model_name = "Empirical Recruitment Distribution"
+      self$print()
     }
   )
 )
@@ -184,6 +204,7 @@ EmpiricalCDFModel <- R6Class(
 
       super$initialize(14, seq_years, FALSE)
       self$model_name = "Empirical Cumulative Distribution Function of Recruitment"
+      self$print()
     }
   )
 
@@ -195,6 +216,7 @@ EmpiricalCDFModel <- R6Class(
 #' @template model_num
 #' @template parametric_curve
 #' @template recruit_data
+#' @template elipses
 #'
 #' @export
 ParametricCurveModel <- R6Class(
@@ -202,10 +224,10 @@ ParametricCurveModel <- R6Class(
   inherit = RecruitModel,
   public = list (
 
-    #' @field alpha Stock Recruitment Parameter
+    #' @field alpha Stock Recruitment Parameter, alpha
     alpha = NULL,
 
-    #' @field beta Stock Recruitment Parameter
+    #' @field beta Stock Recruitment Parameter, beta
     beta = NULL,
 
     #' @field variance Variance
@@ -229,13 +251,19 @@ ParametricCurveModel <- R6Class(
     #'
     set = function (alpha, beta, variance) {
 
-      #TODO: get Model Name
-
       self$alpha = alpha
       self$beta = beta
       self$variance = variance
+    },
 
+    #' @description
+    #' Prints out Parametric Data
+    #'
+    print = function(...) {
+
+      #Model Name
       cli_ul()
+      cli_alert_info("{self$model_name}")
       cli_li("Alpha: {.val {self$alpha}}")
       cli_li("Beta: {.val {self$beta}}")
       cli_li("Variance: {.val {self$variance}}")
@@ -248,6 +276,7 @@ ParametricCurveModel <- R6Class(
       return(list(alpha=self$alpha,
                   beta=self$beta,
                   variance=self$variance))
+
     }
   )
 )
@@ -268,6 +297,7 @@ BevertonHoltCurveModel <- R6Class (
 
       super$initialize(5, alpha, beta, variance)
       self$model_name = "Beverton-Holt Curve w/ Lognormal Error"
+      self$print()
     }
   )
 )
@@ -288,6 +318,7 @@ RickerCurveModel <- R6Class (
 
       super$initialize(6, alpha, beta, variance)
       self$model_name = "Ricker Curve w/ Lognonormal Error"
+      self$print()
     }
   )
 )
@@ -295,13 +326,14 @@ RickerCurveModel <- R6Class (
 #' Shepherd Curve with Lognormal Error (Model #7)
 #'
 #' @template parametric_curve
+#' @template elipses
 #'
 ShepherdCurveModel <- R6Class (
   "ShepherdCurveModel",
   inherit = ParametricCurveModel,
   public = list (
 
-    #' @field kpar Recruitment Parameter k
+    #' @field kpar Stock Recruitment Parameter, k
     kpar = NULL,
 
     #' @description
@@ -317,6 +349,7 @@ ShepherdCurveModel <- R6Class (
       self$model_num = 7
       self$model_group = 2
       self$model_name = "Shepherd Curve w/ Lognormal Error"
+      self$print()
 
     },
 
@@ -330,6 +363,12 @@ ShepherdCurveModel <- R6Class (
       self$beta = beta
       self$kpar = kpar
       self$variance = variance
+    },
+
+    #' @description
+    #' Prints out Parametric Curve Data
+    #'
+    print = function (...) {
 
       cli_ul()
       cli_li("Alpha: {.val {self$alpha}}")

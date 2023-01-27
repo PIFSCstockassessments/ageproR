@@ -21,6 +21,7 @@ Ricker Curve #/ Lognormal Error (Model #6)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="ParametricRecruitModel" data-id="print"><a href='../../AGEPROjson/html/ParametricRecruitModel.html#method-ParametricRecruitModel-print'><code>AGEPROjson::ParametricRecruitModel$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="ParametricRecruitModel" data-id="set"><a href='../../AGEPROjson/html/ParametricRecruitModel.html#method-ParametricRecruitModel-set'><code>AGEPROjson::ParametricRecruitModel$set()</code></a></span></li>
 </ul>
 </details>
@@ -38,10 +39,10 @@ Initalizes the Ricker Curve Model
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{variance}}{\cr
 variance}

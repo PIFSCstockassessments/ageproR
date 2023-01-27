@@ -14,7 +14,7 @@ Shepherd Curve with Lognormal Error (Model #7)
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{kpar}}{Recruitment Parameter k}
+\item{\code{kpar}}{Stock Recruitment Parameter, k}
 }
 \if{html}{\out{</div>}}
 }
@@ -23,6 +23,7 @@ Shepherd Curve with Lognormal Error (Model #7)
 \itemize{
 \item \href{#method-ShepherdCurveModel-new}{\code{ShepherdCurveModel$new()}}
 \item \href{#method-ShepherdCurveModel-set}{\code{ShepherdCurveModel$set()}}
+\item \href{#method-ShepherdCurveModel-print}{\code{ShepherdCurveModel$print()}}
 \item \href{#method-ShepherdCurveModel-clone}{\code{ShepherdCurveModel$clone()}}
 }
 }
@@ -39,10 +40,10 @@ Initializes the Shepherd Curve Model
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{kpar}}{kpar}
 
@@ -65,15 +66,32 @@ Sets Parametric Recruitment Parameters
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{alpha}}{\cr
-alpha}
+Stock Recruitment Parameter, alpha}
 
 \item{\code{beta}}{\cr
-beta}
+Stock Recruitment Parameter, beta}
 
 \item{\code{kpar}}{kpar}
 
 \item{\code{variance}}{\cr
 variance}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ShepherdCurveModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-ShepherdCurveModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Parametric Curve Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ShepherdCurveModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

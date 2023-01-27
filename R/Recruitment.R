@@ -11,12 +11,13 @@
 #'
 #' @template model_num
 #' @template seq_years
+#' @template elipses
 #'
 #' @export
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int
+#' @importFrom checkmate test_int assert_numeric assert_list assert_r6
 #'
 Recruitment <- R6Class(
   "Recruitment",
@@ -55,6 +56,7 @@ Recruitment <- R6Class(
 
     },
 
+
     #' @description
     #' Creates Recruitment Model Data
     set_recruit_data = function(model_num, seq_years){
@@ -62,45 +64,35 @@ Recruitment <- R6Class(
       private$cli_recruit_rule()
       cli_alert("Recruitment Data Setup")
 
-      #Handle seq_years as a single int or a vector of sequential values
-      self$seq_yrs <- seq_years
-      if(test_int(self$seq_yrs)){
-        #single
-        num_rec_seq <- self$seq_yrs
-        seq_yr_array <- 1:self$seq_yrs
-      }
-      else{
-        num_rec_seq <- length(self$seq_yrs)
-        seq_yr_array <- self$seq_yrs
-      }
+      # Handle seq_years as a single int or a vector of sequential values
+      private$assert_seq_years(seq_years)
 
-      #Number of Recruitment Models
-      num_rec_models <- length(model_num)
+      #Setup vectors based on number of recruitment models.
+      private$qty_rec_models <- length(model_num)
+      self$rec_model_num <- vector("list", private$qty_rec_models) #Recruitment Model Number list
+      self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability list
+      self$model_collection_list <- vector ("list", private$qty_rec_models) #Recruitment Model Data List
 
-      #Recruitment Model Number list
-      self$rec_model_num <- vector("list", num_rec_models)
 
-      #TODO: Assert num_rec_models & rec_model_num (model_num) vector are valid
-      cli_alert_info("{num_rec_models} recruitment model{?s} for {num_rec_seq} year{?s}.")
+      #TODO: Assert num_rec_models & private$qty_seq_years vector are valid
+      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
 
-      self$rec_prob <- vector ("list", num_rec_models)
-      self$model_collection_list <- vector ("list", num_rec_models)
-
-      seq_rec_models <- 1:num_rec_models
-      for (recruit in seq_rec_models) {
+      #Set recruitment probability and model data for each recruitment model.
+      for (recruit in 1:private$qty_rec_models) {
 
         # Recruitment Probability: Fill the timeseries with a recruitment probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
-        self$rec_prob[[recruit]] <- format(round(rep(1, num_rec_seq)/num_rec_seq,  4), nsmall=4)
-        names(self$rec_prob[[recruit]]) <- seq_yr_array
+        self$rec_prob[[recruit]] <-
+          format(round(rep(1, private$qty_seq_years)/private$qty_seq_years,  4), nsmall=4)
+
+        names(self$rec_prob[[recruit]]) <- private$req_prob_years
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
         cli_par()
-        cli_alert_info("Recruit {recruit} of {num_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
-        self$model_collection_list[[recruit]] <-
-          self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
+        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
+        self$model_collection_list[[recruit]] <- self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
         cli_end()
 
       }
@@ -133,6 +125,32 @@ Recruitment <- R6Class(
       else{
         return(NullRecruitModel$new())
       }
+
+    },
+
+    #' @description
+    #' Prints out Recruitment
+    #'
+    print = function(...){
+
+      #verify private fields are numeric
+      assert_numeric(private$qty_rec_models)
+      assert_numeric(private$qty_seq_years)
+      assert_numeric(private$qty_rec_models)
+
+      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      cli_alert_info("Recruitment Probability:")
+      assert_list(self$rec_prob) #verify recruit_prob list
+      cat_print(self$rec_prob)
+      cli_par()
+      for (recruit in 1:private$qty_rec_models){
+        cli_par()
+        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")
+        assert_r6(self$model_collection_list[[recruit]],"RecruitModel") #Verify class inherits from "RecruitModel"
+        cat_print(self$model_collection_list[[recruit]])
+        cli_end()
+      }
+      cli_par()
 
     },
 
@@ -179,12 +197,33 @@ Recruitment <- R6Class(
     }
 
   ), private = list (
+    qty_seq_years = NULL,
+    qty_rec_models = NULL,
+    req_prob_years = NULL,
+
     cli_recruit_rule = function() {
       d <- cli_div(theme= list(rule= list(
         color = "cyan",
         "line-type" = "double")))
       cli_rule("Recruitment")
       cli_end(d)
+    },
+
+    assert_seq_years = function(seq_years) {
+      #Handle seq_years as a single int or a vector of sequential values
+      self$seq_yrs <- seq_years
+
+      if(test_int(self$seq_yrs)){
+        #single
+        private$qty_seq_years <- self$seq_yrs
+        private$req_prob_years <- 1:self$seq_yrs
+      }
+      else{
+        private$qty_seq_years <- length(self$seq_yrs)
+        private$req_prob_years <- self$seq_yrs
+      }
+
+
     }
   )
 

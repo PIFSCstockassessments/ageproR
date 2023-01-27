@@ -13,6 +13,7 @@ Recruitment Model Description
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-NullRecruitModel-new}{\code{NullRecruitModel$new()}}
+\item \href{#method-NullRecruitModel-print}{\code{NullRecruitModel$print()}}
 \item \href{#method-NullRecruitModel-clone}{\code{NullRecruitModel$clone()}}
 }
 }
@@ -25,6 +26,23 @@ Initialize
 \if{html}{\out{<div class="r">}}\preformatted{NullRecruitModel$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-NullRecruitModel-print"></a>}}
+\if{latex}{\out{\hypertarget{method-NullRecruitModel-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out NULL Recruiment Model Data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{NullRecruitModel$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-NullRecruitModel-clone"></a>}}
