@@ -53,7 +53,7 @@ NullRecruitModel <- R6Class(
 
       self$model_name <- "NULL Recruitment"
       super$initialize(0, 0)
-      self$print()
+
     },
     #' @description
     #' Prints out NULL Recruiment Model Data
@@ -186,7 +186,7 @@ EmpiricalDistributionModel <- R6Class (
 
       super$initialize(3, seq_years, FALSE)
       self$model_name = "Empirical Recruitment Distribution"
-      self$print()
+
     }
   )
 )
@@ -204,7 +204,7 @@ EmpiricalCDFModel <- R6Class(
 
       super$initialize(14, seq_years, FALSE)
       self$model_name = "Empirical Cumulative Distribution Function of Recruitment"
-      self$print()
+
     }
   )
 
@@ -297,7 +297,7 @@ BevertonHoltCurveModel <- R6Class (
 
       super$initialize(5, alpha, beta, variance)
       self$model_name = "Beverton-Holt Curve w/ Lognormal Error"
-      self$print()
+
     }
   )
 )
@@ -318,7 +318,7 @@ RickerCurveModel <- R6Class (
 
       super$initialize(6, alpha, beta, variance)
       self$model_name = "Ricker Curve w/ Lognonormal Error"
-      self$print()
+
     }
   )
 )
@@ -349,7 +349,7 @@ ShepherdCurveModel <- R6Class (
       self$model_num = 7
       self$model_group = 2
       self$model_name = "Shepherd Curve w/ Lognormal Error"
-      self$print()
+
 
     },
 
