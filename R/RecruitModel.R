@@ -58,7 +58,7 @@ NullRecruitModel <- R6Class(
     #' @description
     #' Prints out NULL Recruiment Model Data
     print = function (...) {
-      cli_alert_info("{self$model_name}")
+      cli_text("{self$model_name}")
       cli_alert_warning("Replace with a valid recruitment model before processing to AGEPRO calcualtion engine")
     }
   )
@@ -141,11 +141,12 @@ EmpiricalRecruitModel <- R6Class(
     #' Prints out Recruitment Model
     print = function (...) {
 
+      cli_text("{self$model_name}")
       cli_ul()
-      cli_alert_info("{self$model_name}")
       cli_li("Has SSB?  {.val {self$with_ssb}}")
       cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
-      cli_li("Observations:")
+      cli_end()
+      cli_alert_info("Observations:")
       cat_print(self$rec_array)
 
     },
@@ -262,11 +263,12 @@ ParametricCurveModel <- R6Class(
     print = function(...) {
 
       #Model Name
+      cli_text("{self$model_name}")
       cli_ul()
-      cli_alert_info("{self$model_name}")
       cli_li("Alpha: {.val {self$alpha}}")
       cli_li("Beta: {.val {self$beta}}")
       cli_li("Variance: {.val {self$variance}}")
+      cli_end()
     }
 
   ),
@@ -370,11 +372,13 @@ ShepherdCurveModel <- R6Class (
     #'
     print = function (...) {
 
+      cli_text("{self$model_name}")
       cli_ul()
       cli_li("Alpha: {.val {self$alpha}}")
       cli_li("Beta: {.val {self$beta}}")
       cli_li("k: {.val {self$kpar}}")
       cli_li("Variance: {.val {self$variance}}")
+      cli_end()
 
     }
 
