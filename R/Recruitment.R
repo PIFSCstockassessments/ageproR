@@ -77,10 +77,6 @@ Recruitment <- R6Class(
       self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability list
       self$model_collection_list <- vector ("list", private$qty_rec_models) #Recruitment Model Data List
 
-
-      #TODO: Assert num_rec_models & private$qty_seq_years vector are valid
-      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
-
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$qty_rec_models) {
 
@@ -94,14 +90,8 @@ Recruitment <- R6Class(
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
-        cli_par()
-        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{model_num[[recruit]]} ")
         self$model_collection_list[[recruit]] <- self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
-        cli_end()
-
       }
-      cli_alert_info("Recruitment Probability:")
-      cat_print(self$rec_prob)
 
 
     },
@@ -146,12 +136,11 @@ Recruitment <- R6Class(
       cli_ul()
       cli_li("Recruitment Scaling Factor: {.val {self$rec_fac}}")
       cli_li("SSB Scaling Factor: {.val {self$ssb_fac}}")
-
-
+      cli_par()
+      cli_end()
       cli_alert_info("Recruitment Probability:")
       assert_list(self$rec_prob) #verify recruit_prob list
       cat_print(self$rec_prob)
-      cli_par()
       for (recruit in 1:private$qty_rec_models){
         cli_par()
         cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")

@@ -76,6 +76,7 @@ AgeproModel <- R6Class(
     set_recruit_model = function (model_num) {
 
       self$recruit$set_recruit_data(model_num, self$general$seq_years)
+      self$recruit$print()
 
     },
 
