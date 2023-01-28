@@ -66,7 +66,8 @@ AgeproModel <- R6Class(
                                         num_pop_sims,
                                         discards,
                                         seed)
-
+      private$cli_recruit_rule()
+      cli_alert("Creating Default Recruitment Model")
       self$recruit <- Recruitment$new(0,self$general$seq_years)
 
     },
@@ -74,6 +75,10 @@ AgeproModel <- R6Class(
     #' @description
     #' Set model's Recruitment model
     set_recruit_model = function (model_num) {
+
+      private$cli_recruit_rule()
+      cli_alert("Recruitment Data Setup")
+      cli_alert("Using Model Number {.field {model_num}}")
 
       self$recruit$set_recruit_data(model_num, self$general$seq_years)
       self$recruit$print()
@@ -145,6 +150,15 @@ AgeproModel <- R6Class(
   private = list (
 
     str_legacy_ver = "AGEPRO VERSION 4.0",
-    str_ver = "4.0.0.0"
+    str_ver = "4.0.0.0",
+
+    cli_recruit_rule = function() {
+      d <- cli_div(theme= list(rule= list(
+        color = "cyan",
+        "line-type" = "double")))
+      cli_rule("Recruitment")
+      cli_end(d)
+    }
+
   )
 )

@@ -65,9 +65,6 @@ Recruitment <- R6Class(
     #' Creates Recruitment Model Data
     set_recruit_data = function(model_num, seq_years){
 
-      private$cli_recruit_rule()
-      cli_alert("Recruitment Data Setup")
-
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_seq_years(seq_years)
 
@@ -145,11 +142,11 @@ Recruitment <- R6Class(
         cli_par()
         cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")
         assert_r6(self$model_collection_list[[recruit]],"RecruitModel") #Verify class inherits from "RecruitModel"
-        cat_print(self$model_collection_list[[recruit]])
+        self$model_collection_list[[recruit]]$print()
         cli_end()
       }
       cli_par()
-
+      cli_end()
     },
 
 
