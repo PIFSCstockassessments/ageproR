@@ -194,14 +194,24 @@ Recruitment <- R6Class(
   ), active = list (
     #' @field recruit_scaling_factor Sets the Recruitment Scaling factor
     recruit_scaling_factor = function(x) {
-      assert_numeric(x)
-      self$rec_fac <- x
+      if(missing(x)){
+        return(self$rec_fac)
+      }else{
+        assert_numeric(x)
+        self$rec_fac <- x
+      }
+
     },
 
     #' @field ssb_scaling_factor Sets the SSB Scaling Factor
     ssb_scaling_factor = function(x) {
-      assert_numeric(x)
-      self$ssb_fac <- x
+      if(missing(x)){
+        return(self$ssb_fac)
+      }else{
+        assert_numeric(x)
+        self$ssb_fac <- x
+      }
+
     }
 
 
