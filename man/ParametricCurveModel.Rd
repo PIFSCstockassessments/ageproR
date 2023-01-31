@@ -9,31 +9,20 @@ Recruitment Model Description
 \section{Super class}{
 \code{\link[AGEPROjson:RecruitModel]{AGEPROjson::RecruitModel}} -> \code{ParametricRecruitModel}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{alpha}}{Stock Recruitment Parameter, alpha}
-
-\item{\code{beta}}{Stock Recruitment Parameter, beta}
-
-\item{\code{variance}}{Variance}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
 
-\item{\code{set_alpha}}{\cr
+\item{\code{alpha}}{\cr
 Sets the Parametric Curve Parameter, alpha. Returns the
 current value if no argument was passed}
 
-\item{\code{set_beta}}{\cr
+\item{\code{beta}}{\cr
 Sets the Parametric Curve Parameter, beta. Returns the
 current value if no argument was passed}
 
-\item{\code{set_variance}}{\cr
+\item{\code{variance}}{\cr
 Sets the Parametric Curve Parameter, variance. Returns the
 current value if no argument was passed.}
 }

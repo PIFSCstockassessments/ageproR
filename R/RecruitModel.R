@@ -216,7 +216,6 @@ EmpiricalCDFModel <- R6Class(
 #'
 #' @template model_num
 #' @template parametric_parameters
-#' @template parametric_active_fields
 #' @template elipses
 #'
 #' @importFrom checkmate assert_numeric
@@ -225,16 +224,66 @@ EmpiricalCDFModel <- R6Class(
 ParametricCurveModel <- R6Class(
   "ParametricRecruitModel",
   inherit = RecruitModel,
+  private = list (
+
+    .alpha = NULL,
+    .beta = NULL,
+    .variance = NULL
+
+  ),
+  active = list (
+
+    #' @field recruit_data gets JSON-ready Recruit Model Data
+    #'
+    #'
+    recruit_data = function () {
+      return(list(alpha=private$.alpha,
+                  beta=private$.beta,
+                  variance=private$.variance))
+
+    },
+
+    #' @field alpha \cr
+    #' Sets the Parametric Curve Parameter, alpha. Returns the
+    #' current value if no argument was passed
+    alpha = function (value) {
+      if(missing(value)){
+        return(private$.alpha)
+      }else{
+        assert_numeric(value)
+        private$.alpha <- value
+      }
+    },
+
+    #' @field beta \cr
+    #' Sets the Parametric Curve Parameter, beta. Returns the
+    #' current value if no argument was passed
+    #'
+    beta = function(value) {
+      if(missing(value)){
+        return(private$.beta)
+      }else{
+        assert_numeric(value)
+        private$.beta <- value
+      }
+    },
+
+    #' @field variance \cr
+    #' Sets the Parametric Curve Parameter, variance. Returns the
+    #' current value if no argument was passed.
+    #'
+    variance = function(value) {
+      if(missing(value)){
+        return(private$.variance)
+      }else{
+        assert_numeric(value)
+        private$.variance <- value
+      }
+    }
+
+  ),
   public = list (
 
-    #' @field alpha Stock Recruitment Parameter, alpha
-    alpha = NULL,
-
-    #' @field beta Stock Recruitment Parameter, beta
-    beta = NULL,
-
-    #' @field variance Variance
-    variance = NULL,
 
     #'@description
     #'Instantiate Parametric Recruitment Curve Model
@@ -246,9 +295,9 @@ ParametricCurveModel <- R6Class(
 
       #self$set(alpha, beta, variance)
       #Set to Active Bindings
-      self$set_alpha <- alpha
-      self$set_beta <- beta
-      self$set_variance <- variance
+      private$.alpha <- alpha
+      private$.beta <- beta
+      private$.variance <- variance
 
       #Set Model Number and Name
       super$initialize(model_num,2)
@@ -263,53 +312,14 @@ ParametricCurveModel <- R6Class(
       #Model Name
       cli_text("{self$model_name}")
       cli_ul()
-      cli_li("Alpha: {.val {self$alpha}}")
-      cli_li("Beta: {.val {self$beta}}")
-      cli_li("Variance: {.val {self$variance}}")
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
       cli_end()
     }
 
-  ),
-  active = list (
-
-
-    recruit_data = function () {
-      return(list(alpha=self$alpha,
-                  beta=self$beta,
-                  variance=self$variance))
-
-    },
-
-
-    set_alpha = function (value) {
-      if(missing(value)){
-        return(self$alpha)
-      }else{
-        assert_numeric(value)
-        self$alpha <- value
-      }
-    },
-
-
-    set_beta = function(value) {
-      if(missing(value)){
-        return(self$beta)
-      }else{
-        assert_numeric(value)
-        self$beta <- value
-      }
-    },
-
-    set_variance = function(value) {
-      if(missing(value)){
-        return(self$variance)
-      }else{
-        assert_numeric(value)
-        self$variance <- value
-      }
-    }
-
   )
+
 )
 
 #' Beverton-Holt w/ Lognormal Error
@@ -362,6 +372,14 @@ RickerCurveModel <- R6Class (
 ShepherdCurveModel <- R6Class (
   "ShepherdCurveModel",
   inherit = ParametricCurveModel,
+  private = list (
+
+    .alpha = NULL,
+    .beta = NULL,
+    .kpar = NULL,
+    .variance = NULL
+
+  ),
   public = list (
 
     #' @field kpar Stock Recruitment Parameter, k
@@ -382,10 +400,10 @@ ShepherdCurveModel <- R6Class (
       self$model_name = "Shepherd Curve w/ Lognormal Error"
 
       #Set Active Bindings
-      self$set_alpha <- alpha
-      self$set_beta <- beta
-      self$set_kpar <- kpar
-      self$set_variance <- variance
+      private$.alpha <- alpha
+      private$.beta <- beta
+      private$.kpar <- kpar
+      private$.variance <- variance
 
     },
 
@@ -396,10 +414,10 @@ ShepherdCurveModel <- R6Class (
 
       cli_text("{self$model_name}")
       cli_ul()
-      cli_li("Alpha: {.val {self$alpha}}")
-      cli_li("Beta: {.val {self$beta}}")
-      cli_li("k: {.val {self$kpar}}")
-      cli_li("Variance: {.val {self$variance}}")
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("k: {.val {private$.kpar}}")
+      cli_li("Variance: {.val {private$.variance}}")
       cli_end()
 
     }
@@ -412,10 +430,10 @@ ShepherdCurveModel <- R6Class (
     #' current value if no argument was passed
     set_kpar = function (value) {
       if(missing(value)){
-        return(self$kpar)
+        return(private$.kpar)
       }else{
         assert_numeric(value)
-        self$kpar <- value
+        private$.kpar <- value
       }
     }
   )
