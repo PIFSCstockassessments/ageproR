@@ -11,17 +11,10 @@ Shepherd Curve with Lognormal Error (Model #7)
 \section{Super classes}{
 \code{\link[AGEPROjson:RecruitModel]{AGEPROjson::RecruitModel}} -> \code{AGEPROjson::ParametricRecruitModel} -> \code{ShepherdCurveModel}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{kpar}}{Stock Recruitment Parameter, k}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{set_kpar}}{\cr
+\item{\code{kpar}}{\cr
 Sets the Parametric Curve Parameter, k. Returns the
 current value if no argument was passed}
 }

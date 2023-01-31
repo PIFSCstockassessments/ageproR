@@ -382,8 +382,6 @@ ShepherdCurveModel <- R6Class (
   ),
   public = list (
 
-    #' @field kpar Stock Recruitment Parameter, k
-    kpar = NULL,
 
     #' @description
     #' Initializes the Shepherd Curve Model
@@ -425,10 +423,11 @@ ShepherdCurveModel <- R6Class (
   ),
   active = list (
 
-    #' @field set_kpar \cr
+    #' @field kpar \cr
     #' Sets the Parametric Curve Parameter, k. Returns the
     #' current value if no argument was passed
-    set_kpar = function (value) {
+    #'
+    kpar = function (value) {
       if(missing(value)){
         return(private$.kpar)
       }else{
