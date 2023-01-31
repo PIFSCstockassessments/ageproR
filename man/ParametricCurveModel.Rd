@@ -24,6 +24,18 @@ Recruitment Model Description
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+
+\item{\code{set_alpha}}{\cr
+Sets the Parametric Curve Parameter, alpha. Returns the
+current value if no argument was passed}
+
+\item{\code{set_beta}}{\cr
+Sets the Parametric Curve Parameter, beta. Returns the
+current value if no argument was passed}
+
+\item{\code{set_variance}}{\cr
+Sets the Parametric Curve Parameter, variance. Returns the
+current value if no argument was passed.}
 }
 \if{html}{\out{</div>}}
 }
@@ -31,7 +43,6 @@ Recruitment Model Description
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ParametricRecruitModel-new}{\code{ParametricCurveModel$new()}}
-\item \href{#method-ParametricRecruitModel-set}{\code{ParametricCurveModel$set()}}
 \item \href{#method-ParametricRecruitModel-print}{\code{ParametricCurveModel$print()}}
 \item \href{#method-ParametricRecruitModel-clone}{\code{ParametricCurveModel$clone()}}
 }
@@ -51,30 +62,6 @@ Instantiate Parametric Recruitment Curve Model
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 
-\item{\code{alpha}}{\cr
-Stock Recruitment Parameter, alpha}
-
-\item{\code{beta}}{\cr
-Stock Recruitment Parameter, beta}
-
-\item{\code{variance}}{\cr
-variance}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ParametricRecruitModel-set"></a>}}
-\if{latex}{\out{\hypertarget{method-ParametricRecruitModel-set}{}}}
-\subsection{Method \code{set()}}{
-Sets Parametric Curve parameters
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ParametricCurveModel$set(alpha, beta, variance)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
 \item{\code{alpha}}{\cr
 Stock Recruitment Parameter, alpha}
 

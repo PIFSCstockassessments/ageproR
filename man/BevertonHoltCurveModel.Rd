@@ -22,7 +22,6 @@ Beverton-Holt w/ Lognormal Error
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="ParametricRecruitModel" data-id="print"><a href='../../AGEPROjson/html/ParametricRecruitModel.html#method-ParametricRecruitModel-print'><code>AGEPROjson::ParametricRecruitModel$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="ParametricRecruitModel" data-id="set"><a href='../../AGEPROjson/html/ParametricRecruitModel.html#method-ParametricRecruitModel-set'><code>AGEPROjson::ParametricRecruitModel$set()</code></a></span></li>
 </ul>
 </details>
 }}

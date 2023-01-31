@@ -68,7 +68,6 @@ NullRecruitModel <- R6Class(
 #' @inherit RecruitModel description
 #'
 #' @template model_num
-#' @template recruit_data
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
@@ -165,6 +164,7 @@ EmpiricalRecruitModel <- R6Class(
   ),
   active = list(
 
+    #' @field recruit_data gets JSON-ready Recruit Model Data
     recruit_data = function () {
       return(list(points=self$rec_points,
            recruits=self$rec_array))
@@ -215,9 +215,11 @@ EmpiricalCDFModel <- R6Class(
 #' @inherit RecruitModel description
 #'
 #' @template model_num
-#' @template parametric_curve
-#' @template recruit_data
+#' @template parametric_parameters
+#' @template parametric_active_fields
 #' @template elipses
+#'
+#' @importFrom checkmate assert_numeric
 #'
 #' @export
 ParametricCurveModel <- R6Class(
@@ -242,19 +244,15 @@ ParametricCurveModel <- R6Class(
                            beta=0,
                            variance=0) {
 
-      self$set(alpha, beta, variance)
+      #self$set(alpha, beta, variance)
+      #Set to Active Bindings
+      self$set_alpha <- alpha
+      self$set_beta <- beta
+      self$set_variance <- variance
+
+      #Set Model Number and Name
       super$initialize(model_num,2)
 
-    },
-
-    #' @description
-    #' Sets Parametric Curve parameters
-    #'
-    set = function (alpha, beta, variance) {
-
-      self$alpha = alpha
-      self$beta = beta
-      self$variance = variance
     },
 
     #' @description
@@ -274,18 +272,49 @@ ParametricCurveModel <- R6Class(
   ),
   active = list (
 
+
     recruit_data = function () {
       return(list(alpha=self$alpha,
                   beta=self$beta,
                   variance=self$variance))
 
+    },
+
+
+    set_alpha = function (value) {
+      if(missing(value)){
+        return(self$alpha)
+      }else{
+        assert_numeric(value)
+        self$alpha <- value
+      }
+    },
+
+
+    set_beta = function(value) {
+      if(missing(value)){
+        return(self$beta)
+      }else{
+        assert_numeric(value)
+        self$beta <- value
+      }
+    },
+
+    set_variance = function(value) {
+      if(missing(value)){
+        return(self$variance)
+      }else{
+        assert_numeric(value)
+        self$variance <- value
+      }
     }
+
   )
 )
 
 #' Beverton-Holt w/ Lognormal Error
 #'
-#' @template parametric_curve
+#' @template parametric_parameters
 #'
 BevertonHoltCurveModel <- R6Class (
   "BevertonHoltCurveModel",
@@ -306,7 +335,7 @@ BevertonHoltCurveModel <- R6Class (
 
 #'Ricker Curve #/ Lognormal Error (Model #6)
 #'
-#'@template parametric_curve
+#'@template parametric_parameters
 #'
 RickerCurveModel <- R6Class (
   "RickerCurveModel",
@@ -327,7 +356,7 @@ RickerCurveModel <- R6Class (
 
 #' Shepherd Curve with Lognormal Error (Model #7)
 #'
-#' @template parametric_curve
+#' @template parametric_parameters
 #' @template elipses
 #'
 ShepherdCurveModel <- R6Class (
@@ -347,24 +376,17 @@ ShepherdCurveModel <- R6Class (
                            kpar = 0,
                            variance = 0) {
 
-      self$set(alpha, beta, kpar, variance)
+      #self$set(alpha, beta, kpar, variance)
       self$model_num = 7
       self$model_group = 2
       self$model_name = "Shepherd Curve w/ Lognormal Error"
 
+      #Set Active Bindings
+      self$set_alpha <- alpha
+      self$set_beta <- beta
+      self$set_kpar <- kpar
+      self$set_variance <- variance
 
-    },
-
-    #' @description
-    #' Sets Parametric Recruitment Parameters
-    #'
-    #' @param kpar kpar
-    set = function (alpha, beta, kpar, variance) {
-
-      self$alpha = alpha
-      self$beta = beta
-      self$kpar = kpar
-      self$variance = variance
     },
 
     #' @description
@@ -382,5 +404,19 @@ ShepherdCurveModel <- R6Class (
 
     }
 
+  ),
+  active = list (
+
+    #' @field set_kpar \cr
+    #' Sets the Parametric Curve Parameter, k. Returns the
+    #' current value if no argument was passed
+    set_kpar = function (value) {
+      if(missing(value)){
+        return(self$kpar)
+      }else{
+        assert_numeric(value)
+        self$kpar <- value
+      }
+    }
   )
 )

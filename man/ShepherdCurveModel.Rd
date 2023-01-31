@@ -18,11 +18,19 @@ Shepherd Curve with Lognormal Error (Model #7)
 }
 \if{html}{\out{</div>}}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{set_kpar}}{\cr
+Sets the Parametric Curve Parameter, k. Returns the
+current value if no argument was passed}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ShepherdCurveModel-new}{\code{ShepherdCurveModel$new()}}
-\item \href{#method-ShepherdCurveModel-set}{\code{ShepherdCurveModel$set()}}
 \item \href{#method-ShepherdCurveModel-print}{\code{ShepherdCurveModel$print()}}
 \item \href{#method-ShepherdCurveModel-clone}{\code{ShepherdCurveModel$clone()}}
 }
@@ -34,32 +42,6 @@ Shepherd Curve with Lognormal Error (Model #7)
 Initializes the Shepherd Curve Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ShepherdCurveModel$new(alpha = 0, beta = 0, kpar = 0, variance = 0)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{alpha}}{\cr
-Stock Recruitment Parameter, alpha}
-
-\item{\code{beta}}{\cr
-Stock Recruitment Parameter, beta}
-
-\item{\code{kpar}}{kpar}
-
-\item{\code{variance}}{\cr
-variance}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ShepherdCurveModel-set"></a>}}
-\if{latex}{\out{\hypertarget{method-ShepherdCurveModel-set}{}}}
-\subsection{Method \code{set()}}{
-Sets Parametric Recruitment Parameters
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ShepherdCurveModel$set(alpha, beta, kpar, variance)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -6,3 +6,4 @@
 #'
 #' @param variance \cr
 #' variance
+#'
