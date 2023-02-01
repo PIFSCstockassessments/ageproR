@@ -12,13 +12,6 @@ these models.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{rec_fac}}{Recruitment Scaling Factor. Multiplier to convert
-recruitment submodel's recruitment units to absolute numbers of fish}
-
-\item{\code{ssb_fac}}{Spawning Biomass (SSB) Scaling Factor. Multiplier to
-convert recruitment submodel's SSB to absolute spawning weight of fish
-in kilograms (kg)}
-
 \item{\code{max_rec_obs}}{Recruitment submodel's maximum number of observations}
 
 \item{\code{rec_model_num}}{Recruitment Type}
@@ -34,9 +27,13 @@ in kilograms (kg)}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{recruit_scaling_factor}}{Sets the Recruitment Scaling factor}
+\item{\code{recruit_scaling_factor}}{Sets the Recruitment Scaling factor.
+Multiplier to convert recruitment submodel's recruitment units to
+absolute numbers of fish}
 
-\item{\code{ssb_scaling_factor}}{Sets the SSB Scaling Factor}
+\item{\code{ssb_scaling_factor}}{Sets the SSB Scaling Factor. Multiplier to
+convert recruitment submodel's SSB to absolute spawning weight of fish
+in kilograms (kg)}
 }
 \if{html}{\out{</div>}}
 }

@@ -24,15 +24,6 @@ Recruitment <- R6Class(
 
   public = list(
 
-    #' @field rec_fac Recruitment Scaling Factor. Multiplier to convert
-    #' recruitment submodel's recruitment units to absolute numbers of fish
-    rec_fac = 0,
-
-    #' @field ssb_fac Spawning Biomass (SSB) Scaling Factor. Multiplier to
-    #' convert recruitment submodel's SSB to absolute spawning weight of fish
-    #' in kilograms (kg)
-    ssb_fac = 0,
-
     #' @field max_rec_obs Recruitment submodel's maximum number of observations
     max_rec_obs = 1000,
 
@@ -131,8 +122,8 @@ Recruitment <- R6Class(
 
       cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
       cli_ul()
-      cli_li("Recruitment Scaling Factor: {.val {self$rec_fac}}")
-      cli_li("SSB Scaling Factor: {.val {self$ssb_fac}}")
+      cli_li("Recruitment Scaling Factor: {.val {self$recruit_scaling_factor}}")
+      cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
       cli_par()
       cli_end()
       cli_alert_info("Recruitment Probability:")
@@ -192,24 +183,29 @@ Recruitment <- R6Class(
     }
 
   ), active = list (
-    #' @field recruit_scaling_factor Sets the Recruitment Scaling factor
-    recruit_scaling_factor = function(x) {
-      if(missing(x)){
-        return(self$rec_fac)
+
+    #' @field recruit_scaling_factor Sets the Recruitment Scaling factor.
+    #' Multiplier to convert recruitment submodel's recruitment units to
+    #' absolute numbers of fish
+    recruit_scaling_factor = function(value) {
+      if(missing(value)){
+        return(private$.recruit_scaling_factor)
       }else{
-        assert_numeric(x)
-        self$rec_fac <- x
+        assert_numeric(value)
+        private$.recruit_scaling_factor <- value
       }
 
     },
 
-    #' @field ssb_scaling_factor Sets the SSB Scaling Factor
-    ssb_scaling_factor = function(x) {
-      if(missing(x)){
-        return(self$ssb_fac)
+    #' @field ssb_scaling_factor Sets the SSB Scaling Factor. Multiplier to
+    #' convert recruitment submodel's SSB to absolute spawning weight of fish
+    #' in kilograms (kg)
+    ssb_scaling_factor = function(value) {
+      if(missing(value)){
+        return(private$.ssb_scaling_factor)
       }else{
-        assert_numeric(x)
-        self$ssb_fac <- x
+        assert_numeric(value)
+        private$.ssb_scaling_factor <- value
       }
 
     }
@@ -221,6 +217,10 @@ Recruitment <- R6Class(
     qty_seq_years = NULL,
     qty_rec_models = NULL,
     req_prob_years = NULL,
+
+    .recruit_scaling_factor=NULL,
+    .ssb_scaling_factor=NULL,
+
 
     cli_recruit_rule = function() {
       d <- cli_div(theme= list(rule= list(
