@@ -78,7 +78,7 @@ Recruitment <- R6Class(
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
-        self$model_collection_list[[recruit]] <- self$get_recruit_data(self$rec_model_num[[recruit]], self$seq_yrs)
+        self$model_collection_list[[recruit]] <- self$set_recruit_model(self$rec_model_num[[recruit]], self$seq_yrs)
       }
 
 
@@ -86,8 +86,8 @@ Recruitment <- R6Class(
 
 
     #' @description
-    #' Gets Recruitment Data
-    get_recruit_data = function(model_num, seq_years){
+    #' Initializes RecruitModel Data
+    set_recruit_model = function(model_num, seq_years){
 
       if(model_num == 3){
         return(EmpiricalDistributionModel$new(seq_years))

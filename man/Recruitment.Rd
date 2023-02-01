@@ -42,7 +42,7 @@ in kilograms (kg)}
 \itemize{
 \item \href{#method-Recruitment-new}{\code{Recruitment$new()}}
 \item \href{#method-Recruitment-set_recruit_data}{\code{Recruitment$set_recruit_data()}}
-\item \href{#method-Recruitment-get_recruit_data}{\code{Recruitment$get_recruit_data()}}
+\item \href{#method-Recruitment-set_recruit_model}{\code{Recruitment$set_recruit_model()}}
 \item \href{#method-Recruitment-print}{\code{Recruitment$print()}}
 \item \href{#method-Recruitment-print_recruit}{\code{Recruitment$print_recruit()}}
 \item \href{#method-Recruitment-view_recruit_data}{\code{Recruitment$view_recruit_data()}}
@@ -92,12 +92,12 @@ Array representing the Projection Time Horizon}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Recruitment-get_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-Recruitment-get_recruit_data}{}}}
-\subsection{Method \code{get_recruit_data()}}{
-Gets Recruitment Data
+\if{html}{\out{<a id="method-Recruitment-set_recruit_model"></a>}}
+\if{latex}{\out{\hypertarget{method-Recruitment-set_recruit_model}{}}}
+\subsection{Method \code{set_recruit_model()}}{
+Initializes RecruitModel Data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Recruitment$get_recruit_data(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Recruitment$set_recruit_model(model_num, seq_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
