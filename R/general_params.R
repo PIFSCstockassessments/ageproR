@@ -11,8 +11,8 @@
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical test_true assert_number
-GeneralParams <- R6Class(
-  classname = "GeneralParams",
+general_params <- R6Class(
+  classname = "general_params",
 
   public = list (
     #' @field yr_start First Year in Projection

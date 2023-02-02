@@ -55,7 +55,7 @@ agepro_model <- R6Class(
 
 
 
-      self$general <- GeneralParams$new(yr_start,
+      self$general <- general_params$new(yr_start,
                                         yr_end,
                                         age_begin,
                                         age_end,
