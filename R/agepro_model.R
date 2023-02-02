@@ -15,8 +15,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number
 #' @importFrom utils browseURL
-AgeproModel <- R6Class(
-  classname = "AgeproModel",
+agepro_model <- R6Class(
+  classname = "agepro_model",
 
   public = list(
 
