@@ -66,7 +66,7 @@ agepro_model <- R6Class(
                                         seed)
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
-      self$recruit <- Recruitment$new(0, self$general$seq_years)
+      self$recruit <- recruitment$new(0, self$general$seq_years)
 
     },
 

@@ -19,8 +19,8 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_numeric assert_list assert_r6
 #'
-Recruitment <- R6Class(
-  "Recruitment",
+recruitment <- R6Class(
+  "recruitment",
 
   public = list(
 
