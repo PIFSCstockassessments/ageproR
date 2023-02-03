@@ -71,7 +71,7 @@ recruitment <- R6Class(
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$qty_rec_models) {
 
-        # Recruitment Probability: Fill the timeseries with a recruitment
+        # Recruitment Probability: Fill the time series with a recruitment
         # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
