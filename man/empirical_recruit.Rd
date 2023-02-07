@@ -14,10 +14,6 @@ Recruitment Model Description
 \describe{
 \item{\code{rec_points}}{num obs}
 
-\item{\code{with_ssb}}{with ssb}
-
-\item{\code{low_bound}}{Lowest significant number bound}
-
 \item{\code{rec_array}}{Recruitment Inupt Array (data)}
 }
 \if{html}{\out{</div>}}
@@ -25,6 +21,10 @@ Recruitment Model Description
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{with_ssb}}{with ssb}
+
+\item{\code{low_bound}}{Lowest significant number bound}
+
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}

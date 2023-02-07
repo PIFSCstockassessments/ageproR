@@ -96,21 +96,21 @@ null_recruit_model <- R6Class(
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int assert_integerish
+#' @importFrom checkmate test_int assert_integerish assert_logical
 #' @export
 empirical_recruit <- R6Class(
   "empirical_recruit",
   inherit = recruit_model,
+  private = list(
+
+    .low_bound = 0.0001,
+    .with_ssb = FALSE
+
+  ),
   public = list(
 
     #' @field rec_points num obs
     rec_points = NULL,
-
-    #' @field with_ssb with ssb
-    with_ssb = NULL,
-
-    #' @field low_bound Lowest significant number bound
-    low_bound = 0.0001,
 
     #' @field rec_array Recruitment Inupt Array (data)
     rec_array = NULL,
@@ -187,6 +187,21 @@ empirical_recruit <- R6Class(
 
   ),
   active = list(
+
+    #' @field with_ssb with ssb
+    with_ssb = function(value) {
+      if(missing(value)) {
+        private$.with_ssb
+      }else {
+        assert_logical(value)
+        private$.with_ssb <- value
+      }
+    },
+
+    #' @field low_bound Lowest significant number bound
+    low_bound = function() {
+      private$.low_bound
+    },
 
     #' @field recruit_data
     #' gets JSON-ready Recruit Model Data
