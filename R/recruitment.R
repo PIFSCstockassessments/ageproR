@@ -141,8 +141,8 @@ recruitment <- R6Class(
         cli_par()
         cli_alert_info(c("Recruit {recruit} of {private$qty_rec_models} : ",
                          "Recruitment Model #{self$rec_model_num[[recruit]]} "))
-        #Verify class inherits from "RecruitModel"
-        assert_r6(self$model_collection_list[[recruit]], "RecruitModel")
+        #Verify class inherits from "recruit_model"
+        assert_r6(self$model_collection_list[[recruit]], "recruit_model")
         self$model_collection_list[[recruit]]$print()
         cli_end()
       }
