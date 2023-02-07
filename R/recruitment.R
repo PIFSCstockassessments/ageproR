@@ -97,22 +97,22 @@ recruitment <- R6Class(
     set_recruit_model = function(model_num, seq_years) {
 
       if (model_num == 3) {
-        return(EmpiricalDistributionModel$new(seq_years))
+        return(empirical_distribution_model$new(seq_years))
 
       } else if (model_num == 5) {
-        return(BevertonHoltCurveModel$new())
+        return(beverton_holt_curve_model$new())
 
       } else if (model_num == 6) {
-        return(RickerCurveModel$new())
+        return(ricker_curve_model$new())
 
       } else if (model_num == 7) {
-        return(ShepherdCurveModel$new())
+        return(shepherd_curve_model$new())
 
       } else if (model_num == 14) {
-        return(EmpiricalCDFModel$new(seq_years))
+        return(empirical_cdf_model$new(seq_years))
 
       } else {
-        return(NullRecruitModel$new())
+        return(null_recruit_model$new())
       }
 
     },
