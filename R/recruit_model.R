@@ -14,9 +14,10 @@
 #'
 #' @import cli
 #' @importFrom R6 R6Class
+#'
 #' @export
-RecruitModel <- R6Class(
-  "RecruitModel",
+recruit_model <- R6Class(
+  "recruit_model",
 
   public = list (
 
@@ -38,12 +39,12 @@ RecruitModel <- R6Class(
 
 
 #' Null Recruitment UI Fallback Default
-#' @inherit RecruitModel description
+#' @inherit recruit_model description
 #' @template elipses
 #' @export
 NullRecruitModel <- R6Class(
   "NullRecruitModel",
-  inherit = RecruitModel,
+  inherit = recruit_model,
   public = list (
 
     #'@description
@@ -65,7 +66,7 @@ NullRecruitModel <- R6Class(
 )
 
 #' Empirical Recritment Model Data
-#' @inherit RecruitModel description
+#' @inherit recruit_model description
 #'
 #' @template model_num
 #' @template elipses
@@ -76,7 +77,7 @@ NullRecruitModel <- R6Class(
 #' @export
 EmpiricalRecruitModel <- R6Class(
   "EmpiricalRecruitModel",
-  inherit = RecruitModel,
+  inherit = recruit_model,
   public = list (
 
     #' @field rec_points num obs
@@ -212,7 +213,7 @@ EmpiricalCDFModel <- R6Class(
 )
 
 #' Parametric Recruitment Model
-#' @inherit RecruitModel description
+#' @inherit recruit_model description
 #'
 #' @template model_num
 #' @template parametric_parameters
@@ -223,7 +224,7 @@ EmpiricalCDFModel <- R6Class(
 #' @export
 ParametricCurveModel <- R6Class(
   "ParametricRecruitModel",
-  inherit = RecruitModel,
+  inherit = recruit_model,
   private = list (
 
     .alpha = NULL,
