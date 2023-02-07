@@ -188,11 +188,19 @@ empirical_recruit <- R6Class(
   ),
   active = list(
 
-    #' @field recruit_data gets JSON-ready Recruit Model Data
+    #' @field recruit_data
+    #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
       return(list(points = self$rec_points,
            recruits = self$rec_array))
+    },
+
+    #' @field super_
+    #' Binds the super class with the empirical_recruit child classes
+    super_ = function() {
+      super
     }
+
   )
   #TODO: Set MaxRecObs
 )
@@ -304,6 +312,12 @@ parametric_curve <- R6Class(
         assert_numeric(value)
         private$.variance <- value
       }
+    },
+
+    #' @field super_ \cr
+    #' Binds the super class to parametric_curve child classes
+    super_ = function(value) {
+      super
     }
 
   ),

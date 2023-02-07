@@ -25,6 +25,9 @@ current value if no argument was passed}
 \item{\code{variance}}{\cr
 Sets the Parametric Curve Parameter, variance. Returns the
 current value if no argument was passed.}
+
+\item{\code{super_}}{\cr
+Binds the super class to parametric_curve child classes}
 }
 \if{html}{\out{</div>}}
 }

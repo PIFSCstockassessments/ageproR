@@ -26,6 +26,8 @@ Recruitment Model Description
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+
+\item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }
 \if{html}{\out{</div>}}
 }
