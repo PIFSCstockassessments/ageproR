@@ -32,7 +32,7 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates a new instance of this class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new(model_num, model_group)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -40,8 +40,6 @@ Creates a new instance of this class
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{model_group}}{Model Type}
 }
 \if{html}{\out{</div>}}
 }

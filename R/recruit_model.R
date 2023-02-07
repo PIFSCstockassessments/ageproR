@@ -24,10 +24,9 @@ recruit_model <- R6Class(
     #' @description
     #' Creates a new instance of this class
     #'
-    #' @param model_group Model Type
-    initialize = function(model_num, model_group) {
+    initialize = function(model_num) {
       self$model_num <- model_num
-      self$model_group <- model_group
+
     }
   ),
   active = list(
@@ -76,7 +75,8 @@ null_recruit_model <- R6Class(
     initialize = function() {
 
       self$model_name <- "NULL Recruitment"
-      super$initialize(0, 0)
+      self$model_group <- 0
+      super$initialize(0)
 
     },
     #' @description
@@ -138,7 +138,8 @@ empirical_recruit <- R6Class(
         self$seq_yrs <- rec_points
       }
 
-      super$initialize(model_num, 1)
+      self$model_group <- 1
+      super$initialize(model_num)
       self$new_obs_table()
     },
 
@@ -353,7 +354,8 @@ parametric_curve <- R6Class(
       private$.variance <- variance
 
       #Set Model Number and Name
-      super$initialize(model_num, 2)
+      self$model_group <- 2
+      super$initialize(model_num)
 
     },
 
