@@ -7,11 +7,6 @@
 #'
 #' @template model_num
 #'
-#' @field model_num Model number
-#' @field model_group Group type of Recruitment Model
-#' @field model_name Name of Recruitment Model
-#' @field projected_years Time Series of Projected Years
-#'
 #' @import cli
 #' @importFrom R6 R6Class
 #'
@@ -37,22 +32,25 @@ recruit_model <- R6Class(
   ),
   active = list(
 
+    #' @field model_num Model number
     model_num = function(value) {
       private$.model_num
     },
 
+    #' @field model_group Group type of Recruitment Model
     model_group = function() {
       private$.model_group
     },
 
+    #' @field model_name Name of Recruitment Model
     model_name = function() {
       private$.model_name
-    }
+    },
 
+    #' @field projected_years Time Series of Projected Years
     projected_years = function() {
       private$.projected_years
     }
-
 
 
   )

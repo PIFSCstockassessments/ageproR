@@ -6,8 +6,8 @@
 \description{
 Recruitment Model Description
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{model_num}}{Model number}
 
@@ -15,7 +15,7 @@ Recruitment Model Description
 
 \item{\code{model_name}}{Name of Recruitment Model}
 
-\item{\code{seq_yrs}}{Time Series of Projected Years}
+\item{\code{projected_years}}{Time Series of Projected Years}
 }
 \if{html}{\out{</div>}}
 }
