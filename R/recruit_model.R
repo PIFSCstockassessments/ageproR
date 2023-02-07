@@ -10,7 +10,7 @@
 #' @field model_num Model number
 #' @field model_group Group type of Recruitment Model
 #' @field model_name Name of Recruitment Model
-#' @field seq_yrs Time Series of Projected Years
+#' @field projected_years Time Series of Projected Years
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -18,13 +18,13 @@
 #' @export
 recruit_model <- R6Class(
   "recruit_model",
-
+  private = list(
+    .model_num = NULL,
+    .model_group = NULL,
+    .model_name = NULL,
+    .projected_years = NULL
+  ),
   public = list(
-
-    model_num = NULL,
-    model_group = NULL,
-    model_name = NULL,
-    seq_yrs = NULL,
 
     #' @description
     #' Creates a new instance of this class
@@ -34,6 +34,27 @@ recruit_model <- R6Class(
       self$model_num <- model_num
       self$model_group <- model_group
     }
+  ),
+  active = list(
+
+    model_num = function(value) {
+      private$.model_num
+    },
+
+    model_group = function() {
+      private$.model_group
+    },
+
+    model_name = function() {
+      private$.model_name
+    }
+
+    projected_years = function() {
+      private$.projected_years
+    }
+
+
+
   )
 )
 
