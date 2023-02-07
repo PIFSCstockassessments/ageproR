@@ -33,7 +33,7 @@ recruit_model <- R6Class(
   active = list(
 
     #' @field model_num Model number
-    model_num = function(value) {
+    model_num = function() {
       private$.model_num
     },
 
@@ -48,8 +48,13 @@ recruit_model <- R6Class(
     },
 
     #' @field projected_years Time Series of Projected Years
-    projected_years = function() {
-      private$.projected_years
+    projected_years = function(value) {
+      if(missing(value)) {
+        private$.projected_years
+      }else {
+        assert_numeric(value)
+        private$.projected_years <- value
+      }
     }
 
 
