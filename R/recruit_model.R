@@ -83,19 +83,16 @@ recruit_model <- R6Class(
 null_recruit_model <- R6Class(
   "null_recruit_model",
   inherit = recruit_model,
-  private = list(
-
-    .model_name = "NULL Recruitment",
-    .model_group = 0,
-    .model_num = 0
-
-  ),
   public = list(
 
     #'@description
     #'Initialize
     #'
     initialize = function() {
+
+      super$model_name <- "NULL Recruitment"
+      super$model_group <- 0
+      super$model_num <- 0
 
     },
 
