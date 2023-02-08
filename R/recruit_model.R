@@ -392,7 +392,6 @@ parametric_curve <- R6Class(
 
 
 
-
     },
 
     #' @description
@@ -413,7 +412,7 @@ parametric_curve <- R6Class(
 
 )
 
-#' Beverton-Holt w/ Lognormal Error
+#' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
 #' @template parametric_parameters
 #'
@@ -427,8 +426,9 @@ beverton_holt_curve_model <- R6Class(
                          beta = 0,
                          variance = 0) {
 
-      super$initialize(5, alpha, beta, variance)
-      self$model_name <- "Beverton-Holt Curve w/ Lognormal Error"
+      super$initialize(alpha, beta, variance)
+      super$super_$model_num <- 5
+      super$super_$model_name <- "Beverton-Holt Curve w/ Lognormal Error"
 
     }
   )
@@ -448,7 +448,7 @@ ricker_curve_model <- R6Class(
                           beta = 0,
                           variance = 0) {
 
-      super$initialize(6, alpha, beta, variance)
+      super$initialize(alpha, beta, variance)
       super$super_$model_num <- 6
       super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
 
@@ -469,7 +469,7 @@ shepherd_curve_model <- R6Class(
 
     .alpha = NULL,
     .beta = NULL,
-    .kpar = NULL,
+    .kpar = 0.1,
     .variance = NULL
 
   ),
@@ -480,31 +480,20 @@ shepherd_curve_model <- R6Class(
     #' Initializes the Shepherd Curve Model
     #'
     #' @param kpar kpar
-    initialize = function(alpha = 0,
-                           beta = 0,
-                           kpar = 0,
-                           variance = 0) {
-
-      super$super_$model_num <- 7
-      super$super_$model_group <- 2
-      super$super_$model_name <- "Shepherd Curve w/ Lognormal Error"
+    initialize = function(alpha = 0.1,
+                           beta = 0.1,
+                           kpar = 0.1,
+                           variance = 0.1) {
 
       #Set Active Bindings
-      if(!missing(alpha)){
-        private$.alpha <- alpha
-      }
-
-      if(!missing(beta)){
-        private$.beta <- beta
-      }
-
-      if(!missing(kpar)){
+      if(!missing(kpar)) {
         private$.kpar <- kpar
       }
 
-      if(!missing(variance)){
-        private$.variance <- variance
-      }
+      super$initialize(alpha, beta, variance)
+      super$super_$model_num <- 7
+      super$super_$model_name <- "Shepherd Curve w/ Lognormal Error"
+
 
 
     },

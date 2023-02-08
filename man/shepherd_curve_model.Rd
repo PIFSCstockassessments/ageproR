@@ -34,7 +34,7 @@ current value if no argument was passed}
 \subsection{Method \code{new()}}{
 Initializes the Shepherd Curve Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{shepherd_curve_model$new(alpha = 0, beta = 0, kpar = 0, variance = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{shepherd_curve_model$new(alpha = 0.1, beta = 0.1, kpar = 0.1, variance = 0.1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

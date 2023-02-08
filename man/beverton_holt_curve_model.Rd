@@ -2,11 +2,11 @@
 % Please edit documentation in R/recruit_model.R
 \name{beverton_holt_curve_model}
 \alias{beverton_holt_curve_model}
-\title{Beverton-Holt w/ Lognormal Error}
+\title{Beverton-Holt w/ Lognormal Error (Model #5)}
 \description{
-Beverton-Holt w/ Lognormal Error
+Beverton-Holt w/ Lognormal Error (Model #5)
 
-Beverton-Holt w/ Lognormal Error
+Beverton-Holt w/ Lognormal Error (Model #5)
 }
 \section{Super classes}{
 \code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{\link[AGEPROjson:parametric_curve]{AGEPROjson::parametric_curve}} -> \code{beverton_holt_curve_model}
