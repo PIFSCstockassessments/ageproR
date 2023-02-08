@@ -294,9 +294,9 @@ parametric_curve <- R6Class(
   inherit = recruit_model,
   private = list(
 
-    .alpha = NULL,
-    .beta = NULL,
-    .variance = NULL,
+    .alpha = 0,
+    .beta = 0,
+    .variance = 0,
     .model_group = 2
 
   ),
@@ -464,10 +464,10 @@ shepherd_curve_model <- R6Class(
   inherit = parametric_curve,
   private = list(
 
-    .alpha = NULL,
-    .beta = NULL,
+    .alpha = 0.1,
+    .beta = 0.1,
     .kpar = 0.1,
-    .variance = NULL
+    .variance = 0.1
 
   ),
   public = list(
