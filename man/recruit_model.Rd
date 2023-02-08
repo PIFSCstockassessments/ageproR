@@ -32,17 +32,9 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates a new instance of this class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-recruit_model-clone"></a>}}

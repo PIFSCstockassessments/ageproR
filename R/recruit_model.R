@@ -9,6 +9,7 @@
 #'
 #' @import cli
 #' @importFrom R6 R6Class
+#' @importFrom checkmate assert_character assert_numeric
 #'
 #' @export
 recruit_model <- R6Class(
@@ -24,26 +25,41 @@ recruit_model <- R6Class(
     #' @description
     #' Creates a new instance of this class
     #'
-    initialize = function(model_num) {
-      self$model_num <- model_num
+    initialize = function() {
 
     }
   ),
   active = list(
 
     #' @field model_num Model number
-    model_num = function() {
-      private$.model_num
+    model_num = function(value) {
+      if(missing(value)){
+        private$.model_num
+      }else {
+        assert_numeric(value, lower = 0, upper = 21)
+        private$.model_num <- value
+      }
+
     },
 
     #' @field model_group Group type of Recruitment Model
-    model_group = function() {
-      private$.model_group
+    model_group = function(value) {
+      if(missing(value)) {
+        private$.model_group
+      }else {
+        assert_numeric(value, lower = 0, upper = 4)
+        private$.model_group <- value
+      }
     },
 
     #' @field model_name Name of Recruitment Model
-    model_name = function() {
-      private$.model_name
+    model_name = function(value) {
+      if(missing(value)) {
+        private$.model_name
+      }else {
+        assert_character(value)
+        private$.model_name <- value
+      }
     },
 
     #' @field projected_years Time Series of Projected Years
@@ -129,7 +145,9 @@ empirical_recruit <- R6Class(
     initialize = function(model_num, rec_points, with_ssb = FALSE) {
 
       self$model_name <- "Empirical Recruitment Class"
-      self$with_ssb <- with_ssb
+      if(!missing(with_ssb)){
+        private$.with_ssb <- with_ssb
+      }
 
       #Handle/Check rec_points for single or array vector
       #TODO: Modularize this rec_points check
@@ -143,7 +161,7 @@ empirical_recruit <- R6Class(
       }
 
       self$model_group <- 1
-      super$initialize(model_num)
+
       self$new_obs_table()
     },
 
@@ -359,7 +377,7 @@ parametric_curve <- R6Class(
 
       #Set Model Number and Name
       self$model_group <- 2
-      super$initialize(model_num)
+
 
     },
 
@@ -451,9 +469,9 @@ shepherd_curve_model <- R6Class(
                            kpar = 0,
                            variance = 0) {
 
-      self$model_num <- 7
-      self$model_group <- 2
-      self$model_name <- "Shepherd Curve w/ Lognormal Error"
+      super$super_$model_num <- 7
+      super$super_$model_group <- 2
+      super$super_$model_name <- "Shepherd Curve w/ Lognormal Error"
 
       #Set Active Bindings
       private$.alpha <- alpha
