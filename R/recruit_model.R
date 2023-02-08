@@ -299,7 +299,8 @@ parametric_curve <- R6Class(
 
     .alpha = NULL,
     .beta = NULL,
-    .variance = NULL
+    .variance = NULL,
+    .model_group = 2
 
   ),
   active = list(
@@ -314,7 +315,7 @@ parametric_curve <- R6Class(
 
     },
 
-    #' @field alpha \cr
+    #' @field alpha
     #' Sets the Parametric Curve Parameter, alpha. Returns the
     #' current value if no argument was passed
     alpha = function(value) {
@@ -326,7 +327,7 @@ parametric_curve <- R6Class(
       }
     },
 
-    #' @field beta \cr
+    #' @field beta
     #' Sets the Parametric Curve Parameter, beta. Returns the
     #' current value if no argument was passed
     #'
@@ -339,7 +340,7 @@ parametric_curve <- R6Class(
       }
     },
 
-    #' @field variance \cr
+    #' @field variance
     #' Sets the Parametric Curve Parameter, variance. Returns the
     #' current value if no argument was passed.
     #'
@@ -352,7 +353,14 @@ parametric_curve <- R6Class(
       }
     },
 
-    #' @field super_ \cr
+    #' @field model_group Model group Number
+    #'
+    model_group = function() {
+      private$.model_group
+    },
+
+
+    #' @field super_
     #' Binds the super class to parametric_curve child classes
     super_ = function(value) {
       super
@@ -365,18 +373,24 @@ parametric_curve <- R6Class(
     #'@description
     #'Instantiate Parametric Recruitment Curve Model
     #'
-    initialize = function(model_num,
-                           alpha = 0,
+    initialize = function(alpha = 0,
                            beta = 0,
                            variance = 0) {
 
       #Set to Active Bindings
-      private$.alpha <- alpha
-      private$.beta <- beta
-      private$.variance <- variance
+      if(!missing(alpha)){
+        private$.alpha <- alpha
+      }
 
-      #Set Model Number and Name
-      self$model_group <- 2
+      if(!missing(beta)) {
+        private$.beta <- beta
+      }
+
+      if(!missing(variance)) {
+        private$.variance <- variance
+      }
+
+
 
 
     },
@@ -435,7 +449,9 @@ ricker_curve_model <- R6Class(
                           variance = 0) {
 
       super$initialize(6, alpha, beta, variance)
-      self$model_name <- "Ricker Curve w/ Lognonormal Error"
+      super$super_$model_num <- 6
+      super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
+
 
     }
   )
@@ -474,10 +490,22 @@ shepherd_curve_model <- R6Class(
       super$super_$model_name <- "Shepherd Curve w/ Lognormal Error"
 
       #Set Active Bindings
-      private$.alpha <- alpha
-      private$.beta <- beta
-      private$.kpar <- kpar
-      private$.variance <- variance
+      if(!missing(alpha)){
+        private$.alpha <- alpha
+      }
+
+      if(!missing(beta)){
+        private$.beta <- beta
+      }
+
+      if(!missing(kpar)){
+        private$.kpar <- kpar
+      }
+
+      if(!missing(variance)){
+        private$.variance <- variance
+      }
+
 
     },
 
