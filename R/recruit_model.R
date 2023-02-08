@@ -121,7 +121,8 @@ empirical_recruit <- R6Class(
   private = list(
 
     .low_bound = 0.0001,
-    .with_ssb = FALSE
+    .with_ssb = FALSE,
+    .model_group = 1
 
   ),
   public = list(
@@ -139,9 +140,10 @@ empirical_recruit <- R6Class(
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(model_num, rec_points, with_ssb = FALSE) {
+    initialize = function(rec_points, with_ssb = FALSE) {
 
-      self$model_name <- "Empirical Recruitment Class"
+      super$model_group <- 1
+
       if(!missing(with_ssb)){
         private$.with_ssb <- with_ssb
       }
@@ -151,10 +153,10 @@ empirical_recruit <- R6Class(
       assert_integerish(rec_points)
       if (test_int(rec_points)) {
         self$rec_points <- rec_points
-        self$seq_yrs <- 1:rec_points
+        super$projected_years <- 1:rec_points
       }else {
         self$rec_points <- length(rec_points)
-        self$seq_yrs <- rec_points
+        super$projected_years <- rec_points
       }
 
       self$model_group <- 1
@@ -195,7 +197,7 @@ empirical_recruit <- R6Class(
     },
 
     #' @description
-    #' Returns Recuit data as JSON
+    #' Returns Recruit data as JSON
     #'
     print_json = function() {
       #check
@@ -230,6 +232,8 @@ empirical_recruit <- R6Class(
            recruits = self$rec_array))
     },
 
+
+
     #' @field super_
     #' Binds the super class with the empirical_recruit child classes
     super_ = function() {
@@ -252,7 +256,7 @@ empirical_distribution_model <- R6Class(
     #' Initialize the Empirical Recruitment Distribution Model
     initialize = function(seq_years) {
 
-      super$initialize(3, seq_years, FALSE)
+      super$initialize(seq_years, FALSE)
       self$model_name <- "Empirical Recruitment Distribution"
 
     }
@@ -270,9 +274,9 @@ empirical_cdf_model <- R6Class(
     #' Initialize the Empirical CDF Model
     initialize = function(seq_years) {
 
-      super$initialize(14, seq_years, FALSE)
-      self$model_name <- "Empirical Cumulative Distribution Function " +
-        "of Recruitment"
+      super$initialize(seq_years, FALSE)
+      self$model_name <- paste0("Empirical Cumulative Distribution Function ",
+        "of Recruitment")
 
     }
   )
