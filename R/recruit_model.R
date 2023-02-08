@@ -67,6 +67,13 @@ recruit_model <- R6Class(
 null_recruit_model <- R6Class(
   "null_recruit_model",
   inherit = recruit_model,
+  private = list(
+
+    .model_name = "NULL Recruitment",
+    .model_group = 0,
+    .model_num = 0
+
+  ),
   public = list(
 
     #'@description
@@ -74,17 +81,14 @@ null_recruit_model <- R6Class(
     #'
     initialize = function() {
 
-      self$model_name <- "NULL Recruitment"
-      self$model_group <- 0
-      super$initialize(0)
-
     },
+
     #' @description
     #' Prints out NULL Recruiment Model Data
     print = function(...) {
-      cli_text("{self$model_name}")
-      cli_alert_warning("Replace with a valid recruitment model before " +
-                          "processing to AGEPRO calcualtion engine")
+      cli_text("{private$.model_name}")
+      cli_alert_warning(c("Replace with a valid recruitment model before ",
+                          "processing to AGEPRO calcualtion engine"))
     }
   )
 )
