@@ -34,7 +34,7 @@ recruit_model <- R6Class(
 
     #' @field model_num Model number
     model_num = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         private$.model_num
       }else {
         assert_numeric(value, lower = 0, upper = 21)
@@ -45,7 +45,7 @@ recruit_model <- R6Class(
 
     #' @field model_group Group type of Recruitment Model
     model_group = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         private$.model_group
       }else {
         assert_numeric(value, lower = 0, upper = 4)
@@ -55,7 +55,7 @@ recruit_model <- R6Class(
 
     #' @field model_name Name of Recruitment Model
     model_name = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         private$.model_name
       }else {
         assert_character(value)
@@ -65,12 +65,12 @@ recruit_model <- R6Class(
 
     #' @field projected_years Time Series of Projected Years
     projected_years = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         private$.projected_years
       }else {
         #Handle/Check 'value' for single or array vector
         assert_integerish(value)
-        if(test_int(value)) {
+        if (test_int(value)) {
           #Create vector 1 to 'value'
           private$.projected_years <- 1:value
         }else {
@@ -82,12 +82,12 @@ recruit_model <- R6Class(
     #' @field length_projected_years Length of projected_years counted as the
     #' the number of recruitment observations for some models.
     length_projected_years = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         private$.length_projected_years
       }else {
         #Handle/Check 'value' for single or array vector
         assert_integerish(value)
-        if(test_int(value)){
+        if (test_int(value)) {
           private$.length_projected_years <- value
         }else {
           private$.length_projected_years <- length(value)
@@ -147,7 +147,7 @@ empirical_recruit <- R6Class(
     .with_ssb = FALSE,
     .model_group = 1,
     .observed_points = 0,
-    .observed_year_array= NULL
+    .observed_year_array = NULL
 
   ),
   public = list(
@@ -166,13 +166,12 @@ empirical_recruit <- R6Class(
     initialize = function(rec_points, with_ssb = FALSE) {
 
       super$model_group <- 1
-      #super$length_projected_years <- rec_points
-      #super$projected_years <- rec_points
+
       self$observed_points <- rec_points
       self$observed_year_array <- rec_points
 
 
-      if(!missing(with_ssb)){
+      if (!missing(with_ssb)) {
         private$.with_ssb <- with_ssb
       }
 
@@ -230,7 +229,7 @@ empirical_recruit <- R6Class(
 
     #' @field with_ssb with ssb
     with_ssb = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         private$.with_ssb
       }else {
         assert_logical(value)
@@ -253,11 +252,11 @@ empirical_recruit <- R6Class(
     #' @field observed_points
     #' Gets/Sets the number of observations used of the model projection
     observed_points = function(rec_points) {
-      if(missing(rec_points)) {
+      if (missing(rec_points)) {
         private$.observed_points
       }else {
         assert_integerish(rec_points)
-        if(test_int(rec_points)) {
+        if (test_int(rec_points)) {
           private$.observed_points <- rec_points
         }else {
           private$.observed_points <- length(rec_points)
@@ -268,12 +267,12 @@ empirical_recruit <- R6Class(
     #' @field observed_year_array
     #' Gets/Sets the observed years sequence used in the model projection
     observed_year_array = function(rec_points) {
-      if(missing(rec_points)){
+      if (missing(rec_points)) {
         private$.observed_year_array
       } else {
         #Handle/Check rec_points for single or array vector
         assert_integerish(rec_points)
-        if(test_int(rec_points)) {
+        if (test_int(rec_points)) {
           private$.observed_year_array <- 1:rec_points
         }else {
           private$.observed_year_array <- rec_points
@@ -430,15 +429,15 @@ parametric_curve <- R6Class(
                            variance = 0) {
 
       #Set to Active Bindings
-      if(!missing(alpha)){
+      if (!missing(alpha)) {
         private$.alpha <- alpha
       }
 
-      if(!missing(beta)) {
+      if (!missing(beta)) {
         private$.beta <- beta
       }
 
-      if(!missing(variance)) {
+      if (!missing(variance)) {
         private$.variance <- variance
       }
 
@@ -538,7 +537,7 @@ shepherd_curve_model <- R6Class(
                            variance = 0.1) {
 
       #Set Active Bindings
-      if(!missing(kpar)) {
+      if (!missing(kpar)) {
         private$.kpar <- kpar
       }
 
