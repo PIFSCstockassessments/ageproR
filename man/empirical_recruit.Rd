@@ -12,12 +12,6 @@ Recruitment Model Description
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{rec_points}}{num obs}
-
-\item{\code{with_ssb}}{with ssb}
-
-\item{\code{low_bound}}{Lowest significant number bound}
-
 \item{\code{rec_array}}{Recruitment Inupt Array (data)}
 }
 \if{html}{\out{</div>}}
@@ -25,7 +19,17 @@ Recruitment Model Description
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{with_ssb}}{with ssb}
+
+\item{\code{low_bound}}{Lowest significant number bound}
+
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+
+\item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
+
+\item{\code{observed_year_array}}{Gets/Sets the observed years sequence used in the model projection}
+
+\item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }
 \if{html}{\out{</div>}}
 }
@@ -45,15 +49,12 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(model_num, rec_points, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(rec_points, with_ssb = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
 \item{\code{rec_points}}{Number of Recruitment Observations}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
@@ -93,7 +94,7 @@ Prints out Recruitment Model
 \if{html}{\out{<a id="method-empirical_recruit-print_json"></a>}}
 \if{latex}{\out{\hypertarget{method-empirical_recruit-print_json}{}}}
 \subsection{Method \code{print_json()}}{
-Returns Recuit data as JSON
+Returns Recruit data as JSON
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$print_json()}\if{html}{\out{</div>}}
 }

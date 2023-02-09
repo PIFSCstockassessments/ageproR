@@ -7,33 +7,95 @@
 #'
 #' @template model_num
 #'
-#' @field model_num Model number
-#' @field model_group Group type of Recruitment Model
-#' @field model_name Name of Recruitment Model
-#' @field seq_yrs Time Series of Projected Years
-#'
 #' @import cli
 #' @importFrom R6 R6Class
+#' @importFrom checkmate assert_character assert_numeric
 #'
 #' @export
 recruit_model <- R6Class(
   "recruit_model",
-
+  private = list(
+    .model_num = NULL,
+    .model_group = NULL,
+    .model_name = NULL,
+    .projected_years = NULL,
+    .length_projected_years = NULL
+  ),
   public = list(
-
-    model_num = NULL,
-    model_group = NULL,
-    model_name = NULL,
-    seq_yrs = NULL,
 
     #' @description
     #' Creates a new instance of this class
     #'
-    #' @param model_group Model Type
-    initialize = function(model_num, model_group) {
-      self$model_num <- model_num
-      self$model_group <- model_group
+    initialize = function() {
+
     }
+  ),
+  active = list(
+
+    #' @field model_num Model number
+    model_num = function(value) {
+      if (missing(value)) {
+        private$.model_num
+      }else {
+        assert_numeric(value, lower = 0, upper = 21)
+        private$.model_num <- value
+      }
+
+    },
+
+    #' @field model_group Group type of Recruitment Model
+    model_group = function(value) {
+      if (missing(value)) {
+        private$.model_group
+      }else {
+        assert_numeric(value, lower = 0, upper = 4)
+        private$.model_group <- value
+      }
+    },
+
+    #' @field model_name Name of Recruitment Model
+    model_name = function(value) {
+      if (missing(value)) {
+        private$.model_name
+      }else {
+        assert_character(value)
+        private$.model_name <- value
+      }
+    },
+
+    #' @field projected_years Time Series of Projected Years
+    projected_years = function(value) {
+      if (missing(value)) {
+        private$.projected_years
+      }else {
+        #Handle/Check 'value' for single or array vector
+        assert_integerish(value)
+        if (test_int(value)) {
+          #Create vector 1 to 'value'
+          private$.projected_years <- 1:value
+        }else {
+          private$.projected_years <- value
+        }
+      }
+    },
+
+    #' @field length_projected_years Length of projected_years counted as the
+    #' the number of recruitment observations for some models.
+    length_projected_years = function(value) {
+      if (missing(value)) {
+        private$.length_projected_years
+      }else {
+        #Handle/Check 'value' for single or array vector
+        assert_integerish(value)
+        if (test_int(value)) {
+          private$.length_projected_years <- value
+        }else {
+          private$.length_projected_years <- length(value)
+        }
+      }
+    }
+
+
   )
 )
 
@@ -51,16 +113,18 @@ null_recruit_model <- R6Class(
     #'
     initialize = function() {
 
-      self$model_name <- "NULL Recruitment"
-      super$initialize(0, 0)
+      super$model_name <- "NULL Recruitment"
+      super$model_group <- 0
+      super$model_num <- 0
 
     },
+
     #' @description
     #' Prints out NULL Recruiment Model Data
     print = function(...) {
-      cli_text("{self$model_name}")
-      cli_alert_warning("Replace with a valid recruitment model before " +
-                          "processing to AGEPRO calcualtion engine")
+      cli_text("{private$.model_name}")
+      cli_alert_warning(c("Replace with a valid recruitment model before ",
+                          "processing to AGEPRO calcualtion engine"))
     }
   )
 )
@@ -72,21 +136,22 @@ null_recruit_model <- R6Class(
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int assert_integerish
+#' @importFrom checkmate test_int assert_integerish assert_logical
 #' @export
 empirical_recruit <- R6Class(
   "empirical_recruit",
   inherit = recruit_model,
+  private = list(
+
+    .low_bound = 0.0001,
+    .with_ssb = FALSE,
+    .model_group = 1,
+    .observed_points = 0,
+    .observed_year_array = NULL
+
+  ),
   public = list(
 
-    #' @field rec_points num obs
-    rec_points = NULL,
-
-    #' @field with_ssb with ssb
-    with_ssb = NULL,
-
-    #' @field low_bound Lowest significant number bound
-    low_bound = 0.0001,
 
     #' @field rec_array Recruitment Inupt Array (data)
     rec_array = NULL,
@@ -98,23 +163,18 @@ empirical_recruit <- R6Class(
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(model_num, rec_points, with_ssb = FALSE) {
+    initialize = function(rec_points, with_ssb = FALSE) {
 
-      self$model_name <- "Empirical Recruitment Class"
-      self$with_ssb <- with_ssb
+      super$model_group <- 1
 
-      #Handle/Check rec_points for single or array vector
-      #TODO: Modularize this rec_points check
-      assert_integerish(rec_points)
-      if (test_int(rec_points)) {
-        self$rec_points <- rec_points
-        self$seq_yrs <- 1:rec_points
-      }else {
-        self$rec_points <- length(rec_points)
-        self$seq_yrs <- rec_points
+      self$observed_points <- rec_points
+      self$observed_year_array <- rec_points
+
+
+      if (!missing(with_ssb)) {
+        private$.with_ssb <- with_ssb
       }
 
-      super$initialize(model_num, 1)
       self$new_obs_table()
     },
 
@@ -125,14 +185,16 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$rec_array <- matrix(rep("0", self$rec_points),
-                                  nrow = 2, ncol = self$rec_points)
+        self$rec_array <- matrix(rep("0", self$observed_points),
+                                 nrow = 2,
+                                 ncol = self$observed_points)
       }else {
-        self$rec_array <- matrix(rep("0", self$rec_points),
-                                 nrow = 1, ncol = self$rec_points)
+        self$rec_array <- matrix(rep("0", self$observed_points),
+                                 nrow = 1,
+                                 ncol = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$rec_array) <- self$seq_yrs
+      colnames(self$rec_array) <- self$observed_year_array
 
     },
 
@@ -143,7 +205,8 @@ empirical_recruit <- R6Class(
       cli_text("{self$model_name}")
       cli_ul()
       cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
+      cli_li(paste0("Number of Recruitment Data Points: ",
+               "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
       cat_print(self$rec_array)
@@ -151,11 +214,11 @@ empirical_recruit <- R6Class(
     },
 
     #' @description
-    #' Returns Recuit data as JSON
+    #' Returns Recruit data as JSON
     #'
     print_json = function() {
       #check
-      toJSON(list(points = self$rec_points,
+      toJSON(list(points = self$observed_points,
                   recruits = self$rec_array),
              pretty = TRUE,
              auto_unbox = TRUE)
@@ -164,11 +227,65 @@ empirical_recruit <- R6Class(
   ),
   active = list(
 
-    #' @field recruit_data gets JSON-ready Recruit Model Data
+    #' @field with_ssb with ssb
+    with_ssb = function(value) {
+      if (missing(value)) {
+        private$.with_ssb
+      }else {
+        assert_logical(value)
+        private$.with_ssb <- value
+      }
+    },
+
+    #' @field low_bound Lowest significant number bound
+    low_bound = function() {
+      private$.low_bound
+    },
+
+    #' @field recruit_data
+    #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
-      return(list(points = self$rec_points,
+      return(list(points = super$super_$projected_years,
            recruits = self$rec_array))
+    },
+
+    #' @field observed_points
+    #' Gets/Sets the number of observations used of the model projection
+    observed_points = function(rec_points) {
+      if (missing(rec_points)) {
+        private$.observed_points
+      }else {
+        assert_integerish(rec_points)
+        if (test_int(rec_points)) {
+          private$.observed_points <- rec_points
+        }else {
+          private$.observed_points <- length(rec_points)
+        }
+      }
+    },
+
+    #' @field observed_year_array
+    #' Gets/Sets the observed years sequence used in the model projection
+    observed_year_array = function(rec_points) {
+      if (missing(rec_points)) {
+        private$.observed_year_array
+      } else {
+        #Handle/Check rec_points for single or array vector
+        assert_integerish(rec_points)
+        if (test_int(rec_points)) {
+          private$.observed_year_array <- 1:rec_points
+        }else {
+          private$.observed_year_array <- rec_points
+        }
+      }
+    },
+
+    #' @field super_
+    #' Binds the super class with the empirical_recruit child classes
+    super_ = function(value) {
+      super
     }
+
   )
   #TODO: Set MaxRecObs
 )
@@ -185,8 +302,10 @@ empirical_distribution_model <- R6Class(
     #' Initialize the Empirical Recruitment Distribution Model
     initialize = function(seq_years) {
 
-      super$initialize(3, seq_years, FALSE)
-      self$model_name <- "Empirical Recruitment Distribution"
+      super$with_ssb <- FALSE
+      super$super_$model_num <- 3
+      super$super_$model_name <- "Empirical Recruitment Distribution"
+      super$initialize(seq_years)
 
     }
   )
@@ -203,9 +322,11 @@ empirical_cdf_model <- R6Class(
     #' Initialize the Empirical CDF Model
     initialize = function(seq_years) {
 
-      super$initialize(14, seq_years, FALSE)
-      self$model_name <- "Empirical Cumulative Distribution Function " +
-        "of Recruitment"
+      super$with_ssb <- FALSE
+      super$super_$model_num <- 14
+      super$super_$model_name <-
+        "Empirical Cumulative Distribution Function of Recruitment"
+      super$initialize(seq_years)
 
     }
   )
@@ -227,9 +348,10 @@ parametric_curve <- R6Class(
   inherit = recruit_model,
   private = list(
 
-    .alpha = NULL,
-    .beta = NULL,
-    .variance = NULL
+    .alpha = 0,
+    .beta = 0,
+    .variance = 0,
+    .model_group = 2
 
   ),
   active = list(
@@ -244,7 +366,7 @@ parametric_curve <- R6Class(
 
     },
 
-    #' @field alpha \cr
+    #' @field alpha
     #' Sets the Parametric Curve Parameter, alpha. Returns the
     #' current value if no argument was passed
     alpha = function(value) {
@@ -256,7 +378,7 @@ parametric_curve <- R6Class(
       }
     },
 
-    #' @field beta \cr
+    #' @field beta
     #' Sets the Parametric Curve Parameter, beta. Returns the
     #' current value if no argument was passed
     #'
@@ -269,7 +391,7 @@ parametric_curve <- R6Class(
       }
     },
 
-    #' @field variance \cr
+    #' @field variance
     #' Sets the Parametric Curve Parameter, variance. Returns the
     #' current value if no argument was passed.
     #'
@@ -280,6 +402,19 @@ parametric_curve <- R6Class(
         assert_numeric(value)
         private$.variance <- value
       }
+    },
+
+    #' @field model_group Model group Number
+    #'
+    model_group = function() {
+      private$.model_group
+    },
+
+
+    #' @field super_
+    #' Binds the super class to parametric_curve child classes
+    super_ = function(value) {
+      super
     }
 
   ),
@@ -289,18 +424,24 @@ parametric_curve <- R6Class(
     #'@description
     #'Instantiate Parametric Recruitment Curve Model
     #'
-    initialize = function(model_num,
-                           alpha = 0,
+    initialize = function(alpha = 0,
                            beta = 0,
                            variance = 0) {
 
       #Set to Active Bindings
-      private$.alpha <- alpha
-      private$.beta <- beta
-      private$.variance <- variance
+      if (!missing(alpha)) {
+        private$.alpha <- alpha
+      }
 
-      #Set Model Number and Name
-      super$initialize(model_num, 2)
+      if (!missing(beta)) {
+        private$.beta <- beta
+      }
+
+      if (!missing(variance)) {
+        private$.variance <- variance
+      }
+
+
 
     },
 
@@ -322,7 +463,7 @@ parametric_curve <- R6Class(
 
 )
 
-#' Beverton-Holt w/ Lognormal Error
+#' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
 #' @template parametric_parameters
 #'
@@ -336,8 +477,9 @@ beverton_holt_curve_model <- R6Class(
                          beta = 0,
                          variance = 0) {
 
-      super$initialize(5, alpha, beta, variance)
-      self$model_name <- "Beverton-Holt Curve w/ Lognormal Error"
+      super$initialize(alpha, beta, variance)
+      super$super_$model_num <- 5
+      super$super_$model_name <- "Beverton-Holt Curve w/ Lognormal Error"
 
     }
   )
@@ -357,8 +499,10 @@ ricker_curve_model <- R6Class(
                           beta = 0,
                           variance = 0) {
 
-      super$initialize(6, alpha, beta, variance)
-      self$model_name <- "Ricker Curve w/ Lognonormal Error"
+      super$initialize(alpha, beta, variance)
+      super$super_$model_num <- 6
+      super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
+
 
     }
   )
@@ -374,10 +518,10 @@ shepherd_curve_model <- R6Class(
   inherit = parametric_curve,
   private = list(
 
-    .alpha = NULL,
-    .beta = NULL,
-    .kpar = NULL,
-    .variance = NULL
+    .alpha = 0.1,
+    .beta = 0.1,
+    .kpar = 0.1,
+    .variance = 0.1
 
   ),
   public = list(
@@ -387,20 +531,21 @@ shepherd_curve_model <- R6Class(
     #' Initializes the Shepherd Curve Model
     #'
     #' @param kpar kpar
-    initialize = function(alpha = 0,
-                           beta = 0,
-                           kpar = 0,
-                           variance = 0) {
-
-      self$model_num <- 7
-      self$model_group <- 2
-      self$model_name <- "Shepherd Curve w/ Lognormal Error"
+    initialize = function(alpha = 0.1,
+                           beta = 0.1,
+                           kpar = 0.1,
+                           variance = 0.1) {
 
       #Set Active Bindings
-      private$.alpha <- alpha
-      private$.beta <- beta
-      private$.kpar <- kpar
-      private$.variance <- variance
+      if (!missing(kpar)) {
+        private$.kpar <- kpar
+      }
+
+      super$initialize(alpha, beta, variance)
+      super$super_$model_num <- 7
+      super$super_$model_name <- "Shepherd Curve w/ Lognormal Error"
+
+
 
     },
 

@@ -14,17 +14,18 @@ Recruitment Model Description
 \describe{
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
 
-\item{\code{alpha}}{\cr
-Sets the Parametric Curve Parameter, alpha. Returns the
+\item{\code{alpha}}{Sets the Parametric Curve Parameter, alpha. Returns the
 current value if no argument was passed}
 
-\item{\code{beta}}{\cr
-Sets the Parametric Curve Parameter, beta. Returns the
+\item{\code{beta}}{Sets the Parametric Curve Parameter, beta. Returns the
 current value if no argument was passed}
 
-\item{\code{variance}}{\cr
-Sets the Parametric Curve Parameter, variance. Returns the
+\item{\code{variance}}{Sets the Parametric Curve Parameter, variance. Returns the
 current value if no argument was passed.}
+
+\item{\code{model_group}}{Model group Number}
+
+\item{\code{super_}}{Binds the super class to parametric_curve child classes}
 }
 \if{html}{\out{</div>}}
 }
@@ -42,15 +43,12 @@ current value if no argument was passed.}
 \subsection{Method \code{new()}}{
 Instantiate Parametric Recruitment Curve Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{parametric_curve$new(model_num, alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{parametric_curve$new(alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
 \item{\code{alpha}}{\cr
 Stock Recruitment Parameter, alpha}
 

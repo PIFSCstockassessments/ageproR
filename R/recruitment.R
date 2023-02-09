@@ -18,6 +18,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_numeric assert_list assert_r6
+#' @importFrom collections dict
 #'
 recruitment <- R6Class(
   "recruitment",
@@ -96,24 +97,16 @@ recruitment <- R6Class(
     #' Initializes RecruitModel Data
     set_recruit_model = function(model_num, seq_years) {
 
-      if (model_num == 3) {
-        return(empirical_distribution_model$new(seq_years))
+      model_dict <- dict(list(
+        "0" = null_recruit_model$new(),
+        "3" = empirical_distribution_model$new(seq_years),
+        "5" = beverton_holt_curve_model$new(),
+        "6" = ricker_curve_model$new(),
+        "7" = shepherd_curve_model$new(),
+        "14" = empirical_cdf_model$new(seq_years)
+      ))
 
-      } else if (model_num == 5) {
-        return(beverton_holt_curve_model$new())
-
-      } else if (model_num == 6) {
-        return(ricker_curve_model$new())
-
-      } else if (model_num == 7) {
-        return(shepherd_curve_model$new())
-
-      } else if (model_num == 14) {
-        return(empirical_cdf_model$new(seq_years))
-
-      } else {
-        return(null_recruit_model$new())
-      }
+    model_dict$get(as.character(model_num))
 
     },
 
@@ -141,8 +134,8 @@ recruitment <- R6Class(
         cli_par()
         cli_alert_info(c("Recruit {recruit} of {private$qty_rec_models} : ",
                          "Recruitment Model #{self$rec_model_num[[recruit]]} "))
-        #Verify class inherits from "RecruitModel"
-        assert_r6(self$model_collection_list[[recruit]], "RecruitModel")
+        #Verify class inherits from "recruit_model"
+        assert_r6(self$model_collection_list[[recruit]], "recruit_model")
         self$model_collection_list[[recruit]]$print()
         cli_end()
       }

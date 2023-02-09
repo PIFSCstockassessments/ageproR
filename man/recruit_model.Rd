@@ -6,8 +6,8 @@
 \description{
 Recruitment Model Description
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{model_num}}{Model number}
 
@@ -15,7 +15,10 @@ Recruitment Model Description
 
 \item{\code{model_name}}{Name of Recruitment Model}
 
-\item{\code{seq_yrs}}{Time Series of Projected Years}
+\item{\code{projected_years}}{Time Series of Projected Years}
+
+\item{\code{length_projected_years}}{Length of projected_years counted as the
+the number of recruitment observations for some models.}
 }
 \if{html}{\out{</div>}}
 }
@@ -32,19 +35,9 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates a new instance of this class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new(model_num, model_group)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruit_model$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
-\item{\code{model_group}}{Model Type}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-recruit_model-clone"></a>}}
