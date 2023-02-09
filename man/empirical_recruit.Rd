@@ -12,8 +12,6 @@ Recruitment Model Description
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{rec_points}}{num obs}
-
 \item{\code{rec_array}}{Recruitment Inupt Array (data)}
 }
 \if{html}{\out{</div>}}
@@ -26,6 +24,10 @@ Recruitment Model Description
 \item{\code{low_bound}}{Lowest significant number bound}
 
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+
+\item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
+
+\item{\code{observed_year_array}}{Gets/Sets the observed years sequence used in the model projection}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }

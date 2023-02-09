@@ -16,6 +16,9 @@ Recruitment Model Description
 \item{\code{model_name}}{Name of Recruitment Model}
 
 \item{\code{projected_years}}{Time Series of Projected Years}
+
+\item{\code{length_projected_years}}{Length of projected_years counted as the
+the number of recruitment observations for some models.}
 }
 \if{html}{\out{</div>}}
 }

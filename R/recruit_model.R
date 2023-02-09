@@ -18,7 +18,8 @@ recruit_model <- R6Class(
     .model_num = NULL,
     .model_group = NULL,
     .model_name = NULL,
-    .projected_years = NULL
+    .projected_years = NULL,
+    .length_projected_years = NULL
   ),
   public = list(
 
@@ -67,8 +68,30 @@ recruit_model <- R6Class(
       if(missing(value)) {
         private$.projected_years
       }else {
-        assert_numeric(value)
-        private$.projected_years <- value
+        #Handle/Check 'value' for single or array vector
+        assert_integerish(value)
+        if(test_int(value)) {
+          #Create vector 1 to 'value'
+          private$.projected_years <- 1:value
+        }else {
+          private$.projected_years <- value
+        }
+      }
+    },
+
+    #' @field length_projected_years Length of projected_years counted as the
+    #' the number of recruitment observations for some models.
+    length_projected_years = function(value) {
+      if(missing(value)){
+        private$.length_projected_years
+      }else {
+        #Handle/Check 'value' for single or array vector
+        assert_integerish(value)
+        if(test_int(value)){
+          private$.length_projected_years <- value
+        }else {
+          private$.length_projected_years <- length(value)
+        }
       }
     }
 
@@ -122,13 +145,13 @@ empirical_recruit <- R6Class(
 
     .low_bound = 0.0001,
     .with_ssb = FALSE,
-    .model_group = 1
+    .model_group = 1,
+    .observed_points = 0,
+    .observed_year_array= NULL
 
   ),
   public = list(
 
-    #' @field rec_points num obs
-    rec_points = NULL,
 
     #' @field rec_array Recruitment Inupt Array (data)
     rec_array = NULL,
@@ -143,23 +166,15 @@ empirical_recruit <- R6Class(
     initialize = function(rec_points, with_ssb = FALSE) {
 
       super$model_group <- 1
+      #super$length_projected_years <- rec_points
+      #super$projected_years <- rec_points
+      self$observed_points <- rec_points
+      self$observed_year_array <- rec_points
+
 
       if(!missing(with_ssb)){
         private$.with_ssb <- with_ssb
       }
-
-      #Handle/Check rec_points for single or array vector
-      #TODO: Modularize this rec_points check
-      assert_integerish(rec_points)
-      if (test_int(rec_points)) {
-        self$rec_points <- rec_points
-        super$projected_years <- 1:rec_points
-      }else {
-        self$rec_points <- length(rec_points)
-        super$projected_years <- rec_points
-      }
-
-      self$model_group <- 1
 
       self$new_obs_table()
     },
@@ -171,14 +186,16 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$rec_array <- matrix(rep("0", self$rec_points),
-                                  nrow = 2, ncol = self$rec_points)
+        self$rec_array <- matrix(rep("0", self$observed_points),
+                                 nrow = 2,
+                                 ncol = self$observed_points)
       }else {
-        self$rec_array <- matrix(rep("0", self$rec_points),
-                                 nrow = 1, ncol = self$rec_points)
+        self$rec_array <- matrix(rep("0", self$observed_points),
+                                 nrow = 1,
+                                 ncol = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$rec_array) <- self$seq_yrs
+      colnames(self$rec_array) <- self$observed_year_array
 
     },
 
@@ -189,7 +206,8 @@ empirical_recruit <- R6Class(
       cli_text("{self$model_name}")
       cli_ul()
       cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li("Number of Recruitment Data Points: {.val  {self$rec_points}}")
+      cli_li(paste0("Number of Recruitment Data Points: ",
+               "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
       cat_print(self$rec_array)
@@ -201,7 +219,7 @@ empirical_recruit <- R6Class(
     #'
     print_json = function() {
       #check
-      toJSON(list(points = self$rec_points,
+      toJSON(list(points = self$observed_points,
                   recruits = self$rec_array),
              pretty = TRUE,
              auto_unbox = TRUE)
@@ -228,15 +246,44 @@ empirical_recruit <- R6Class(
     #' @field recruit_data
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
-      return(list(points = self$rec_points,
+      return(list(points = super$super_$projected_years,
            recruits = self$rec_array))
     },
 
+    #' @field observed_points
+    #' Gets/Sets the number of observations used of the model projection
+    observed_points = function(rec_points) {
+      if(missing(rec_points)) {
+        private$.observed_points
+      }else {
+        assert_integerish(rec_points)
+        if(test_int(rec_points)) {
+          private$.observed_points <- rec_points
+        }else {
+          private$.observed_points <- length(rec_points)
+        }
+      }
+    },
 
+    #' @field observed_year_array
+    #' Gets/Sets the observed years sequence used in the model projection
+    observed_year_array = function(rec_points) {
+      if(missing(rec_points)){
+        private$.observed_year_array
+      } else {
+        #Handle/Check rec_points for single or array vector
+        assert_integerish(rec_points)
+        if(test_int(rec_points)) {
+          private$.observed_year_array <- 1:rec_points
+        }else {
+          private$.observed_year_array <- rec_points
+        }
+      }
+    },
 
     #' @field super_
     #' Binds the super class with the empirical_recruit child classes
-    super_ = function() {
+    super_ = function(value) {
       super
     }
 
@@ -256,8 +303,10 @@ empirical_distribution_model <- R6Class(
     #' Initialize the Empirical Recruitment Distribution Model
     initialize = function(seq_years) {
 
-      super$initialize(seq_years, FALSE)
-      self$model_name <- "Empirical Recruitment Distribution"
+      super$with_ssb <- FALSE
+      super$super_$model_num <- 3
+      super$super_$model_name <- "Empirical Recruitment Distribution"
+      super$initialize(seq_years)
 
     }
   )
@@ -274,9 +323,11 @@ empirical_cdf_model <- R6Class(
     #' Initialize the Empirical CDF Model
     initialize = function(seq_years) {
 
-      super$initialize(seq_years, FALSE)
-      self$model_name <- paste0("Empirical Cumulative Distribution Function ",
-        "of Recruitment")
+      super$with_ssb <- FALSE
+      super$super_$model_num <- 14
+      super$super_$model_name <-
+        "Empirical Cumulative Distribution Function of Recruitment"
+      super$initialize(seq_years)
 
     }
   )
