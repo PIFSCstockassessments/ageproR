@@ -108,7 +108,6 @@ recruitment <- R6Class(
 
     model_dict$get(as.character(model_num))
 
-
     },
 
     #' @description
