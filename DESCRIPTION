@@ -11,6 +11,7 @@ Imports:
   here,
   checkmate,
   cli,
+  collections,
   utils,
   R6
 License: GPL-3
