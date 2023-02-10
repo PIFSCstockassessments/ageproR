@@ -15,8 +15,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number
 #' @importFrom utils browseURL
-AgeproModel <- R6Class(
-  classname = "AgeproModel",
+agepro_model <- R6Class(
+  classname = "agepro_model",
 
   public = list(
 
@@ -40,24 +40,22 @@ AgeproModel <- R6Class(
     #' @param discards discards. FALSE by default
     #' @param seed Random Number seed. A pesdorandom number is set as default.
     #'
-    initialize = function (yr_start,
+    initialize = function(yr_start,
                            yr_end,
                            age_begin,
                            age_end,
                            num_fleets,
                            num_rec_models,
                            num_pop_sims,
-                           discards=FALSE,
-                           seed=sample.int(1e8,1)) {
+                           discards = FALSE,
+                           seed = sample.int(1e8, 1)) {
 
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
 
-      #TODO:Assert discard logicals
-      #test_logical(discards)
 
 
-      self$general <- GeneralParams$new(yr_start,
+      self$general <- general_params$new(yr_start,
                                         yr_end,
                                         age_begin,
                                         age_end,
@@ -68,13 +66,13 @@ AgeproModel <- R6Class(
                                         seed)
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
-      self$recruit <- Recruitment$new(0,self$general$seq_years)
+      self$recruit <- recruitment$new(0, self$general$seq_years)
 
     },
 
     #' @description
     #' Set model's Recruitment model
-    set_recruit_model = function (model_num) {
+    set_recruit_model = function(model_num) {
 
       private$cli_recruit_rule()
       cli_alert("Recruitment Data Setup")
@@ -87,46 +85,46 @@ AgeproModel <- R6Class(
 
     #' @description
     #' Get json
-    get_json = function () {
+    get_json = function() {
 
-      if(!test_logical(self$general$discards)){
+      if (!test_logical(self$general$discards)) {
         #Assert for 0 and 1
-        assert_number(self$general$discards,lower=0,upper=1)
+        assert_number(self$general$discards, lower = 0, upper = 1)
       }
       self$general$discards <- as.numeric(self$general$discards)
 
 
-      version_json <- list (
-        legacyVer= private$str_legacy_ver,
-        ver= private$str_ver
+      version_json <- list(
+        legacyVer = private$str_legacy_ver,
+        ver = private$str_ver
       )
 
       general_json <- list(
-        nFYear= self$general$yr_start,
-        nXYear= self$general$yr_end,
-        nFAge= self$general$age_begin,
-        nXAge= self$general$age_end,
-        nSims= self$general$num_pop_sims,
-        nFleet= self$general$num_fleets,
-        nRecModel= self$general$num_rec_models,
-        discFlag= self$general$discards,
-        seed= self$general$seed
+        nFYear = self$general$yr_start,
+        nXYear = self$general$yr_end,
+        nFAge = self$general$age_begin,
+        nXAge = self$general$age_end,
+        nSims = self$general$num_pop_sims,
+        nFleet = self$general$num_fleets,
+        nRecModel = self$general$num_rec_models,
+        discFlag = self$general$discards,
+        seed = self$general$seed
       )
 
       #TODO: Rename print_recruit to describe returning
       #recruitment object data
-      recruit_json <- self$recruit$print_recruit(print_json=FALSE)
+      recruit_json <- self$recruit$print_recruit(print_json = FALSE)
 
 
-      agepro_json <- list("version"=version_json,
-                          "general"=general_json,
-                          "recruit"=recruit_json)
+      agepro_json <- list("version" = version_json,
+                          "general" = general_json,
+                          "recruit" = recruit_json)
 
 
       # TODO: use the write() function to write JSON files
       toJSON(agepro_json,
-             pretty =TRUE,
-             auto_unbox =TRUE)
+             pretty = TRUE,
+             auto_unbox = TRUE)
 
     },
 
@@ -134,12 +132,12 @@ AgeproModel <- R6Class(
     #' Write JSON file
     #'
     #' @param show_dir Option to show directory after JSON file is written.
-    write_json = function (show_dir=FALSE) {
+    write_json = function(show_dir = FALSE) {
       tmp <- tempfile("agepro_", fileext = ".json")
       write(self$get_json(), tmp)
 
       message("Saved at :\n", tmp)
-      if(show_dir){
+      if (show_dir) {
         browseURL(dirname(tmp))
       }
     }
@@ -147,13 +145,13 @@ AgeproModel <- R6Class(
 
   ),
 
-  private = list (
+  private = list(
 
     str_legacy_ver = "AGEPRO VERSION 4.0",
     str_ver = "4.0.0.0",
 
     cli_recruit_rule = function() {
-      d <- cli_div(theme= list(rule= list(
+      d <- cli_div(theme = list(rule = list(
         color = "cyan",
         "line-type" = "double")))
       cli_rule("Recruitment")

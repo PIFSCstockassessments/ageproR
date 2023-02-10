@@ -18,9 +18,10 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_numeric assert_list assert_r6
+#' @importFrom collections dict
 #'
-Recruitment <- R6Class(
-  "Recruitment",
+recruitment <- R6Class(
+  "recruitment",
 
   public = list(
 
@@ -42,7 +43,7 @@ Recruitment <- R6Class(
     #' @description
     #' Initializes the Recruitment Class
     #'
-    initialize = function (model_num, seq_years) {
+    initialize = function(model_num, seq_years) {
 
       self$set_recruit_data(model_num, seq_years)
       self$recruit_scaling_factor <- 1000
@@ -54,31 +55,38 @@ Recruitment <- R6Class(
 
     #' @description
     #' Creates Recruitment Model Data
-    set_recruit_data = function(model_num, seq_years){
+    set_recruit_data = function(model_num, seq_years) {
 
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_seq_years(seq_years)
 
       #Setup vectors based on number of recruitment models.
       private$qty_rec_models <- length(model_num)
-      self$rec_model_num <- vector("list", private$qty_rec_models) #Recruitment Model Number list
-      self$rec_prob <- vector ("list", private$qty_rec_models) #Recruitment Probability list
-      self$model_collection_list <- vector ("list", private$qty_rec_models) #Recruitment Model Data List
+      #Recruitment Model Number list
+      self$rec_model_num <- vector("list", private$qty_rec_models)
+      #Recruitment Probability list
+      self$rec_prob <- vector("list", private$qty_rec_models)
+      #Recruitment Model Data List
+      self$model_collection_list <- vector("list", private$qty_rec_models)
 
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$qty_rec_models) {
 
-        # Recruitment Probability: Fill the timeseries with a recruitment probability sums equal to unity
+        # Recruitment Probability: Fill the time series with a recruitment
+        # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
         self$rec_prob[[recruit]] <-
-          format(round(rep(1, private$qty_seq_years)/private$qty_seq_years,  4), nsmall=4)
+          format(
+            round(rep(1, private$qty_seq_years) / private$qty_seq_years, 4),
+            nsmall = 4)
 
         names(self$rec_prob[[recruit]]) <- private$req_prob_years
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
-        self$model_collection_list[[recruit]] <- self$set_recruit_model(self$rec_model_num[[recruit]], self$seq_yrs)
+        self$model_collection_list[[recruit]] <-
+          self$set_recruit_model(self$rec_model_num[[recruit]], self$seq_yrs)
       }
 
 
@@ -87,40 +95,33 @@ Recruitment <- R6Class(
 
     #' @description
     #' Initializes RecruitModel Data
-    set_recruit_model = function(model_num, seq_years){
+    set_recruit_model = function(model_num, seq_years) {
 
-      if(model_num == 3){
-        return(EmpiricalDistributionModel$new(seq_years))
+      model_dict <- dict(list(
+        "0" = null_recruit_model$new(),
+        "3" = empirical_distribution_model$new(seq_years),
+        "5" = beverton_holt_curve_model$new(),
+        "6" = ricker_curve_model$new(),
+        "7" = shepherd_curve_model$new(),
+        "14" = empirical_cdf_model$new(seq_years)
+      ))
 
-      }else if(model_num == 5){
-        return(BevertonHoltCurveModel$new())
-
-      }else if(model_num == 6){
-        return(RickerCurveModel$new())
-
-      }else if(model_num ==7) {
-        return(ShepherdCurveModel$new())
-
-      }else if(model_num == 14) {
-        return(EmpiricalCDFModel$new(seq_years))
-      }
-      else{
-        return(NullRecruitModel$new())
-      }
+    model_dict$get(as.character(model_num))
 
     },
 
     #' @description
     #' Prints out Recruitment
     #'
-    print = function(...){
+    print = function(...) {
 
       #verify private fields are numeric
       assert_numeric(private$qty_rec_models)
       assert_numeric(private$qty_seq_years)
       assert_numeric(private$qty_rec_models)
 
-      cli_alert_info("{private$qty_rec_models} recruitment model{?s} for {private$qty_seq_years} year{?s}.")
+      cli_alert_info(c("{private$qty_rec_models} recruitment model{?s}",
+                     " for {private$qty_seq_years} year{?s}."))
       cli_ul()
       cli_li("Recruitment Scaling Factor: {.val {self$recruit_scaling_factor}}")
       cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
@@ -131,8 +132,10 @@ Recruitment <- R6Class(
       cat_print(self$rec_prob)
       for (recruit in 1:private$qty_rec_models){
         cli_par()
-        cli_alert_info("Recruit {recruit} of {private$qty_rec_models} : Recruitment Model #{self$rec_model_num[[recruit]]} ")
-        assert_r6(self$model_collection_list[[recruit]],"RecruitModel") #Verify class inherits from "RecruitModel"
+        cli_alert_info(c("Recruit {recruit} of {private$qty_rec_models} : ",
+                         "Recruitment Model #{self$rec_model_num[[recruit]]} "))
+        #Verify class inherits from "recruit_model"
+        assert_r6(self$model_collection_list[[recruit]], "recruit_model")
         self$model_collection_list[[recruit]]$print()
         cli_end()
       }
@@ -147,27 +150,29 @@ Recruitment <- R6Class(
     #'
     #' @param print_json Option to print recruitment object as written in JSON
     #' format into console
-    print_recruit = function (print_json = TRUE) {
+    print_recruit = function(print_json = TRUE) {
 
       #Gather Recruit Model Data
       model_data_list <- vector("list", length(self$rec_model_num))
-      for(recruit in 1:length(self$rec_model_num)){
-        model_data_list[[recruit]] <- self$model_collection_list[[recruit]][["recruit_data"]]
+      for (recruit in seq_along(self$rec_model_num)){
+
+        model_data_list[[recruit]] <-
+          self$model_collection_list[[recruit]][["recruit_data"]]
       }
 
       recruit_json <- list(
-        recFac=self$rec_fac,
-        ssbFac=self$ssb_fac,
-        maxRecObs=self$max_rec_obs,
-        type=self$rec_model_num,
-        prob=self$rec_prob,
-        modelData=model_data_list)
+        recFac = self$rec_fac,
+        ssbFac = self$ssb_fac,
+        maxRecObs = self$max_rec_obs,
+        type = self$rec_model_num,
+        prob = self$rec_prob,
+        modelData = model_data_list)
 
-      if(print_json){
+      if (print_json) {
         toJSON(recruit_json,
-               pretty =TRUE,
-               auto_unbox =TRUE)
-      }else{
+               pretty = TRUE,
+               auto_unbox = TRUE)
+      }else {
         return(recruit_json)
       }
 
@@ -176,21 +181,21 @@ Recruitment <- R6Class(
 
     #' @description
     #' Helper Function To View Recruitment Model Collection Data
-    view_recruit_data = function () {
+    view_recruit_data = function() {
 
       cli_alert_info("Recruitment Model{?s}: {.field {self$rec_model_num}} ")
 
     }
 
-  ), active = list (
+  ), active <- list(
 
     #' @field recruit_scaling_factor Sets the Recruitment Scaling factor.
     #' Multiplier to convert recruitment submodel's recruitment units to
     #' absolute numbers of fish
     recruit_scaling_factor = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         return(private$.recruit_scaling_factor)
-      }else{
+      }else {
         assert_numeric(value)
         private$.recruit_scaling_factor <- value
       }
@@ -201,9 +206,9 @@ Recruitment <- R6Class(
     #' convert recruitment submodel's SSB to absolute spawning weight of fish
     #' in kilograms (kg)
     ssb_scaling_factor = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         return(private$.ssb_scaling_factor)
-      }else{
+      }else {
         assert_numeric(value)
         private$.ssb_scaling_factor <- value
       }
@@ -213,17 +218,17 @@ Recruitment <- R6Class(
 
 
 
-  ), private = list (
+  ), private = list(
     qty_seq_years = NULL,
     qty_rec_models = NULL,
     req_prob_years = NULL,
 
-    .recruit_scaling_factor=NULL,
-    .ssb_scaling_factor=NULL,
+    .recruit_scaling_factor = NULL,
+    .ssb_scaling_factor = NULL,
 
 
     cli_recruit_rule = function() {
-      d <- cli_div(theme= list(rule= list(
+      d <- cli_div(theme = list(rule = list(
         color = "cyan",
         "line-type" = "double")))
       cli_rule("Recruitment")
@@ -234,12 +239,12 @@ Recruitment <- R6Class(
       #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
 
-      if(test_int(self$seq_yrs)){
+      if (test_int(self$seq_yrs)) {
         #single
         private$qty_seq_years <- self$seq_yrs
         private$req_prob_years <- 1:self$seq_yrs
-      }
-      else{
+
+      } else {
         private$qty_seq_years <- length(self$seq_yrs)
         private$req_prob_years <- self$seq_yrs
       }
@@ -249,10 +254,3 @@ Recruitment <- R6Class(
   )
 
 )
-
-
-
-
-
-
-

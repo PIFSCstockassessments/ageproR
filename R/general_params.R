@@ -11,10 +11,10 @@
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical test_true assert_number
-GeneralParams <- R6Class(
-  classname = "GeneralParams",
+general_params <- R6Class(
+  classname = "general_params",
 
-  public = list (
+  public = list(
     #' @field yr_start First Year in Projection
     yr_start = NULL,
 
@@ -58,20 +58,20 @@ GeneralParams <- R6Class(
     #' @param discards discards
     #' @param seed Random Number seed
     #'
-    initialize = function (yr_start = 0,
+    initialize = function(yr_start = 0,
                            yr_end = 2,
-                           age_begin= 1,
-                           age_end=6,
-                           num_fleets=1,
-                           num_rec_models=1,
-                           num_pop_sims=1000,
-                           discards=FALSE,
-                           seed=0) {
+                           age_begin = 1,
+                           age_end = 6,
+                           num_fleets = 1,
+                           num_rec_models = 1,
+                           num_pop_sims = 1000,
+                           discards = FALSE,
+                           seed = 0) {
 
       private$cli_general_rule()
       # Discards: Assert logical format
-      if(!test_logical(discards)){
-        assert_number(discards,lower=0,upper=1)
+      if (!test_logical(discards)) {
+        assert_number(discards, lower = 0, upper = 1)
         discards <- as.logical(discards)
       }
 
@@ -93,7 +93,7 @@ GeneralParams <- R6Class(
     #' @description
     #' Prints out General Parameters
     #'
-    print = function (...) {
+    print = function(...) {
       cli_ul()
       cli_li("First Year in Projection: {.val {self$yr_start}}")
       cli_li("Last Year in Projection: {.val {self$yr_end}}")
@@ -110,26 +110,27 @@ GeneralParams <- R6Class(
   ),
   active = list(
 
-    #' @field num_years Determines the number of years in projection by the (absolute) difference
-    #' of the last and first year of projection.
-    num_years = function () {
+    #' @field num_years Determines the number of years in projection by the
+    #' (absolute) difference of the last and first year of projection.
+    num_years = function() {
       abs(self$yr_end - self$yr_start) + 1
     },
 
-    #' @field num_ages Determines number of ages by the (absolute) difference of the first and
-    #' last age class.
+    #' @field num_ages Determines number of ages by the (absolute) difference
+    #' of the first and last age class.
     num_ages = function() {
       abs(self$age_begin - self$age_end) + 1
     },
 
-    #' @field seq_years Returns a sequence of years from First year of projection
+    #' @field seq_years Returns a sequence of years from First year of
+    #' projection
     seq_years = function() {
-      seq(self$yr_start,self$yr_end)
+      seq(self$yr_start, self$yr_end)
     }
 
-  ), private = list (
-    cli_general_rule = function () {
-      d <- cli_div(theme= list(rule= list(
+  ), private = list(
+    cli_general_rule = function() {
+      d <- cli_div(theme = list(rule = list(
           color = "cyan",
           "line-type" = "double")))
       cli_rule("General")
