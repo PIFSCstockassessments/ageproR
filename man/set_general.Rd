@@ -5,31 +5,31 @@
 \title{AGEPRO general options}
 \usage{
 set_general(
-  nFYear,
-  nXYear,
-  nFAge,
-  nXAge,
-  nSims,
-  nFleet,
-  nRecModel,
+  first_year,
+  last_year,
+  first_age,
+  last_age,
+  num_sims,
+  num_fleets,
+  num_models,
   seed,
   discard = FALSE
 )
 }
 \arguments{
-\item{nFYear}{First Year of prediction}
+\item{first_year}{First Year of prediction}
 
-\item{nXYear}{Last Year of prediction}
+\item{last_year}{Last Year of prediction}
 
-\item{nFAge}{First Age Class}
+\item{first_age}{First Age Class}
 
-\item{nXAge}{Last Age Class}
+\item{last_age}{Last Age Class}
 
-\item{nSims}{Number of Population Simulations}
+\item{num_sims}{Number of Population Simulations}
 
-\item{nFleet}{Number of Fleets}
+\item{num_fleets}{Number of Fleets}
 
-\item{nRecModel}{Number of Recruitment Models}
+\item{num_models}{Number of Recruitment Models}
 
 \item{seed}{Psuedo-random number seed}
 

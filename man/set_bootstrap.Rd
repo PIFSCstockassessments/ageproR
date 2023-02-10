@@ -5,15 +5,15 @@
 \title{Bootstrapping}
 \usage{
 set_bootstrap(
-  nboot = 1000,
-  bootFac = 1000,
+  num_boot = 1000,
+  boot_factor = 1000,
   file = here("inst", "Example1.BSN")
 )
 }
 \arguments{
-\item{nboot}{Number Of Bootstrap Operations}
+\item{num_boot}{Number Of Bootstrap Operations}
 
-\item{bootFac}{Population scaling Factor}
+\item{boot_factor}{Population scaling Factor}
 
 \item{file}{Bootstrap File}
 }
