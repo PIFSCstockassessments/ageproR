@@ -97,12 +97,15 @@ recruitment <- R6Class(
     #' Initializes RecruitModel Data
     set_recruit_model = function(model_num, seq_years) {
 
+      assert_numeric(model_num, lower = 0, upper = 21)
+
       model_dict <- dict(list(
         "0" = null_recruit_model$new(),
         "3" = empirical_distribution_model$new(seq_years),
         "5" = beverton_holt_curve_model$new(),
         "6" = ricker_curve_model$new(),
         "7" = shepherd_curve_model$new(),
+        "9" = deprecated_recruit_model_9$new(),
         "14" = empirical_cdf_model$new(seq_years)
       ))
 

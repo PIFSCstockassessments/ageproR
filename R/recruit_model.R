@@ -129,6 +129,52 @@ null_recruit_model <- R6Class(
   )
 )
 
+#' DEPRECATED Recruitment Model #9
+#' (Time-Varying Empirical Recruitment Distribution)
+#'
+#' Handles an instance for deprecated recruitment model #9.
+#'
+#' @template elipses
+#'
+deprecated_recruit_model_9 <- R6Class(
+  "deprecated_recruit_model_9",
+  inherit = recruit_model,
+  private = list(
+
+    cli_recruit_red = function() {
+      d <- cli_div(class = "tmp", theme = list(.tmp = list(
+        color = "red" )))
+      cli_text("{private$.model_name}")
+      cli_end(d)
+    }
+
+  ),
+  public = list(
+    #' @description
+    #' Initializes the class
+    initialize = function () {
+
+      super$model_name <-
+        "Time-Varying Empirical Recruitment Distribution (DEPRECATED)"
+      super$model_group <- 0
+      super$model_num <- 9
+
+    },
+
+    #' @description
+    #' Prints out the error
+    print = function (...) {
+      #cli_text("{super$model_name}")
+      private$cli_recruit_red()
+      cli_alert_danger(paste0("Recruitment model #9 has been deperecated. ",
+                     "Please use recruitment model #3 to impelement the ",
+                     "Time-Varying Empirical Distribution."))
+
+    }
+
+  )
+)
+
 #' Empirical Recruitment Model Data
 #' @inherit recruit_model description
 #'
