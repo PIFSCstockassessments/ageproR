@@ -176,17 +176,23 @@ set_stochastic_weight_age <- function(df,
 }
 
 
+#' Sets Stochastic age
+#'
+#' Sets a Stochastic parameter of Age
+#'
+#' @param valid_flag Valid flag
+#'
 set_stochastic_age <- function(valid_flag = c(1, 2)) {
   force(valid_flag)
   function(df, sd, flag, time_flag) {
     if (!flag %in% valid_flag) {
       stop("Invalid Stochastic Parameter of Age flag")
     }
-    return(set_stochasticWeightAge(df, sd, flag, time_flag))
+    #Send to stochastic weight of age function
+    return(set_stochastic_weight_age(df, sd, flag, time_flag))
   }
 
 }
-
 set_stock_weight <- set_stochastic_age(valid_flag = c(1, 2))
 set_ssb_weight <- set_stochastic_age(valid_flag = c(1, 2, 3))
 set_mean_weight <- set_stochastic_age(valid_flag = c(1, 2, 3, 4))
@@ -196,6 +202,7 @@ set_discard_weight <- set_stochastic_age(valid_flag = c(1, 2, 3, 4, 5, 6))
 set_maturity <- set_stochastic_age()
 set_fishery <- set_stochastic_age()
 set_natural_mortality <- set_stochastic_age()
+
 
 
 
