@@ -22,8 +22,40 @@
 #'
 recruitment <- R6Class(
   "recruitment",
+  private = list(
+    qty_seq_years = NULL,
+    qty_rec_models = NULL,
+    req_prob_years = NULL,
 
-  public = list(
+    .recruit_scaling_factor = NULL,
+    .ssb_scaling_factor = NULL,
+
+
+    cli_recruit_rule = function() {
+      d <- cli_div(theme = list(rule = list(
+        color = "cyan",
+        "line-type" = "double")))
+      cli_rule("Recruitment")
+      cli_end(d)
+    },
+
+    assert_seq_years = function(seq_years) {
+      #Handle seq_years as a single int or a vector of sequential values
+      self$seq_yrs <- seq_years
+
+      if (test_int(self$seq_yrs)) {
+        #single
+        private$qty_seq_years <- self$seq_yrs
+        private$req_prob_years <- 1:self$seq_yrs
+
+      } else {
+        private$qty_seq_years <- length(self$seq_yrs)
+        private$req_prob_years <- self$seq_yrs
+      }
+
+
+    }
+  ), public = list(
 
     #' @field max_rec_obs Recruitment submodel's maximum number of observations
     max_rec_obs = 1000,
@@ -219,42 +251,6 @@ recruitment <- R6Class(
 
     }
 
-
-
-
-  ), private = list(
-    qty_seq_years = NULL,
-    qty_rec_models = NULL,
-    req_prob_years = NULL,
-
-    .recruit_scaling_factor = NULL,
-    .ssb_scaling_factor = NULL,
-
-
-    cli_recruit_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
-    },
-
-    assert_seq_years = function(seq_years) {
-      #Handle seq_years as a single int or a vector of sequential values
-      self$seq_yrs <- seq_years
-
-      if (test_int(self$seq_yrs)) {
-        #single
-        private$qty_seq_years <- self$seq_yrs
-        private$req_prob_years <- 1:self$seq_yrs
-
-      } else {
-        private$qty_seq_years <- length(self$seq_yrs)
-        private$req_prob_years <- self$seq_yrs
-      }
-
-
-    }
   )
 
 )
