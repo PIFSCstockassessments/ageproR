@@ -95,6 +95,7 @@ recruitment <- R6Class(
 
     #' @description
     #' Initializes RecruitModel Data
+    #' @export
     set_recruit_model = function(model_num, seq_years) {
 
       assert_numeric(model_num, lower = 0, upper = 21)
