@@ -30,6 +30,8 @@ recruitment <- R6Class(
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
 
+    .recruit_probability = NULL,
+
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -63,9 +65,6 @@ recruitment <- R6Class(
     #' @field rec_model_num Recruitment Type
     rec_model_num = NULL,
 
-    #' @field rec_prob recruitment probabilities
-    rec_prob = NULL,
-
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
 
@@ -97,7 +96,7 @@ recruitment <- R6Class(
       #Recruitment Model Number list
       self$rec_model_num <- vector("list", private$qty_rec_models)
       #Recruitment Probability list
-      self$rec_prob <- vector("list", private$qty_rec_models)
+      self$recruit_probability <- vector("list", private$qty_rec_models)
       #Recruitment Model Data List
       self$model_collection_list <- vector("list", private$qty_rec_models)
 
@@ -108,12 +107,12 @@ recruitment <- R6Class(
         # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
-        self$rec_prob[[recruit]] <-
+        self$recruit_probability[[recruit]] <-
           format(
             round(rep(1, private$qty_seq_years) / private$qty_seq_years, 4),
             nsmall = 4)
 
-        names(self$rec_prob[[recruit]]) <- private$req_prob_years
+        names(self$recruit_probability[[recruit]]) <- private$req_prob_years
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -164,8 +163,8 @@ recruitment <- R6Class(
       cli_par()
       cli_end()
       cli_alert_info("Recruitment Probability:")
-      assert_list(self$rec_prob) #verify recruit_prob list
-      cat_print(self$rec_prob)
+      assert_list(self$rec_probability) #verify recruit_prob list
+      cat_print(self$rec_probility)
       for (recruit in 1:private$qty_rec_models){
         cli_par()
         cli_alert_info(c("Recruit {recruit} of {private$qty_rec_models} : ",
@@ -201,7 +200,7 @@ recruitment <- R6Class(
         ssbFac = self$ssb_fac,
         maxRecObs = self$max_rec_obs,
         type = self$rec_model_num,
-        prob = self$rec_prob,
+        prob = self$recruit_probability,
         modelData = model_data_list)
 
       if (print_json) {
@@ -225,8 +224,20 @@ recruitment <- R6Class(
 
   ), active <- list(
 
-    #' @field recruit_scaling_factor Sets the Recruitment Scaling factor.
-    #' Multiplier to convert recruitment submodel's recruitment units to
+
+    #' @field recruit_probability
+    #' The Recruitment Probabilities.
+    recruit_probability = function (value) {
+      if(missing(value)) {
+        retrurn(private$.recruit_probability)
+      }else {
+        assert_numeric(value)
+        private$.recruit_probability <- value
+      }
+    },
+
+    #' @field recruit_scaling_factor
+    #' The multiplier to convert recruitment submodel's recruitment units to
     #' absolute numbers of fish
     recruit_scaling_factor = function(value) {
       if (missing(value)) {
@@ -238,9 +249,9 @@ recruitment <- R6Class(
 
     },
 
-    #' @field ssb_scaling_factor Sets the SSB Scaling Factor. Multiplier to
-    #' convert recruitment submodel's SSB to absolute spawning weight of fish
-    #' in kilograms (kg)
+    #' @field ssb_scaling_factor
+    #' The multiplier to convert recruitment submodel's SSB to absolute
+    #' spawning weight of fish in kilograms (kg)
     ssb_scaling_factor = function(value) {
       if (missing(value)) {
         return(private$.ssb_scaling_factor)
