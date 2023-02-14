@@ -63,11 +63,11 @@ recruitment <- R6Class(
     }
   ), public = list(
 
-    #' @field recruit_probability The Recruitment Probabilities.
-    recruit_probability = NULL,
-
     #' @field recruit_model_num_list Recruitment Type
     recruit_model_num_list = NULL,
+
+    #' #' @field recruit_probability The Recruitment Probabilities.
+    #' recruit_probability = NULL,
 
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
@@ -99,8 +99,8 @@ recruitment <- R6Class(
       private$.qty_rec_models <- length(model_num)
       #Recruitment Model Number list
       self$recruit_model_num_list <- vector("list", private$.qty_rec_models)
-      #Recruitment Probability list
-      self$recruit_probability <- vector("list", private$.qty_rec_models)
+      # #Recruitment Probability list
+      # self$recruit_probability <- vector("list", private$.qty_rec_models)
       #Recruitment Model Data List
       self$model_collection_list <- vector("list", private$.qty_rec_models)
 
@@ -111,12 +111,12 @@ recruitment <- R6Class(
         # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
-        self$recruit_probability[[recruit]] <-
+        private$.recruit_probability[[recruit]] <-
           format(
             round(rep(1, private$.qty_seq_years) / private$.qty_seq_years, 4),
             nsmall = 4)
 
-        names(self$recruit_probability[[recruit]]) <- private$.req_prob_years
+        names(private$.recruit_probability[[recruit]]) <- private$.req_prob_years
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -240,6 +240,12 @@ recruitment <- R6Class(
         assert_int(value)
         private$.max_rec_obs <- value
       }
+    },
+
+    #' @field recruit_probability
+    #' The Recruitment Probabilities.
+    recruit_probability = function() {
+      return(private$.recruit_probability)
     },
 
     #' @field recruit_scaling_factor
