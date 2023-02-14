@@ -112,9 +112,9 @@ recruitment <- R6Class(
         # TODO: Check validity
         # TODO: Refactor to function
         private$.recruit_probability[[recruit]] <-
-          format(
+          as.numeric(format(
             round(rep(1, private$.qty_seq_years) / private$.qty_seq_years, 4),
-            nsmall = 4)
+            nsmall = 4))
 
         names(private$.recruit_probability[[recruit]]) <- private$.req_prob_years
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
