@@ -99,11 +99,10 @@ recruitment <- R6Class(
       private$.qty_rec_models <- length(model_num)
       #Recruitment Model Number list
       self$recruit_model_num_list <- vector("list", private$.qty_rec_models)
-      # #Recruitment Probability list
-      # self$recruit_probability <- vector("list", private$.qty_rec_models)
+      #Recruitment Probability list
+      private$.recruit_probability <- vector("list", private$.qty_rec_models)
       #Recruitment Model Data List
       self$model_collection_list <- vector("list", private$.qty_rec_models)
-
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$.qty_rec_models) {
 
