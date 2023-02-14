@@ -33,6 +33,7 @@ recruitment <- R6Class(
     .ssb_scaling_factor = NULL,
 
     .recruit_probability = NULL,
+    .recruit_model_num_list = NULL,
 
 
 
@@ -62,9 +63,11 @@ recruitment <- R6Class(
     }
   ), public = list(
 
+    #' @field recruit_probability The Recruitment Probabilities.
+    recruit_probability = NULL,
 
-    #' @field rec_model_num Recruitment Type
-    rec_model_num = NULL,
+    #' @field recruit_model_num_list Recruitment Type
+    recruit_model_num_list = NULL,
 
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
@@ -95,7 +98,7 @@ recruitment <- R6Class(
       #Setup vectors based on number of recruitment models.
       private$.qty_rec_models <- length(model_num)
       #Recruitment Model Number list
-      self$rec_model_num <- vector("list", private$.qty_rec_models)
+      self$recruit_model_num_list <- vector("list", private$.qty_rec_models)
       #Recruitment Probability list
       self$recruit_probability <- vector("list", private$.qty_rec_models)
       #Recruitment Model Data List
@@ -114,11 +117,12 @@ recruitment <- R6Class(
             nsmall = 4)
 
         names(self$recruit_probability[[recruit]]) <- private$.req_prob_years
-        self$rec_model_num[[recruit]] <- model_num[[recruit]]
+        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$rec_model_num[[recruit]], self$seq_yrs)
+          self$set_recruit_model(self$recruit_model_num_list[[recruit]],
+                                 self$seq_yrs)
       }
 
 
@@ -163,12 +167,14 @@ recruitment <- R6Class(
       cli_par()
       cli_end()
       cli_alert_info("Recruitment Probability:")
-      assert_list(self$rec_probability) #verify recruit_prob list
-      cat_print(self$rec_probility)
+      assert_list(self$recruit_probability) #verify recruit_prob list
+      cat_print(self$recruit_probability)
       for (recruit in 1:private$.qty_rec_models){
         cli_par()
-        cli_alert_info(c("Recruit {recruit} of {private$.qty_rec_models} : ",
-                         "Recruitment Model #{self$rec_model_num[[recruit]]} "))
+        cli_alert_info(paste0("Recruit {recruit} of ",
+                              "{private$.qty_rec_models} : ",
+                              "Recruitment Model #",
+                              "{self$recruit_model_num_list[[recruit]]} "))
         #Verify class inherits from "recruit_model"
         assert_r6(self$model_collection_list[[recruit]], "recruit_model")
         self$model_collection_list[[recruit]]$print()
@@ -188,8 +194,8 @@ recruitment <- R6Class(
     print_recruit = function(print_json = TRUE) {
 
       #Gather Recruit Model Data
-      model_data_list <- vector("list", length(self$rec_model_num))
-      for (recruit in seq_along(self$rec_model_num)){
+      model_data_list <- vector("list", length(self$recruit_model_num_list))
+      for (recruit in seq_along(self$recruit_model_num_list)){
 
         model_data_list[[recruit]] <-
           self$model_collection_list[[recruit]][["recruit_data"]]
@@ -199,7 +205,7 @@ recruitment <- R6Class(
         recFac = self$rec_fac,
         ssbFac = self$ssb_fac,
         maxRecObs = self$max_rec_obs,
-        type = self$rec_model_num,
+        type = self$recruit_model_num_list,
         prob = self$recruit_probability,
         modelData = model_data_list)
 
@@ -218,7 +224,8 @@ recruitment <- R6Class(
     #' Helper Function To View Recruitment Model Collection Data
     view_recruit_data = function() {
 
-      cli_alert_info("Recruitment Model{?s}: {.field {self$rec_model_num}} ")
+      cli_alert_info(paste0("Recruitment Model{?s}: ",
+                            "{.field {self$recuit_model_num_list}} "))
 
     }
 
@@ -232,17 +239,6 @@ recruitment <- R6Class(
       }else {
         assert_int(value)
         private$.max_rec_obs <- value
-      }
-    },
-
-    #' @field recruit_probability
-    #' The Recruitment Probabilities.
-    recruit_probability = function(value) {
-      if(missing(value)) {
-        return(private$.recruit_probability)
-      }else {
-        assert_numeric(value)
-        private$.recruit_probability <- value
       }
     },
 

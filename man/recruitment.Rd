@@ -12,7 +12,9 @@ these models.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{rec_model_num}}{Recruitment Type}
+\item{\code{recruit_probability}}{The Recruitment Probabilities.}
+
+\item{\code{recruit_model_num_list}}{Recruitment Type}
 
 \item{\code{model_collection_list}}{List of recruitment models}
 
@@ -24,8 +26,6 @@ these models.
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{max_recruit_obs}}{Recruitment submodel's maximum number of observations}
-
-\item{\code{recruit_probability}}{The Recruitment Probabilities.}
 
 \item{\code{recruit_scaling_factor}}{The multiplier to convert recruitment submodel's recruitment units to
 absolute numbers of fish}
