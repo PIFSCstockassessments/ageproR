@@ -18,19 +18,22 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_numeric assert_list assert_r6
+#' @importFrom checkmate assert_int
 #' @importFrom collections dict
 #'
 recruitment <- R6Class(
   "recruitment",
   private = list(
-    qty_seq_years = NULL,
-    qty_rec_models = NULL,
-    req_prob_years = NULL,
+    .qty_seq_years = NULL,
+    .qty_rec_models = NULL,
+    .req_prob_years = NULL,
+    .max_rec_prob = 1000,
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
 
     .recruit_probability = NULL,
+
 
 
     cli_recruit_rule = function() {
@@ -47,20 +50,18 @@ recruitment <- R6Class(
 
       if (test_int(self$seq_yrs)) {
         #single
-        private$qty_seq_years <- self$seq_yrs
-        private$req_prob_years <- 1:self$seq_yrs
+        private$.qty_seq_years <- self$seq_yrs
+        private$.req_prob_years <- 1:self$seq_yrs
 
       } else {
-        private$qty_seq_years <- length(self$seq_yrs)
-        private$req_prob_years <- self$seq_yrs
+        private$.qty_seq_years <- length(self$seq_yrs)
+        private$.req_prob_years <- self$seq_yrs
       }
 
 
     }
   ), public = list(
 
-    #' @field max_rec_obs Recruitment submodel's maximum number of observations
-    max_rec_obs = 1000,
 
     #' @field rec_model_num Recruitment Type
     rec_model_num = NULL,
@@ -92,16 +93,16 @@ recruitment <- R6Class(
       private$assert_seq_years(seq_years)
 
       #Setup vectors based on number of recruitment models.
-      private$qty_rec_models <- length(model_num)
+      private$.qty_rec_models <- length(model_num)
       #Recruitment Model Number list
-      self$rec_model_num <- vector("list", private$qty_rec_models)
+      self$rec_model_num <- vector("list", private$.qty_rec_models)
       #Recruitment Probability list
-      self$recruit_probability <- vector("list", private$qty_rec_models)
+      self$recruit_probability <- vector("list", private$.qty_rec_models)
       #Recruitment Model Data List
-      self$model_collection_list <- vector("list", private$qty_rec_models)
+      self$model_collection_list <- vector("list", private$.qty_rec_models)
 
       #Set recruitment probability and model data for each recruitment model.
-      for (recruit in 1:private$qty_rec_models) {
+      for (recruit in 1:private$.qty_rec_models) {
 
         # Recruitment Probability: Fill the time series with a recruitment
         # probability sums equal to unity
@@ -109,10 +110,10 @@ recruitment <- R6Class(
         # TODO: Refactor to function
         self$recruit_probability[[recruit]] <-
           format(
-            round(rep(1, private$qty_seq_years) / private$qty_seq_years, 4),
+            round(rep(1, private$.qty_seq_years) / private$.qty_seq_years, 4),
             nsmall = 4)
 
-        names(self$recruit_probability[[recruit]]) <- private$req_prob_years
+        names(self$recruit_probability[[recruit]]) <- private$.req_prob_years
         self$rec_model_num[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -151,12 +152,11 @@ recruitment <- R6Class(
     print = function(...) {
 
       #verify private fields are numeric
-      assert_numeric(private$qty_rec_models)
-      assert_numeric(private$qty_seq_years)
-      assert_numeric(private$qty_rec_models)
+      assert_numeric(private$.qty_rec_models)
+      assert_numeric(private$.qty_seq_years)
 
-      cli_alert_info(c("{private$qty_rec_models} recruitment model{?s}",
-                     " for {private$qty_seq_years} year{?s}."))
+      cli_alert_info(c("{private$.qty_rec_models} recruitment model{?s}",
+                     " for {private$.qty_seq_years} year{?s}."))
       cli_ul()
       cli_li("Recruitment Scaling Factor: {.val {self$recruit_scaling_factor}}")
       cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
@@ -165,9 +165,9 @@ recruitment <- R6Class(
       cli_alert_info("Recruitment Probability:")
       assert_list(self$rec_probability) #verify recruit_prob list
       cat_print(self$rec_probility)
-      for (recruit in 1:private$qty_rec_models){
+      for (recruit in 1:private$.qty_rec_models){
         cli_par()
-        cli_alert_info(c("Recruit {recruit} of {private$qty_rec_models} : ",
+        cli_alert_info(c("Recruit {recruit} of {private$.qty_rec_models} : ",
                          "Recruitment Model #{self$rec_model_num[[recruit]]} "))
         #Verify class inherits from "recruit_model"
         assert_r6(self$model_collection_list[[recruit]], "recruit_model")
@@ -224,12 +224,22 @@ recruitment <- R6Class(
 
   ), active <- list(
 
+    #' @field max_recruit_obs
+    #' Recruitment submodel's maximum number of observations
+    max_recruit_obs = function(value) {
+      if(missing(value)) {
+        return(private$.max_rec_obs)
+      }else {
+        assert_int(value)
+        private$.max_rec_obs <- value
+      }
+    },
 
     #' @field recruit_probability
     #' The Recruitment Probabilities.
-    recruit_probability = function (value) {
+    recruit_probability = function(value) {
       if(missing(value)) {
-        retrurn(private$.recruit_probability)
+        return(private$.recruit_probability)
       }else {
         assert_numeric(value)
         private$.recruit_probability <- value
