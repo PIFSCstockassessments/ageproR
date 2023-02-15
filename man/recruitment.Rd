@@ -29,6 +29,8 @@ recruit_probability = NULL,}
 
 \item{\code{recruit_probability}}{The Recruitment Probabilities.}
 
+\item{\code{num_recruit_models}}{Returns number of recruitment models}
+
 \item{\code{recruit_scaling_factor}}{The multiplier to convert recruitment submodel's recruitment units to
 absolute numbers of fish}
 
@@ -43,6 +45,7 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
 \item \href{#method-recruitment-set_recruit_data}{\code{recruitment$set_recruit_data()}}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
+\item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-print_recruit}{\code{recruitment$print_recruit()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
@@ -108,6 +111,27 @@ AGEPRO Recruitment Model Number}
 
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-set_recruit_probability"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_probability}{}}}
+\subsection{Method \code{set_recruit_probability()}}{
+Sets the recruitment probability
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{j}}{Index of the recruitment collection list}
+
+\item{\code{year}}{index of the Time series}
+
+\item{\code{value}}{Recruitment Probability}
 }
 \if{html}{\out{</div>}}
 }

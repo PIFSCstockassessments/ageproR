@@ -61,6 +61,7 @@ recruitment <- R6Class(
 
 
     }
+
   ), public = list(
 
     #' @field recruit_model_num_list Recruitment Type
@@ -150,6 +151,29 @@ recruitment <- R6Class(
     },
 
     #' @description
+    #' Sets the recruitment probability
+    #'
+    #' @param j Index of the recruitment collection list
+    #' @param year index of the Time series
+    #' @param value Recruitment Probability
+    set_recruit_probability = function(j, year, value) {
+
+      assert_int(j, lower = 1, upper = self$num_recruit_models )
+      assert_numeric(year,
+                     max.len = length(self$recruit_probability[[j]]))
+      assert_numeric(value, lower = 0, upper = 1,
+                     max.len = length(year))
+
+      if(!all(year %in% private$.req_prob_years)) {
+        stop(paste0("Year ", subset(year,!(year %in% private$.req_prob_years)),
+                    " is not within model projected year time horizon.\n  "))
+      }
+
+      private$.recruit_probability[[j]][as.character(year)] <- value
+
+    },
+
+    #' @description
     #' Prints out Recruitment
     #'
     print = function(...) {
@@ -166,8 +190,8 @@ recruitment <- R6Class(
       cli_par()
       cli_end()
       cli_alert_info("Recruitment Probability:")
-      assert_list(self$recruit_probability) #verify recruit_prob list
-      cat_print(self$recruit_probability)
+      assert_list(private$.recruit_probability) #verify recruit_prob list
+      cat_print(private$.recruit_probability)
       for (recruit in 1:private$.qty_rec_models){
         cli_par()
         cli_alert_info(paste0("Recruit {recruit} of ",
@@ -245,6 +269,12 @@ recruitment <- R6Class(
     #' The Recruitment Probabilities.
     recruit_probability = function() {
       return(private$.recruit_probability)
+    },
+
+    #' @field num_recruit_models
+    #' Returns number of recruitment models
+    num_recruit_models = function() {
+      return(private$.qty_rec_models)
     },
 
     #' @field recruit_scaling_factor
