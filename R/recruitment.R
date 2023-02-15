@@ -45,6 +45,13 @@ recruitment <- R6Class(
       cli_end(d)
     },
 
+    cli_recruit_probability = function() {
+      #Module to printout Recruitment probability to Rconsole
+      cli_alert_info("Recruitment Probability:")
+      assert_list(private$.recruit_probability) #verify recruit_prob list
+      cat_print(private$.recruit_probability)
+    },
+
     assert_seq_years = function(seq_years) {
       #Handle seq_years as a single int or a vector of sequential values
       self$seq_yrs <- seq_years
@@ -171,6 +178,8 @@ recruitment <- R6Class(
 
       private$.recruit_probability[[j]][as.character(year)] <- value
 
+      private$cli_recruit_probability()
+
     },
 
     #' @description
@@ -189,9 +198,7 @@ recruitment <- R6Class(
       cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
       cli_par()
       cli_end()
-      cli_alert_info("Recruitment Probability:")
-      assert_list(private$.recruit_probability) #verify recruit_prob list
-      cat_print(private$.recruit_probability)
+      private$cli_recruit_probability()
       for (recruit in 1:private$.qty_rec_models){
         cli_par()
         cli_alert_info(paste0("Recruit {recruit} of ",
@@ -208,7 +215,10 @@ recruitment <- R6Class(
     },
 
 
-    #'@description
+
+
+
+    #' @description
     #' Prints out Recruitment object data to console, with an option to display
     #' recruit object data to JSON format.
     #'
