@@ -198,7 +198,10 @@ recruitment <- R6Class(
       cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
       cli_par()
       cli_end()
+
+      #Module to printout Recruitment Probability
       private$cli_recruit_probability()
+
       for (recruit in 1:private$.qty_rec_models){
         cli_par()
         cli_alert_info(paste0("Recruit {recruit} of ",
