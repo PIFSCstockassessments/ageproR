@@ -233,11 +233,11 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$rec_array <- matrix(rep("0", self$observed_points),
+        self$rec_array <- matrix(rep(0, self$observed_points),
                                  nrow = 2,
                                  ncol = self$observed_points)
       }else {
-        self$rec_array <- matrix(rep("0", self$observed_points),
+        self$rec_array <- matrix(rep(0, self$observed_points),
                                  nrow = 1,
                                  ncol = self$observed_points)
       }
