@@ -9,7 +9,7 @@ Ricker Curve #/ Lognormal Error (Model #6)
 Ricker Curve #/ Lognormal Error (Model #6)
 }
 \section{Super classes}{
-\code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{\link[AGEPROjson:parametric_curve]{AGEPROjson::parametric_curve}} -> \code{ricker_curve_model}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:parametric_curve]{ageproj::parametric_curve}} -> \code{ricker_curve_model}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -21,7 +21,7 @@ Ricker Curve #/ Lognormal Error (Model #6)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="parametric_curve" data-id="print"><a href='../../AGEPROjson/html/parametric_curve.html#method-parametric_curve-print'><code>AGEPROjson::parametric_curve$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="print"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-print'><code>ageproj::parametric_curve$print()</code></a></span></li>
 </ul>
 </details>
 }}

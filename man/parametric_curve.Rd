@@ -7,7 +7,7 @@
 Recruitment Model Description
 }
 \section{Super class}{
-\code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{parametric_curve}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{parametric_curve}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

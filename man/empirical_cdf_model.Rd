@@ -9,7 +9,7 @@ Empirical CDF of Recruitment (Model #14)
 Empirical CDF of Recruitment (Model #14)
 }
 \section{Super classes}{
-\code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{\link[AGEPROjson:empirical_recruit]{AGEPROjson::empirical_recruit}} -> \code{empirical_cdf_model}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{empirical_cdf_model}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -21,9 +21,9 @@ Empirical CDF of Recruitment (Model #14)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../AGEPROjson/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>AGEPROjson::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="empirical_recruit" data-id="print"><a href='../../AGEPROjson/html/empirical_recruit.html#method-empirical_recruit-print'><code>AGEPROjson::empirical_recruit$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="AGEPROjson" data-topic="empirical_recruit" data-id="print_json"><a href='../../AGEPROjson/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>AGEPROjson::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
 </ul>
 </details>
 }}

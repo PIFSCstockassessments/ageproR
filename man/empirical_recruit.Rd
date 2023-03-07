@@ -7,7 +7,7 @@
 Recruitment Model Description
 }
 \section{Super class}{
-\code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{empirical_recruit}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{empirical_recruit}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

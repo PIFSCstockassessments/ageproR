@@ -9,7 +9,7 @@ Shepherd Curve with Lognormal Error (Model #7)
 Shepherd Curve with Lognormal Error (Model #7)
 }
 \section{Super classes}{
-\code{\link[AGEPROjson:recruit_model]{AGEPROjson::recruit_model}} -> \code{\link[AGEPROjson:parametric_curve]{AGEPROjson::parametric_curve}} -> \code{shepherd_curve_model}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:parametric_curve]{ageproj::parametric_curve}} -> \code{shepherd_curve_model}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
