@@ -1,7 +1,7 @@
-#' AGEPROjson: Prototype AGEPRO R package interface
+#' ageproj: AGEPRO R package interface
 #'
 #' @docType package
-#' @name AGEPROjson
+#' @name ageproj
 #'
 #' @import R6
 #' @noRd
