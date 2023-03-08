@@ -123,7 +123,9 @@ recruitment <- R6Class(
             round(rep(1, private$.qty_seq_years) / private$.qty_seq_years, 4),
             nsmall = 4))
 
-        names(private$.recruit_probability[[recruit]]) <- private$.req_prob_years
+        names(private$.recruit_probability[[recruit]]) <-
+          private$.req_prob_years
+
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -165,14 +167,14 @@ recruitment <- R6Class(
     #' @param value Recruitment Probability
     set_recruit_probability = function(j, year, value) {
 
-      assert_int(j, lower = 1, upper = self$num_recruit_models )
+      assert_int(j, lower = 1, upper = self$num_recruit_models)
       assert_numeric(year,
                      max.len = length(self$recruit_probability[[j]]))
       assert_numeric(value, lower = 0, upper = 1,
                      max.len = length(year))
 
-      if(!all(year %in% private$.req_prob_years)) {
-        stop(paste0("Year ", subset(year,!(year %in% private$.req_prob_years)),
+      if (!all(year %in% private$.req_prob_years)) {
+        stop(paste0("Year ", subset(year, !(year %in% private$.req_prob_years)),
                     " is not within model projected year time horizon.\n  "))
       }
 
@@ -270,7 +272,7 @@ recruitment <- R6Class(
     #' @field max_recruit_obs
     #' Recruitment submodel's maximum number of observations
     max_recruit_obs = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         return(private$.max_rec_obs)
       }else {
         assert_int(value)

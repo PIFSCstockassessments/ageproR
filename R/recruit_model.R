@@ -143,7 +143,7 @@ deprecated_recruit_model_9 <- R6Class(
 
     cli_recruit_danger = function() {
       d <- cli_div(class = "tmp", theme = list(.tmp = list(
-        color = "red" )))
+        color = "red")))
       cli_text("{symbol$cross} {private$.model_name}")
       cli_end(d)
     }
@@ -152,7 +152,7 @@ deprecated_recruit_model_9 <- R6Class(
   public = list(
     #' @description
     #' Initializes the class
-    initialize = function () {
+    initialize = function() {
 
       super$model_name <-
         "Time-Varying Empirical Recruitment Distribution (DEPRECATED)"
@@ -163,7 +163,7 @@ deprecated_recruit_model_9 <- R6Class(
 
     #' @description
     #' Prints out the error
-    print = function (...) {
+    print = function(...) {
       private$cli_recruit_danger()
       stop(paste0("Recruitment model #9 has been deperecated. ",
                               "Please use recruitment model #3 to implement ",

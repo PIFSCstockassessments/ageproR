@@ -9,7 +9,7 @@
 #'
 #' @export
 read_inpfile <- function(file) {
-  return(read_json(file, simplifyVector = TRUE))
+  return(jsonlite::read_json(file, simplifyVector = TRUE))
 }
 
 
@@ -23,5 +23,5 @@ read_inpfile <- function(file) {
 #'
 #' @export
 print_json <- function(x) {
-  return(toJSON(x, pretty = TRUE))
+  return(jsonlite::toJSON(x, pretty = TRUE))
 }
