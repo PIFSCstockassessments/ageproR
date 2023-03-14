@@ -293,7 +293,7 @@ empirical_recruit <- R6Class(
     #' @field recruit_data
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
-      return(list(points = super$super_$projected_years,
+      return(list(points = self$observed_points,
            recruits = self$rec_array))
     },
 

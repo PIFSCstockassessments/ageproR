@@ -27,7 +27,7 @@ recruitment <- R6Class(
     .qty_seq_years = NULL,
     .qty_rec_models = NULL,
     .req_prob_years = NULL,
-    .max_rec_prob = 1000,
+    .max_rec_obs = 10000,
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
@@ -86,11 +86,19 @@ recruitment <- R6Class(
     #' @description
     #' Initializes the Recruitment Class
     #'
-    initialize = function(model_num, seq_years) {
+    #' @param max_rec_obs
+    #' Max limit of recruitment observations. Default is 10000.
+    #'
+    initialize = function(model_num, seq_years, max_rec_obs = 10000) {
 
       self$set_recruit_data(model_num, seq_years)
       self$recruit_scaling_factor <- 1000
       self$ssb_scaling_factor <- 0
+
+      if(!missing(max_rec_obs)) {
+        private$.max_rec_obs <- max_rec_obs
+      }
+
       self$print()
 
     },
@@ -126,6 +134,7 @@ recruitment <- R6Class(
         names(private$.recruit_probability[[recruit]]) <-
           private$.req_prob_years
 
+        #Model Num
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data
@@ -233,6 +242,7 @@ recruitment <- R6Class(
 
       #Gather Recruit Model Data
       model_data_list <- vector("list", length(self$recruit_model_num_list))
+
       for (recruit in seq_along(self$recruit_model_num_list)){
 
         model_data_list[[recruit]] <-
@@ -240,9 +250,9 @@ recruitment <- R6Class(
       }
 
       recruit_json <- list(
-        recFac = self$rec_fac,
-        ssbFac = self$ssb_fac,
-        maxRecObs = self$max_rec_obs,
+        recFac = self$recruit_scaling_factor,
+        ssbFac = self$ssb_scaling_factor,
+        maxRecObs = private$.max_rec_obs,
         type = self$recruit_model_num_list,
         prob = self$recruit_probability,
         modelData = model_data_list)

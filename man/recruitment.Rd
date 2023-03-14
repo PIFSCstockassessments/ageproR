@@ -58,7 +58,7 @@ spawning weight of fish in kilograms (kg)}
 \subsection{Method \code{new()}}{
 Initializes the Recruitment Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -69,6 +69,8 @@ AGEPRO Recruitment Model Number}
 
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
+
+\item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
 }
 \if{html}{\out{</div>}}
 }
