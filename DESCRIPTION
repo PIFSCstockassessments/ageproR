@@ -9,6 +9,7 @@ Description: More about what it does (maybe more than one line)
 Imports:
   jsonlite,
   here,
+  rprojroot,
   checkmate,
   cli,
   collections,

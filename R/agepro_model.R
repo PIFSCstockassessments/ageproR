@@ -12,12 +12,26 @@
 #' @template model_num
 #'
 #' @export
+#' @importFrom rprojroot is_rstudio_project is_git_root is_r_package
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number
 #' @importFrom utils browseURL
 agepro_model <- R6Class(
   classname = "agepro_model",
+  private = list(
 
+    str_legacy_ver = "AGEPRO VERSION 4.0",
+    str_ver = "4.0.0.0",
+
+    cli_recruit_rule = function() {
+      d <- cli_div(theme = list(rule = list(
+        color = "cyan",
+        "line-type" = "double")))
+      cli_rule("Recruitment")
+      cli_end(d)
+    }
+
+  ),
   public = list(
 
 
@@ -143,20 +157,7 @@ agepro_model <- R6Class(
     }
 
 
-  ),
-
-  private = list(
-
-    str_legacy_ver = "AGEPRO VERSION 4.0",
-    str_ver = "4.0.0.0",
-
-    cli_recruit_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
-    }
-
   )
+
+
 )
