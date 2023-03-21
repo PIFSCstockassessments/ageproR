@@ -35,24 +35,45 @@ input_file <- R6Class(
 
       #Console Message
 
+
+      #check_inputfile_version
+      #assume line 1 is version string
+      self$check_inpfile_version(readLines(inpfile, n = 1))
+
+
       tryCatch(
         {
-          inp_lines <- readLines(inpfile, warn = FALSE)
+          #(Reset) File connection to input file
+          con <- file(file.path(inpfile), "r")
+          #loop through inpfile to read in value fore each parameter keyword
+          while(length(inp_line <- readLines(con, n = 1, warn = FALSE)) > 0 ) {
+
+          }
+
         },
         warning = function(cond) {
           message("Warning. There was an issue reading this file:")
           message(cond)
           return(NULL)
         },
+        error = function(cond) {
+          message("Error:", cond)
+          return()
+        },
         finally = function(cond) {
           message("Input File Read")
+          #close file connections
+          close(con)
         }
+
       )
 
-      #check_inputfile_version
-      self$check_inpfile_version(inp_lines[1])
 
-      #loop through inpfile to read in value fore each parameter keyword
+
+
+
+
+
 
 
     },
