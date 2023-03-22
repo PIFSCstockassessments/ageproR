@@ -2,10 +2,12 @@
 
 #' AGEPRO Input File
 #'
-#' File Functionality is based on r4ss
+#' File Functionality is based on AGEPRO-CoreLib implementation
 #'
 #' @export
 #' @importFrom R6 R6Class
+#' @importFrom checkmate assert_character
+#' @importFrom collections dict
 #'
 input_file <- R6Class(
   "input_file",
@@ -17,72 +19,69 @@ input_file <- R6Class(
   ),
   public = list(
 
-
     #' @description
-    #' input_file w/ defaults.
-    #'
+    #' Initializes the input file
     initialize = function() {
 
+      private$.pre_v4 <- FALSE
 
     },
 
     #' @description
-    #' reads
+    #' Reads in AGEPRPO input file
     #'
-    read_inpfile <- function(inpfile) {
+    #' @param inpfile input file
+    #'
+    #' @export
+    read_inpfile = function(inpfile) {
 
       #Verify that input file location is valid
 
       #Console Message
 
-
-      #check_inputfile_version
-      #assume line 1 is version string
-      self$check_inpfile_version(readLines(inpfile, n = 1))
-
-
       tryCatch(
         {
           #(Reset) File connection to input file
-          con <- file(file.path(inpfile), "r")
-          #loop through inpfile to read in value fore each parameter keyword
-          while(length(inp_line <- readLines(con, n = 1, warn = FALSE)) > 0 ) {
+          inp_con <- file(file.path(inpfile), "r")
 
-          }
+          message("Test")
+          self$read_inpfile_values(inp_con)
+
 
         },
         warning = function(cond) {
           message("Warning. There was an issue reading this file:")
           message(cond)
-          return(NULL)
+          close(inp_con)
+          return()
         },
         error = function(cond) {
+          message("There was an error reading this file.")
           message("Error:", cond)
+          close(inp_con)
           return()
         },
         finally = function(cond) {
           message("Input File Read")
           #close file connections
-          close(con)
+          close(inp_con)
         }
 
       )
 
-
-
-
-
-
-
-
-
     },
 
 
-    check_inpfile_version <- function(inpline) {
-      checkmate::assert_character(inpline, length = 1)
+    #' @description
+    #' Check Input File Version
+    #'
+    #' @param inpline Input File Line
+    #'
+    check_inpfile_version = function(inpline) {
+      #checkmate::assert_character(inpline, length = 1)
       tryCatch(
         {
+          message("inpline:", inpline)
           inpline %in% private$.supported_inp_versions
         },
         error = function(cond) {
@@ -94,37 +93,74 @@ input_file <- R6Class(
       )
     },
 
-    match_keyword <- function() {
+    #' @description
+    #' Read Input file Values
+    #'
+    #' @param inp_con File connection
+    #' @export
+    #'
+    read_inpfile_values = function(inp_con) {
 
-      model_dict <- dict(list(
-        "[CASEID]" = stop("Not Implmented"), #TODO:agepro_model CASEID
-        "[GENERAL]" = agepro_model$general$read(), #TODO
-        "[RECRUIT]" = stop("Not Implmented"), #TODO
-        "[STOCK_WEIGHT]" = stop("Not Implmented"),
-        "[SSB_WEIGHT]" = stop("Not Implmented"),
-        "[CATCH_WEIGHT]" = stop("Not Implmented"),
-        "[DISC_WEIGHT]" = stop("Not Implmented"),
-        "[MATURITY]" = stop("Not Implmented"),
-        "[FISHERY]" = stop("Not Implmented"),
-        "[DISCARD]" = stop("Not Implmented"),
-        "[BIOLOGICAL]"  = stop("Not Implmented"),
-        "[BOOTSTRAP]" = stop("Not Implmented"),
-        "[HARVEST]" = stop("Not Implmented"),
-        "[REFPOINT]" = stop("Not Implmented"),
-        "[BOUNDS]" = stop("Not Implmented"),
-        "[RETROADJUST" = stop("Not Implmented"),
-        "[OPTIONS]" = stop("Not Implmented"),
-        "[SCALE]" = stop("Not Implmented"),
-        "[PERC]" = stop("Not Implmented"),
-        "[PSTAR]" = stop("Not Implmented")
-
+      # AGEPRO keyword parameter dictionary #TODO: Refactor to function
+      keyword_dict <- dict(list(
+        "[CASEID]" = message("CASEID Not Implmented. "),
+        "[GENERAL]" = message("GENERAL not Implemented"),
+        "[RECRUIT]" = self$not_implemented,
+        "[STOCK_WEIGHT]" = self$not_implemented,
+        "[SSB_WEIGHT]" = self$not_implemented,
+        "[CATCH_WEIGHT]" = self$not_implemented,
+        "[DISC_WEIGHT]" = self$not_implemented,
+        "[MATURITY]" = self$not_implemented,
+        "[FISHERY]" = self$not_implemented,
+        "[DISCARD]" = self$not_implemented,
+        "[BIOLOGICAL]"  = self$not_implemented,
+        "[BOOTSTRAP]" = self$not_implemented,
+        "[HARVEST]" = self$not_implemented,
+        "[REFPOINT]" = self$not_implemented,
+        "[BOUNDS]" = self$not_implemented,
+        "[RETROADJUST" = self$not_implemented,
+        "[OPTIONS]" = self$not_implemented,
+        "[SCALE]" = self$not_implemented,
+        "[PERC]" = self$not_implemented,
+        "[PSTAR]" = self$not_implemented
       ))
+
+      message("Check Version")
+      #check_inputfile_version
+      #assume line 1 is version string
+      self$check_inpfile_version( readLines(inp_con, n = 1, warn = FALSE) )
+
+      nlines <- 0L
+      message("LOOP")
+      #loop through inpfile to read in value fore each parameter keyword
+      #while(length(inp_line <- readLines(inp_con, n = 1, warn = FALSE)) > 0 ) {
+      while(TRUE) {
+        inp_line <- readLines(inp_con, n = 1, warn = FALSE)
+        if(length(inp_line) == 0 ) {
+          break
+        }
+
+        nlines <- nlines + 1
+        message("line:", inp_line)
+        #Match line to keyword.
+        if(!keyword_dict$has(inp_line)){
+          warning("Input line ",nlines, " does not match AGEPRO keyword parameter")
+          next
+        }
+        #If there is a match w/ keyword_dict then use the keyword's own
+        #readLine function
+        keyword_dict$get(inp_line)
+
+
+      }
+
+    },
+
+    #' @description
+    #' Throws a Not Implemented exception
+    not_implemented = function() {
+      stop("Not Implmented")
     }
-
-  ),
-  active = list(
-
-
 
   )
 )

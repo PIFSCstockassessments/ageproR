@@ -2,6 +2,7 @@
 
 export(agepro_model)
 export(empirical_recruit)
+export(input_file)
 export(output_fn)
 export(parametric_curve)
 export(print_json)
