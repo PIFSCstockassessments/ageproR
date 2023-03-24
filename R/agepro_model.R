@@ -159,5 +159,4 @@ agepro_model <- R6Class(
 
   )
 
-
 )

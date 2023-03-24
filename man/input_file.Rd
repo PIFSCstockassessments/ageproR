@@ -11,6 +11,20 @@ AGEPRO Input File
 \details{
 File Functionality is based on AGEPRO-CoreLib implementation
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{model}}{Agepro model}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{placeholder_caseid}}{temp case id}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -18,6 +32,8 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \item \href{#method-input_file-read_inpfile}{\code{input_file$read_inpfile()}}
 \item \href{#method-input_file-check_inpfile_version}{\code{input_file$check_inpfile_version()}}
 \item \href{#method-input_file-read_inpfile_values}{\code{input_file$read_inpfile_values()}}
+\item \href{#method-input_file-match_keyword}{\code{input_file$match_keyword()}}
+\item \href{#method-input_file-not_implemented}{\code{input_file$not_implemented()}}
 \item \href{#method-input_file-clone}{\code{input_file$clone()}}
 }
 }
@@ -78,6 +94,44 @@ Read Input file Values
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{inp_con}}{File connection}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-input_file-match_keyword"></a>}}
+\if{latex}{\out{\hypertarget{method-input_file-match_keyword}{}}}
+\subsection{Method \code{match_keyword()}}{
+Match Keyword
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{input_file$match_keyword(inp_line, inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_line}}{line}
+
+\item{\code{inp_con}}{Stdin text connection}
+
+\item{\code{nline}}{line number}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-input_file-not_implemented"></a>}}
+\if{latex}{\out{\hypertarget{method-input_file-not_implemented}{}}}
+\subsection{Method \code{not_implemented()}}{
+Throws a Not Implemented exception
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{input_file$not_implemented(keyword = "")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keyword}}{keyword}
 }
 \if{html}{\out{</div>}}
 }
