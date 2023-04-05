@@ -21,6 +21,8 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{nline_}}{nlines}
+
 \item{\code{placeholder_caseid}}{temp case id}
 }
 \if{html}{\out{</div>}}
@@ -104,7 +106,7 @@ Read Input file Values
 \subsection{Method \code{match_keyword()}}{
 Match Keyword
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{input_file$match_keyword(inp_line, inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{input_file$match_keyword(inp_line, inp_con)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -113,8 +115,6 @@ Match Keyword
 \item{\code{inp_line}}{line}
 
 \item{\code{inp_con}}{Stdin text connection}
-
-\item{\code{nline}}{line number}
 }
 \if{html}{\out{</div>}}
 }

@@ -16,8 +16,9 @@ input_file <- R6Class(
 
     .TEMP_CASEID = NULL,
     .pre_v4 = FALSE,
-    .supported_inp_versions = "AGEPRO VERSION 4.0"
+    .supported_inp_versions = "AGEPRO VERSION 4.0",
 
+    .nline_ = NULL
 
   ),
   public = list(
@@ -31,6 +32,7 @@ input_file <- R6Class(
     initialize = function() {
 
       private$.pre_v4 <- FALSE
+      private$.nline_ <- 0
 
     },
 
@@ -110,8 +112,10 @@ input_file <- R6Class(
 
       #check_inputfile_version
       #assume line 1 is version string
-      nline <- 1
-      message("line ", nline, ": ")
+      #nline <- 1
+      self$nline_ <- 1
+      #message("line ", nline, ": ")
+      message("line ", self$nline_ ,":")
       self$check_inpfile_version( readLines(inp_con, n = 1, warn = FALSE) )
 
 
@@ -124,9 +128,9 @@ input_file <- R6Class(
           break
         }
 
-        nline <- nline + 1
-
-        self$match_keyword(inp_line, inp_con, nline)
+        #nline <- nline + 1
+        self$nline_ <- self$nline_ + 1
+        self$match_keyword(inp_line, inp_con)
 
       }
 
@@ -140,93 +144,105 @@ input_file <- R6Class(
     #'
     #' @param inp_line line
     #' @param inp_con Stdin text connection
-    #' @param nline line number
-    match_keyword = function(inp_line, inp_con, nline ) {
+    match_keyword = function(inp_line, inp_con ) {
+
 
 
       # AGEPRO keyword parameter dictionary #TODO: Refactor to function
+      # keyword_dict <- dict(list(
+      #   "[CASEID]" = #
+      #     rlang::exprs((self$placeholder_caseid <- inp_con) , (nline = nline+1) ),#{ rlang::enquo(inp_con) %>% (self$placeholder_caseid <- (!!inp_con) ) },#not_implemented2(inp_line),   # issue with warnings and stops initializing this dictonary
+      #   "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
+      #   "[RECRUIT]" = {{ rlang::expr(self$not_implemented()) }},
+      #   "[STOCK_WEIGHT]" = rlang::expr(self$not_implemented()),
+      #   "[SSB_WEIGHT]" = rlang::expr(self$not_implemented()),
+      #   "[CATCH_WEIGHT]" = rlang::expr(self$not_implemented()),
+      #   "[DISC_WEIGHT]" = rlang::expr(self$not_implemented()),
+      #   "[MATURITY]" = rlang::expr(self$not_implemented()),
+      #   "[FISHERY]" = rlang::expr(self$not_implemented()),
+      #   "[DISCARD]" = rlang::expr(self$not_implemented()),
+      #   "[BIOLOGICAL]"  = rlang::expr(self$not_implemented()),
+      #   "[BOOTSTRAP]" = { rlang::expr(self$not_implemented()) } ,
+      #   "[HARVEST]" = rlang::expr(self$not_implemented()),
+      #   "[REFPOINT]" = rlang::expr(self$not_implemented()),
+      #   "[BOUNDS]" = rlang::expr(self$not_implemented()),
+      #   "[RETROADJUST" = rlang::expr(self$not_implemented()),
+      #   "[OPTIONS]" = rlang::expr(self$not_implemented()),
+      #   "[SCALE]" = rlang::expr(self$not_implemented()),
+      #   "[PERC]" = rlang::expr(self$not_implemented()),
+      #   "[PSTAR]" = self$not_implemented
+      # ))
+
       keyword_dict <- dict(list(
-        "[CASEID]" =
-          rlang::expr({self$placeholder_caseid <- inp_con; nline <- {{nline}} +1}),#{ rlang::enquo(inp_con) %>% (self$placeholder_caseid <- (!!inp_con) ) },#not_implemented2(inp_line),   # issue with warnings and stops initializing this dictonary
-        "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
-        "[RECRUIT]" = {{ rlang::expr(self$not_implemented()) }},
-        "[STOCK_WEIGHT]" = rlang::expr(self$not_implemented()),
-        "[SSB_WEIGHT]" = rlang::expr(self$not_implemented()),
-        "[CATCH_WEIGHT]" = rlang::expr(self$not_implemented()),
-        "[DISC_WEIGHT]" = rlang::expr(self$not_implemented()),
-        "[MATURITY]" = rlang::expr(self$not_implemented()),
-        "[FISHERY]" = rlang::expr(self$not_implemented()),
-        "[DISCARD]" = rlang::expr(self$not_implemented()),
-        "[BIOLOGICAL]"  = rlang::expr(self$not_implemented()),
-        "[BOOTSTRAP]" = { rlang::expr(self$not_implemented()) } ,
-        "[HARVEST]" = rlang::expr(self$not_implemented()),
-        "[REFPOINT]" = rlang::expr(self$not_implemented()),
-        "[BOUNDS]" = rlang::expr(self$not_implemented()),
-        "[RETROADJUST" = rlang::expr(self$not_implemented()),
-        "[OPTIONS]" = rlang::expr(self$not_implemented()),
-        "[SCALE]" = rlang::expr(self$not_implemented()),
-        "[PERC]" = rlang::expr(self$not_implemented()),
-        "[PSTAR]" = self$not_implemented
+         "[CASEID]" =
+           {rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
+         "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
+         "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
 
-      message("line ", nline, ": ", inp_line)
 
-      #Match line to keyword.
-#
-#       if(inp_line == "[CASEID]" ){
-#         self$placeholder_caseid <- inp_con
-#         nline <- nline + 1
-#       }else if(inp_line =="[GENERAL]"){
-#         self$not_implemented("GENERAL ")
-#       }else if(inp_line =="[RECRUIT]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[SSB_WEIGHT]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[CATCH_WEIGHT]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[DISC_WEIGHT]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[MATURITY]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[FISHERY]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[DISCARD]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[BIOLOGICAL]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[BOOTSTRAP]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[HARVEST]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[REFPOINT]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[BOUNDS]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[RETROADJUST]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[OPTIONS]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[SCALE]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[PERC]"){
-#         self$not_implemented("")
-#       }else if(inp_line =="[PSTAR]"){
-#         self$not_implemented("")
-#       }else{
-#         invisible()
-#       }
-
-
+      #message("line ", nline, ": ", inp_line)
+      message("line ", self$nline_, ": ", inp_line)
 
 
       if(rlang::eval_tidy(!keyword_dict$has(inp_line))){
-        message("Input line ",nline, " does not match AGEPRO keyword parameter")
+        message("Input line ",self$nline_, " does not match AGEPRO keyword parameter")
         invisible() #next
       }else{
         #If there is a match w/ keyword_dict then use the keyword's own
         #readLine function
-        rlang::eval_tidy(keyword_dict$get(inp_line))
+        data <- list(inp_con =inp_con)
+        rlang::eval_tidy(keyword_dict$get(inp_line), data)
+
+
       }
+
+      #Match line to keyword.
+
+      # if(inp_line == "[CASEID]" ){
+      #   self$placeholder_caseid <- inp_con
+      #   nline <- nline + 1
+      # }else if(inp_line =="[GENERAL]"){
+      #   self$not_implemented("GENERAL ")
+      # }else if(inp_line =="[RECRUIT]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[SSB_WEIGHT]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[CATCH_WEIGHT]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[DISC_WEIGHT]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[MATURITY]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[FISHERY]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[DISCARD]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[BIOLOGICAL]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[BOOTSTRAP]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[HARVEST]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[REFPOINT]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[BOUNDS]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[RETROADJUST]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[OPTIONS]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[SCALE]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[PERC]"){
+      #   self$not_implemented("")
+      # }else if(inp_line =="[PSTAR]"){
+      #   self$not_implemented("")
+      # }else{
+      #   invisible()
+      # }
+
+
 
     },
 
@@ -241,7 +257,15 @@ input_file <- R6Class(
 
   ), active = list(
 
-    #TODO: TIDY EVALUATION??
+    #' @field nline_ nlines
+    nline_ = function(val) {
+      if(missing(val)){
+        return(private$.nline_)
+      }else{
+        private$.nline_ <- val
+      }
+    },
+
 
     #' @field placeholder_caseid temp case id
     placeholder_caseid = function(val) {
@@ -249,7 +273,8 @@ input_file <- R6Class(
         return(private$.TEMP_CASEID)
       }else{
         private$.TEMP_CASEID <- readLines(val, n = 1, warn = FALSE)
-        message("placeholder: ", private$.TEMP_CASEID)
+        self$nline_ <- self$nline_ + 1
+        message("placeholders: ", private$.TEMP_CASEID)
       }
     }
   )
