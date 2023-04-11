@@ -23,7 +23,7 @@ input_file <- R6Class(
 
     read_case_id = function(con, nline) {
       message("Read Case ID at line ",nline," ...")
-      self$nline_ <- self$case_id$read_inp(con, nline)
+      self$nline_ <- self$case_id$read_inp_lines(con, nline)
     }
 
   ),

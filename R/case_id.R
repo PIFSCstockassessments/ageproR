@@ -13,17 +13,11 @@ case_id <- R6Class(
   public = list (
 
 
-
-    #  @description Initalize
-    # initalize = function() {
-    #
-    # },
-
-    #' @description Read inp
+    #' @description Read AGEPRO Case ID from input data file
     #'
     #' @param con input file connection
     #' @param nline Line number
-    read_inp = function(con, nline){
+    read_inp_lines = function(con, nline){
 
       nline <- nline + 1
       self$case_id <- readLines(con, n = 1, warn = FALSE)

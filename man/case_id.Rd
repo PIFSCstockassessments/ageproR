@@ -21,17 +21,17 @@ Input title identifying model attributes
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-case_id-read_inp}{\code{case_id$read_inp()}}
+\item \href{#method-case_id-read_inp_lines}{\code{case_id$read_inp_lines()}}
 \item \href{#method-case_id-clone}{\code{case_id$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-case_id-read_inp"></a>}}
-\if{latex}{\out{\hypertarget{method-case_id-read_inp}{}}}
-\subsection{Method \code{read_inp()}}{
-Read inp
+\if{html}{\out{<a id="method-case_id-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-case_id-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Read AGEPRO Case ID from input data file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{case_id$read_inp(con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{case_id$read_inp_lines(con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
