@@ -53,6 +53,7 @@ projection}
 \itemize{
 \item \href{#method-general_params-new}{\code{general_params$new()}}
 \item \href{#method-general_params-print}{\code{general_params$print()}}
+\item \href{#method-general_params-read_inp_lines}{\code{general_params$read_inp_lines()}}
 \item \href{#method-general_params-clone}{\code{general_params$clone()}}
 }
 }
@@ -112,6 +113,25 @@ Prints out General Parameters
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-general_params-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-general_params-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads General AGEPRO parameters from AGEPRO INP Input File
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{general_params$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{File connection to input file}
+
+\item{\code{nline}}{Reference to current line read}
 }
 \if{html}{\out{</div>}}
 }
