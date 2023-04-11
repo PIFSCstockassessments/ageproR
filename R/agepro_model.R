@@ -41,6 +41,9 @@ agepro_model <- R6Class(
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
 
+    #' @field case_id Case id
+    case_id = NULL,
+
     #' @description
     #' Starts an instances of the AGEPRO Model
     #'

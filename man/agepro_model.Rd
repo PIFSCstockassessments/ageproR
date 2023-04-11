@@ -17,6 +17,8 @@ determine age-structured population over a time period. Brodziak, 2022
 \item{\code{general}}{General Parameters}
 
 \item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
+
+\item{\code{case_id}}{Case id}
 }
 \if{html}{\out{</div>}}
 }
