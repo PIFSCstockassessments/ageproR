@@ -24,7 +24,7 @@ case_id <- R6Class(
       message("Line ", nline, ": Case ID: ", self$case_id)
       return(nline)
     }
-
+    #TODO: CASE ID print function
 
   ),
   active = list (
