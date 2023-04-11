@@ -63,6 +63,9 @@ input_file <- R6Class(
 
           self$read_inpfile_values(inp_con)
 
+          #Cleanup and close file connections
+          message("Input File Read")
+          close(inp_con)
 
         },
         warning = function(cond) {
