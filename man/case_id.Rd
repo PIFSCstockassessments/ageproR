@@ -21,20 +21,9 @@ Input title identifying model attributes
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-case_id-initalize}{\code{case_id$initalize()}}
 \item \href{#method-case_id-read_inp}{\code{case_id$read_inp()}}
 \item \href{#method-case_id-clone}{\code{case_id$clone()}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-case_id-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-case_id-initalize}{}}}
-\subsection{Method \code{initalize()}}{
-Initalize
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{case_id$initalize()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-case_id-read_inp"></a>}}

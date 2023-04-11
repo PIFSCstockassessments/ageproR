@@ -12,13 +12,12 @@ case_id <- R6Class(
   ),
   public = list (
 
-    # #' @field inp_pointer inp file
-    #inp_pointer = input_file$new(),
 
-    #' @description Initalize
-    initalize = function() {
 
-    },
+    #  @description Initalize
+    # initalize = function() {
+    #
+    # },
 
     #' @description Read inp
     #'
@@ -28,7 +27,7 @@ case_id <- R6Class(
 
       nline <- nline + 1
       self$case_id <- readLines(con, n = 1, warn = FALSE)
-      message("Line ", nline, " placeholders: ", self$case_id)
+      message("Line ", nline, ": Case ID: ", self$case_id)
       return(nline)
     }
 
