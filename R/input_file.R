@@ -23,8 +23,14 @@ input_file <- R6Class(
 
     read_case_id = function(con, nline) {
       message("Read Case ID at line ",nline," ...")
-      self$nline_ <- self$case_id$read_inp_lines(con, nline)
+      self$nline_ <- self$inp_case_id$read_inp_lines(con, nline)
+    },
+
+    read_general_params = function(con, nline) {
+      message("Line ", nline, " ...")
+      self$nline_ <- self$inp_general_params$read_inp_lines(con, nline)
     }
+
 
   ),
   public = list(
@@ -32,8 +38,11 @@ input_file <- R6Class(
     #' @field model Agepro model
     model = NULL,
 
-    #' @field case_id Case id
-    case_id = case_id$new(),
+    #' @field inp_case_id Case id
+    inp_case_id = case_id$new(),
+
+    #' @field inp_general_params General Model Parameters
+    inp_general_params = suppressMessages(general_params$new()),
 
     #' @description
     #' Initializes the input file
@@ -188,7 +197,8 @@ input_file <- R6Class(
          "[CASEID]" =
            #{rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
            {rlang::expr(private$read_case_id(inp_con, self$nline_) ) },
-         "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
+         "[GENERAL]" = #{{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
+           {rlang::expr(private$read_general_params(inp_con, self$nline_))},
          "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
 

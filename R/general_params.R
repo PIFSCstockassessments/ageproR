@@ -117,6 +117,8 @@ general_params <- R6Class(
       inp_line <-
         unlist(strsplit((readLines(inp_con, n = 1, warn = FALSE)), " +"))
 
+      nline <- nline + 1
+
       #TODO: Refactor
       self$yr_start <- inp_line[1]
       self$yr_end <- inp_line[2]
@@ -130,7 +132,7 @@ general_params <- R6Class(
 
       self$print()
 
-
+      return(nline)
     }
 
   ),

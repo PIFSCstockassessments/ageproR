@@ -16,7 +16,9 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \describe{
 \item{\code{model}}{Agepro model}
 
-\item{\code{case_id}}{Case id}
+\item{\code{inp_case_id}}{Case id}
+
+\item{\code{inp_general_params}}{General Model Parameters}
 }
 \if{html}{\out{</div>}}
 }
