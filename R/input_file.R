@@ -26,6 +26,8 @@ input_file <- R6Class(
     #' @field model Agepro model
     model = NULL,
 
+    #' @field case_id Case id
+    case_id = case_id$new(),
 
     #' @description
     #' Initializes the input file
@@ -175,7 +177,8 @@ input_file <- R6Class(
 
       keyword_dict <- dict(list(
          "[CASEID]" =
-           {rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
+           #{rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
+           {rlang::expr(self$read_case_id(inp_con, self$nline_) ) },
          "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
          "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
@@ -185,13 +188,14 @@ input_file <- R6Class(
       message("line ", self$nline_, ": ", inp_line)
 
 
+
       if(rlang::eval_tidy(!keyword_dict$has(inp_line))){
         message("Input line ",self$nline_, " does not match AGEPRO keyword parameter")
         invisible() #next
       }else{
         #If there is a match w/ keyword_dict then use the keyword's own
         #readLine function
-        data <- list(inp_con =inp_con)
+        data <- list(inp_con = inp_con)
         rlang::eval_tidy(keyword_dict$get(inp_line), data)
 
 
@@ -252,7 +256,19 @@ input_file <- R6Class(
     #' @param keyword keyword
     not_implemented = function(keyword = "") {
       message(keyword, "Not Implemented")
+    },
+
+
+    #' @description
+    #' Reads case_id
+    #'
+    #' @param con File connection
+    #' @param nline Line number
+    read_case_id = function(con, nline) {
+      message("Read Case ID at line ",nline," ...")
+       self$nline_ <- self$case_id$read_inp(con, nline)
     }
+
 
 
   ), active = list(
