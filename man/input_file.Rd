@@ -38,7 +38,6 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \item \href{#method-input_file-read_inpfile_values}{\code{input_file$read_inpfile_values()}}
 \item \href{#method-input_file-match_keyword}{\code{input_file$match_keyword()}}
 \item \href{#method-input_file-not_implemented}{\code{input_file$not_implemented()}}
-\item \href{#method-input_file-read_case_id}{\code{input_file$read_case_id()}}
 \item \href{#method-input_file-clone}{\code{input_file$clone()}}
 }
 }
@@ -135,25 +134,6 @@ Throws a Not Implemented exception
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{keyword}}{keyword}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-input_file-read_case_id"></a>}}
-\if{latex}{\out{\hypertarget{method-input_file-read_case_id}{}}}
-\subsection{Method \code{read_case_id()}}{
-Reads case_id
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{input_file$read_case_id(con, nline)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{con}}{File connection}
-
-\item{\code{nline}}{Line number}
 }
 \if{html}{\out{</div>}}
 }

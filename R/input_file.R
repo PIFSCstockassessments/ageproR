@@ -18,7 +18,13 @@ input_file <- R6Class(
     .pre_v4 = FALSE,
     .supported_inp_versions = "AGEPRO VERSION 4.0",
 
-    .nline_ = NULL
+    .nline_ = NULL,
+
+
+    read_case_id = function(con, nline) {
+      message("Read Case ID at line ",nline," ...")
+      self$nline_ <- self$case_id$read_inp(con, nline)
+    }
 
   ),
   public = list(
@@ -178,7 +184,7 @@ input_file <- R6Class(
       keyword_dict <- dict(list(
          "[CASEID]" =
            #{rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
-           {rlang::expr(self$read_case_id(inp_con, self$nline_) ) },
+           {rlang::expr(private$read_case_id(inp_con, self$nline_) ) },
          "[GENERAL]" = {{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
          "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
@@ -256,18 +262,10 @@ input_file <- R6Class(
     #' @param keyword keyword
     not_implemented = function(keyword = "") {
       message(keyword, "Not Implemented")
-    },
-
-
-    #' @description
-    #' Reads case_id
-    #'
-    #' @param con File connection
-    #' @param nline Line number
-    read_case_id = function(con, nline) {
-      message("Read Case ID at line ",nline," ...")
-       self$nline_ <- self$case_id$read_inp(con, nline)
     }
+
+
+
 
 
 
