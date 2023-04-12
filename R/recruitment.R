@@ -89,7 +89,12 @@ recruitment <- R6Class(
     #' @param max_rec_obs
     #' Max limit of recruitment observations. Default is 10000.
     #'
-    initialize = function(model_num, seq_years, max_rec_obs = 10000) {
+    #' @param cat_verbose
+    #' Flag to print out `cat` based cli messages printed on console. Default
+    #' is TRUE.
+    #'
+    initialize = function(model_num, seq_years, max_rec_obs = 10000,
+                          cat_verbose = TRUE) {
 
       self$set_recruit_data(model_num, seq_years)
       self$recruit_scaling_factor <- 1000
@@ -99,7 +104,9 @@ recruitment <- R6Class(
         private$.max_rec_obs <- max_rec_obs
       }
 
-      self$print()
+
+      self$print(cat_verbose)
+
 
     },
 
@@ -196,7 +203,9 @@ recruitment <- R6Class(
     #' @description
     #' Prints out Recruitment
     #'
-    print = function(...) {
+    #' @param cat_verbose Flag to allow `cat` based cli messages printed on
+    #' console. Default is TRUE
+    print = function(cat_verbose = TRUE , ...) {
 
       #verify private fields are numeric
       assert_numeric(private$.qty_rec_models)
@@ -211,7 +220,13 @@ recruitment <- R6Class(
       cli_end()
 
       #Module to printout Recruitment Probability
-      private$cli_recruit_probability()
+      #Verbose flag check
+      ifelse(cat_verbose,
+             #Allow Recruitment Probability 'cat' cli message
+             private$cli_recruit_probability(),
+             #Suppress Recruitment Probability 'cat' cli message
+             capture.output( x <- private$cli_recruit_probability())
+             )
 
       for (recruit in 1:private$.qty_rec_models){
         cli_par()

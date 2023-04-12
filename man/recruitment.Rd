@@ -58,7 +58,7 @@ spawning weight of fish in kilograms (kg)}
 \subsection{Method \code{new()}}{
 Initializes the Recruitment Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000, cat_verbose = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -71,6 +71,9 @@ AGEPRO Recruitment Model Number}
 Array representing the Projection Time Horizon}
 
 \item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
+
+\item{\code{cat_verbose}}{Flag to print out `cat` based cli messages printed on console. Default
+is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -144,12 +147,15 @@ Sets the recruitment probability
 \subsection{Method \code{print()}}{
 Prints out Recruitment
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(cat_verbose = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{cat_verbose}}{Flag to allow `cat` based cli messages printed on
+console. Default is TRUE}
+
 \item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
