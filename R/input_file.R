@@ -132,9 +132,8 @@ input_file <- R6Class(
 
       #check_inputfile_version
       #assume line 1 is version string
-      #nline <- 1
       self$nline_ <- 1
-      #message("line ", nline, ": ")
+
       message("line ", self$nline_ ,":")
       self$check_inpfile_version( readLines(inp_con, n = 1, warn = FALSE) )
 
@@ -195,15 +194,12 @@ input_file <- R6Class(
 
       keyword_dict <- dict(list(
          "[CASEID]" =
-           #{rlang::expr(self$placeholder_caseid <- inp_con)},   # issue with warnings and stops initializing this dictonary
            {rlang::expr(private$read_case_id(inp_con, self$nline_) ) },
-         "[GENERAL]" = #{{ rlang::expr(self$not_implemented("GENERAL ") ) }}, #
+         "[GENERAL]" =
            {rlang::expr(private$read_general_params(inp_con, self$nline_))},
          "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
 
-
-      #message("line ", nline, ": ", inp_line)
       message("line ", self$nline_, ": ", inp_line)
 
 

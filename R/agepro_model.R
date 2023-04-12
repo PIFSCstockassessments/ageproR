@@ -14,7 +14,7 @@
 #' @export
 #' @importFrom rprojroot is_rstudio_project is_git_root is_r_package
 #' @importFrom R6 R6Class
-#' @importFrom checkmate test_logical assert_number
+#' @importFrom checkmate test_logical assert_number assert_file_exists
 #' @importFrom utils browseURL
 agepro_model <- R6Class(
   classname = "agepro_model",
@@ -34,6 +34,8 @@ agepro_model <- R6Class(
   ),
   public = list(
 
+    #' @field inp_pointer AGEPRO input file pointer
+    inp_pointer = input_file$new(),
 
     #' @field general General Parameters
     general = NULL,
@@ -43,6 +45,9 @@ agepro_model <- R6Class(
 
     #' @field case_id Case id
     case_id = NULL,
+
+
+
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -85,6 +90,8 @@ agepro_model <- R6Class(
       cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(0, self$general$seq_years)
 
+
+
     },
 
     #' @description
@@ -98,6 +105,16 @@ agepro_model <- R6Class(
       self$recruit$set_recruit_data(model_num, self$general$seq_years)
       self$recruit$print()
 
+
+    },
+
+    #' @description
+    #' Read AGEPRO INP Input Files
+    #'
+    #' @param inpfile input file name
+    read_inp = function(inpfile=file.choose()){
+      assert_file_exists(inpfile, access="r", extension = "inp")
+      self$inp_pointer$read_inpfile(inpfile)
     },
 
     #' @description
