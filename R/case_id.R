@@ -12,6 +12,11 @@ case_id <- R6Class(
   ),
   public = list (
 
+    #' @description Initalize
+    initalize = function(){
+      self$case_id <- private$.case_id
+    },
+
 
     #' @description Read AGEPRO Case ID from input data file
     #'

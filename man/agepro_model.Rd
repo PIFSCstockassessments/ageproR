@@ -29,9 +29,6 @@ determine age-structured population over a time period. Brodziak, 2022
 \itemize{
 \item \href{#method-agepro_model-new}{\code{agepro_model$new()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
-\item \href{#method-agepro_model-read_inp}{\code{agepro_model$read_inp()}}
-\item \href{#method-agepro_model-get_json}{\code{agepro_model$get_json()}}
-\item \href{#method-agepro_model-write_json}{\code{agepro_model$write_json()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -92,50 +89,6 @@ Set model's Recruitment model
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-read_inp"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-read_inp}{}}}
-\subsection{Method \code{read_inp()}}{
-Read AGEPRO INP Input Files
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$read_inp(inpfile = file.choose())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inpfile}}{input file name}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-get_json"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-get_json}{}}}
-\subsection{Method \code{get_json()}}{
-Get json
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$get_json()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-write_json"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-write_json}{}}}
-\subsection{Method \code{write_json()}}{
-Write JSON file
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$write_json(show_dir = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{show_dir}}{Option to show directory after JSON file is written.}
 }
 \if{html}{\out{</div>}}
 }

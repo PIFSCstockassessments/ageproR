@@ -39,10 +39,10 @@ input_file <- R6Class(
     model = NULL,
 
     #' @field inp_case_id Case id
-    inp_case_id = case_id$new(),
+    inp_case_id = NULL, #case_id$new(),
 
     #' @field inp_general_params General Model Parameters
-    inp_general_params = suppressMessages(general_params$new()),
+    inp_general_params = NULL,
 
     #' @description
     #' Initializes the input file
@@ -50,6 +50,9 @@ input_file <- R6Class(
 
       private$.pre_v4 <- FALSE
       private$.nline_ <- 0
+
+      self$inp_case_id <- case_id$new()
+      self$inp_general_params <- suppressMessages(general_params$new())
 
     },
 
