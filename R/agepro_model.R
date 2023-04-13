@@ -138,7 +138,6 @@ agepro_inp_model <- R6Class(
     },
 
     read_general_params = function(con, nline) {
-      message("Line ", nline, " ...")
       self$nline <- self$general$read_inp_lines(con, nline)
     }
 

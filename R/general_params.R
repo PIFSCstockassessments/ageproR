@@ -119,6 +119,7 @@ general_params <- R6Class(
         unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
       nline <- nline + 1
+      cli_alert("Line {nline} ...")
 
       inp_line <- private$assert_numeric_substrings(inp_line)
 
