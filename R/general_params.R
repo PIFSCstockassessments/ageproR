@@ -7,6 +7,8 @@
 #' projections.
 #'
 #' @template elipses
+#' @template inp_line
+#' @template inp_con
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -109,7 +111,6 @@ general_params <- R6Class(
 
     #' @description
     #' Reads General AGEPRO parameters from AGEPRO INP Input File
-    #' @param inp_con File connection to input file
     #' @param nline Reference to current line read
     read_inp_lines = function (inp_con, nline){
       # Read an additional line from the file connection and split the string

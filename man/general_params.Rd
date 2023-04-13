@@ -129,7 +129,7 @@ Reads General AGEPRO parameters from AGEPRO INP Input File
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inp_con}}{File connection to input file}
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
 \item{\code{nline}}{Reference to current line read}
 }

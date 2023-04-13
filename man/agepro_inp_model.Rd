@@ -79,7 +79,7 @@ Read Input file Values
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inp_con}}{File connection}
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 }
 \if{html}{\out{</div>}}
 }
@@ -89,6 +89,10 @@ Read Input file Values
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-match_keyword}{}}}
 \subsection{Method \code{match_keyword()}}{
 Match Keyword
+
+TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
+MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
+FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$match_keyword(inp_line, inp_con)}\if{html}{\out{</div>}}
 }
@@ -96,12 +100,9 @@ Match Keyword
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inp_line}}{line}
+\item{\code{inp_line}}{Line read from the AGEPRO Input File}
 
-\item{\code{inp_con}}{Stdin text connection
-TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
-MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
-FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD}
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 }
 \if{html}{\out{</div>}}
 }
@@ -112,13 +113,13 @@ FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD}
 \subsection{Method \code{check_inpfile_version()}}{
 Check Input File Version
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$check_inpfile_version(inpline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$check_inpfile_version(inp_line)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inpline}}{Input File Line}
+\item{\code{inp_line}}{Line read from the AGEPRO Input File}
 }
 \if{html}{\out{</div>}}
 }

@@ -114,6 +114,9 @@ agepro_model <- R6Class(
 #'
 #' File Functionality is based on AGEPRO-CoreLib implementation
 #'
+#' @template inp_line
+#' @template inp_con
+#'
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_character
@@ -207,7 +210,6 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Read Input file Values
     #'
-    #' @param inp_con File connection
     #' @export
     #'
     read_inpfile_values = function(inp_con) {
@@ -237,8 +239,6 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Match Keyword
     #'
-    #' @param inp_line line
-    #' @param inp_con Stdin text connection
     match_keyword = function(inp_line, inp_con ) {
 
       #' TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
@@ -273,18 +273,16 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Check Input File Version
     #'
-    #' @param inpline Input File Line
-    #'
-    check_inpfile_version = function(inpline) {
-      #checkmate::assert_character(inpline, length = 1)
+    check_inpfile_version = function(inp_line) {
+      assert_character(inp_line, len = 1)
       tryCatch(
         {
-          message("inpline:", inpline)
-          inpline %in% private$.supported_inp_versions
+          message("inp_line:", inp_line)
+          inp_line %in% private$.supported_inp_versions
         },
         error = function(cond) {
           message("This version of this input file is not supported : ",
-                  inpline)
+                  inp_line)
           message("Supported verion(s): ", private$.supported_inp_versions)
           message("Error: ", cond)
         }
