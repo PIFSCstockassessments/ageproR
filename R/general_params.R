@@ -115,9 +115,17 @@ general_params <- R6Class(
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <-
-        unlist(strsplit((readLines(inp_con, n = 1, warn = FALSE)), " +"))
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
       nline <- nline + 1
+
+      #Assert inp_line substring values are numeric
+      if(!all(grepl("^[[:digit:]]",inp_line))) {
+        stop("Non Numeric Substring")
+      }
+
+      #Convert to integer
+      inp_line <- as.integer(inp_line)
 
       #TODO: Refactor
       self$yr_start <- inp_line[1]
