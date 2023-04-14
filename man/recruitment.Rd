@@ -18,7 +18,7 @@ recruit_probability = NULL,}
 
 \item{\code{model_collection_list}}{List of recruitment models}
 
-\item{\code{seq_yrs}}{Sequence of projected years}
+\item{\code{observation_years}}{Sequence of projected years}
 }
 \if{html}{\out{</div>}}
 }

@@ -24,9 +24,9 @@
 recruitment <- R6Class(
   "recruitment",
   private = list(
-    .qty_seq_years = NULL,
-    .qty_rec_models = NULL,
-    .req_prob_years = NULL,
+    .number_projection_years = NULL,
+    .number_recruit_models = NULL,
+    .sequence_projection_years = NULL,
     .max_rec_obs = 10000,
 
     .recruit_scaling_factor = NULL,
@@ -52,18 +52,16 @@ recruitment <- R6Class(
       cat_print(private$.recruit_probability)
     },
 
-    assert_seq_years = function(seq_years) {
-      #Handle seq_years as a single int or a vector of sequential values
-      self$seq_yrs <- seq_years
+    assert_seq_years = function(obs_years) {
 
-      if (test_int(self$seq_yrs)) {
+      if(test_int(obs_years)) {
         #single
-        private$.qty_seq_years <- self$seq_yrs
-        private$.req_prob_years <- 1:self$seq_yrs
+        private$.number_projection_years <- obs_years
+        private$.sequence_projection_years <- 1:obs_years
 
       } else {
-        private$.qty_seq_years <- length(self$seq_yrs)
-        private$.req_prob_years <- self$seq_yrs
+        private$.number_projection_years <- length(obs_years)
+        private$.sequence_projection_years <- obs_years
       }
 
 
@@ -80,8 +78,8 @@ recruitment <- R6Class(
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
 
-    #' @field seq_yrs Sequence of projected years
-    seq_yrs = NULL,
+    #' @field observation_years Sequence of projected years
+    observation_years = NULL,
 
     #' @description
     #' Initializes the Recruitment Class
@@ -96,7 +94,10 @@ recruitment <- R6Class(
     initialize = function(model_num, seq_years, max_rec_obs = 10000,
                           cat_verbose = TRUE) {
 
-      self$set_recruit_data(model_num, seq_years)
+      #Handle seq_years as a single int or a vector of sequential values
+      self$observation_years <- seq_years
+
+      self$set_recruit_data(model_num, self$observation_years)
       self$recruit_scaling_factor <- 1000
       self$ssb_scaling_factor <- 0
 
@@ -119,27 +120,33 @@ recruitment <- R6Class(
       private$assert_seq_years(seq_years)
 
       #Setup vectors based on number of recruitment models.
-      private$.qty_rec_models <- length(model_num)
+      private$.number_recruit_models <- length(model_num)
+
       #Recruitment Model Number list
-      self$recruit_model_num_list <- vector("list", private$.qty_rec_models)
+      self$recruit_model_num_list <-
+        vector("list", private$.number_recruit_models)
+
       #Recruitment Probability list
-      private$.recruit_probability <- vector("list", private$.qty_rec_models)
+      private$.recruit_probability <-
+        vector("list", private$.number_recruit_models)
+
       #Recruitment Model Data List
-      self$model_collection_list <- vector("list", private$.qty_rec_models)
+      self$model_collection_list <-
+        vector("list", private$.number_recruit_models)
+
       #Set recruitment probability and model data for each recruitment model.
-      for (recruit in 1:private$.qty_rec_models) {
+      for (recruit in 1:private$.number_recruit_models) {
 
         # Recruitment Probability: Fill the time series with a recruitment
         # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
         private$.recruit_probability[[recruit]] <-
-          as.numeric(format(
-            round(rep(1, private$.qty_seq_years) / private$.qty_seq_years, 4),
-            nsmall = 4))
+          as.numeric(format(round(rep(1, private$.number_projection_years) /
+                    private$.number_projection_years, digits = 4), nsmall = 4))
 
         names(private$.recruit_probability[[recruit]]) <-
-          private$.req_prob_years
+          private$.sequence_projection_years
 
         #Model Num
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
@@ -147,7 +154,7 @@ recruitment <- R6Class(
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]],
-                                 self$seq_yrs)
+                                 self$observation_years)
       }
 
 
@@ -189,9 +196,11 @@ recruitment <- R6Class(
       assert_numeric(value, lower = 0, upper = 1,
                      max.len = length(year))
 
-      if (!all(year %in% private$.req_prob_years)) {
-        stop(paste0("Year ", subset(year, !(year %in% private$.req_prob_years)),
-                    " is not within model projected year time horizon.\n  "))
+      if (!all(year %in% private$.sequence_projection_years)) {
+        stop(paste0(
+          "Year ",
+          subset(year, !(year %in% private$.sequence_projection_years)),
+          " is not within model projected year time horizon.\n  "))
       }
 
       private$.recruit_probability[[j]][as.character(year)] <- value
@@ -208,11 +217,11 @@ recruitment <- R6Class(
     print = function(cat_verbose = TRUE , ...) {
 
       #verify private fields are numeric
-      assert_numeric(private$.qty_rec_models)
-      assert_numeric(private$.qty_seq_years)
+      assert_numeric(private$.number_recruit_models)
+      assert_numeric(private$.number_projection_years)
 
-      cli_alert_info(c("{private$.qty_rec_models} recruitment model{?s}",
-                     " for {private$.qty_seq_years} year{?s}."))
+      cli_alert_info(c("{private$.number_recruit_models} recruitment model{?s}",
+                     " for {private$.number_projection_years} year{?s}."))
       cli_ul()
       cli_li("Recruitment Scaling Factor: {.val {self$recruit_scaling_factor}}")
       cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
@@ -228,10 +237,10 @@ recruitment <- R6Class(
              capture.output( x <- private$cli_recruit_probability())
              )
 
-      for (recruit in 1:private$.qty_rec_models){
+      for (recruit in 1:private$.number_recruit_models){
         cli_par()
         cli_alert_info(paste0("Recruit {recruit} of ",
-                              "{private$.qty_rec_models} : ",
+                              "{private$.number_recruit_models} : ",
                               "Recruitment Model #",
                               "{self$recruit_model_num_list[[recruit]]} "))
         #Verify class inherits from "recruit_model"
@@ -314,7 +323,7 @@ recruitment <- R6Class(
     #' @field num_recruit_models
     #' Returns number of recruitment models
     num_recruit_models = function() {
-      return(private$.qty_rec_models)
+      return(private$.number_recruit_models)
     },
 
     #' @field recruit_scaling_factor
