@@ -72,6 +72,11 @@ agepro_model <- R6Class(
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
 
+      assert_number(age_begin, lower = 0, upper = 1)
+      assert_number(num_fleets, lower = 1)
+      assert_number(num_rec_models, lower = 1)
+      assert_number(num_pop_sims, lower = 1)
+
       self$case_id <- case_id$new()
 
       self$general <- general_params$new(yr_start,
@@ -85,9 +90,8 @@ agepro_model <- R6Class(
                                         seed)
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
-      self$recruit <- recruitment$new(0, self$general$seq_years)
-
-      #self$inp_pointer <- input_file$new()
+      self$recruit <- recruitment$new(
+        rep(0,self$general$num_rec_models), self$general$seq_years)
 
     },
 
