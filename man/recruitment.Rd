@@ -49,6 +49,7 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-print_recruit}{\code{recruitment$print_recruit()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
+\item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -189,6 +190,25 @@ Helper Function To View Recruitment Model Collection Data
 \if{html}{\out{<div class="r">}}\preformatted{recruitment$view_recruit_data()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nlines)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nlines}}{Reference to current line read}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-recruitment-clone"></a>}}

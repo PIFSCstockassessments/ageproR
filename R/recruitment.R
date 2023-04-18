@@ -12,6 +12,7 @@
 #' @template model_num
 #' @template seq_years
 #' @template elipses
+#' @template inp_con
 #'
 #' @export
 #' @import cli
@@ -65,6 +66,20 @@ recruitment <- R6Class(
       }
 
 
+    },
+
+    #TODO: shared function?
+    assert_numeric_substrings = function (inp_line){
+
+      if(!all(grepl("^[[:digit:]]",inp_line))) {
+
+        non_numerics <- inp_line[!grepl("^[[:digit:]]",inp_line)]
+        stop("Line contains a Non Numeric Substring",
+             paste(non_numerics, collapse = ", "))
+      }
+
+      invisible(as.numeric(inp_line))
+
     }
 
   ), public = list(
@@ -100,6 +115,7 @@ recruitment <- R6Class(
       self$set_recruit_data(model_num, self$observation_years)
       self$recruit_scaling_factor <- 1000
       self$ssb_scaling_factor <- 0
+
 
       if(!missing(max_rec_obs)) {
         private$.max_rec_obs <- max_rec_obs
@@ -298,6 +314,45 @@ recruitment <- R6Class(
 
       cli_alert_info(paste0("Recruitment Model{?s}: ",
                             "{.field {self$recuit_model_num_list}} "))
+
+    },
+
+    #' @description
+    #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
+    #' @param nlines Reference to current line read
+    read_inp_lines = function(inp_con, nlines) {
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <-
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      inp_line <- private$assert_numeric_substrings(inp_line)
+
+      # Assign substrings
+      self$recruit_scaling_factor <- self$inp_line[1]
+      self$ssb_scaling_factor <- self$inp_line[2]
+      self$max_recruit_obs <- self$inp_line[3]
+      #TODO: rename to max_recruit_observations
+
+      # Read an additional line from the file connection, and parse the
+      # substring(s) for Recruitment Model(s) for model_collection_list
+      inp_line <-
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+      cli_alert_info("{inp_line}")
+
+      inp_line <- private$assert_numeric_substrings(inp_line)
+
+      self$recruit_model_num_list <- inp_line
+
+
+      return(nline)
 
     }
 

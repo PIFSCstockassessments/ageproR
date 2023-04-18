@@ -139,6 +139,17 @@ agepro_inp_model <- R6Class(
 
     read_general_params = function(con, nline) {
       self$nline <- self$general$read_inp_lines(con, nline)
+    },
+
+    read_recruit = function(con, nline) {
+      # Set Recruitment's observation year sequence array using GENERAL's
+      # year names from the projection time period
+      cli_alert("Setting Recruitment data for ",
+                "{self$general$yr_start}-{self$general$yr_end} ...")
+      self$recruit$observation_years <- self$general$seq_years
+      self$nline <- self$recruit$read_inp_lines(con, line)
+
+
     }
 
   ),
@@ -250,6 +261,8 @@ agepro_inp_model <- R6Class(
           {rlang::expr(private$read_case_id(inp_con, self$nline) ) },
         "[GENERAL]" =
           {rlang::expr(private$read_general_params(inp_con, self$nline))},
+        "[RECRUIT]" =
+          {rlang::expr(private$read_recruit(inp_con, self$nline))},
         "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
       ))
 
