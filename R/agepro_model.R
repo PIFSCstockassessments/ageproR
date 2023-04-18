@@ -333,6 +333,7 @@ agepro_inp_model <- R6Class(
 #'
 #' json related
 #'
+#' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_number
 #' @importFrom jsonlite toJSON
