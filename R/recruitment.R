@@ -322,6 +322,9 @@ recruitment <- R6Class(
     #' @param nlines Reference to current line read
     read_inp_lines = function(inp_con, nlines) {
 
+      #Check
+      assert_numeric(self$observation_years, sorted = TRUE)
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <-
@@ -350,6 +353,11 @@ recruitment <- R6Class(
       inp_line <- private$assert_numeric_substrings(inp_line)
 
       self$recruit_model_num_list <- inp_line
+
+      #For each year in AGEPRO Model's observation years,
+      #read an additional line from the file connection, and append line to
+      #the recruitment probably (list)
+
 
 
       return(nline)
