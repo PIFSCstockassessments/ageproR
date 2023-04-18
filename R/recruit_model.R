@@ -215,9 +215,11 @@ empirical_recruit <- R6Class(
 
       super$model_group <- 1
 
+      #Set the number of observations used of the model projection
       self$observed_points <- rec_points
-      self$observed_year_array <- rec_points
 
+      #Set the observed years sequence used in the model projection
+      self$observed_year_array <- rec_points
 
       if (!missing(with_ssb)) {
         private$.with_ssb <- with_ssb
@@ -375,6 +377,9 @@ empirical_cdf_model <- R6Class(
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
       super$initialize(seq_years)
+
+      cli_alert("Observation Points: {.field {self$observed_points}}")
+      cli_alert("Observation Year array: {.field {self$observed_year_array}}")
 
     }
   )

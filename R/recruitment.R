@@ -21,6 +21,7 @@
 #' @importFrom checkmate test_int assert_numeric assert_list assert_r6
 #' @importFrom checkmate assert_int
 #' @importFrom collections dict
+#' @importFrom rlang expr eval_tidy
 #'
 recruitment <- R6Class(
   "recruitment",
@@ -110,6 +111,7 @@ recruitment <- R6Class(
                           cat_verbose = TRUE) {
 
       #Handle seq_years as a single int or a vector of sequential values
+      #This is used to set parameters for some recruitment models
       self$observation_years <- seq_years
 
       self$set_recruit_data(model_num, self$observation_years)
@@ -169,8 +171,8 @@ recruitment <- R6Class(
 
         #Add Recruitment Data
         self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]],
-                                 self$observation_years)
+          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
+
       }
 
 
@@ -178,23 +180,27 @@ recruitment <- R6Class(
 
 
     #' @description
-    #' Initializes RecruitModel Data
+    #' Initializes Recruit Model Data.
+    #'
+    #' Recruitment class field `observation_years` is used for recruitment
+    #' models that use the model projection year time horizon for setup.
+    #'
     #' @export
-    set_recruit_model = function(model_num, seq_years) {
+    set_recruit_model = function(model_num) {
 
       assert_numeric(model_num, lower = 0, upper = 21)
 
       model_dict <- dict(list(
-        "0" = null_recruit_model$new(),
-        "3" = empirical_distribution_model$new(seq_years),
-        "5" = beverton_holt_curve_model$new(),
-        "6" = ricker_curve_model$new(),
-        "7" = shepherd_curve_model$new(),
-        "9" = deprecated_recruit_model_9$new(),
-        "14" = empirical_cdf_model$new(seq_years)
+        "0" = expr(null_recruit_model$new()),
+        "3" = expr(empirical_distribution_model$new(self$observation_years)),
+        "5" = expr(beverton_holt_curve_model$new()),
+        "6" = expr(ricker_curve_model$new()),
+        "7" = expr(shepherd_curve_model$new()),
+        "9" = expr(deprecated_recruit_model_9$new()),
+        "14" = expr(empirical_cdf_model$new(self$observation_years))
       ))
 
-    model_dict$get(as.character(model_num))
+    eval_tidy(model_dict$get(as.character(model_num)))
 
     },
 

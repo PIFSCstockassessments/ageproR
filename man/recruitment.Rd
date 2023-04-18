@@ -104,9 +104,12 @@ Array representing the Projection Time Horizon}
 \if{html}{\out{<a id="method-recruitment-set_recruit_model"></a>}}
 \if{latex}{\out{\hypertarget{method-recruitment-set_recruit_model}{}}}
 \subsection{Method \code{set_recruit_model()}}{
-Initializes RecruitModel Data
+Initializes Recruit Model Data.
+
+Recruitment class field `observation_years` is used for recruitment
+models that use the model projection year time horizon for setup.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -114,9 +117,6 @@ Initializes RecruitModel Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
