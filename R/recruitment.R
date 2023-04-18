@@ -53,7 +53,7 @@ recruitment <- R6Class(
       cat_print(private$.recruit_probability)
     },
 
-    assert_seq_years = function(obs_years) {
+    assert_observed_years = function(obs_years) {
 
       if(test_int(obs_years)) {
         #single
@@ -133,7 +133,7 @@ recruitment <- R6Class(
     set_recruit_data = function(model_num, seq_years) {
 
       # Handle seq_years as a single int or a vector of sequential values
-      private$assert_seq_years(seq_years)
+      private$assert_observed_years(seq_years)
 
       #Setup vectors based on number of recruitment models.
       private$.number_recruit_models <- length(model_num)
