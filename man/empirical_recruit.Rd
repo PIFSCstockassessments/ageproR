@@ -49,13 +49,14 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(rec_points, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(observation_years, with_ssb = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rec_points}}{Number of Recruitment Observations}
+\item{\code{observation_years}}{\cr
+Ordered Array representing the Projection Time Horizon}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}

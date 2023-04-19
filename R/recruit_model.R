@@ -181,6 +181,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @inherit recruit_model description
 #'
 #' @template model_num
+#' @template observation_years
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
@@ -207,19 +208,18 @@ empirical_recruit <- R6Class(
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param rec_points Number of Recruitment Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(rec_points, with_ssb = FALSE) {
+    initialize = function(observation_years, with_ssb = FALSE) {
 
       super$model_group <- 1
 
       #Set the number of observations used of the model projection
-      self$observed_points <- rec_points
+      self$observed_points <- observation_years
 
       #Set the observed years sequence used in the model projection
-      self$observed_year_array <- rec_points
+      self$observed_year_array <- observation_years
 
       if (!missing(with_ssb)) {
         private$.with_ssb <- with_ssb
@@ -301,31 +301,31 @@ empirical_recruit <- R6Class(
 
     #' @field observed_points
     #' Gets/Sets the number of observations used of the model projection
-    observed_points = function(rec_points) {
-      if (missing(rec_points)) {
+    observed_points = function(value) {
+      if (missing(value)) {
         private$.observed_points
       }else {
-        assert_integerish(rec_points)
-        if (test_int(rec_points)) {
-          private$.observed_points <- rec_points
+        assert_integerish(value)
+        if (test_int(value)) {
+          private$.observed_points <- value
         }else {
-          private$.observed_points <- length(rec_points)
+          private$.observed_points <- length(value)
         }
       }
     },
 
     #' @field observed_year_array
     #' Gets/Sets the observed years sequence used in the model projection
-    observed_year_array = function(rec_points) {
-      if (missing(rec_points)) {
+    observed_year_array = function(value) {
+      if (missing(value)) {
         private$.observed_year_array
       } else {
-        #Handle/Check rec_points for single or array vector
-        assert_integerish(rec_points)
-        if (test_int(rec_points)) {
-          private$.observed_year_array <- 1:rec_points
+        #Handle/Check observation years for single or array vector
+        assert_integerish(value)
+        if (test_int(value)) {
+          private$.observed_year_array <- 1:value
         }else {
-          private$.observed_year_array <- rec_points
+          private$.observed_year_array <- value
         }
       }
     },
@@ -342,7 +342,7 @@ empirical_recruit <- R6Class(
 
 #' Empirical Recruitment Distribution (Model #3)
 #'
-#' @template seq_years
+#' @template observation_years
 #'
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -350,12 +350,12 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(seq_years) {
+    initialize = function(observation_years) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(seq_years)
+      super$initialize(observation_years)
 
     }
   )
@@ -363,23 +363,20 @@ empirical_distribution_model <- R6Class(
 
 #' Empirical CDF of Recruitment (Model #14)
 #'
-#' @template seq_years
+#' @template observation_years
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
   inherit = empirical_recruit,
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(seq_years) {
+    initialize = function(observation_years) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(seq_years)
-
-      cli_alert("Observation Points: {.field {self$observed_points}}")
-      cli_alert("Observation Year array: {.field {self$observed_year_array}}")
+      super$initialize(observation_years)
 
     }
   )

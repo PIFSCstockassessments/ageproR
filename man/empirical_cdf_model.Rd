@@ -33,14 +33,14 @@ Empirical CDF of Recruitment (Model #14)
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(observation_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
+\item{\code{observation_years}}{\cr
+Ordered Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
