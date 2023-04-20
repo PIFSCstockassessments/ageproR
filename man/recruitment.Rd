@@ -12,9 +12,7 @@ these models.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{recruit_model_num_list}}{Recruitment Type
-#' @field recruit_probability The Recruitment Probabilities.
-recruit_probability = NULL,}
+\item{\code{recruit_model_num_list}}{Recruitment Type}
 
 \item{\code{model_collection_list}}{List of recruitment models}
 

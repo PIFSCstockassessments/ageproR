@@ -54,6 +54,7 @@ recruitment <- R6Class(
       cat_print(private$.recruit_probability)
     },
 
+    #Handle observed_years as single int or a vector of sequential values
     assert_observed_years = function(obs_years) {
 
       if(test_int(obs_years)) {
@@ -70,7 +71,7 @@ recruitment <- R6Class(
     },
 
     #TODO: shared function?
-    assert_numeric_substrings = function (inp_line){
+    assert_numeric_substrings = function(inp_line) {
 
       if(!all(grepl("^[[:digit:]]",inp_line))) {
 
@@ -81,15 +82,33 @@ recruitment <- R6Class(
 
       invisible(as.numeric(inp_line))
 
+    },
+
+    setup_recruitment_list_vectors = function(model_num) {
+
+      # Setup number of recruits based on the vector length of the recruitment
+      # models field sent to the function.
+      private$.number_recruit_models <- length(model_num)
+
+      #Setup Recruitment Model Number list
+      self$recruit_model_num_list <-
+        vector("list", private$.number_recruit_models)
+
+      #Setup Recruitment Probability list
+      private$.recruit_probability <-
+        vector("list", private$.number_recruit_models)
+
+      #Setup Recruitment Model Data List
+      self$model_collection_list <-
+        vector("list", private$.number_recruit_models)
+
     }
+
 
   ), public = list(
 
     #' @field recruit_model_num_list Recruitment Type
     recruit_model_num_list = NULL,
-
-    #' #' @field recruit_probability The Recruitment Probabilities.
-    #' recruit_probability = NULL,
 
     #' @field model_collection_list List of recruitment models
     model_collection_list = NULL,
@@ -137,20 +156,24 @@ recruitment <- R6Class(
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_observed_years(seq_years)
 
-      #Setup vectors based on number of recruitment models.
-      private$.number_recruit_models <- length(model_num)
+      ##TODO: Modularize Setup
+      private$setup_recruitment_list_vectors(model_num)
 
-      #Recruitment Model Number list
-      self$recruit_model_num_list <-
-        vector("list", private$.number_recruit_models)
-
-      #Recruitment Probability list
-      private$.recruit_probability <-
-        vector("list", private$.number_recruit_models)
-
-      #Recruitment Model Data List
-      self$model_collection_list <-
-        vector("list", private$.number_recruit_models)
+      # # Setup number of recruits based on the vector length of the recruitment
+      # # models field sent to the function.
+      # private$.number_recruit_models <- length(model_num)
+      #
+      # #Setup Recruitment Model Number list
+      # self$recruit_model_num_list <-
+      #   vector("list", private$.number_recruit_models)
+      #
+      # #Setup Recruitment Probability list
+      # private$.recruit_probability <-
+      #   vector("list", private$.number_recruit_models)
+      #
+      # #Setup Recruitment Model Data List
+      # self$model_collection_list <-
+      #   vector("list", private$.number_recruit_models)
 
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$.number_recruit_models) {
@@ -265,8 +288,10 @@ recruitment <- R6Class(
                               "{private$.number_recruit_models} : ",
                               "Recruitment Model #",
                               "{self$recruit_model_num_list[[recruit]]} "))
+
         #Verify class inherits from "recruit_model"
         assert_r6(self$model_collection_list[[recruit]], "recruit_model")
+
         self$model_collection_list[[recruit]]$print()
         cli_end()
       }
