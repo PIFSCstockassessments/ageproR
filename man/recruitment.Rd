@@ -195,7 +195,7 @@ Helper Function To View Recruitment Model Collection Data
 \subsection{Method \code{read_inp_lines()}}{
 Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nlines)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -203,7 +203,7 @@ Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \describe{
 \item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
-\item{\code{nlines}}{Reference to current line read}
+\item{\code{nline}}{Reference to current line read}
 }
 \if{html}{\out{</div>}}
 }

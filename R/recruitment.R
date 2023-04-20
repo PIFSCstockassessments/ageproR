@@ -350,26 +350,30 @@ recruitment <- R6Class(
 
     #' @description
     #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
-    #' @param nlines Reference to current line read
-    read_inp_lines = function(inp_con, nlines) {
+    #' @param nline Reference to current line read
+    read_inp_lines = function(inp_con, nline) {
 
       #Check
       assert_numeric(self$observation_years, sorted = TRUE)
+      #Setup .number_projection_years and .sequence_projection_years
+      private$assert_observed_years(self$observation_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <-
         unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
+
       nline <- nline + 1
       cli_alert("Line {nline} ...")
 
       inp_line <- private$assert_numeric_substrings(inp_line)
+      cli_alert_info("{.val {inp_line}}")
 
       # Assign substrings
-      self$recruit_scaling_factor <- self$inp_line[1]
-      self$ssb_scaling_factor <- self$inp_line[2]
-      self$max_recruit_obs <- self$inp_line[3]
+      self$recruit_scaling_factor <- inp_line[1]
+      self$ssb_scaling_factor <- inp_line[2]
+      self$max_recruit_obs <- inp_line[3]
       #TODO: rename to max_recruit_observations
 
       # Read an additional line from the file connection, and parse the
