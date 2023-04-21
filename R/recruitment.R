@@ -387,11 +387,65 @@ recruitment <- R6Class(
 
       inp_line <- private$assert_numeric_substrings(inp_line)
 
-      self$recruit_model_num_list <- inp_line
+      #?Validate length Recruitment's recruit_model_num_list matches
+      #length of recruitment models field from the set_recruit_data function
+
+      ## Setup for .number_recruit_models
+      ## Setup recruitment list vectors:
+      # recruit_model_mum_list, .recruit_probability, & model_collection_list
+      private$setup_recruitment_list_vectors(inp_line)
+
+
+      ## TODO TODO TODO: REFACTOR
+      #Set recruitment probability and model data for each recruitment model.
+      for (recruit in 1:private$.number_recruit_models) {
+
+        # Recruitment Probability: Fill the time series with a recruitment
+        # probability sums equal to unity
+        # TODO: Check validity
+        # TODO: Refactor to function
+        private$.recruit_probability[[recruit]] <-
+          as.numeric(format(round(rep(1, private$.number_projection_years) /
+                    private$.number_projection_years, digits = 4), nsmall = 4))
+
+        names(private$.recruit_probability[[recruit]]) <-
+        private$.sequence_projection_years
+
+        #Model Num
+        self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
+      }
 
       #For each year in AGEPRO Model's observation years,
       #read an additional line from the file connection, and append line to
       #the recruitment probably (list)
+      for(year in self$observation_years){
+        inp_line <-
+          unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+        nline <- nline + 1
+        cli_alert("Line {nline} ...")
+        cli_alert_info("{inp_line}")
+
+        inp_line <- private$assert_numeric_substrings(inp_line)
+
+        #Verify recruit probability value
+        assert_numeric(inp_line, lower = 0 , upper = 1)
+
+        #TODO: Refactor loop
+        for(j in seq_along(inp_line)) {
+          message(year)
+          self$set_recruit_probability(j,year,inp_line[[j]])
+        }
+        #purrr::iwalk(inp_line, ~ set_recruit_probability(.y,year,.x), year = year)
+      }
+
+      stop("UNIMPLMENTED")
+      # For each recruit model in recruit_model_collection
+      for(recruit in private$.number_recruit_models){
+
+      }
+
+
 
 
 
