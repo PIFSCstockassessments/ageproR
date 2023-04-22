@@ -133,6 +133,14 @@ recruitment <- R6Class(
       #This is used to set parameters for some recruitment models
       self$observation_years <- seq_years
 
+      # Handle seq_years as a single int or a vector of sequential values
+
+      # Setup .number_recruit_models and recruitment list vectors
+
+      # TODO: Refactor code recruitment probability setup as function so it
+      # can be called from initialization and read_inp_lines function
+
+      # Set Recruitment Model data
       self$set_recruit_data(model_num, self$observation_years)
       self$recruit_scaling_factor <- 1000
       self$ssb_scaling_factor <- 0
@@ -192,7 +200,7 @@ recruitment <- R6Class(
         #Model Num
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
-        #Add Recruitment Data
+        #Add Recruitment Data with recruitment model number
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
