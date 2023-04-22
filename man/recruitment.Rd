@@ -125,7 +125,7 @@ AGEPRO Recruitment Model Number}
 \subsection{Method \code{set_recruit_probability()}}{
 Sets the recruitment probability
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value, verbose = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -136,6 +136,9 @@ Sets the recruitment probability
 \item{\code{year}}{index of the Time series}
 
 \item{\code{value}}{Recruitment Probability}
+
+\item{\code{verbose}}{Flag to allow based cli messages printed on
+console. Default is TRUE}
 }
 \if{html}{\out{</div>}}
 }

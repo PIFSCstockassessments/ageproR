@@ -233,7 +233,9 @@ recruitment <- R6Class(
     #' @param j Index of the recruitment collection list
     #' @param year index of the Time series
     #' @param value Recruitment Probability
-    set_recruit_probability = function(j, year, value) {
+    #' @param verbose Flag to allow based cli messages printed on
+    #' console. Default is TRUE
+    set_recruit_probability = function(j, year, value, verbose = TRUE ) {
 
       assert_int(j, lower = 1, upper = self$num_recruit_models)
       assert_numeric(year,
@@ -250,7 +252,7 @@ recruitment <- R6Class(
 
       private$.recruit_probability[[j]][as.character(year)] <- value
 
-      private$cli_recruit_probability()
+      if (verbose) private$cli_recruit_probability()
 
     },
 
@@ -423,7 +425,7 @@ recruitment <- R6Class(
           unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
         nline <- nline + 1
-        cli_alert("Line {nline} ...")
+        cli_alert("Line {nline}: Recruitment probabaility for year {year} ...")
         cli_alert_info("{inp_line}")
 
         inp_line <- private$assert_numeric_substrings(inp_line)
@@ -433,15 +435,23 @@ recruitment <- R6Class(
 
         #TODO: Refactor loop
         for(j in seq_along(inp_line)) {
-          message(year)
-          self$set_recruit_probability(j,year,inp_line[[j]])
+          self$set_recruit_probability(j,year,inp_line[[j]], verbose = FALSE)
         }
         #purrr::iwalk(inp_line, ~ set_recruit_probability(.y,year,.x), year = year)
       }
 
+      #Print out Recruitment Probability from Input data to console
+      private$cli_recruit_probability()
+
       stop("UNIMPLMENTED")
       # For each recruit model in recruit_model_collection
+      # TODO: REFACTOR
+
       for(recruit in private$.number_recruit_models){
+
+        #Read Recruitment Data
+        self$model_collection_list[[recruit]] <-
+          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
       }
 
