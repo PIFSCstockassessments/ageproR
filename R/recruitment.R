@@ -102,6 +102,28 @@ recruitment <- R6Class(
       self$model_collection_list <-
         vector("list", private$.number_recruit_models)
 
+    },
+
+    setup_recruitment_probability = function() {
+
+      assert_numeric(private$.number_recruit_models, lower = 1)
+      assert_numeric(private$.number_projection_years, lower = 1)
+      assert_numeric(private$.sequence_projection_years)
+
+      #Set recruitment probability and model data for each recruitment model.
+      for (recruit in 1:private$.number_recruit_models) {
+
+        # Recruitment Probability: Fill the time series with a recruitment
+        # probability sums equal to unity
+        private$.recruit_probability[[recruit]] <-
+          as.numeric(format(
+            round(rep(1, private$.number_projection_years) /
+                    private$.number_projection_years, digits = 4), nsmall = 4))
+
+        names(private$.recruit_probability[[recruit]]) <-
+          private$.sequence_projection_years
+
+      }
     }
 
 
@@ -134,11 +156,14 @@ recruitment <- R6Class(
       self$observation_years <- seq_years
 
       # Handle seq_years as a single int or a vector of sequential values
+      private$assert_observed_years(seq_years)
 
       # Setup .number_recruit_models and recruitment list vectors
+      private$setup_recruitment_list_vectors(model_num)
 
       # TODO: Refactor code recruitment probability setup as function so it
       # can be called from initialization and read_inp_lines function
+      private$setup_recruitment_probability()
 
       # Set Recruitment Model data
       self$set_recruit_data(model_num, self$observation_years)
@@ -162,10 +187,10 @@ recruitment <- R6Class(
     set_recruit_data = function(model_num, seq_years) {
 
       # Handle seq_years as a single int or a vector of sequential values
-      private$assert_observed_years(seq_years)
+      #private$assert_observed_years(seq_years)
 
       ##TODO: Modularize Setup
-      private$setup_recruitment_list_vectors(model_num)
+      #private$setup_recruitment_list_vectors(model_num)
 
       # # Setup number of recruits based on the vector length of the recruitment
       # # models field sent to the function.
@@ -190,12 +215,12 @@ recruitment <- R6Class(
         # probability sums equal to unity
         # TODO: Check validity
         # TODO: Refactor to function
-        private$.recruit_probability[[recruit]] <-
-          as.numeric(format(round(rep(1, private$.number_projection_years) /
-                    private$.number_projection_years, digits = 4), nsmall = 4))
-
-        names(private$.recruit_probability[[recruit]]) <-
-          private$.sequence_projection_years
+        # private$.recruit_probability[[recruit]] <-
+        #   as.numeric(format(round(rep(1, private$.number_projection_years) /
+        #             private$.number_projection_years, digits = 4), nsmall = 4))
+        #
+        # names(private$.recruit_probability[[recruit]]) <-
+        #   private$.sequence_projection_years
 
         #Model Num
         self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
