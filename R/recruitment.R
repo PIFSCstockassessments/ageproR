@@ -378,7 +378,7 @@ recruitment <- R6Class(
       cli_alert("Line {nline} ...")
 
       inp_line <- private$assert_numeric_substrings(inp_line)
-      cli_alert_info("{.val {inp_line}}")
+      cli_text("{.val {inp_line}}")
 
       # Assign substrings
       self$recruit_scaling_factor <- inp_line[1]
@@ -392,8 +392,8 @@ recruitment <- R6Class(
         unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
       nline <- nline + 1
-      cli_alert("Line {nline} ...")
-      cli_alert_info("{inp_line}")
+      cli_alert("Line {nline}: Recruitment model number ...")
+      cli_text("{inp_line}")
 
       inp_line <- private$assert_numeric_substrings(inp_line)
 
@@ -434,7 +434,7 @@ recruitment <- R6Class(
 
         nline <- nline + 1
         cli_alert("Line {nline}: Recruitment probabaility for year {year} ...")
-        cli_alert_info("{inp_line}")
+        cli_text("{inp_line}")
 
         inp_line <- private$assert_numeric_substrings(inp_line)
 
@@ -449,6 +449,7 @@ recruitment <- R6Class(
       }
 
       #Print out Recruitment Probability from Input data to console
+      cli_text(" ")
       private$cli_recruit_probability()
 
       stop("UNIMPLMENTED")
