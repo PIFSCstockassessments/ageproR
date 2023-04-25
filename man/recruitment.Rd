@@ -124,14 +124,12 @@ AGEPRO Recruitment Model Number}
 \subsection{Method \code{read_recruit_model()}}{
 Read in recruit model data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_recruit_model(inp_con, model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_recruit_model(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
-
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 }

@@ -52,16 +52,9 @@ Ordered Array representing the Projection Time Horizon}
 \subsection{Method \code{read_inp_lines()}}{
 Read inp lines
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$read_inp_lines(inp_con)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$read_inp_lines()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inp_con}}{File connection}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-empirical_cdf_model-clone"></a>}}

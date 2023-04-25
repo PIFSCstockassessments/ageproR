@@ -103,7 +103,7 @@ agepro_model <- R6Class(
       cli_alert("Recruitment Data Setup")
       cli_alert("Using Model Number {.field {model_num}}")
 
-      self$recruit$set_recruit_data(model_num, self$general$seq_years)
+      self$recruit$set_recruit_data(model_num)
       self$recruit$print()
 
 
