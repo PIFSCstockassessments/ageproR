@@ -14,7 +14,8 @@ these models.
 \describe{
 \item{\code{recruit_model_num_list}}{Recruitment Type}
 
-\item{\code{model_collection_list}}{List of recruitment models}
+\item{\code{model_collection_list}}{List of recruitment models. Use this field
+to access a specific recruitment models field.}
 
 \item{\code{observation_years}}{Sequence of projected years}
 }
@@ -43,6 +44,7 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
 \item \href{#method-recruitment-set_recruit_data}{\code{recruitment$set_recruit_data()}}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
+\item \href{#method-recruitment-read_recruit_model}{\code{recruitment$read_recruit_model()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-print_recruit}{\code{recruitment$print_recruit()}}
@@ -83,7 +85,7 @@ is TRUE.}
 \subsection{Method \code{set_recruit_data()}}{
 Creates Recruitment Model Data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -91,9 +93,6 @@ Creates Recruitment Model Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
@@ -113,6 +112,26 @@ models that use the model projection year time horizon for setup.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{model_num}}{\cr
+AGEPRO Recruitment Model Number}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-read_recruit_model"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-read_recruit_model}{}}}
+\subsection{Method \code{read_recruit_model()}}{
+Read in recruit model data.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_recruit_model(inp_con, model_num)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 }

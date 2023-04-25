@@ -15,6 +15,7 @@ Empirical CDF of Recruitment (Model #14)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-empirical_cdf_model-new}{\code{empirical_cdf_model$new()}}
+\item \href{#method-empirical_cdf_model-read_inp_lines}{\code{empirical_cdf_model$read_inp_lines()}}
 \item \href{#method-empirical_cdf_model-clone}{\code{empirical_cdf_model$clone()}}
 }
 }
@@ -41,6 +42,23 @@ Initialize the Empirical CDF Model
 \describe{
 \item{\code{observation_years}}{\cr
 Ordered Array representing the Projection Time Horizon}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-empirical_cdf_model-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-empirical_cdf_model-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Read inp lines
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$read_inp_lines(inp_con)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{File connection}
 }
 \if{html}{\out{</div>}}
 }

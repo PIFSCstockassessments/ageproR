@@ -378,6 +378,14 @@ empirical_cdf_model <- R6Class(
         "Empirical Cumulative Distribution Function of Recruitment"
       super$initialize(observation_years)
 
+    },
+
+    #' @description
+    #' Read inp lines
+    #'
+    read_inp_lines = function() {
+      message("FOO")
+      stop("!UNIMPLMENTED")
     }
   )
 

@@ -102,15 +102,24 @@ recruitment <- R6Class(
       self$model_collection_list <-
         vector("list", private$.number_recruit_models)
 
+      #Check model_num is numeric
+      #and vector length matches number_recruit_models
+      assert_numeric(model_num, len = private$.number_recruit_models)
+
+      for (recruit in 1:private$.number_recruit_models) {
+        #Model Num
+        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
+      }
+
     },
 
+    #Setup recruitment probability for each recruitment model.
     setup_recruitment_probability = function() {
 
       assert_numeric(private$.number_recruit_models, lower = 1)
       assert_numeric(private$.number_projection_years, lower = 1)
       assert_numeric(private$.sequence_projection_years)
 
-      #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$.number_recruit_models) {
 
         # Recruitment Probability: Fill the time series with a recruitment
@@ -127,12 +136,14 @@ recruitment <- R6Class(
     }
 
 
+
   ), public = list(
 
     #' @field recruit_model_num_list Recruitment Type
     recruit_model_num_list = NULL,
 
-    #' @field model_collection_list List of recruitment models
+    #' @field model_collection_list List of recruitment models. Use this field
+    #' to access a specific recruitment models field.
     model_collection_list = NULL,
 
     #' @field observation_years Sequence of projected years
@@ -166,7 +177,7 @@ recruitment <- R6Class(
       private$setup_recruitment_probability()
 
       # Set Recruitment Model data
-      self$set_recruit_data(model_num, self$observation_years)
+      self$set_recruit_data(model_num)
       self$recruit_scaling_factor <- 1000
       self$ssb_scaling_factor <- 0
 
@@ -184,7 +195,7 @@ recruitment <- R6Class(
 
     #' @description
     #' Creates Recruitment Model Data
-    set_recruit_data = function(model_num, seq_years) {
+    set_recruit_data = function(model_num) {
 
       # Handle seq_years as a single int or a vector of sequential values
       #private$assert_observed_years(seq_years)
@@ -222,8 +233,8 @@ recruitment <- R6Class(
         # names(private$.recruit_probability[[recruit]]) <-
         #   private$.sequence_projection_years
 
-        #Model Num
-        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
+        # #Model Num
+        # self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
 
         #Add Recruitment Data with recruitment model number
         self$model_collection_list[[recruit]] <-
@@ -259,6 +270,24 @@ recruitment <- R6Class(
     eval_tidy(model_dict$get(as.character(model_num)))
 
     },
+
+
+    #' @description
+    #' Read in recruit model data.
+    #' @export
+    read_recruit_model = function(model_num) {
+
+      assert_numeric(model_num, lower = 0, upper = 21)
+
+      browser()
+
+      model_dict <- dict(list(
+        "14" = expr(empirical_cdf_model$read_inp_lines())
+      ))
+
+      eval_tidy(model_dict$get(as.character(model_num)))
+    },
+
 
     #' @description
     #' Sets the recruitment probability
@@ -430,29 +459,13 @@ recruitment <- R6Class(
       # recruit_model_mum_list, .recruit_probability, & model_collection_list
       private$setup_recruitment_list_vectors(inp_line)
 
+      # Setup Default Recruitment probability
+      private$setup_recruitment_probability()
 
-      ## TODO TODO TODO: REFACTOR
-      #Set recruitment probability and model data for each recruitment model.
-      for (recruit in 1:private$.number_recruit_models) {
-
-        # Recruitment Probability: Fill the time series with a recruitment
-        # probability sums equal to unity
-        # TODO: Check validity
-        # TODO: Refactor to function
-        private$.recruit_probability[[recruit]] <-
-          as.numeric(format(round(rep(1, private$.number_projection_years) /
-                    private$.number_projection_years, digits = 4), nsmall = 4))
-
-        names(private$.recruit_probability[[recruit]]) <-
-        private$.sequence_projection_years
-
-        #Model Num
-        self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
-      }
-
-      #For each year in AGEPRO Model's observation years,
-      #read an additional line from the file connection, and append line to
-      #the recruitment probably (list)
+      # Set Input File Recruitment Probability values over default values.
+      # For each year in AGEPRO Model's observation years, read an additional
+      # line from the file connection, and append line to the recruitment
+      # probability (list)
       for(year in self$observation_years){
         inp_line <-
           unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
@@ -477,7 +490,7 @@ recruitment <- R6Class(
       cli_text(" ")
       private$cli_recruit_probability()
 
-      stop("UNIMPLMENTED")
+
       # For each recruit model in recruit_model_collection
       # TODO: REFACTOR
 
@@ -487,8 +500,9 @@ recruitment <- R6Class(
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
+        self$model_collection_list[[recruit]] <-
+          self$read_recruit_model(self$recruit_model_num_list[[recruit]])
       }
-
 
 
 
