@@ -383,7 +383,8 @@ empirical_cdf_model <- R6Class(
     #' @description
     #' Read inp lines
     #'
-    read_inp_lines = function() {
+    #' @param inp_con File Connection
+    read_inp_lines = function(inp_con) {
       message("FOO")
       stop("!UNIMPLMENTED")
     }

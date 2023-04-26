@@ -272,22 +272,6 @@ recruitment <- R6Class(
     },
 
 
-    #' @description
-    #' Read in recruit model data.
-    #' @export
-    read_recruit_model = function(model_num) {
-
-      assert_numeric(model_num, lower = 0, upper = 21)
-
-      browser()
-
-      model_dict <- dict(list(
-        "14" = expr(empirical_cdf_model$read_inp_lines())
-      ))
-
-      eval_tidy(model_dict$get(as.character(model_num)))
-    },
-
 
     #' @description
     #' Sets the recruitment probability
@@ -492,16 +476,15 @@ recruitment <- R6Class(
 
 
       # For each recruit model in recruit_model_collection
-      # TODO: REFACTOR
-
       for(recruit in private$.number_recruit_models){
 
-        #Read Recruitment Data
+        #Setup Recruitment Model w/ default values
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
-        self$model_collection_list[[recruit]] <-
-          self$read_recruit_model(self$recruit_model_num_list[[recruit]])
+        #Read in inp lines to set recruitment model data values
+        self$model_collection_list[[recruit]]$read_inp_lines(inp_con)
+
       }
 
 
