@@ -316,7 +316,7 @@ empirical_recruit <- R6Class(
       if(missing(value)) {
         private$.observation_data
       }else {
-        assert_matrix(value, min.rows = 1, max.rows = 2)
+        assert_matrix(value, min.cols = 1, max.cols = 2)
         private$.observation_data <- value
       }
     },
