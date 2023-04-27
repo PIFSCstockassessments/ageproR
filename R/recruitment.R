@@ -374,7 +374,8 @@ recruitment <- R6Class(
       nline <- nline + 1
       cli_alert("Line {nline} ...")
 
-      inp_line <- private$assert_numeric_substrings(inp_line)
+      #inp_line <- private$assert_numeric_substrings(inp_line)
+      inp_line <- assert_numeric_substrings(inp_line)
       cli_text("{.val {inp_line}}")
 
       # Assign substrings
