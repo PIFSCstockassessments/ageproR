@@ -9,13 +9,6 @@ Recruitment Model Description
 \section{Super class}{
 \code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{empirical_recruit}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{rec_array}}{Recruitment Inupt Array (data)}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -28,6 +21,8 @@ Recruitment Model Description
 \item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
 
 \item{\code{observed_year_array}}{Gets/Sets the observed years sequence used in the model projection}
+
+\item{\code{observation_data}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }

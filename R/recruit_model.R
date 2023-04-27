@@ -185,7 +185,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int assert_integerish assert_logical
+#' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
 #' @export
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -196,14 +196,11 @@ empirical_recruit <- R6Class(
     .with_ssb = FALSE,
     .model_group = 1,
     .observed_points = 0,
-    .observed_year_array = NULL
+    .observed_year_array = NULL,
+    .observation_data = NULL
 
   ),
   public = list(
-
-
-    #' @field rec_array Recruitment Inupt Array (data)
-    rec_array = NULL,
 
     #'@description
     #'Creates an Empirical Recruit instance
@@ -235,16 +232,16 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$rec_array <- matrix(rep(0, self$observed_points),
+        self$observation_data <- matrix(rep(0, self$observed_points),
                                  nrow = 2,
                                  ncol = self$observed_points)
       }else {
-        self$rec_array <- matrix(rep(0, self$observed_points),
+        self$observation_data <- matrix(rep(0, self$observed_points),
                                  nrow = 1,
                                  ncol = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$rec_array) <- self$observed_year_array
+      colnames(self$observation_data) <- self$observed_year_array
 
     },
 
@@ -259,7 +256,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print(self$rec_array)
+      cat_print(self$observation_data)
 
     },
 
@@ -269,7 +266,7 @@ empirical_recruit <- R6Class(
     print_json = function() {
       #check
       toJSON(list(points = self$observed_points,
-                  recruits = self$rec_array),
+                  recruits = self$observation_data),
              pretty = TRUE,
              auto_unbox = TRUE)
     }
@@ -296,7 +293,7 @@ empirical_recruit <- R6Class(
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
       return(list(points = self$observed_points,
-           recruits = self$rec_array))
+           recruits = self$observation_data))
     },
 
     #' @field observed_points
@@ -327,6 +324,17 @@ empirical_recruit <- R6Class(
         }else {
           private$.observed_year_array <- value
         }
+      }
+    },
+
+    #' @field observation_data
+    #' Recruitment Inupt Array (data)
+    observation_data = function(value) {
+      if(missing(value)) {
+        private$.observation_data
+      }else {
+        assert_matrix(value, min.rows = 1, max.rows = 2)
+        private$.observation_data <- value
       }
     },
 
