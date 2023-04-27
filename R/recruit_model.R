@@ -254,7 +254,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print(self$observation_data)
+      cat_print((self$observation_data))
 
     },
 
@@ -267,6 +267,73 @@ empirical_recruit <- R6Class(
                   recruits = self$observation_data),
              pretty = TRUE,
              auto_unbox = TRUE)
+    },
+
+    #' @description
+    #' Read inp lines
+    #'
+    #' @param inp_con File Connection
+    #' @param nline Line Number
+    read_inp_lines = function(inp_con, nline) {
+
+      #browser()
+      #message("FOO")
+      #stop("!UNIMPLMENTED")
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation recruits
+      inp_line <-
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+      inp_line <- assert_numeric_substrings(inp_line)
+
+      nline <- nline + 1
+      cli_alert("Line {nline}: Observed points : {.val {inp_line}}...")
+
+      #Validate input line holds single value for observation recruits
+      assert_numeric(inp_line, len = 1)
+
+      self$observed_points <- inp_line
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation table
+
+
+      inp_line <-
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+      nline <- nline + 1
+      cli_alert("Line {nline} Observations ...")
+
+      inp_recruit <- assert_numeric_substrings(inp_line)
+
+
+
+      if(self$with_ssb) {
+
+        # Read an additional line from the file connection and split the string
+        # into substrings by whitespace and assign as observation table
+
+        inp_line <-
+          unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+        nline <- nline + 1
+        cli_alert("Line {nline} ...")
+
+        inp_ssb <- assert_numeric_substrings(inp_line)
+
+        self$observation_data <- cbind(recruit=inp_recruit,
+                                       ssb=inp_ssb)
+
+      } else {
+        self$observation_data <- cbind(recruit=inp_recruit)
+      }
+
+      cli_alert_info("Observations ...")
+      cat_print(self$observation_data)
+
+
+      return(nline)
     }
 
   ),

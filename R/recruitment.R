@@ -451,7 +451,8 @@ recruitment <- R6Class(
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
         #Read in inp lines to set recruitment model data values
-        self$model_collection_list[[recruit]]$read_inp_lines(inp_con)
+        nline <-
+          self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)
 
       }
 

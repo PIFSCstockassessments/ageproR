@@ -33,6 +33,7 @@ Recruitment Model Description
 \item \href{#method-empirical_recruit-new_obs_table}{\code{empirical_recruit$new_obs_table()}}
 \item \href{#method-empirical_recruit-print}{\code{empirical_recruit$print()}}
 \item \href{#method-empirical_recruit-print_json}{\code{empirical_recruit$print_json()}}
+\item \href{#method-empirical_recruit-read_inp_lines}{\code{empirical_recruit$read_inp_lines()}}
 \item \href{#method-empirical_recruit-clone}{\code{empirical_recruit$clone()}}
 }
 }
@@ -93,6 +94,25 @@ Returns Recruit data as JSON
 \if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$print_json()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-empirical_recruit-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-empirical_recruit-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Read inp lines
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{File Connection}
+
+\item{\code{nline}}{Line Number}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-empirical_recruit-clone"></a>}}

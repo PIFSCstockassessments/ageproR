@@ -15,7 +15,6 @@ Empirical CDF of Recruitment (Model #14)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-empirical_cdf_model-new}{\code{empirical_cdf_model$new()}}
-\item \href{#method-empirical_cdf_model-read_inp_lines}{\code{empirical_cdf_model$read_inp_lines()}}
 \item \href{#method-empirical_cdf_model-clone}{\code{empirical_cdf_model$clone()}}
 }
 }
@@ -25,6 +24,7 @@ Empirical CDF of Recruitment (Model #14)
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproj::empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}
