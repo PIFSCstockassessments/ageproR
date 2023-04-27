@@ -372,7 +372,8 @@ recruitment <- R6Class(
 
 
       nline <- nline + 1
-      cli_alert("Line {nline} ...")
+      cli_alert(
+        "Line {nline} : Recruit/SSB Scaling Factors & max recruit obs ...")
 
       #inp_line <- private$assert_numeric_substrings(inp_line)
       inp_line <- assert_numeric_substrings(inp_line)
@@ -418,6 +419,7 @@ recruitment <- R6Class(
       # For each year in AGEPRO Model's observation years, read an additional
       # line from the file connection, and append line to the recruitment
       # probability (list)
+      cli_alert("{.emph Reading Recruitment Probabaility}")
       for(year in self$observation_years){
         inp_line <-
           unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
@@ -439,9 +441,7 @@ recruitment <- R6Class(
       }
 
       #Print out Recruitment Probability from Input data to console
-      cli_text(" ")
       private$cli_recruit_probability()
-
 
       # For each recruit model in recruit_model_collection
       for(recruit in private$.number_recruit_models){
@@ -450,6 +450,8 @@ recruitment <- R6Class(
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
+        cli_alert(c("Reading recruitment model ",
+                    "{.field #{self$recruit_model_num_list[[recruit]]}}"))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)

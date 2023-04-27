@@ -254,7 +254,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print((self$observation_data))
+      cat_print(tibble::as_tibble(self$observation_data))
 
     },
 
@@ -276,10 +276,6 @@ empirical_recruit <- R6Class(
     #' @param nline Line Number
     read_inp_lines = function(inp_con, nline) {
 
-      #browser()
-      #message("FOO")
-      #stop("!UNIMPLMENTED")
-
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
       inp_line <-
@@ -298,7 +294,6 @@ empirical_recruit <- R6Class(
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
 
-
       inp_line <-
         unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
@@ -306,8 +301,6 @@ empirical_recruit <- R6Class(
       cli_alert("Line {nline} Observations ...")
 
       inp_recruit <- assert_numeric_substrings(inp_line)
-
-
 
       if(self$with_ssb) {
 
@@ -329,8 +322,7 @@ empirical_recruit <- R6Class(
         self$observation_data <- cbind(recruit=inp_recruit)
       }
 
-      cli_alert_info("Observations ...")
-      cat_print(self$observation_data)
+      print(tibble::as_tibble(self$observation_data), n = self$observed_points)
 
 
       return(nline)
