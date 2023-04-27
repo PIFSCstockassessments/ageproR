@@ -20,8 +20,6 @@ Recruitment Model Description
 
 \item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
 
-\item{\code{observed_year_array}}{Gets/Sets the observed years sequence used in the model projection}
-
 \item{\code{observation_data}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
@@ -44,14 +42,14 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(observation_years, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(num_observations = 1, with_ssb = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{observation_years}}{\cr
-Ordered Array representing the Projection Time Horizon}
+\item{\code{num_observations}}{\cr
+Number of Empirical Observation Records}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}

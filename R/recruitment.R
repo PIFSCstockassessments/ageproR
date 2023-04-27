@@ -223,7 +223,7 @@ recruitment <- R6Class(
         "6" = expr(ricker_curve_model$new()),
         "7" = expr(shepherd_curve_model$new()),
         "9" = expr(deprecated_recruit_model_9$new()),
-        "14" = expr(empirical_cdf_model$new(self$observation_years))
+        "14" = expr(empirical_cdf_model$new())
       ))
 
     eval_tidy(model_dict$get(as.character(model_num)))

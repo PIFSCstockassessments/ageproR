@@ -181,7 +181,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @inherit recruit_model description
 #'
 #' @template model_num
-#' @template observation_years
+#' @template num_observations
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
@@ -196,7 +196,6 @@ empirical_recruit <- R6Class(
     .with_ssb = FALSE,
     .model_group = 1,
     .observed_points = 0,
-    .observed_year_array = NULL,
     .observation_data = NULL
 
   ),
@@ -208,15 +207,14 @@ empirical_recruit <- R6Class(
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(observation_years, with_ssb = FALSE) {
+    initialize = function(num_observations = 1, with_ssb = FALSE) {
 
       super$model_group <- 1
 
       #Set the number of observations used of the model projection
-      self$observed_points <- observation_years
-
-      #Set the observed years sequence used in the model projection
-      self$observed_year_array <- observation_years
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
 
       if (!missing(with_ssb)) {
         private$.with_ssb <- with_ssb
@@ -233,15 +231,15 @@ empirical_recruit <- R6Class(
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
         self$observation_data <- matrix(rep(0, self$observed_points),
-                                 nrow = 2,
-                                 ncol = self$observed_points)
+                                 ncol = 2,
+                                 nrow = self$observed_points)
       }else {
         self$observation_data <- matrix(rep(0, self$observed_points),
-                                 nrow = 1,
-                                 ncol = self$observed_points)
+                                 ncol = 1,
+                                 nrow = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$observation_data) <- self$observed_year_array
+      colnames(self$observation_data) <- "recruit"
 
     },
 
@@ -311,21 +309,6 @@ empirical_recruit <- R6Class(
       }
     },
 
-    #' @field observed_year_array
-    #' Gets/Sets the observed years sequence used in the model projection
-    observed_year_array = function(value) {
-      if (missing(value)) {
-        private$.observed_year_array
-      } else {
-        #Handle/Check observation years for single or array vector
-        assert_integerish(value)
-        if (test_int(value)) {
-          private$.observed_year_array <- 1:value
-        }else {
-          private$.observed_year_array <- value
-        }
-      }
-    },
 
     #' @field observation_data
     #' Recruitment Inupt Array (data)
@@ -350,7 +333,7 @@ empirical_recruit <- R6Class(
 
 #' Empirical Recruitment Distribution (Model #3)
 #'
-#' @template observation_years
+#' @template num_observations
 #'
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -358,12 +341,12 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(observation_years) {
+    initialize = function(num_observations) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(observation_years)
+      super$initialize(num_observations)
 
     }
   )
@@ -371,30 +354,26 @@ empirical_distribution_model <- R6Class(
 
 #' Empirical CDF of Recruitment (Model #14)
 #'
-#' @template observation_years
+#' @template num_observations
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
   inherit = empirical_recruit,
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(observation_years) {
+    initialize = function(num_observations = 1) {
+
+      #Set the number of observations used of the model projection
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(observation_years)
+      super$initialize(num_observations)
 
-    },
-
-    #' @description
-    #' Read inp lines
-    #'
-    #' @param inp_con File Connection
-    read_inp_lines = function(inp_con) {
-      message("FOO")
-      stop("!UNIMPLMENTED")
     }
   )
 

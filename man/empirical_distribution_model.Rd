@@ -33,14 +33,14 @@ Empirical Recruitment Distribution (Model #3)
 \subsection{Method \code{new()}}{
 Initialize the Empirical Recruitment Distribution Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(observation_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(num_observations)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{observation_years}}{\cr
-Ordered Array representing the Projection Time Horizon}
+\item{\code{num_observations}}{\cr
+Number of Empirical Observation Records}
 }
 \if{html}{\out{</div>}}
 }
