@@ -186,6 +186,7 @@ deprecated_recruit_model_9 <- R6Class(
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
+#' @importFrom tibble as_tibble
 #' @export
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -254,7 +255,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print(tibble::as_tibble(self$observation_data))
+      cat_print(as_tibble(self$observation_data))
 
     },
 
@@ -312,7 +313,7 @@ empirical_recruit <- R6Class(
         self$observation_data <- cbind(recruit=inp_recruit)
       }
 
-      print(tibble::as_tibble(self$observation_data), n = self$observed_points)
+      print(as_tibble(self$observation_data), n = self$observed_points)
 
 
       return(nline)
