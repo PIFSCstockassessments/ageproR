@@ -8,7 +8,6 @@
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_character
 #' @importFrom collections dict
-#' @importFrom magrittr %>%
 #'
 input_file <- R6Class(
   "input_file",
