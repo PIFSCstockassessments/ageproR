@@ -24,3 +24,26 @@ assert_numeric_substrings <- function(inp_line) {
   invisible(as.numeric(inp_line))
 
 }
+
+
+#' Reads a line of numeric strings from the AGEPRO input file connection.
+#'
+#' Reads in a line from the open file connection, splits the string
+#' into substrings by whitespace, validates for numerical strings, and
+#' then converts to numerical vector.
+#'
+#' @template inp_con
+#'
+#' @keywords internal
+#'
+read_inp_numeric_line <- function(inp_con) {
+
+  if(!isOpen(inp_con)){
+    stop("No open file Connection to AGEPRO input file")
+  }
+
+  inp_line <-
+    unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+  return(assert_numeric_substrings(inp_line))
+}

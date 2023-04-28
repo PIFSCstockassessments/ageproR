@@ -367,16 +367,11 @@ recruitment <- R6Class(
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
-
+      inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
       cli_alert(
         "Line {nline} : Recruit/SSB Scaling Factors & max recruit obs ...")
-
-      #inp_line <- private$assert_numeric_substrings(inp_line)
-      inp_line <- assert_numeric_substrings(inp_line)
       cli_text("{.val {inp_line}}")
 
       # Assign substrings
@@ -387,20 +382,16 @@ recruitment <- R6Class(
 
       # Read an additional line from the file connection, and parse the
       # substring(s) for Recruitment Model(s) for model_collection_list
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+      inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
       cli_alert("Line {nline}: Recruitment model number ...")
       cli_text("{inp_line}")
 
-      inp_line <- private$assert_numeric_substrings(inp_line)
-
       #?Validate length Recruitment's recruit_model_num_list matches
       #length of recruitment models field from the set_recruit_data function
 
-      ## Setup for .number_recruit_models
-      ## Setup recruitment list vectors:
+      ## Setup for .number_recruit_models and recruitment list vectors:
       # recruit_model_mum_list, .recruit_probability, & model_collection_list
       private$setup_recruitment_list_vectors(inp_line)
 
@@ -408,32 +399,30 @@ recruitment <- R6Class(
       private$setup_recruitment_probability()
 
       #TODO: Refactor loop
-      # Assign current inp_line read to setup recruit_model_num_list
+      # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
         self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
 
       }
 
-      # Set Input File Recruitment Probability values over default values.
-      # For each year in AGEPRO Model's observation years, read an additional
-      # line from the file connection, and append line to the recruitment
-      # probability (list)
       cli_alert("{.emph Reading Recruitment Probabaility}")
+      # Set Input File Recruitment Probability values over default values.
+      # For each year in AGEPRO Model's observation years ...
       for(year in self$observation_years){
-        inp_line <-
-          unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+        # Read an additional line from the file connection ...
+        inp_line <- read_inp_numeric_line(inp_con)
 
         nline <- nline + 1
         cli_alert("Line {nline}: Recruitment probabaility for year {year} ...")
         cli_text("{inp_line}")
 
-        inp_line <- private$assert_numeric_substrings(inp_line)
-
-        #Verify recruit probability value
+        # Verify recruit probability value ...
         assert_numeric(inp_line, lower = 0 , upper = 1)
 
         #TODO: Refactor loop
+        # And then append line to the recruitment probability (list) ...
         for(j in seq_along(inp_line)) {
           self$set_recruit_probability(j,year,inp_line[[j]], verbose = FALSE)
         }

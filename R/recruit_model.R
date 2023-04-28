@@ -278,10 +278,7 @@ empirical_recruit <- R6Class(
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
-
-      inp_line <- assert_numeric_substrings(inp_line)
+      inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
       cli_alert("Line {nline}: Observed points : {.val {inp_line}}...")
@@ -293,27 +290,20 @@ empirical_recruit <- R6Class(
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
-
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+      inp_recruit <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
       cli_alert("Line {nline} Observations ...")
 
-      inp_recruit <- assert_numeric_substrings(inp_line)
 
       if(self$with_ssb) {
 
         # Read an additional line from the file connection and split the string
         # into substrings by whitespace and assign as observation table
-
-        inp_line <-
-          unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+        inp_ssb <- read_inp_numeric_line(inp_con)
 
         nline <- nline + 1
         cli_alert("Line {nline} ...")
-
-        inp_ssb <- assert_numeric_substrings(inp_line)
 
         self$observation_data <- cbind(recruit=inp_recruit,
                                        ssb=inp_ssb)
