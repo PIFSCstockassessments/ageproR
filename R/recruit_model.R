@@ -435,6 +435,7 @@ empirical_cdf_model <- R6Class(
 #' @template model_num
 #' @template parametric_parameters
 #' @template elipses
+#' @template inp_con
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -553,6 +554,27 @@ parametric_curve <- R6Class(
       cli_li("Beta: {.val {private$.beta}}")
       cli_li("Variance: {.val {private$.variance}}")
       cli_end()
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    #' @param nline Line Number
+    #'
+    read_inp_lines = function (inp_con, nline){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+
+      return(nline)
     }
 
   )
@@ -608,6 +630,7 @@ ricker_curve_model <- R6Class(
 #'
 #' @template parametric_parameters
 #' @template elipses
+#' @template inp_con
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
@@ -658,7 +681,32 @@ shepherd_curve_model <- R6Class(
       cli_li("Variance: {.val {private$.variance}}")
       cli_end()
 
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    #' @param nline Line Number
+    #'
+    read_inp_lines = function (inp_con, nline){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$kpar <- inp_line[3]
+      self$variance <- inp_line[4]
+
+
+      return(nline)
     }
+
+
 
   ),
   active = list(
