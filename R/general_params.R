@@ -121,7 +121,7 @@ general_params <- R6Class(
       nline <- nline + 1
       cli_alert("Line {nline} ...")
 
-      inp_line <- private$assert_numeric_substrings(inp_line)
+      inp_line <- assert_numeric_substrings(inp_line)
 
       #TODO: Refactor
       self$yr_start <- inp_line[1]
@@ -167,19 +167,6 @@ general_params <- R6Class(
           "line-type" = "double")))
       cli_rule("General")
       cli_end(d)
-    },
-
-    assert_numeric_substrings = function (inp_line){
-
-      if(!all(grepl("^[[:digit:]]",inp_line))) {
-
-        non_numerics <- inp_line[!grepl("^[[:digit:]]",inp_line)]
-        stop("Line contains a Non Numeric Substring",
-             paste(non_numerics, collapse = ", "))
-      }
-
-      invisible(as.numeric(inp_line))
-
     }
   )
 
