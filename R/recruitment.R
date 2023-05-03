@@ -70,20 +70,6 @@ recruitment <- R6Class(
 
     },
 
-    #TODO: shared function?
-    assert_numeric_substrings = function(inp_line) {
-
-      if(!all(grepl("^[[:digit:]]",inp_line))) {
-
-        non_numerics <- inp_line[!grepl("^[[:digit:]]",inp_line)]
-        stop("Line contains a Non Numeric Substring",
-             paste(non_numerics, collapse = ", "))
-      }
-
-      invisible(as.numeric(inp_line))
-
-    },
-
     setup_recruitment_list_vectors = function(model_num) {
 
       # Setup number of recruits based on the vector length of the recruitment
