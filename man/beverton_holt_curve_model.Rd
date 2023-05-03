@@ -22,6 +22,7 @@ Beverton-Holt w/ Lognormal Error (Model #5)
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="print"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-print'><code>ageproj::parametric_curve$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="read_inp_lines"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-read_inp_lines'><code>ageproj::parametric_curve$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}

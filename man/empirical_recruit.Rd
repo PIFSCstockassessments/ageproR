@@ -9,13 +9,6 @@ Recruitment Model Description
 \section{Super class}{
 \code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{empirical_recruit}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{rec_array}}{Recruitment Inupt Array (data)}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -27,7 +20,7 @@ Recruitment Model Description
 
 \item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
 
-\item{\code{observed_year_array}}{Gets/Sets the observed years sequence used in the model projection}
+\item{\code{observation_data}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }
@@ -40,6 +33,7 @@ Recruitment Model Description
 \item \href{#method-empirical_recruit-new_obs_table}{\code{empirical_recruit$new_obs_table()}}
 \item \href{#method-empirical_recruit-print}{\code{empirical_recruit$print()}}
 \item \href{#method-empirical_recruit-print_json}{\code{empirical_recruit$print_json()}}
+\item \href{#method-empirical_recruit-read_inp_lines}{\code{empirical_recruit$read_inp_lines()}}
 \item \href{#method-empirical_recruit-clone}{\code{empirical_recruit$clone()}}
 }
 }
@@ -49,13 +43,14 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(rec_points, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(num_observations = 1, with_ssb = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rec_points}}{Number of Recruitment Observations}
+\item{\code{num_observations}}{\cr
+Number of Empirical Observation Records}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}
@@ -99,6 +94,25 @@ Returns Recruit data as JSON
 \if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$print_json()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-empirical_recruit-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-empirical_recruit-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Read inp lines
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{File Connection}
+
+\item{\code{nline}}{Line Number}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-empirical_recruit-clone"></a>}}

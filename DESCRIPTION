@@ -14,6 +14,8 @@ Imports:
   checkmate,
   cli,
   collections,
+  tibble,
+  rlang,
   utils,
   R6
 License: GPL-3

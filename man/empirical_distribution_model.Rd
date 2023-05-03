@@ -24,6 +24,7 @@ Empirical Recruitment Distribution (Model #3)
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproj::empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -33,14 +34,14 @@ Empirical Recruitment Distribution (Model #3)
 \subsection{Method \code{new()}}{
 Initialize the Empirical Recruitment Distribution Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(num_observations)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
+\item{\code{num_observations}}{\cr
+Number of Empirical Observation Records}
 }
 \if{html}{\out{</div>}}
 }

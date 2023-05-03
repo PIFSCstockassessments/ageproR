@@ -12,13 +12,12 @@ these models.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{recruit_model_num_list}}{Recruitment Type
-#' @field recruit_probability The Recruitment Probabilities.
-recruit_probability = NULL,}
+\item{\code{recruit_model_num_list}}{Recruitment Type}
 
-\item{\code{model_collection_list}}{List of recruitment models}
+\item{\code{model_collection_list}}{List of recruitment models. Use this field
+to access a specific recruitment models field.}
 
-\item{\code{seq_yrs}}{Sequence of projected years}
+\item{\code{observation_years}}{Sequence of projected years}
 }
 \if{html}{\out{</div>}}
 }
@@ -49,6 +48,7 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-print_recruit}{\code{recruitment$print_recruit()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
+\item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -58,7 +58,7 @@ spawning weight of fish in kilograms (kg)}
 \subsection{Method \code{new()}}{
 Initializes the Recruitment Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000, cat_verbose = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -71,6 +71,9 @@ AGEPRO Recruitment Model Number}
 Array representing the Projection Time Horizon}
 
 \item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
+
+\item{\code{cat_verbose}}{Flag to print out `cat` based cli messages printed on console. Default
+is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -81,7 +84,7 @@ Array representing the Projection Time Horizon}
 \subsection{Method \code{set_recruit_data()}}{
 Creates Recruitment Model Data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -89,9 +92,6 @@ Creates Recruitment Model Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
@@ -100,9 +100,12 @@ Array representing the Projection Time Horizon}
 \if{html}{\out{<a id="method-recruitment-set_recruit_model"></a>}}
 \if{latex}{\out{\hypertarget{method-recruitment-set_recruit_model}{}}}
 \subsection{Method \code{set_recruit_model()}}{
-Initializes RecruitModel Data
+Initializes Recruit Model Data.
+
+Recruitment class field `observation_years` is used for recruitment
+models that use the model projection year time horizon for setup.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num, seq_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -110,9 +113,6 @@ Initializes RecruitModel Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
-
-\item{\code{seq_years}}{\cr
-Array representing the Projection Time Horizon}
 }
 \if{html}{\out{</div>}}
 }
@@ -123,7 +123,7 @@ Array representing the Projection Time Horizon}
 \subsection{Method \code{set_recruit_probability()}}{
 Sets the recruitment probability
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value, verbose = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -134,6 +134,9 @@ Sets the recruitment probability
 \item{\code{year}}{index of the Time series}
 
 \item{\code{value}}{Recruitment Probability}
+
+\item{\code{verbose}}{Flag to allow based cli messages printed on
+console. Default is TRUE}
 }
 \if{html}{\out{</div>}}
 }
@@ -144,12 +147,15 @@ Sets the recruitment probability
 \subsection{Method \code{print()}}{
 Prints out Recruitment
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(cat_verbose = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{cat_verbose}}{Flag to allow `cat` based cli messages printed on
+console. Default is TRUE}
+
 \item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
@@ -183,6 +189,25 @@ Helper Function To View Recruitment Model Collection Data
 \if{html}{\out{<div class="r">}}\preformatted{recruitment$view_recruit_data()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{Reference to current line read}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-recruitment-clone"></a>}}

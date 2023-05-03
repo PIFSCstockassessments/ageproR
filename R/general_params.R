@@ -7,6 +7,8 @@
 #' projections.
 #'
 #' @template elipses
+#' @template inp_line
+#' @template inp_con
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -105,6 +107,36 @@ general_params <- R6Class(
       cli_li("Discards are present: {.val {test_true(self$discards)}} ")
       cli_li("Calculation Engine Random Number Seed: {.val {self$seed}}")
       invisible(self)
+    },
+
+    #' @description
+    #' Reads General AGEPRO parameters from AGEPRO INP Input File
+    #' @param nline Reference to current line read
+    read_inp_lines = function (inp_con, nline){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <-
+        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      inp_line <- assert_numeric_substrings(inp_line)
+
+      #TODO: Refactor
+      self$yr_start <- inp_line[1]
+      self$yr_end <- inp_line[2]
+      self$age_begin <- inp_line[3]
+      self$age_end <- inp_line[4]
+      self$num_fleets <- inp_line[5]
+      self$num_rec_models <- inp_line[6]
+      self$num_pop_sims <- inp_line[7]
+      self$discards <- inp_line[8]
+      self$seed <- inp_line[9]
+
+      self$print()
+
+      return(nline)
     }
 
   ),

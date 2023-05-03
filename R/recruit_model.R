@@ -181,10 +181,12 @@ deprecated_recruit_model_9 <- R6Class(
 #' @inherit recruit_model description
 #'
 #' @template model_num
+#' @template num_observations
 #' @template elipses
 #'
 #' @importFrom jsonlite toJSON
-#' @importFrom checkmate test_int assert_integerish assert_logical
+#' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
+#' @importFrom tibble as_tibble
 #' @export
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -195,29 +197,25 @@ empirical_recruit <- R6Class(
     .with_ssb = FALSE,
     .model_group = 1,
     .observed_points = 0,
-    .observed_year_array = NULL
+    .observation_data = NULL
 
   ),
   public = list(
 
-
-    #' @field rec_array Recruitment Inupt Array (data)
-    rec_array = NULL,
-
     #'@description
     #'Creates an Empirical Recruit instance
     #'
-    #' @param rec_points Number of Recruitment Observations
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(rec_points, with_ssb = FALSE) {
+    initialize = function(num_observations = 1, with_ssb = FALSE) {
 
       super$model_group <- 1
 
-      self$observed_points <- rec_points
-      self$observed_year_array <- rec_points
-
+      #Set the number of observations used of the model projection
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
 
       if (!missing(with_ssb)) {
         private$.with_ssb <- with_ssb
@@ -233,16 +231,16 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$rec_array <- matrix(rep(0, self$observed_points),
-                                 nrow = 2,
-                                 ncol = self$observed_points)
+        self$observation_data <- matrix(rep(0, self$observed_points),
+                                 ncol = 2,
+                                 nrow = self$observed_points)
       }else {
-        self$rec_array <- matrix(rep(0, self$observed_points),
-                                 nrow = 1,
-                                 ncol = self$observed_points)
+        self$observation_data <- matrix(rep(0, self$observed_points),
+                                 ncol = 1,
+                                 nrow = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$rec_array) <- self$observed_year_array
+      colnames(self$observation_data) <- "recruit"
 
     },
 
@@ -257,7 +255,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print(self$rec_array)
+      cat_print(as_tibble(self$observation_data))
 
     },
 
@@ -267,9 +265,58 @@ empirical_recruit <- R6Class(
     print_json = function() {
       #check
       toJSON(list(points = self$observed_points,
-                  recruits = self$rec_array),
+                  recruits = self$observation_data),
              pretty = TRUE,
              auto_unbox = TRUE)
+    },
+
+    #' @description
+    #' Read inp lines
+    #'
+    #' @param inp_con File Connection
+    #' @param nline Line Number
+    read_inp_lines = function(inp_con, nline) {
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation recruits
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline}: Observed points : {.val {inp_line}}...")
+
+      #Validate input line holds single value for observation recruits
+      assert_numeric(inp_line, len = 1)
+
+      self$observed_points <- inp_line
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation table
+      inp_recruit <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} Observations ...")
+
+
+      if(self$with_ssb) {
+
+        # Read an additional line from the file connection and split the string
+        # into substrings by whitespace and assign as observation table
+        inp_ssb <- read_inp_numeric_line(inp_con)
+
+        nline <- nline + 1
+        cli_alert("Line {nline} ...")
+
+        self$observation_data <- cbind(recruit=inp_recruit,
+                                       ssb=inp_ssb)
+
+      } else {
+        self$observation_data <- cbind(recruit=inp_recruit)
+      }
+
+      print(as_tibble(self$observation_data), n = self$observed_points)
+
+
+      return(nline)
     }
 
   ),
@@ -294,37 +341,33 @@ empirical_recruit <- R6Class(
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
       return(list(points = self$observed_points,
-           recruits = self$rec_array))
+           recruits = self$observation_data))
     },
 
     #' @field observed_points
     #' Gets/Sets the number of observations used of the model projection
-    observed_points = function(rec_points) {
-      if (missing(rec_points)) {
+    observed_points = function(value) {
+      if (missing(value)) {
         private$.observed_points
       }else {
-        assert_integerish(rec_points)
-        if (test_int(rec_points)) {
-          private$.observed_points <- rec_points
+        assert_integerish(value)
+        if (test_int(value)) {
+          private$.observed_points <- value
         }else {
-          private$.observed_points <- length(rec_points)
+          private$.observed_points <- length(value)
         }
       }
     },
 
-    #' @field observed_year_array
-    #' Gets/Sets the observed years sequence used in the model projection
-    observed_year_array = function(rec_points) {
-      if (missing(rec_points)) {
-        private$.observed_year_array
-      } else {
-        #Handle/Check rec_points for single or array vector
-        assert_integerish(rec_points)
-        if (test_int(rec_points)) {
-          private$.observed_year_array <- 1:rec_points
-        }else {
-          private$.observed_year_array <- rec_points
-        }
+
+    #' @field observation_data
+    #' Recruitment Inupt Array (data)
+    observation_data = function(value) {
+      if(missing(value)) {
+        private$.observation_data
+      }else {
+        assert_matrix(value, min.cols = 1, max.cols = 2)
+        private$.observation_data <- value
       }
     },
 
@@ -340,7 +383,7 @@ empirical_recruit <- R6Class(
 
 #' Empirical Recruitment Distribution (Model #3)
 #'
-#' @template seq_years
+#' @template num_observations
 #'
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -348,12 +391,12 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(seq_years) {
+    initialize = function(num_observations) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(seq_years)
+      super$initialize(num_observations)
 
     }
   )
@@ -361,20 +404,25 @@ empirical_distribution_model <- R6Class(
 
 #' Empirical CDF of Recruitment (Model #14)
 #'
-#' @template seq_years
+#' @template num_observations
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
   inherit = empirical_recruit,
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(seq_years) {
+    initialize = function(num_observations = 1) {
+
+      #Set the number of observations used of the model projection
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(seq_years)
+      super$initialize(num_observations)
 
     }
   )
@@ -387,6 +435,7 @@ empirical_cdf_model <- R6Class(
 #' @template model_num
 #' @template parametric_parameters
 #' @template elipses
+#' @template inp_con
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -505,6 +554,27 @@ parametric_curve <- R6Class(
       cli_li("Beta: {.val {private$.beta}}")
       cli_li("Variance: {.val {private$.variance}}")
       cli_end()
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    #' @param nline Line Number
+    #'
+    read_inp_lines = function (inp_con, nline){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+
+      return(nline)
     }
 
   )
@@ -560,6 +630,7 @@ ricker_curve_model <- R6Class(
 #'
 #' @template parametric_parameters
 #' @template elipses
+#' @template inp_con
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
@@ -610,7 +681,32 @@ shepherd_curve_model <- R6Class(
       cli_li("Variance: {.val {private$.variance}}")
       cli_end()
 
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    #' @param nline Line Number
+    #'
+    read_inp_lines = function (inp_con, nline){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$kpar <- inp_line[3]
+      self$variance <- inp_line[4]
+
+
+      return(nline)
     }
+
+
 
   ),
   active = list(

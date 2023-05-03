@@ -34,6 +34,7 @@ current value if no argument was passed.}
 \itemize{
 \item \href{#method-parametric_curve-new}{\code{parametric_curve$new()}}
 \item \href{#method-parametric_curve-print}{\code{parametric_curve$print()}}
+\item \href{#method-parametric_curve-read_inp_lines}{\code{parametric_curve$read_inp_lines()}}
 \item \href{#method-parametric_curve-clone}{\code{parametric_curve$clone()}}
 }
 }
@@ -74,6 +75,25 @@ Prints out Parametric Data
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-parametric_curve-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-parametric_curve-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads Parametric Curve model data from AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{parametric_curve$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{Line Number}
 }
 \if{html}{\out{</div>}}
 }
