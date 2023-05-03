@@ -20,7 +20,7 @@ Recruitment Model Description
 
 \item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
 
-\item{\code{observation_data}}{Recruitment Inupt Array (data)}
+\item{\code{observations}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }

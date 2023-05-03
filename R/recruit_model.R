@@ -197,7 +197,7 @@ empirical_recruit <- R6Class(
     .with_ssb = FALSE,
     .model_group = 1,
     .observed_points = 0,
-    .observation_data = NULL
+    .observations = NULL
 
   ),
   public = list(
@@ -231,16 +231,16 @@ empirical_recruit <- R6Class(
 
       # Fill Data fill Default Values (0)
       if (self$with_ssb) {
-        self$observation_data <- matrix(rep(0, self$observed_points),
+        self$observations <- matrix(rep(0, self$observed_points),
                                  ncol = 2,
                                  nrow = self$observed_points)
       }else {
-        self$observation_data <- matrix(rep(0, self$observed_points),
+        self$observations <- matrix(rep(0, self$observed_points),
                                  ncol = 1,
                                  nrow = self$observed_points)
       }
       #Set data matrix Column names to projected years time series array,
-      colnames(self$observation_data) <- "recruit"
+      colnames(self$observations) <- "recruit"
 
     },
 
@@ -255,7 +255,7 @@ empirical_recruit <- R6Class(
                "{.val {self$observed_points}}"))
       cli_end()
       cli_alert_info("Observations:")
-      cat_print(as_tibble(self$observation_data))
+      cat_print(as_tibble(self$observations))
 
     },
 
@@ -265,7 +265,7 @@ empirical_recruit <- R6Class(
     print_json = function() {
       #check
       toJSON(list(points = self$observed_points,
-                  recruits = self$observation_data),
+                  recruits = self$observations),
              pretty = TRUE,
              auto_unbox = TRUE)
     },
@@ -306,14 +306,14 @@ empirical_recruit <- R6Class(
         nline <- nline + 1
         cli_alert("Line {nline} ...")
 
-        self$observation_data <- cbind(recruit=inp_recruit,
+        self$observations <- cbind(recruit=inp_recruit,
                                        ssb=inp_ssb)
 
       } else {
-        self$observation_data <- cbind(recruit=inp_recruit)
+        self$observations <- cbind(recruit=inp_recruit)
       }
 
-      print(as_tibble(self$observation_data), n = self$observed_points)
+      print(as_tibble(self$observations), n = self$observed_points)
 
 
       return(nline)
@@ -341,7 +341,7 @@ empirical_recruit <- R6Class(
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
       return(list(points = self$observed_points,
-           recruits = self$observation_data))
+           recruits = self$observations))
     },
 
     #' @field observed_points
@@ -360,14 +360,14 @@ empirical_recruit <- R6Class(
     },
 
 
-    #' @field observation_data
+    #' @field observations
     #' Recruitment Inupt Array (data)
-    observation_data = function(value) {
+    observations = function(value) {
       if(missing(value)) {
-        private$.observation_data
+        private$.observations
       }else {
         assert_matrix(value, min.cols = 1, max.cols = 2)
-        private$.observation_data <- value
+        private$.observations <- value
       }
     },
 
