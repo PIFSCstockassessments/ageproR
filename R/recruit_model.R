@@ -183,6 +183,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template model_num
 #' @template num_observations
 #' @template elipses
+#' @template inp_con
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
@@ -273,7 +274,6 @@ empirical_recruit <- R6Class(
     #' @description
     #' Read inp lines
     #'
-    #' @param inp_con File Connection
     #' @param nline Line Number
     read_inp_lines = function(inp_con, nline) {
 
@@ -288,6 +288,8 @@ empirical_recruit <- R6Class(
       assert_numeric(inp_line, len = 1)
 
       self$observed_points <- inp_line
+
+      ## TODO: refactor reading observation table as function
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
@@ -317,6 +319,36 @@ empirical_recruit <- R6Class(
 
 
       return(nline)
+    },
+
+    #' @description
+    #' Function to read empirical recruitment observation data
+    #'
+    #' @param num_obs Observation points
+    read_inp_observations = function (inp_con, nline, num_obs = 1){
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation table
+      inp_recruit <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} Observations ...")
+
+
+      if(self$with_ssb) {
+
+        # Read an additional line from the file connection and split the string
+        # into substrings by whitespace and assign as observation table
+        inp_ssb <- read_inp_numeric_line(inp_con)
+
+        nline <- nline + 1
+        cli_alert("Line {nline} ...")
+
+        self$observations <- cbind(recruit=inp_recruit,
+                                   ssb=inp_ssb)
+
+      } else {
+        self$observations <- cbind(recruit=inp_recruit)
+      }
     }
 
   ),
@@ -427,6 +459,101 @@ empirical_cdf_model <- R6Class(
     }
   )
 
+)
+
+#'Two-Stage Empirical Cumulative Distribution Function of Recruitment
+#'
+#'@template num_observations
+#'
+#'@importFrom checkmate assert_numeric
+#'
+two_stage_empirical_cdf <- R6Class(
+  "two_stage_empirical_cdf",
+  inherit = empirical_recruit,
+  private = list (
+
+    .num_low_recruits = NULL,
+    .num_high_recruits = NULL,
+    .ssb_cutoff = NULL,
+    .low_recruits = NULL,
+    .high_recruits = NULL
+
+  ), public = list (
+    #' @description
+    #' Initialize the Empirical CDF Model
+    initialize = function(num_observations = 1) {
+
+      #Set the number of observations used of the model projection
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
+
+      super$super_$model_num <- 15
+      super$super_$model_name <-
+        "Two-Stage Empirical Cumulative Distribution Function of Recruitment"
+      super$initialize(num_observations, with_ssb = TRUE)
+    }
+
+    #read_inp_lines
+
+  ), active = list (
+
+    #' @field num_low_recruits
+    #' Number of Low State Recruitments
+    num_low_recruits = function(value){
+      if(missing(value)){
+        private$.num_low_recruits
+      }else{
+        assert_numeric(value, lower = 1, len = 1)
+        private$.num_low_recrutis <- value
+      }
+    },
+
+    #' @field num_high_recruits
+    #' Number of high State Recruitments
+    num_high_recruits = function(value){
+      if(missing(value)){
+        private$.num_high_recruits
+      }else {
+        assert_numeric(value, lower = 1, len = 1)
+        private$.num_high_recrutits <- value
+      }
+    },
+
+    #' @field ssb_cutoff
+    #' Cutoff level of spawning Biomass
+    ssb_cutoff = function(value){
+      if(missing(value)){
+        private$.ssb_cutoff
+      }else {
+        assert_numeric(value, len = 1 )
+        private$.ssb_cutoff <- value
+      }
+    },
+
+    #' @field low_recruits
+    #' Vector of Low State Recruitments per Spawning Biomass
+    low_recruits = function(value){
+      if(missing(value)){
+        private$.low_recruits
+      }else {
+        assert_numeric(value)
+        private$.low_recruits <- value
+      }
+    },
+
+    #' @field high_recruits
+    #' Vector of High State Recruitments per Spawning Biomass
+    high_recruits = function(value){
+      if(missing(value)){
+        private$.high_recruits
+      }else {
+        assert_numeric(value)
+        private$.high_recruits <- value
+      }
+    }
+
+  )
 )
 
 #' Parametric Recruitment Model
