@@ -319,36 +319,6 @@ empirical_recruit <- R6Class(
 
 
       return(nline)
-    },
-
-    #' @description
-    #' Function to read empirical recruitment observation data
-    #'
-    #' @param num_obs Observation points
-    read_inp_observations = function (inp_con, nline, num_obs = 1){
-      # Read an additional line from the file connection and split the string
-      # into substrings by whitespace and assign as observation table
-      inp_recruit <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} Observations ...")
-
-
-      if(self$with_ssb) {
-
-        # Read an additional line from the file connection and split the string
-        # into substrings by whitespace and assign as observation table
-        inp_ssb <- read_inp_numeric_line(inp_con)
-
-        nline <- nline + 1
-        cli_alert("Line {nline} ...")
-
-        self$observations <- cbind(recruit=inp_recruit,
-                                   ssb=inp_ssb)
-
-      } else {
-        self$observations <- cbind(recruit=inp_recruit)
-      }
     }
 
   ),
@@ -463,9 +433,11 @@ empirical_cdf_model <- R6Class(
 
 #'Two-Stage Empirical Cumulative Distribution Function of Recruitment
 #'
-#'@template num_observations
+#' @template num_observations
+#' @template inp_con
+#' @template elipses
 #'
-#'@importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_numeric
 #'
 two_stage_empirical_cdf <- R6Class(
   "two_stage_empirical_cdf",
@@ -491,10 +463,84 @@ two_stage_empirical_cdf <- R6Class(
       super$super_$model_num <- 15
       super$super_$model_name <-
         "Two-Stage Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations, with_ssb = TRUE)
+      super$initialize(num_observations, with_ssb = FALSE)
+    },
+
+    #' @description
+    #' Reads the two State Empirical model data from AGEPRO Input file
+    #'
+    #' @param nline Line Number
+    #'
+    read_inp_lines = function(inp_con, nline) {
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation recruits
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      self$num_low_recruits <- inp_line[1]
+      self$num_high_recruits <- inp_line[2]
+
+      ##low_recruits
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation table
+      inp_low_recruits <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} Observations ...")
+
+      self$low_recruits <- cbind(recruit=inp_low_recruits)
+
+      ##high_recruits
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation table
+      inp_high_recruits <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} Observations ...")
+
+      self$high_recruits <- cbind(recruit=inp_high_recruits)
+
+      ##ssb_cutoff
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace and assign as observation recruits
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      self$ssb_cutoff <- inp_line
+
+
+      return(nline)
+
+    },
+
+    #' @description
+    #' Prints out Recruitment Model
+    print = function(...) {
+
+      cli_text("{self$model_name}")
+      cli_ul()
+      cli_li("SSB column?  {.val {self$with_ssb}}")
+      cli_li("SSB cutoff: {.val {self$ssb_cutoff}}")
+      cli_li("Number of Recruitment Data Points: ")
+      a <- cli_ul()
+      cli_li("Low recruit count:{.val {self$num_low_recruits}}")
+      cli_li("High recruits count:{.val {self$num_high_recruits}}")
+      cli_end(a)
+      cli_end()
+      cli_alert_info("Observations:")
+      cli_text("Low recruits")
+      cat_print(as_tibble(self$low_recruits))
+      cli_text("High recruits")
+      cat_print(as_tibble(self$high_recruits))
+
+
     }
 
-    #read_inp_lines
+
 
   ), active = list (
 
@@ -526,6 +572,7 @@ two_stage_empirical_cdf <- R6Class(
       if(missing(value)){
         private$.ssb_cutoff
       }else {
+        #Validate input holds single value
         assert_numeric(value, len = 1 )
         private$.ssb_cutoff <- value
       }

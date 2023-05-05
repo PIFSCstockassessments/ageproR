@@ -107,7 +107,7 @@ Read inp lines
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{inp_con}}{File Connection}
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
 \item{\code{nline}}{Line Number}
 }

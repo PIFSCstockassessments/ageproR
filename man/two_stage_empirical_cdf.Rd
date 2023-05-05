@@ -30,6 +30,8 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-two_stage_empirical_cdf-new}{\code{two_stage_empirical_cdf$new()}}
+\item \href{#method-two_stage_empirical_cdf-read_inp_lines}{\code{two_stage_empirical_cdf$read_inp_lines()}}
+\item \href{#method-two_stage_empirical_cdf-print}{\code{two_stage_empirical_cdf$print()}}
 \item \href{#method-two_stage_empirical_cdf-clone}{\code{two_stage_empirical_cdf$clone()}}
 }
 }
@@ -37,9 +39,7 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproj::empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -57,6 +57,42 @@ Initialize the Empirical CDF Model
 \describe{
 \item{\code{num_observations}}{\cr
 Number of Empirical Observation Records}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-two_stage_empirical_cdf-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_cdf-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads the two State Empirical model data from AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{Line Number}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-two_stage_empirical_cdf-print"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_cdf-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Recruitment Model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
