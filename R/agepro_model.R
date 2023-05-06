@@ -187,8 +187,6 @@ agepro_inp_model <- R6Class(
       #Verify that input file location is valid
       assert_file_exists(inpfile, access="r", extension = "inp")
 
-      #Console Message
-
       tryCatch(
         {
           #(Re)Set File connection to input file
