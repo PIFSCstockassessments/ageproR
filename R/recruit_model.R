@@ -477,41 +477,41 @@ two_stage_empirical_cdf <- R6Class(
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline} ...")
+      cli_alert("Line {nline}: Number of low & high recruits ...")
+      cli_text("{inp_line}")
 
       self$num_low_recruits <- inp_line[1]
       self$num_high_recruits <- inp_line[2]
 
-      ##low_recruits
+      ## low_recruits
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_low_recruits <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} Observations ...")
-
       self$low_recruits <- cbind(recruit=inp_low_recruits)
 
-      ##high_recruits
+      nline <- nline + 1
+      cli_alert_info("Line {nline} Low Recruits ...")
+      print(as_tibble(self$low_recruits))
+
+
+      ## high_recruits
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_high_recruits <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} Observations ...")
-
       self$high_recruits <- cbind(recruit=inp_high_recruits)
 
-      ##ssb_cutoff
+      nline <- nline + 1
+      cli_alert_info("Line {nline} Observations ...")
+      print(as_tibble(self$high_recruits))
+
+      ## ssb_cutoff
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
       inp_line <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} ...")
-
       self$ssb_cutoff <- inp_line
 
+      nline <- nline + 1
+      cli_alert("Line {nline}: SSB cutoff: {.val {self$ssb_cutoff}}")
 
       return(nline)
 
@@ -523,12 +523,12 @@ two_stage_empirical_cdf <- R6Class(
 
       cli_text("{self$model_name}")
       cli_ul()
-      cli_li("SSB column?  {.val {self$with_ssb}}")
-      cli_li("SSB cutoff: {.val {self$ssb_cutoff}}")
+      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
+      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
       cli_li("Number of Recruitment Data Points: ")
       a <- cli_ul()
-      cli_li("Low recruit count:{.val {self$num_low_recruits}}")
-      cli_li("High recruits count:{.val {self$num_high_recruits}}")
+      cli_li("Low recruit count: {.val {self$num_low_recruits}}")
+      cli_li("High recruits count: {.val {self$num_high_recruits}}")
       cli_end(a)
       cli_end()
       cli_alert_info("Observations:")
