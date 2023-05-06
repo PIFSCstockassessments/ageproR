@@ -551,7 +551,7 @@ two_stage_empirical_cdf <- R6Class(
         private$.num_low_recruits
       }else{
         assert_numeric(value, lower = 1, len = 1)
-        private$.num_low_recrutis <- value
+        private$.num_low_recruits <- value
       }
     },
 
@@ -562,7 +562,7 @@ two_stage_empirical_cdf <- R6Class(
         private$.num_high_recruits
       }else {
         assert_numeric(value, lower = 1, len = 1)
-        private$.num_high_recrutits <- value
+        private$.num_high_recruits <- value
       }
     },
 
