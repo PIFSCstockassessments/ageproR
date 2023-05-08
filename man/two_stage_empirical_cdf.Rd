@@ -14,21 +14,6 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \section{Super classes}{
 \code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{ageproj::two_stage_emirical_recruit} -> \code{two_stage_empirical_cdf}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{num_low_recruits}}{Number of Low State Recruitments}
-
-\item{\code{num_high_recruits}}{Number of high State Recruitments}
-
-\item{\code{ssb_cutoff}}{Cutoff level of spawning Biomass}
-
-\item{\code{low_recruits}}{Vector of Low State Recruitments per Spawning Biomass}
-
-\item{\code{high_recruits}}{Vector of High State Recruitments per Spawning Biomass}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -51,56 +36,6 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \if{latex}{\out{\hypertarget{method-two_stage_empirical_cdf-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
-#' @description
-#' Reads the two State Empirical model data from AGEPRO Input file
-#'
-#' @param nline Line Number
-#'
-read_inp_lines = function(inp_con, nline) {
-  # Read an additional line from the file connection and split the string
-  # into substrings by whitespace and assign as observation recruits
-  inp_line <- read_inp_numeric_line(inp_con)
-
-  nline <- nline + 1
-  cli_alert("Line {nline}: Number of low & high recruits ...")
-  cli_text("{inp_line}")
-
-  self$num_low_recruits <- inp_line[1]
-  self$num_high_recruits <- inp_line[2]
-
-  ## low_recruits
-  # Read an additional line from the file connection and split the string
-  # into substrings by whitespace and assign as observation table
-  inp_low_recruits <- read_inp_numeric_line(inp_con)
-  self$low_recruits <- cbind(recruit=inp_low_recruits)
-
-  nline <- nline + 1
-  cli_alert_info("Line {nline} Low Recruits ...")
-  print(as_tibble(self$low_recruits))
-
-
-  ## high_recruits
-  # Read an additional line from the file connection and split the string
-  # into substrings by whitespace and assign as observation table
-  inp_high_recruits <- read_inp_numeric_line(inp_con)
-  self$high_recruits <- cbind(recruit=inp_high_recruits)
-
-  nline <- nline + 1
-  cli_alert_info("Line {nline} High Recruits ...")
-  print(as_tibble(self$high_recruits))
-
-  ## ssb_cutoff
-  # Read an additional line from the file connection and split the string
-  # into substrings by whitespace and assign as observation recruits
-  inp_line <- read_inp_numeric_line(inp_con)
-  self$ssb_cutoff <- inp_line
-
-  nline <- nline + 1
-  cli_alert("Line {nline}: SSB cutoff: {.val {self$ssb_cutoff}}")
-
-  return(nline)
-
-},
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(num_observations = 1)}\if{html}{\out{</div>}}
 }

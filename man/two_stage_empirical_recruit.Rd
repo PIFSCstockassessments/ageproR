@@ -23,8 +23,6 @@ Two-Stage Empirical Recruitment Base
 \item{\code{low_recruits}}{Vector of Low State Recruitments per Spawning Biomass}
 
 \item{\code{high_recruits}}{Vector of High State Recruitments per Spawning Biomass}
-
-\item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
 }
 \if{html}{\out{</div>}}
 }
