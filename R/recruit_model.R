@@ -450,8 +450,8 @@ two_stage_empirical_recruit <- R6Class(
     .num_low_recruits = NULL,
     .num_high_recruits = NULL,
     .ssb_cutoff = NULL,
-    .low_recruits = NULL,
-    .high_recruits = NULL,
+    .low_recruitment = NULL,
+    .high_recruitment = NULL,
     .with_ssb = FALSE
 
   ), public = list (
@@ -492,26 +492,26 @@ two_stage_empirical_recruit <- R6Class(
       self$num_low_recruits <- inp_line[1]
       self$num_high_recruits <- inp_line[2]
 
-      ## low_recruits
+      ## low_recruitment
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_low_recruits <- read_inp_numeric_line(inp_con)
-      self$low_recruits <- cbind(recruit=inp_low_recruits)
+      self$low_recruitment <- cbind(recruit=inp_low_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} Low Recruits ...")
-      print(as_tibble(self$low_recruits))
+      cli_alert_info("Line {nline} Low Recruitment ...")
+      print(as_tibble(self$low_recruitment))
 
 
-      ## high_recruits
+      ## high_recruitment
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_high_recruits <- read_inp_numeric_line(inp_con)
-      self$high_recruits <- cbind(recruit=inp_high_recruits)
+      self$high_recruitment <- cbind(recruit=inp_high_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} High Recruits ...")
-      print(as_tibble(self$high_recruits))
+      cli_alert_info("Line {nline} High Recruitment ...")
+      print(as_tibble(self$high_recruitment))
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -562,25 +562,25 @@ two_stage_empirical_recruit <- R6Class(
       }
     },
 
-    #' @field low_recruits
+    #' @field low_recruitment
     #' Vector of Low State Recruitments per Spawning Biomass
-    low_recruits = function(value){
+    low_recruitment = function(value){
       if(missing(value)){
-        private$.low_recruits
+        private$.low_recruitment
       }else {
         assert_numeric(value)
-        private$.low_recruits <- value
+        private$.low_recruitment <- value
       }
     },
 
-    #' @field high_recruits
+    #' @field high_recruitment
     #' Vector of High State Recruitments per Spawning Biomass
-    high_recruits = function(value){
+    high_recruitment = function(value){
       if(missing(value)){
-        private$.high_recruits
+        private$.high_recruitment
       }else {
         assert_numeric(value)
-        private$.high_recruits <- value
+        private$.high_recruitment <- value
       }
     }
 
@@ -633,10 +633,10 @@ two_stage_empirical_cdf <- R6Class(
       cli_end(a)
       cli_end()
       cli_alert_info("Observations:")
-      cli_text("Low recruits")
-      cat_print(as_tibble(self$low_recruits))
-      cli_text("High recruits")
-      cat_print(as_tibble(self$high_recruits))
+      cli_text("Low recruitment")
+      cat_print(as_tibble(self$low_recruitment))
+      cli_text("High recruitment")
+      cat_print(as_tibble(self$high_recruitment))
 
 
     }

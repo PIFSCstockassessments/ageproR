@@ -20,9 +20,9 @@ Two-Stage Empirical Recruitment Base
 
 \item{\code{ssb_cutoff}}{Cutoff level of spawning Biomass}
 
-\item{\code{low_recruits}}{Vector of Low State Recruitments per Spawning Biomass}
+\item{\code{low_recruitment}}{Vector of Low State Recruitments per Spawning Biomass}
 
-\item{\code{high_recruits}}{Vector of High State Recruitments per Spawning Biomass}
+\item{\code{high_recruitment}}{Vector of High State Recruitments per Spawning Biomass}
 }
 \if{html}{\out{</div>}}
 }
