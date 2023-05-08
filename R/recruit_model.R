@@ -436,7 +436,6 @@ empirical_cdf_model <- R6Class(
 
 #'Two-Stage Empirical Recruitment Base
 #'
-#' @template num_observations
 #' @template inp_con
 #' @template elipses
 #'
@@ -459,19 +458,27 @@ two_stage_empirical_recruit <- R6Class(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
-    #' @param with_ssb flag to include Spawning Stock Biomass in Observations
-    initialize = function(num_observations = 1, with_ssb = FALSE) {
+    #' @param low_recruits
+    #' The number of low recruits per spawning stock biomass data points.
+    #' @param high_recruits
+    #' The number of high recruits per spawning stock biomass data points.
+    #' @param with_ssb
+    #' flag to include Spawning Stock Biomass in Observations
+    initialize = function(low_recruits = 1,
+                          high_recruits = 1,
+                          with_ssb = FALSE) {
 
       #Set the number of observations used of the model projection
-      if(!missing(num_observations)) {
-        self$observed_points <- num_observations
-      }
+      self$num_low_recruits <- low_recruits
+      self$num_high_recruits <- high_recruits
 
-      if(!missing(with_ssb)) {
-        private$.with_ssb <- with_ssb
-      }
+      private$.with_ssb <- with_ssb
 
-      super$initialize(num_observations, with_ssb = private$.with_ssb)
+
+      super$initialize((self$num_low_recruits + self$num_high_recruits),
+                       with_ssb = private$.with_ssb)
+
+      #Initialize Low and High stage recruitment vector
 
     },
 
@@ -604,17 +611,24 @@ two_stage_empirical_cdf <- R6Class(
   public = list (
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 1) {
+    #'
+    #' @param low_recruits
+    #' The number of low recruits per spawning stock biomass data points.
+    #' @param high_recruits
+    #' The number of high recruits per spawning stock biomass data points.
+    #'
+    initialize = function(low_recruits = 1, high_recruits = 1) {
 
       #Set the number of observations used of the model projection
-      if(!missing(num_observations)) {
-        self$observed_points <- num_observations
-      }
+      self$num_low_recruits <- low_recruits
+      self$num_high_recruits <- high_recruits
 
       super$super_$model_num <- 15
       super$super_$model_name <-
         "Two-Stage Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations, with_ssb = FALSE)
+      super$initialize(self$num_low_recruits,
+                       self$num_high_recruits,
+                       with_ssb = FALSE)
     },
 
 

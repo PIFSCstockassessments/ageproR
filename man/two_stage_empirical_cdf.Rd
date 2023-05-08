@@ -37,14 +37,15 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(num_observations = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(low_recruits = 1, high_recruits = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_observations}}{\cr
-Number of Empirical Observation Records}
+\item{\code{low_recruits}}{The number of low recruits per spawning stock biomass data points.}
+
+\item{\code{high_recruits}}{The number of high recruits per spawning stock biomass data points.}
 }
 \if{html}{\out{</div>}}
 }
