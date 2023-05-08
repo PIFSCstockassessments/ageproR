@@ -501,7 +501,7 @@ two_stage_empirical_cdf <- R6Class(
       self$high_recruits <- cbind(recruit=inp_high_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} Observations ...")
+      cli_alert_info("Line {nline} High Recruits ...")
       print(as_tibble(self$high_recruits))
 
       ## ssb_cutoff
