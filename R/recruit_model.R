@@ -431,7 +431,10 @@ empirical_cdf_model <- R6Class(
 
 )
 
-#'Two-Stage Empirical Cumulative Distribution Function of Recruitment
+
+
+
+#'Two-Stage Empirical Recruitment Base
 #'
 #' @template num_observations
 #' @template inp_con
@@ -439,31 +442,37 @@ empirical_cdf_model <- R6Class(
 #'
 #' @importFrom checkmate assert_numeric
 #'
-two_stage_empirical_cdf <- R6Class(
-  "two_stage_empirical_cdf",
+two_stage_empirical_recruit <- R6Class(
+  "two_stage_emirical_recruit",
   inherit = empirical_recruit,
-  private = list (
+  private = list(
 
     .num_low_recruits = NULL,
     .num_high_recruits = NULL,
     .ssb_cutoff = NULL,
     .low_recruits = NULL,
-    .high_recruits = NULL
+    .high_recruits = NULL,
+    .with_ssb = FALSE
 
   ), public = list (
+
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 1) {
+    #'
+    #' @param with_ssb flag to include Spawning Stock Biomass in Observations
+    initialize = function(num_observations = 1, with_ssb = FALSE) {
 
       #Set the number of observations used of the model projection
       if(!missing(num_observations)) {
         self$observed_points <- num_observations
       }
 
-      super$super_$model_num <- 15
-      super$super_$model_name <-
-        "Two-Stage Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations, with_ssb = FALSE)
+      if(!missing(with_ssb)) {
+        private$.with_ssb <- with_ssb
+      }
+
+      super$initialize(num_observations, with_ssb = private$.with_ssb)
+
     },
 
     #' @description
@@ -515,34 +524,9 @@ two_stage_empirical_cdf <- R6Class(
 
       return(nline)
 
-    },
-
-    #' @description
-    #' Prints out Recruitment Model
-    print = function(...) {
-
-      cli_text("{self$model_name}")
-      cli_ul()
-      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
-      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
-      cli_li("Number of Recruitment Data Points: ")
-      a <- cli_ul()
-      cli_li("Low recruit count: {.val {self$num_low_recruits}}")
-      cli_li("High recruits count: {.val {self$num_high_recruits}}")
-      cli_end(a)
-      cli_end()
-      cli_alert_info("Observations:")
-      cli_text("Low recruits")
-      cat_print(as_tibble(self$low_recruits))
-      cli_text("High recruits")
-      cat_print(as_tibble(self$high_recruits))
-
-
     }
 
-
-
-  ), active = list (
+  ), active = list(
 
     #' @field num_low_recruits
     #' Number of Low State Recruitments
@@ -599,6 +583,181 @@ two_stage_empirical_cdf <- R6Class(
         private$.high_recruits <- value
       }
     }
+
+  )
+
+)
+
+
+#'Two-Stage Empirical Cumulative Distribution Function of Recruitment
+#'(Recruit #15)
+#'
+#' @template num_observations
+#' @template inp_con
+#' @template elipses
+#'
+#' @importFrom checkmate assert_numeric
+#'
+two_stage_empirical_cdf <- R6Class(
+  "two_stage_empirical_cdf",
+  inherit = two_stage_empirical_recruit,#empirical_recruit,
+  private = list (
+
+    # .num_low_recruits = NULL,
+    # .num_high_recruits = NULL,
+    # .ssb_cutoff = NULL,
+    # .low_recruits = NULL,
+    # .high_recruits = NULL
+
+  ), public = list (
+    #' @description
+    #' Initialize the Empirical CDF Model
+    initialize = function(num_observations = 1) {
+
+      #Set the number of observations used of the model projection
+      if(!missing(num_observations)) {
+        self$observed_points <- num_observations
+      }
+
+      super$super_$model_num <- 15
+      super$super_$model_name <-
+        "Two-Stage Empirical Cumulative Distribution Function of Recruitment"
+      super$initialize(num_observations, with_ssb = FALSE)
+    },
+
+    #' #' @description
+    #' #' Reads the two State Empirical model data from AGEPRO Input file
+    #' #'
+    #' #' @param nline Line Number
+    #' #'
+    #' read_inp_lines = function(inp_con, nline) {
+    #'   # Read an additional line from the file connection and split the string
+    #'   # into substrings by whitespace and assign as observation recruits
+    #'   inp_line <- read_inp_numeric_line(inp_con)
+    #'
+    #'   nline <- nline + 1
+    #'   cli_alert("Line {nline}: Number of low & high recruits ...")
+    #'   cli_text("{inp_line}")
+    #'
+    #'   self$num_low_recruits <- inp_line[1]
+    #'   self$num_high_recruits <- inp_line[2]
+    #'
+    #'   ## low_recruits
+    #'   # Read an additional line from the file connection and split the string
+    #'   # into substrings by whitespace and assign as observation table
+    #'   inp_low_recruits <- read_inp_numeric_line(inp_con)
+    #'   self$low_recruits <- cbind(recruit=inp_low_recruits)
+    #'
+    #'   nline <- nline + 1
+    #'   cli_alert_info("Line {nline} Low Recruits ...")
+    #'   print(as_tibble(self$low_recruits))
+    #'
+    #'
+    #'   ## high_recruits
+    #'   # Read an additional line from the file connection and split the string
+    #'   # into substrings by whitespace and assign as observation table
+    #'   inp_high_recruits <- read_inp_numeric_line(inp_con)
+    #'   self$high_recruits <- cbind(recruit=inp_high_recruits)
+    #'
+    #'   nline <- nline + 1
+    #'   cli_alert_info("Line {nline} High Recruits ...")
+    #'   print(as_tibble(self$high_recruits))
+    #'
+    #'   ## ssb_cutoff
+    #'   # Read an additional line from the file connection and split the string
+    #'   # into substrings by whitespace and assign as observation recruits
+    #'   inp_line <- read_inp_numeric_line(inp_con)
+    #'   self$ssb_cutoff <- inp_line
+    #'
+    #'   nline <- nline + 1
+    #'   cli_alert("Line {nline}: SSB cutoff: {.val {self$ssb_cutoff}}")
+    #'
+    #'   return(nline)
+    #'
+    #' },
+
+    #' @description
+    #' Prints out Recruitment Model
+    print = function(...) {
+
+      cli_text("{self$model_name}")
+      cli_ul()
+      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
+      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
+      cli_li("Number of Recruitment Data Points: ")
+      a <- cli_ul()
+      cli_li("Low recruit count: {.val {self$num_low_recruits}}")
+      cli_li("High recruits count: {.val {self$num_high_recruits}}")
+      cli_end(a)
+      cli_end()
+      cli_alert_info("Observations:")
+      cli_text("Low recruits")
+      cat_print(as_tibble(self$low_recruits))
+      cli_text("High recruits")
+      cat_print(as_tibble(self$high_recruits))
+
+
+    }
+
+
+
+  ), active = list (
+
+    #' #' @field num_low_recruits
+    #' #' Number of Low State Recruitments
+    #' num_low_recruits = function(value){
+    #'   if(missing(value)){
+    #'     private$.num_low_recruits
+    #'   }else{
+    #'     assert_numeric(value, lower = 1, len = 1)
+    #'     private$.num_low_recruits <- value
+    #'   }
+    #' },
+    #'
+    #' #' @field num_high_recruits
+    #' #' Number of high State Recruitments
+    #' num_high_recruits = function(value){
+    #'   if(missing(value)){
+    #'     private$.num_high_recruits
+    #'   }else {
+    #'     assert_numeric(value, lower = 1, len = 1)
+    #'     private$.num_high_recruits <- value
+    #'   }
+    #' },
+    #'
+    #' #' @field ssb_cutoff
+    #' #' Cutoff level of spawning Biomass
+    #' ssb_cutoff = function(value){
+    #'   if(missing(value)){
+    #'     private$.ssb_cutoff
+    #'   }else {
+    #'     #Validate input holds single value
+    #'     assert_numeric(value, len = 1 )
+    #'     private$.ssb_cutoff <- value
+    #'   }
+    #' },
+    #'
+    #' #' @field low_recruits
+    #' #' Vector of Low State Recruitments per Spawning Biomass
+    #' low_recruits = function(value){
+    #'   if(missing(value)){
+    #'     private$.low_recruits
+    #'   }else {
+    #'     assert_numeric(value)
+    #'     private$.low_recruits <- value
+    #'   }
+    #' },
+    #'
+    #' #' @field high_recruits
+    #' #' Vector of High State Recruitments per Spawning Biomass
+    #' high_recruits = function(value){
+    #'   if(missing(value)){
+    #'     private$.high_recruits
+    #'   }else {
+    #'     assert_numeric(value)
+    #'     private$.high_recruits <- value
+    #'   }
+    #' }
 
   )
 )

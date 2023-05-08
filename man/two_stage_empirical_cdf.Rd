@@ -2,14 +2,17 @@
 % Please edit documentation in R/recruit_model.R
 \name{two_stage_empirical_cdf}
 \alias{two_stage_empirical_cdf}
-\title{Two-Stage Empirical Cumulative Distribution Function of Recruitment}
+\title{Two-Stage Empirical Cumulative Distribution Function of Recruitment
+(Recruit #15)}
 \description{
 Two-Stage Empirical Cumulative Distribution Function of Recruitment
+(Recruit #15)
 
 Two-Stage Empirical Cumulative Distribution Function of Recruitment
+(Recruit #15)
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{two_stage_empirical_cdf}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{ageproj::two_stage_emirical_recruit} -> \code{two_stage_empirical_cdf}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -30,7 +33,6 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-two_stage_empirical_cdf-new}{\code{two_stage_empirical_cdf$new()}}
-\item \href{#method-two_stage_empirical_cdf-read_inp_lines}{\code{two_stage_empirical_cdf$read_inp_lines()}}
 \item \href{#method-two_stage_empirical_cdf-print}{\code{two_stage_empirical_cdf$print()}}
 \item \href{#method-two_stage_empirical_cdf-clone}{\code{two_stage_empirical_cdf$clone()}}
 }
@@ -40,6 +42,7 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_emirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/two_stage_emirical_recruit.html#method-two_stage_emirical_recruit-read_inp_lines'><code>ageproj::two_stage_emirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -48,6 +51,56 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \if{latex}{\out{\hypertarget{method-two_stage_empirical_cdf-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
+#' @description
+#' Reads the two State Empirical model data from AGEPRO Input file
+#'
+#' @param nline Line Number
+#'
+read_inp_lines = function(inp_con, nline) {
+  # Read an additional line from the file connection and split the string
+  # into substrings by whitespace and assign as observation recruits
+  inp_line <- read_inp_numeric_line(inp_con)
+
+  nline <- nline + 1
+  cli_alert("Line {nline}: Number of low & high recruits ...")
+  cli_text("{inp_line}")
+
+  self$num_low_recruits <- inp_line[1]
+  self$num_high_recruits <- inp_line[2]
+
+  ## low_recruits
+  # Read an additional line from the file connection and split the string
+  # into substrings by whitespace and assign as observation table
+  inp_low_recruits <- read_inp_numeric_line(inp_con)
+  self$low_recruits <- cbind(recruit=inp_low_recruits)
+
+  nline <- nline + 1
+  cli_alert_info("Line {nline} Low Recruits ...")
+  print(as_tibble(self$low_recruits))
+
+
+  ## high_recruits
+  # Read an additional line from the file connection and split the string
+  # into substrings by whitespace and assign as observation table
+  inp_high_recruits <- read_inp_numeric_line(inp_con)
+  self$high_recruits <- cbind(recruit=inp_high_recruits)
+
+  nline <- nline + 1
+  cli_alert_info("Line {nline} High Recruits ...")
+  print(as_tibble(self$high_recruits))
+
+  ## ssb_cutoff
+  # Read an additional line from the file connection and split the string
+  # into substrings by whitespace and assign as observation recruits
+  inp_line <- read_inp_numeric_line(inp_con)
+  self$ssb_cutoff <- inp_line
+
+  nline <- nline + 1
+  cli_alert("Line {nline}: SSB cutoff: {.val {self$ssb_cutoff}}")
+
+  return(nline)
+
+},
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(num_observations = 1)}\if{html}{\out{</div>}}
 }
@@ -57,25 +110,6 @@ Initialize the Empirical CDF Model
 \describe{
 \item{\code{num_observations}}{\cr
 Number of Empirical Observation Records}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_empirical_cdf-read_inp_lines"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_empirical_cdf-read_inp_lines}{}}}
-\subsection{Method \code{read_inp_lines()}}{
-Reads the two State Empirical model data from AGEPRO Input file
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
-
-\item{\code{nline}}{Line Number}
 }
 \if{html}{\out{</div>}}
 }
