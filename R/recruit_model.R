@@ -479,8 +479,39 @@ two_stage_empirical_recruit <- R6Class(
                        with_ssb = private$.with_ssb)
 
       #Initialize Low and High stage recruitment vector
+      self$low_recruitment <- self$new_recruitment_matrix(low_recruits)
+      self$high_recruitment <- self$new_recruitment_matrix(high_recruits)
+
+      self$ssb_cutoff <- 0
 
     },
+
+    #' @description
+    #' Creates a recruitment matrix
+    #'
+    #' @param recruit_points Number of Empirical Observation Records
+    new_recruitment_matrix = function(recruit_points) {
+
+      # Fill Data fill Default Values (0)
+      if (self$with_ssb) {
+        recruitment_matrix <- matrix(rep(0, recruit_points),
+                                    ncol = 2,
+                                    nrow = recruit_points)
+
+        #Set data matrix Column names to projected years time series array,
+        colnames(recruitment_matrix) <- c("recruit", "ssb")
+
+      }else {
+        recruitment_matrix <- matrix(rep(0, recruit_points),
+                                    ncol = 1,
+                                    nrow = recruit_points)
+        #Set data matrix Column names to projected years time series array,
+        colnames(recruitment_matrix) <- "recruit"
+      }
+
+      return(recruitment_matrix)
+    },
+
 
     #' @description
     #' Reads the two State Empirical model data from AGEPRO Input file

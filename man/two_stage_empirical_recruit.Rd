@@ -30,6 +30,7 @@ Two-Stage Empirical Recruitment Base
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-two_stage_emirical_recruit-new}{\code{two_stage_empirical_recruit$new()}}
+\item \href{#method-two_stage_emirical_recruit-new_recruitment_matrix}{\code{two_stage_empirical_recruit$new_recruitment_matrix()}}
 \item \href{#method-two_stage_emirical_recruit-read_inp_lines}{\code{two_stage_empirical_recruit$read_inp_lines()}}
 \item \href{#method-two_stage_emirical_recruit-clone}{\code{two_stage_empirical_recruit$clone()}}
 }
@@ -64,6 +65,23 @@ Initialize the Empirical CDF Model
 \item{\code{high_recruits}}{The number of high recruits per spawning stock biomass data points.}
 
 \item{\code{with_ssb}}{flag to include Spawning Stock Biomass in Observations}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-two_stage_emirical_recruit-new_recruitment_matrix"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-new_recruitment_matrix}{}}}
+\subsection{Method \code{new_recruitment_matrix()}}{
+Creates a recruitment matrix
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_recruit$new_recruitment_matrix(recruit_points)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{recruit_points}}{Number of Empirical Observation Records}
 }
 \if{html}{\out{</div>}}
 }
