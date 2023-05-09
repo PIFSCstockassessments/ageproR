@@ -443,7 +443,7 @@ empirical_cdf_model <- R6Class(
 #' @importFrom checkmate assert_numeric
 #'
 two_stage_empirical_recruit <- R6Class(
-  "two_stage_emirical_recruit",
+  "two_stage_empirical_recruit",
   inherit = empirical_recruit,
   private = list(
 

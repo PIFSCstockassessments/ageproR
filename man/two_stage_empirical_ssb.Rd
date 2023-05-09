@@ -9,7 +9,7 @@ Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{ageproj::two_stage_emirical_recruit} -> \code{two_stage_empirical_ssb}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{\link[ageproj:two_stage_empirical_recruit]{ageproj::two_stage_empirical_recruit}} -> \code{two_stage_empirical_ssb}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -23,9 +23,9 @@ Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_emirical_recruit" data-id="new_recruitment_matrix"><a href='../../ageproj/html/two_stage_emirical_recruit.html#method-two_stage_emirical_recruit-new_recruitment_matrix'><code>ageproj::two_stage_emirical_recruit$new_recruitment_matrix()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_emirical_recruit" data-id="print"><a href='../../ageproj/html/two_stage_emirical_recruit.html#method-two_stage_emirical_recruit-print'><code>ageproj::two_stage_emirical_recruit$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_emirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/two_stage_emirical_recruit.html#method-two_stage_emirical_recruit-read_inp_lines'><code>ageproj::two_stage_emirical_recruit$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="new_recruitment_matrix"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-new_recruitment_matrix'><code>ageproj::two_stage_empirical_recruit$new_recruitment_matrix()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="print"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-print'><code>ageproj::two_stage_empirical_recruit$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-read_inp_lines'><code>ageproj::two_stage_empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}

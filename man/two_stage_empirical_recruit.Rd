@@ -9,7 +9,7 @@ Two-Stage Empirical Recruitment Base
 Two-Stage Empirical Recruitment Base
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{two_stage_emirical_recruit}
+\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{two_stage_empirical_recruit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -29,11 +29,11 @@ Two-Stage Empirical Recruitment Base
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-two_stage_emirical_recruit-new}{\code{two_stage_empirical_recruit$new()}}
-\item \href{#method-two_stage_emirical_recruit-new_recruitment_matrix}{\code{two_stage_empirical_recruit$new_recruitment_matrix()}}
-\item \href{#method-two_stage_emirical_recruit-read_inp_lines}{\code{two_stage_empirical_recruit$read_inp_lines()}}
-\item \href{#method-two_stage_emirical_recruit-print}{\code{two_stage_empirical_recruit$print()}}
-\item \href{#method-two_stage_emirical_recruit-clone}{\code{two_stage_empirical_recruit$clone()}}
+\item \href{#method-two_stage_empirical_recruit-new}{\code{two_stage_empirical_recruit$new()}}
+\item \href{#method-two_stage_empirical_recruit-new_recruitment_matrix}{\code{two_stage_empirical_recruit$new_recruitment_matrix()}}
+\item \href{#method-two_stage_empirical_recruit-read_inp_lines}{\code{two_stage_empirical_recruit$read_inp_lines()}}
+\item \href{#method-two_stage_empirical_recruit-print}{\code{two_stage_empirical_recruit$print()}}
+\item \href{#method-two_stage_empirical_recruit-clone}{\code{two_stage_empirical_recruit$clone()}}
 }
 }
 \if{html}{\out{
@@ -45,8 +45,8 @@ Two-Stage Empirical Recruitment Base
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_emirical_recruit-new"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-new}{}}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-new"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
@@ -72,8 +72,8 @@ The number of high recruits per spawning stock biomass data points.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_emirical_recruit-new_recruitment_matrix"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-new_recruitment_matrix}{}}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-new_recruitment_matrix"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-new_recruitment_matrix}{}}}
 \subsection{Method \code{new_recruitment_matrix()}}{
 Creates a recruitment matrix
 \subsection{Usage}{
@@ -89,8 +89,8 @@ Creates a recruitment matrix
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_emirical_recruit-read_inp_lines"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-read_inp_lines}{}}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-read_inp_lines}{}}}
 \subsection{Method \code{read_inp_lines()}}{
 Reads the two State Empirical model data from AGEPRO Input file
 \subsection{Usage}{
@@ -108,8 +108,8 @@ Reads the two State Empirical model data from AGEPRO Input file
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_emirical_recruit-print"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-print}{}}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-print"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-print}{}}}
 \subsection{Method \code{print()}}{
 Prints out Recruitment Model
 \subsection{Usage}{
@@ -125,8 +125,8 @@ Prints out Recruitment Model
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-two_stage_emirical_recruit-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-clone}{}}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
