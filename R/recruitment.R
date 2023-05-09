@@ -205,6 +205,7 @@ recruitment <- R6Class(
       model_dict <- dict(list(
         "0" = expr(null_recruit_model$new()),
         "3" = expr(empirical_distribution_model$new(self$observation_years)),
+        "4" = expr(two_stage_empirical_ssb$new()),
         "5" = expr(beverton_holt_curve_model$new()),
         "6" = expr(ricker_curve_model$new()),
         "7" = expr(shepherd_curve_model$new()),
