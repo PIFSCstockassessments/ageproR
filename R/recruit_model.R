@@ -670,11 +670,10 @@ two_stage_empirical_cdf <- R6Class(
       cli_text("{self$model_name}")
       cli_ul()
       cli_li("Include state SSB vector? {.val {self$with_ssb}}")
-      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
       cli_li("Number of Recruitment Data Points: ")
       a <- cli_ul()
-      cli_li("Low recruit count: {.val {self$num_low_recruits}}")
-      cli_li("High recruits count: {.val {self$num_high_recruits}}")
+      cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
+      cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
       cli_end(a)
       cli_end()
       cli_alert_info("Observations:")
@@ -682,6 +681,7 @@ two_stage_empirical_cdf <- R6Class(
       cat_print(as_tibble(self$low_recruitment))
       cli_text("High recruitment")
       cat_print(as_tibble(self$high_recruitment))
+      cli_alert_info("SSB cutoff level: {.val {self$ssb_cutoff}}")
 
 
     }
