@@ -235,13 +235,19 @@ empirical_recruit <- R6Class(
         self$observations <- matrix(rep(0, self$observed_points),
                                  ncol = 2,
                                  nrow = self$observed_points)
+
+        #Set data matrix Column names to projected years time series array,
+        colnames(self$observations) <- c("recruit", "ssb")
+
       }else {
         self$observations <- matrix(rep(0, self$observed_points),
                                  ncol = 1,
                                  nrow = self$observed_points)
+
+        #Set data matrix Column names to projected years time series array,
+        colnames(self$observations) <- "recruit"
       }
-      #Set data matrix Column names to projected years time series array,
-      colnames(self$observations) <- "recruit"
+
 
     },
 
