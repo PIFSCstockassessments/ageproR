@@ -32,6 +32,7 @@ Two-Stage Empirical Recruitment Base
 \item \href{#method-two_stage_emirical_recruit-new}{\code{two_stage_empirical_recruit$new()}}
 \item \href{#method-two_stage_emirical_recruit-new_recruitment_matrix}{\code{two_stage_empirical_recruit$new_recruitment_matrix()}}
 \item \href{#method-two_stage_emirical_recruit-read_inp_lines}{\code{two_stage_empirical_recruit$read_inp_lines()}}
+\item \href{#method-two_stage_emirical_recruit-print}{\code{two_stage_empirical_recruit$print()}}
 \item \href{#method-two_stage_emirical_recruit-clone}{\code{two_stage_empirical_recruit$clone()}}
 }
 }
@@ -39,7 +40,6 @@ Two-Stage Empirical Recruitment Base
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
 </ul>
 </details>
@@ -60,9 +60,11 @@ Initialize the Empirical CDF Model
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{low_recruits}}{The number of low recruits per spawning stock biomass data points.}
+\item{\code{low_recruits}}{\cr
+The number of low recruits per spawning stock biomass data points.}
 
-\item{\code{high_recruits}}{The number of high recruits per spawning stock biomass data points.}
+\item{\code{high_recruits}}{\cr
+The number of high recruits per spawning stock biomass data points.}
 
 \item{\code{with_ssb}}{flag to include Spawning Stock Biomass in Observations}
 }
@@ -101,6 +103,23 @@ Reads the two State Empirical model data from AGEPRO Input file
 \item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
 \item{\code{nline}}{Line Number}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-two_stage_emirical_recruit-print"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_emirical_recruit-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out Recruitment Model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_recruit$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

@@ -438,6 +438,7 @@ empirical_cdf_model <- R6Class(
 #'
 #' @template inp_con
 #' @template elipses
+#' @template two_stage_empirical_parameters
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -458,10 +459,6 @@ two_stage_empirical_recruit <- R6Class(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
-    #' @param low_recruits
-    #' The number of low recruits per spawning stock biomass data points.
-    #' @param high_recruits
-    #' The number of high recruits per spawning stock biomass data points.
     #' @param with_ssb
     #' flag to include Spawning Stock Biomass in Observations
     initialize = function(low_recruits = 1,
@@ -562,6 +559,29 @@ two_stage_empirical_recruit <- R6Class(
 
       return(nline)
 
+    },
+
+    #' @description
+    #' Prints out Recruitment Model
+    print = function(...) {
+
+      cli_text("{self$model_name}")
+      cli_ul()
+      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
+      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
+      cli_li("Number of Recruitment Data Points: ")
+      a <- cli_ul()
+      cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
+      cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
+      cli_end(a)
+      cli_end()
+      cli_alert_info("Observations:")
+      cli_text("Low recruitment")
+      cat_print(as_tibble(self$low_recruitment))
+      cli_text("High recruitment")
+      cat_print(as_tibble(self$high_recruitment))
+
+
     }
 
   ), active = list(
@@ -626,15 +646,39 @@ two_stage_empirical_recruit <- R6Class(
 
 )
 
+#'Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
+#'
+#' @template elipses
+#' @template two_stage_empirical_parameters
+#'
+two_stage_empirical_ssb <- R6Class(
+  "two_stage_empirical_ssb",
+  inherit = two_stage_empirical_recruit,
+  public = list (
+    #' @description
+    #' Initialize the Empirical CDF Model
+    #'
+    initialize = function(low_recruits = 1, high_recruits = 1) {
+
+      #Set the number of observations used of the model projection
+      self$num_low_recruits <- low_recruits
+      self$num_high_recruits <- high_recruits
+
+      super$super_$model_num <- 4
+      super$super_$model_name <-
+        "Two-Stage Empirical Recruits Per Spawning Biomass Distribution"
+      super$initialize(self$num_low_recruits,
+                       self$num_high_recruits,
+                       with_ssb = TRUE)
+    }
+
+  )
+)
 
 #'Two-Stage Empirical Cumulative Distribution Function of Recruitment
 #'(Recruit #15)
 #'
-#' @template num_observations
-#' @template inp_con
-#' @template elipses
-#'
-#' @importFrom checkmate assert_numeric
+#' @template two_stage_empirical_parameters
 #'
 two_stage_empirical_cdf <- R6Class(
   "two_stage_empirical_cdf",
@@ -642,11 +686,6 @@ two_stage_empirical_cdf <- R6Class(
   public = list (
     #' @description
     #' Initialize the Empirical CDF Model
-    #'
-    #' @param low_recruits
-    #' The number of low recruits per spawning stock biomass data points.
-    #' @param high_recruits
-    #' The number of high recruits per spawning stock biomass data points.
     #'
     initialize = function(low_recruits = 1, high_recruits = 1) {
 
@@ -660,30 +699,6 @@ two_stage_empirical_cdf <- R6Class(
       super$initialize(self$num_low_recruits,
                        self$num_high_recruits,
                        with_ssb = FALSE)
-    },
-
-
-    #' @description
-    #' Prints out Recruitment Model
-    print = function(...) {
-
-      cli_text("{self$model_name}")
-      cli_ul()
-      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
-      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
-      cli_li("Number of Recruitment Data Points: ")
-      a <- cli_ul()
-      cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
-      cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
-      cli_end(a)
-      cli_end()
-      cli_alert_info("Observations:")
-      cli_text("Low recruitment")
-      cat_print(as_tibble(self$low_recruitment))
-      cli_text("High recruitment")
-      cat_print(as_tibble(self$high_recruitment))
-
-
     }
 
   )
