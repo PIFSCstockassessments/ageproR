@@ -477,13 +477,11 @@ two_stage_empirical_recruit <- R6Class(
 
       private$.with_ssb <- with_ssb
 
-
-      super$initialize((self$num_low_recruits + self$num_high_recruits),
-                       with_ssb = private$.with_ssb)
-
       #Initialize Low and High stage recruitment vector
-      self$low_recruitment <- self$new_recruitment_matrix(low_recruits)
-      self$high_recruitment <- self$new_recruitment_matrix(high_recruits)
+      self$low_recruitment <-
+        self$new_recruitment_matrix(self$num_low_recruits)
+      self$high_recruitment <-
+        self$new_recruitment_matrix(self$num_high_recruits)
 
       self$ssb_cutoff <- 0
 
