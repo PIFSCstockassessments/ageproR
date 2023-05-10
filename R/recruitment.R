@@ -173,6 +173,9 @@ recruitment <- R6Class(
     #' Creates Recruitment Model Data
     set_recruit_data = function(model_num) {
 
+      # Setup .number_recruit_models vectors
+      private$setup_recruitment_list_vectors(model_num)
+
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$.number_recruit_models) {
 
