@@ -80,10 +80,6 @@ recruitment <- R6Class(
       self$recruit_model_num_list <-
         vector("list", private$.number_recruit_models)
 
-      #Setup Recruitment Probability list
-      private$.recruit_probability <-
-        vector("list", private$.number_recruit_models)
-
       #Setup Recruitment Model Data List
       self$model_collection_list <-
         vector("list", private$.number_recruit_models)
@@ -96,6 +92,10 @@ recruitment <- R6Class(
       assert_numeric(private$.number_recruit_models, lower = 1)
       assert_numeric(private$.number_projection_years, lower = 1)
       assert_numeric(private$.sequence_projection_years)
+
+      #Setup Recruitment Probability list
+      private$.recruit_probability <-
+        vector("list", private$.number_recruit_models)
 
       for (recruit in 1:private$.number_recruit_models) {
 
