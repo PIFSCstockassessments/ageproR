@@ -478,8 +478,13 @@ two_stage_empirical_recruit <- R6Class(
       private$.with_ssb <- with_ssb
 
       #Initialize Low and High stage recruitment vector
+      cli_alert(paste0("Generating default low state recruitment of ",
+                       "{no(self$num_low_recruits)} row{?s}"))
       self$low_recruitment <-
         self$new_recruitment_matrix(self$num_low_recruits)
+
+      cli_alert(paste0("Generating default high state recruitment of ",
+                       "{no(self$num_low_recruits)} row{?s}"))
       self$high_recruitment <-
         self$new_recruitment_matrix(self$num_high_recruits)
 
@@ -578,12 +583,15 @@ two_stage_empirical_recruit <- R6Class(
       cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
       cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
       cli_end(a)
-      cli_end()
       cli_alert_info("Observations:")
       cli_text("Low recruitment")
-      cat_print(as_tibble(self$low_recruitment))
+      cat_line(paste0("  ",
+                      capture.output(as_tibble(self$low_recruitment))))
       cli_text("High recruitment")
-      cat_print(as_tibble(self$high_recruitment))
+      cat_line(paste0("  ",
+                      capture.output(as_tibble(self$high_recruitment))))
+      cli_end()
+
 
 
     }
