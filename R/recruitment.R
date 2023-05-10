@@ -146,11 +146,10 @@ recruitment <- R6Class(
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_observed_years(seq_years)
 
-      # Setup .number_recruit_models and recruitment list vectors
+      # Setup .number_recruit_models vectors
       private$setup_recruitment_list_vectors(model_num)
 
-      # TODO: Refactor code recruitment probability setup as function so it
-      # can be called from initialization and read_inp_lines function
+      # Setup Recruitment probability
       private$setup_recruitment_probability()
 
       # Set Recruitment Model data
