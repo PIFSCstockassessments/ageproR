@@ -260,9 +260,12 @@ empirical_recruit <- R6Class(
       cli_li("Has SSB?  {.val {self$with_ssb}}")
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
-      cli_end()
       cli_alert_info("Observations:")
-      cat_print(as_tibble(self$observations))
+      #cat_print(as_tibble(self$observations))
+      cat_line(paste0("  ",
+                      capture.output(as_tibble(self$observations))))
+      cli_end()
+
 
     },
 
@@ -544,7 +547,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert_info("Line {nline} Low Recruitment ...")
-      print(as_tibble(self$low_recruitment))
+      cat_line(capture.output(as_tibble(self$low_recruitment)))
 
 
       ## high_recruitment
@@ -555,7 +558,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert_info("Line {nline} High Recruitment ...")
-      print(as_tibble(self$high_recruitment))
+      cat_line(capture.output(as_tibble(self$high_recruitment)))
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
