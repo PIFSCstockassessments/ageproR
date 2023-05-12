@@ -296,44 +296,6 @@ recruitment <- R6Class(
       cli_end()
     },
 
-
-
-
-
-    #' @description
-    #' Prints out Recruitment object data to console, with an option to display
-    #' recruit object data to JSON format.
-    #'
-    #' @param print_json Option to print recruitment object as written in JSON
-    #' format into console
-    print_recruit = function(print_json = TRUE) {
-
-      #Gather Recruit Model Data
-      model_data_list <- vector("list", length(self$recruit_model_num_list))
-
-      for (recruit in seq_along(self$recruit_model_num_list)){
-
-        model_data_list[[recruit]] <-
-          self$model_collection_list[[recruit]][["recruit_data"]]
-      }
-
-      recruit_json <- list(
-        recFac = self$recruit_scaling_factor,
-        ssbFac = self$ssb_scaling_factor,
-        maxRecObs = private$.max_rec_obs,
-        type = self$recruit_model_num_list,
-        prob = self$recruit_probability,
-        modelData = model_data_list)
-
-      if (print_json) {
-        toJSON(recruit_json,
-               pretty = TRUE,
-               auto_unbox = TRUE)
-      }else {
-        return(recruit_json)
-      }
-
-    },
     #TODO: Create a active field function for showing model_collection_list
 
     #' @description
@@ -493,7 +455,32 @@ recruitment <- R6Class(
         private$.ssb_scaling_factor <- value
       }
 
+    },
+
+    #' @field json_list_recruit
+    #' List of RECRUIT keyword fields values, exportable to JSON.
+    #'
+    json_list_recruit = function() {
+
+      #Gather Recruit Model Data
+      recruit_model_data_list <-
+        vector("list", length(self$recruit_model_num_list))
+
+      for (recruit in seq_along(self$recruit_model_num_list)){
+        recruit_model_data_list[[recruit]] <-
+          self$model_collection_list[[recruit]][["recruit_data"]]
+      }
+
+      return(list(
+        recFac = self$recruit_scaling_factor,
+        ssbFac = self$ssb_scaling_factor,
+        maxRecObs = private$.max_rec_obs,
+        type = self$recruit_model_num_list,
+        prob = self$recruit_probability,
+        recruitData = recruit_model_data_list))
+
     }
+
 
   )
 

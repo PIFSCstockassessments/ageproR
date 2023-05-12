@@ -35,6 +35,8 @@ absolute numbers of fish}
 
 \item{\code{ssb_scaling_factor}}{The multiplier to convert recruitment submodel's SSB to absolute
 spawning weight of fish in kilograms (kg)}
+
+\item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
 }
 \if{html}{\out{</div>}}
 }
@@ -46,7 +48,6 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
-\item \href{#method-recruitment-print_recruit}{\code{recruitment$print_recruit()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
@@ -157,25 +158,6 @@ Prints out Recruitment
 console. Default is TRUE}
 
 \item{\code{...}}{further arguments passed to or from other methods}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-print_recruit"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-print_recruit}{}}}
-\subsection{Method \code{print_recruit()}}{
-Prints out Recruitment object data to console, with an option to display
-recruit object data to JSON format.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$print_recruit(print_json = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{print_json}}{Option to print recruitment object as written in JSON
-format into console}
 }
 \if{html}{\out{</div>}}
 }

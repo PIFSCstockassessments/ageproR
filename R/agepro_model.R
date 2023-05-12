@@ -373,14 +373,10 @@ agepro_json_model <- R6Class(
         seed = self$general$seed
       )
 
-      #TODO: Rename print_recruit to describe returning
-      #recruitment object data
-      recruit_json <- self$recruit$print_recruit(print_json = FALSE)
-
-
+      #Get VERSION, GENERAL, and RECRUIT
       agepro_json <- list("version" = version_json,
                           "general" = general_json,
-                          "recruit" = recruit_json)
+                          "recruit" = self$recruit$json_list_recruit)
 
 
       # TODO: use the write() function to write JSON files
