@@ -707,10 +707,11 @@ two_stage_empirical_ssb <- R6Class(
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
-        lowRecruits = self$low_recruitment[,"recruit"],
-        lowSSB = self$low_recruitment[,"ssb"],
-        highRecruits = self$high_recruitment[,"recruit"],
-        highSSB = self$high_recruitment[,"ssb"],
+        #Use subset to get JSON list in a list object structure
+        lowRecruits = subset(self$low_recruitment, select="recruit"),
+        lowSSB = subset(self$low_recruitment, select="ssb"),
+        highRecruits = subset(self$high_recruitment, select="recruit"),
+        highSSB = subset(self$high_recruitment, select="ssb"),
         ssbCutoff = self$ssb_cutoff
       ))
     }
