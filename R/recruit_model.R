@@ -655,6 +655,18 @@ two_stage_empirical_recruit <- R6Class(
         assert_numeric(value)
         private$.high_recruitment <- value
       }
+    },
+
+    #' @field recruit_data
+    #' gets JSON-ready Recruit Model Data
+    recruit_data = function() {
+      return(list(
+        numLowRecruits = self$num_low_recruits,
+        numHighRecruits = self$num_high_recruits,
+        lowRecruits = self$low_recruitment,
+        highRecruits = self$high_recruitment,
+        ssbCutoff = self$ssb_cutoff
+      ))
     }
 
   )
@@ -687,6 +699,21 @@ two_stage_empirical_ssb <- R6Class(
                        with_ssb = TRUE)
     }
 
+  ), active = list(
+
+    #' @field recruit_data
+    #' gets JSON-ready Recruit Model Data
+    recruit_data = function() {
+      return(list(
+        numLowRecruits = self$num_low_recruits,
+        numHighRecruits = self$num_high_recruits,
+        lowRecruits = self$low_recruitment[,"recruit"],
+        lowSSB = self$low_recruitment[,"ssb"],
+        highRecruits = self$high_recruitment[,"recruit"],
+        highSSB = self$high_recruitment[,"ssb"],
+        ssbCutoff = self$ssb_cutoff
+      ))
+    }
   )
 )
 

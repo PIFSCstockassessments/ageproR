@@ -11,6 +11,13 @@ Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 \section{Super classes}{
 \code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{\link[ageproj:two_stage_empirical_recruit]{ageproj::two_stage_empirical_recruit}} -> \code{two_stage_empirical_ssb}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

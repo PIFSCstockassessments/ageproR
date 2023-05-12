@@ -23,6 +23,8 @@ Two-Stage Empirical Recruitment Base
 \item{\code{low_recruitment}}{Vector of Low State Recruitments per Spawning Biomass}
 
 \item{\code{high_recruitment}}{Vector of High State Recruitments per Spawning Biomass}
+
+\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
 }
 \if{html}{\out{</div>}}
 }
