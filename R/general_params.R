@@ -158,7 +158,33 @@ general_params <- R6Class(
     #' projection
     seq_years = function() {
       seq(self$yr_start, self$yr_end)
+    },
+
+    #' @field json_list_general
+    #' List of GENERAL keyword fields values, exportable to JSON.
+    json_list_general = function() {
+
+      #If discard Flag is numeric check if it is 0 or 1
+      if (!test_logical(self$discards)) {
+        #Assert for 0 and 1
+        assert_number(self$discards, lower = 0, upper = 1)
+      }
+
+      return(list(
+        nFYear = self$yr_start,
+        nXYear = self$yr_end,
+        nFAge = self$age_begin,
+        nXAge = self$age_end,
+        nSims = self$num_pop_sims,
+        nFleet = self$num_fleets,
+        nRecModel = self$num_rec_models,
+        discFlag = as.numeric(self$discards),
+        seed = self$seed
+      ))
     }
+
+
+
 
   ), private = list(
     cli_general_rule = function() {

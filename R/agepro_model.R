@@ -349,33 +349,14 @@ agepro_json_model <- R6Class(
     #' Get json
     get_json = function() {
 
-      if (!test_logical(self$general$discards)) {
-        #Assert for 0 and 1
-        assert_number(self$general$discards, lower = 0, upper = 1)
-      }
-      self$general$discards <- as.numeric(self$general$discards)
-
-
       version_json <- list(
         legacyVer = private$str_legacy_ver,
         ver = private$str_ver
       )
 
-      general_json <- list(
-        nFYear = self$general$yr_start,
-        nXYear = self$general$yr_end,
-        nFAge = self$general$age_begin,
-        nXAge = self$general$age_end,
-        nSims = self$general$num_pop_sims,
-        nFleet = self$general$num_fleets,
-        nRecModel = self$general$num_rec_models,
-        discFlag = self$general$discards,
-        seed = self$general$seed
-      )
-
       #Get VERSION, GENERAL, and RECRUIT
       agepro_json <- list("version" = version_json,
-                          "general" = general_json,
+                          "general" = self$general$json_list_general,
                           "recruit" = self$recruit$json_list_recruit)
 
 
