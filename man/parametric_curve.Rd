@@ -12,7 +12,7 @@ Recruitment Model Description
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+\item{\code{recruit_data}}{Returns JSON-ready Recruit Model Data'}
 
 \item{\code{alpha}}{Sets the Parametric Curve Parameter, alpha. Returns the
 current value if no argument was passed}

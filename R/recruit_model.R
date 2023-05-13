@@ -771,14 +771,14 @@ parametric_curve <- R6Class(
   ),
   active = list(
 
-    #' @field recruit_data gets JSON-ready Recruit Model Data
-    #'
+    #' @field recruit_data
+    #' Returns JSON-ready Recruit Model Data'
     #'
     recruit_data = function() {
-      return(list(alpha = private$.alpha,
-                  beta = private$.beta,
-                  variance = private$.variance))
-
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        variance = self$variance))
     },
 
     #' @field alpha
@@ -824,7 +824,6 @@ parametric_curve <- R6Class(
     model_group = function() {
       private$.model_group
     },
-
 
     #' @field super_
     #' Binds the super class to parametric_curve child classes
@@ -1040,6 +1039,17 @@ shepherd_curve_model <- R6Class(
         assert_numeric(value)
         private$.kpar <- value
       }
+    },
+
+    #' @field recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        k = self$kpar,
+        variance = self$variance
+      ))
     }
   )
 )
