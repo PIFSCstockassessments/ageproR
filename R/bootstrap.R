@@ -7,14 +7,14 @@
 #' iterations containing the popluation of the first year in the projection
 #'
 #' @importFrom R6 R6Class
-#' @importFrom checkmate assert_numeric
+#' @importFrom checkmate assert_numeric assert_file_exists
 bootstrap <- R6Class(
   "bootstrap",
   private = list (
 
     .num_bootstraps = NULL,
     .pop_scale_factor = NULL,
-    .boostrap_file = NULL
+    .bootstrap_file = NULL
 
   ), public = list (
 
@@ -33,7 +33,7 @@ bootstrap <- R6Class(
   ), active = list (
 
     #' @field num_bootstraps
-    #' Number of bootstraps
+    #' Number of bootstraps replicates of initial popualion size
     num_bootstraps = function(value) {
       if(missing(value)){
         private$.num_bootstraps
@@ -44,7 +44,9 @@ bootstrap <- R6Class(
     },
 
     #' @field pop_scale_factor
-    #' Population Scale Factor
+    #' Population Scale Factor, or BootFac, that represents the multiplicative
+    #' factor to convert the relative bootstrap population numbers at age to
+    #' absolute numbers at age.
     pop_scale_factor = function(value) {
       if(missing(value)){
         private$.pop_scale_factor
@@ -52,8 +54,19 @@ bootstrap <- R6Class(
         assert_numeric(value, lower = 0)
         private$.pop_scale_factor <- value
       }
-    }
+    },
 
+    #' @field bootstrap_file
+    #' Bootstrap file path.
+    bootstrap_file = function(value) {
+      if(missing(value)){
+        private$.bootstrap_file
+      }else{
+        assert_file_exists(value, access= "r", extension = "bsn")
+        private$.bootstrap_file <- value
+
+      }
+    }
 
   )
 

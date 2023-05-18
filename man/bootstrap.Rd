@@ -11,9 +11,13 @@ iterations containing the popluation of the first year in the projection
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{num_bootstraps}}{Number of bootstraps}
+\item{\code{num_bootstraps}}{Number of bootstraps replicates of initial popualion size}
 
-\item{\code{pop_scale_factor}}{Population Scale Factor}
+\item{\code{pop_scale_factor}}{Population Scale Factor, or BootFac, that represents the multiplicative
+factor to convert the relative bootstrap population numbers at age to
+absolute numbers at age.}
+
+\item{\code{bootstrap_file}}{Bootstrap file path.}
 }
 \if{html}{\out{</div>}}
 }
