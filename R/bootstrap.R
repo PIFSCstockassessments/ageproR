@@ -4,7 +4,10 @@
 #' @description
 #' -The Number of data values of each row must equal to the number of age classes.
 #' -The number of rows in a bootstrap file must be at least equal to the number of bootstrap
-#' iterations containing the popluation of the first year in the projection
+#' iterations containing the population of the first year in the projection
+#'
+#' @template inp_con
+#' @template nline
 #'
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_numeric assert_file_exists
@@ -26,8 +29,31 @@ bootstrap <- R6Class(
       self$num_bootstraps <- 0
       self$pop_scale_factor <- 0
 
-    }
+    },
 
+    #' @description
+    #' Reads in BOOTSTRAP numbers and options from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline){
+      #Read an additional line from the file connection,
+      #and split the line into 2 substrings, and ...
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      #Assign substrings
+      self$num_bootstraps <- inp_line[1]
+      self$pop_scale_factor <- inp_line[2]
+
+      nline <- nline + 1
+
+      #Read another line from the file connection, and
+      #assign it as bootstrap filename
+      self$bootstrap_file <- readLines(inp_con, n = 1, warn = FALSE)
+
+      nline <- nline + 1
+
+      return(nline)
+
+    }
 
 
 
@@ -64,6 +90,7 @@ bootstrap <- R6Class(
       if(missing(value)){
         private$.bootstrap_file
       }else{
+        #Validate that 'value' points to a existing bootstrap file.
         assert_file_exists(value, access= "r", extension = "bsn")
         private$.bootstrap_file <- value
 

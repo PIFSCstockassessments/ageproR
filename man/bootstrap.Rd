@@ -6,7 +6,7 @@
 \description{
 -The Number of data values of each row must equal to the number of age classes.
 -The number of rows in a bootstrap file must be at least equal to the number of bootstrap
-iterations containing the popluation of the first year in the projection
+iterations containing the population of the first year in the projection
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -25,6 +25,7 @@ absolute numbers at age.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-bootstrap-new}{\code{bootstrap$new()}}
+\item \href{#method-bootstrap-read_inp_lines}{\code{bootstrap$read_inp_lines()}}
 \item \href{#method-bootstrap-clone}{\code{bootstrap$clone()}}
 }
 }
@@ -37,6 +38,27 @@ Initializes the Bootstrap Class
 \if{html}{\out{<div class="r">}}\preformatted{bootstrap$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-bootstrap-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in BOOTSTRAP numbers and options from AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-bootstrap-clone"></a>}}
