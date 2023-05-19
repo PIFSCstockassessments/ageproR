@@ -157,6 +157,10 @@ agepro_inp_model <- R6Class(
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
       self$recruit$observation_years <- self$general$seq_years
       self$nline <- self$recruit$read_inp_lines(con, nline)
+    },
+
+    read_bootstrap = function(con, nline) {
+      self$nline <- self$bootstrap$read_inp_lines(con, nline)
     }
 
   ),
@@ -270,7 +274,7 @@ agepro_inp_model <- R6Class(
         "[RECRUIT]" =
           {rlang::expr(private$read_recruit(inp_con, self$nline))},
         "[BOOTSTRAP]" =
-          {{ rlang::expr(self$not_implemented()) }}
+          {rlang::expr(private$read_bootstrap(inp_con, self$nline)) }
       ))
 
       message("line ", self$nline, ": ", inp_line)
