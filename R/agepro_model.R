@@ -45,6 +45,9 @@ agepro_model <- R6Class(
     #' @field inp_pointer AGEPRO input file pointer
     inp_pointer = NULL,
 
+    #' @field bootstrap Bootstrapping
+    bootstrap = NULL,
+
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -92,6 +95,8 @@ agepro_model <- R6Class(
       cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
         rep(0,self$general$num_rec_models), self$general$seq_years)
+
+      self$bootstrap <- bootstrap$new()
 
     },
 
@@ -152,8 +157,6 @@ agepro_inp_model <- R6Class(
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
       self$recruit$observation_years <- self$general$seq_years
       self$nline <- self$recruit$read_inp_lines(con, nline)
-
-
     }
 
   ),
@@ -173,6 +176,7 @@ agepro_inp_model <- R6Class(
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
+      self$bootstrap <- bootstrap$new()
 
 
 
@@ -265,7 +269,8 @@ agepro_inp_model <- R6Class(
           {rlang::expr(private$read_general_params(inp_con, self$nline))},
         "[RECRUIT]" =
           {rlang::expr(private$read_recruit(inp_con, self$nline))},
-        "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
+        "[BOOTSTRAP]" =
+          {{ rlang::expr(self$not_implemented()) }}
       ))
 
       message("line ", self$nline, ": ", inp_line)

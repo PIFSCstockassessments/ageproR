@@ -30,6 +30,8 @@ bootstrap <- R6Class(
 
 
 
+
+
   ), active = list (
 
     #' @field num_bootstraps

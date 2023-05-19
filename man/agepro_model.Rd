@@ -21,6 +21,8 @@ determine age-structured population over a time period. Brodziak, 2022
 \item{\code{case_id}}{Case id}
 
 \item{\code{inp_pointer}}{AGEPRO input file pointer}
+
+\item{\code{bootstrap}}{Bootstrapping}
 }
 \if{html}{\out{</div>}}
 }
