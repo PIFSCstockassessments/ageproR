@@ -13,6 +13,7 @@
 #' @template seq_years
 #' @template elipses
 #' @template inp_con
+#' @template nline
 #'
 #' @export
 #' @import cli
@@ -309,7 +310,6 @@ recruitment <- R6Class(
 
     #' @description
     #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
-    #' @param nline Reference to current line read
     read_inp_lines = function(inp_con, nline) {
 
       #Check

@@ -42,15 +42,17 @@ Initalize
 \subsection{Method \code{read_inp_lines()}}{
 Read AGEPRO Case ID from input data file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{case_id$read_inp_lines(con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{case_id$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{con}}{input file connection}
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
-\item{\code{nline}}{Line number}
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
 }
 \if{html}{\out{</div>}}
 }

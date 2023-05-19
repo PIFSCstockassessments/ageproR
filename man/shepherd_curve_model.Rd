@@ -88,7 +88,9 @@ Reads Parametric Curve model data from AGEPRO Input file
 \describe{
 \item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
 
-\item{\code{nline}}{Line Number}
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
 }
 \if{html}{\out{</div>}}
 }
