@@ -27,7 +27,7 @@ case_id <- R6Class(
     read_inp_lines = function(inp_con, nline){
 
       nline <- nline + 1
-      self$case_id <- readLines(con, n = 1, warn = FALSE)
+      self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
       message("Line ", nline, ": Case ID: ", self$case_id)
       return(nline)
     }
