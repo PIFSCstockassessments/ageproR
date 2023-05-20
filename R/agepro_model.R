@@ -180,7 +180,7 @@ agepro_inp_model <- R6Class(
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
-      self$bootstrap <- bootstrap$new()
+      self$bootstrap <- suppressMessages(bootstrap$new())
 
 
 

@@ -8,7 +8,9 @@
 #'
 #' @template inp_con
 #' @template nline
+#' @template elipses
 #'
+#' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_numeric assert_file_exists
 bootstrap <- R6Class(
@@ -26,8 +28,13 @@ bootstrap <- R6Class(
     #'
     initialize = function(){
 
+      cli_keyword_heading("Bootstrap")
+      cli_alert("Setting up Default Values")
+
       self$num_bootstraps <- 0
       self$pop_scale_factor <- 0
+
+      self$print()
 
     },
 
@@ -53,8 +60,17 @@ bootstrap <- R6Class(
 
       return(nline)
 
-    }
+    },
 
+    #' @description
+    #' Prints out BOOTSTRAP fields
+    #'
+    print = function(...) {
+      cli_ul()
+      cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
+      cli_li("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
+      cli_end()
+    }
 
 
 
