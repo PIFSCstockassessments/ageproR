@@ -12,7 +12,7 @@
 #'
 #' @import cli
 #' @importFrom R6 R6Class
-#' @importFrom checkmate assert_numeric assert_file_exists
+#' @importFrom checkmate assert_numeric test_file_exists
 bootstrap <- R6Class(
   "bootstrap",
   private = list (
@@ -110,10 +110,17 @@ bootstrap <- R6Class(
         private$.bootstrap_file
       }else{
         #Validate that 'value' points to a existing bootstrap file.
-        cli_text("Bootstrap file: {.val {value}}")
-        assert_file_exists(value, access= "r", extension = "bsn")
-        private$.bootstrap_file <- value
-
+        if(test_file_exists(value, access= "r", extension = "bsn")){
+          cli_text("Bootstrap file: {.val {value}}")
+          private$.bootstrap_file <- value
+        }else {
+          cli_div(theme = list(span.val = list(color="orange",
+                                               "font-style"="italic")))
+          cli_alert_warning(c("Bootstrap file path does not exist in system: ",
+                            "{.val {value}}"))
+          cli_end()
+          private$.bootstrap_file <- NULL
+        }
       }
     }
 
