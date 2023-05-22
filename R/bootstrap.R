@@ -117,11 +117,14 @@ bootstrap <- R6Class(
       }else{
         #Validate that 'value' points to a existing bootstrap file.
         if(test_file_exists(value, access= "r", extension = "bsn")){
-          cli_text("Bootstrap file: {.val {value}}")
+          #If validated, assign value
+          cli_alert_success("Bootstrap file: {.val {value}}")
           private$.bootstrap_file <- value
         }else {
-          cli_div(theme = list(span.val = list(color="orange",
-                                               "font-style"="italic")))
+          #Else, warn bootstrap file name does not exist and NULLify
+          cli_div(
+            theme = list(span.val = list(color="orange",
+                                         "font-style"="italic")))
           cli_alert_warning(c("Bootstrap file path does not exist in system: ",
                             "{.val {value}}"))
           cli_end()
