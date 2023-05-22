@@ -51,12 +51,15 @@ bootstrap <- R6Class(
       self$pop_scale_factor <- inp_line[2]
 
       nline <- nline + 1
+      cli_alert("Line {nline}: ")
+      self$print()
 
       #Read another line from the file connection, and
       #assign it as bootstrap filename
+      nline <- nline + 1
+      cli_alert("Line {nline}: ")
       self$bootstrap_file <- readLines(inp_con, n = 1, warn = FALSE)
 
-      nline <- nline + 1
 
       return(nline)
 
@@ -107,6 +110,7 @@ bootstrap <- R6Class(
         private$.bootstrap_file
       }else{
         #Validate that 'value' points to a existing bootstrap file.
+        cli_text("Bootstrap file: {.val {value}}")
         assert_file_exists(value, access= "r", extension = "bsn")
         private$.bootstrap_file <- value
 
