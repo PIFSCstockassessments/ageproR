@@ -52,7 +52,8 @@ bootstrap <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline}: ")
-      self$print()
+      cli_text("Number of Bootstraps: {.val {self$num_bootstraps}}")
+      cli_text("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
 
       #Read another line from the file connection, and
       #assign it as bootstrap filename
@@ -73,6 +74,11 @@ bootstrap <- R6Class(
       cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
       cli_li("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
       cli_end()
+      cli_alert_info("Bootstrap File")
+      ifelse(is.null(self$bootstrap_file),
+             cli_alert_warning(c("Replace with a valid Bootstrap file before ",
+                            "processing to AGEPRO calcualtion engine")),
+             self$bootstrap_file)
     }
 
 
