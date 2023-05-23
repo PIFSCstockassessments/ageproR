@@ -378,7 +378,7 @@ recruitment <- R6Class(
         for(j in seq_along(inp_line)) {
           self$set_recruit_probability(j,year,inp_line[[j]], verbose = FALSE)
         }
-        #purrr::iwalk(inp_line, ~ set_recruit_probability(.y,year,.x), year = year)
+
       }
 
       #Print out Recruitment Probability from Input data to console
