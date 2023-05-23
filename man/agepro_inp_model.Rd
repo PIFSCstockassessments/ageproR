@@ -56,7 +56,7 @@ Initializes the input file
 \subsection{Method \code{read_inp()}}{
 Read AGEPRO INP Input Files
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$read_inp(inpfile = file.choose())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$read_inp(inpfile)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
