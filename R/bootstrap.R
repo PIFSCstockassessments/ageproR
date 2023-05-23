@@ -38,6 +38,8 @@ bootstrap <- R6Class(
 
     },
 
+    ##TODO: Add Bootstrap file (file dialog) function
+
     #' @description
     #' Reads in BOOTSTRAP numbers and options from AGEPRO Input file
     #'
