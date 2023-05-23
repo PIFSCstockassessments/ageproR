@@ -545,7 +545,7 @@ two_stage_empirical_recruit <- R6Class(
       self$low_recruitment <- cbind(recruit=inp_low_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} Low Recruitment ...")
+      cli_alert("Line {nline} Low Recruitment ...")
       cat_line(capture.output(as_tibble(self$low_recruitment)))
 
 
@@ -556,7 +556,7 @@ two_stage_empirical_recruit <- R6Class(
       self$high_recruitment <- cbind(recruit=inp_high_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} High Recruitment ...")
+      cli_alert("Line {nline} High Recruitment ...")
       cat_line(capture.output(as_tibble(self$high_recruitment)))
 
       ## ssb_cutoff

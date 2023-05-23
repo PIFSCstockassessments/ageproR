@@ -337,8 +337,8 @@ recruitment <- R6Class(
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline}: Recruitment model number ...")
-      cli_text("{inp_line}")
+      cli_alert(c("Line {nline}: Recruitment model number: ",
+                  "{.val {inp_line}}"))
 
       #?Validate length Recruitment's recruit_model_num_list matches
       #length of recruitment models field from the set_recruit_data function
@@ -358,7 +358,7 @@ recruitment <- R6Class(
 
       }
 
-      cli_alert("{.emph Reading Recruitment Probabaility}")
+      cli_alert_info("{.emph Reading Recruitment Probabaility}")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
       for(year in self$observation_years){
@@ -367,8 +367,8 @@ recruitment <- R6Class(
         inp_line <- read_inp_numeric_line(inp_con)
 
         nline <- nline + 1
-        cli_alert("Line {nline}: Recruitment probabaility for year {year} ...")
-        cli_text("{inp_line}")
+        cli_alert(c("Line {nline}: Recruitment probabaility for year {year} : ",
+                    "{.val {inp_line}}"))
 
         # Verify recruit probability value ...
         assert_numeric(inp_line, lower = 0 , upper = 1)
