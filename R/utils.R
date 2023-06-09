@@ -79,7 +79,7 @@ cli_keyword_heading <- function(keyword, heading_color = "cyan") {
 #'
 #' @keywords internal
 #'
-open_file <- function(){
+open_file_dialog <- function(){
 
   #Open file dialog
   #Use rstudioapi to show file dialog in front of RStudio.
