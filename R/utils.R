@@ -67,3 +67,26 @@ cli_keyword_heading <- function(keyword, heading_color = "cyan") {
   cli_rule(keyword)
   cli_end(d)
 }
+
+
+
+#' Open file dialog or interface to interactively return file path.
+#'
+#' If Rconsole is currently running in Rstudio, it will use the rstudioapi
+#' to show the file dialog window over the IDE.
+#'
+#' @param inpfile input file name
+#'
+#' @keywords internal
+#'
+open_file <- function(){
+
+  #Open file dialog
+  #Use rstudioapi to show file dialog in front of RStudio.
+  filename <- ifelse(rstudioapi::isAvailable(),
+                    rstudioapi::selectFile(),
+                    file.choose(new=TRUE))
+
+
+  return(filename)
+}

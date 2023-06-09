@@ -16,6 +16,7 @@ Imports:
   collections,
   tibble,
   rlang,
+  rstudioapi,
   utils,
   R6
 License: GPL-3
