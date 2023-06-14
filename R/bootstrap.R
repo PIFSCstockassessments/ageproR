@@ -148,6 +148,17 @@ bootstrap <- R6Class(
         #Validate that 'value' points to a existing bootstrap file.
         private$validate_bootstrap_file(value)
       }
+    },
+
+    #' @field json_bootstrap
+    #' JSON list object for BOOTSTRAP keyword parameter
+    #'
+    json_bootstrap = function() {
+      return(list(
+        nboot = self$num_bootstraps,
+        bootFac = self$pop_scale_factor,
+        bootFile = self$bootstrap_file
+      ))
     }
 
   )

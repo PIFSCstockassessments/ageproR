@@ -18,6 +18,8 @@ factor to convert the relative bootstrap population numbers at age to
 absolute numbers at age.}
 
 \item{\code{bootstrap_file}}{Bootstrap file path.}
+
+\item{\code{json_bootstrap}}{JSON list object for BOOTSTRAP keyword parameter}
 }
 \if{html}{\out{</div>}}
 }

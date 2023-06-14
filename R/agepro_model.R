@@ -371,10 +371,11 @@ agepro_json_model <- R6Class(
         ver = private$str_ver
       )
 
-      #Get VERSION, GENERAL, and RECRUIT
+      #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
       agepro_json <- list("version" = version_json,
                           "general" = self$general$json_list_general,
-                          "recruit" = self$recruit$json_list_recruit)
+                          "recruit" = self$recruit$json_list_recruit,
+                          "bootstrap" = self$bootstrap$json_bootstrap)
 
 
       # TODO: use the write() function to write JSON files
