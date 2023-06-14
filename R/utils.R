@@ -75,8 +75,6 @@ cli_keyword_heading <- function(keyword, heading_color = "cyan") {
 #' If Rconsole is currently running in Rstudio, it will use the rstudioapi
 #' to show the file dialog window over the IDE.
 #'
-#' @param inpfile input file name
-#'
 #' @keywords internal
 #'
 open_file_dialog <- function(){
@@ -88,5 +86,5 @@ open_file_dialog <- function(){
                     file.choose(new=TRUE))
 
 
-  return(filename)
+  return(path.expand(filename))
 }

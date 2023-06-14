@@ -6,9 +6,6 @@
 \usage{
 open_file_dialog()
 }
-\arguments{
-\item{inpfile}{input file name}
-}
 \description{
 If Rconsole is currently running in Rstudio, it will use the rstudioapi
 to show the file dialog window over the IDE.
