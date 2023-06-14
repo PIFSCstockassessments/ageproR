@@ -19,7 +19,28 @@ bootstrap <- R6Class(
 
     .num_bootstraps = NULL,
     .pop_scale_factor = NULL,
-    .bootstrap_file = NULL
+    .bootstrap_file = NULL,
+
+
+    #Validate bootstrap_file
+    validate_bootstrap_file = function(value) {
+      #Validate that 'value' points to a existing bootstrap file.
+      if(test_file_exists(value, access= "r", extension = "bsn")){
+        #If validated, assign value
+        cli_alert_success("Bootstrap file: {.val {value}}")
+        private$.bootstrap_file <- value
+      }else {
+        #Else, warn bootstrap file name does not exist and NULLify
+        cli_div(
+          theme = list(span.val = list(color="orange",
+                                       "font-style"="italic")))
+        cli_alert_warning(c("Bootstrap file path does not exist in system: ",
+                            "{.val {value}}"))
+        cli_end()
+        private$.bootstrap_file <- NULL
+      }
+    }
+
 
   ), public = list (
 
@@ -38,7 +59,14 @@ bootstrap <- R6Class(
 
     },
 
-    ##TODO: Add Bootstrap file (file dialog) function
+    #' @description
+    #' Uses file dialog interface to retrieve Bootstrap file name
+    #'
+    get_bootstrap_filename = function() {
+
+      self$bootstrap_file <- open_file_dialog()
+
+    },
 
     #' @description
     #' Reads in BOOTSTRAP numbers and options from AGEPRO Input file
@@ -118,20 +146,7 @@ bootstrap <- R6Class(
         private$.bootstrap_file
       }else{
         #Validate that 'value' points to a existing bootstrap file.
-        if(test_file_exists(value, access= "r", extension = "bsn")){
-          #If validated, assign value
-          cli_alert_success("Bootstrap file: {.val {value}}")
-          private$.bootstrap_file <- value
-        }else {
-          #Else, warn bootstrap file name does not exist and NULLify
-          cli_div(
-            theme = list(span.val = list(color="orange",
-                                         "font-style"="italic")))
-          cli_alert_warning(c("Bootstrap file path does not exist in system: ",
-                            "{.val {value}}"))
-          cli_end()
-          private$.bootstrap_file <- NULL
-        }
+        private$validate_bootstrap_file(value)
       }
     }
 

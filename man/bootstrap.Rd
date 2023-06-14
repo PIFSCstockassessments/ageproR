@@ -25,6 +25,7 @@ absolute numbers at age.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-bootstrap-new}{\code{bootstrap$new()}}
+\item \href{#method-bootstrap-get_bootstrap_filename}{\code{bootstrap$get_bootstrap_filename()}}
 \item \href{#method-bootstrap-read_inp_lines}{\code{bootstrap$read_inp_lines()}}
 \item \href{#method-bootstrap-print}{\code{bootstrap$print()}}
 \item \href{#method-bootstrap-clone}{\code{bootstrap$clone()}}
@@ -37,6 +38,16 @@ absolute numbers at age.}
 Initializes the Bootstrap Class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{bootstrap$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-bootstrap-get_bootstrap_filename"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-get_bootstrap_filename}{}}}
+\subsection{Method \code{get_bootstrap_filename()}}{
+Uses file dialog interface to retrieve Bootstrap file name
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$get_bootstrap_filename()}\if{html}{\out{</div>}}
 }
 
 }
