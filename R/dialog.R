@@ -22,22 +22,14 @@ open_file_dialog <- function(filetype){
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
                                                    " (*", filetype[2], "))" ))
-  }else{
+  }else if(capabilities("tcltk")){
     path <- tcltk::tkgetOpenFile(initialdir = here::here(),
                                  filetypes = paste0( "{{", filetype[1], "} {",
                                                      filetype[2], "}}" ))
+  }else{
+    #fallback on file.choose
+    path <- file.choose()
   }
-
-
-  #tk_filter <- matrix(c("markdown","*.md",
-  #+               "AGEPRO input files", "*.inp",
-  #+               "All Files", "*"), 3,2,byrow=TRUE)
-  #tcltk::tkgetOpenFile(filetypes="{{AGEPRO} {.inp}}")
-  #tcltk::tk_choose.files(filters=tk_filter)
-  #rstudioapi::selectFile(file)
-  #rstudioapi::selectFile(path=path.expand("~/dev-extra/ageproj"),
-  # filter="AGEPRO input files (*.inp)")
-
 
 
 
@@ -64,11 +56,13 @@ save_file_dialog <- function(filetype){
                                      existing=FALSE,
                                      filter=paste0(filetype[1],
                                                    " (*", filetype[2], "))" ))
-  }else{
-
+  }else if(capabilities("tcltk")){
     target <- tcltk::tkgetSaveFile(initialdir = here::here(),
                                    filetypes = paste0( "{{", filetype[1], "} {",
                                                        filetype[2], "}}" ))
+  }else{
+    #fallback on file.choose
+    target <- file.choose()
   }
   return(path.expand(target))
 }
