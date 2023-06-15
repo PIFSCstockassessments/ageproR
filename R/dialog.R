@@ -21,17 +21,18 @@ open_file_dialog <- function(filetype){
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
-                                                   " (*", filetype[2], "))" ))
+                                                   " (*", filetype[2], ")" ))
   }else if(capabilities("tcltk")){
-    path <- tcltk::tkgetOpenFile(initialdir = here::here(),
-                                 filetypes = paste0( "{{", filetype[1], "} {",
-                                                     filetype[2], "}}" ))
+    path <- tcltk::tclvalue(
+      tcltk::tkgetOpenFile(initialdir = here::here(),
+                           filetypes = paste0( "{{", filetype[1], "} {",
+                                                     filetype[2], "}}" )))
+
+    checkmate::assert_character(path, min.chars = 1, .var.name = "path")
   }else{
     #fallback on file.choose
     path <- file.choose()
   }
-
-
 
   return(path.expand(path))
 }
@@ -55,11 +56,15 @@ save_file_dialog <- function(filetype){
                                      label="Save",
                                      existing=FALSE,
                                      filter=paste0(filetype[1],
-                                                   " (*", filetype[2], "))" ))
+                                                   " (*", filetype[2], ")" ))
   }else if(capabilities("tcltk")){
-    target <- tcltk::tkgetSaveFile(initialdir = here::here(),
-                                   filetypes = paste0( "{{", filetype[1], "} {",
-                                                       filetype[2], "}}" ))
+    target <- tcltk::tclvalue(
+      tcltk::tkgetSaveFile(initialdir = here::here(),
+                           filetypes = paste0( "{{", filetype[1], "} {",
+                                                       filetype[2], "}}" )))
+
+    checkmate::assert_character(path, min.chars = 1, .var.name = "target")
+
   }else{
     #fallback on file.choose
     target <- file.choose()
