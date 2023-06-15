@@ -159,6 +159,20 @@ bootstrap <- R6Class(
         bootFac = self$pop_scale_factor,
         bootFile = self$bootstrap_file
       ))
+    },
+
+
+    #' @field inp_bootstrap
+    #' Returns BOOTSTRAP values AGEPRO input file format (*,inp)
+    inp_bootstrap = function() {
+      #Warn if bootstrap file does not exists on system
+      if(!test_file_exists(self$bootstrap_file)){
+        warning("Bootstrap filename does not exist on system.", call. = FALSE)
+      }
+      return(list(
+        paste(self$num_bootstraps, self$pop_scale_factor),
+        self$bootstrap_file
+      ))
     }
 
   )

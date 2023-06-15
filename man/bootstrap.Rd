@@ -20,6 +20,8 @@ absolute numbers at age.}
 \item{\code{bootstrap_file}}{Bootstrap file path.}
 
 \item{\code{json_bootstrap}}{JSON list object for BOOTSTRAP keyword parameter}
+
+\item{\code{inp_bootstrap}}{Returns BOOTSTRAP values AGEPRO input file format (*,inp)}
 }
 \if{html}{\out{</div>}}
 }
