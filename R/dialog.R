@@ -7,9 +7,12 @@
 #'
 #' @param filtype filename extension
 #'
+#' @importFrom checkmate assert_character
+#'
 open_file_dialog <- function(filetype){
 
   filetype <- validate_filetype(filetype)
+  err_msg_dialog_cancelled <- "File choice cancelled"
 
   #Open file dialog
   #Use rstudioapi to show file dialog in front of RStudio.
@@ -17,24 +20,46 @@ open_file_dialog <- function(filetype){
   #                   rstudioapi::selectFile(),
   #                   file.choose(new=TRUE))
 
+
   if(rstudioapi::isAvailable()){
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
                                                    " (*", filetype[2], ")" ))
+    #Check if user cancels file dialog window
+    tryCatch(
+      {
+        assert_character(path, null.ok = FALSE)
+        path <- path.expand(path)
+      },
+      error = function(cond){
+        message(err_msg_dialog_cancelled)
+        return(invisible())
+      }
+    )
+
   }else if(capabilities("tcltk")){
     path <- tcltk::tclvalue(
       tcltk::tkgetOpenFile(initialdir = here::here(),
                            filetypes = paste0( "{{", filetype[1], "} {",
-                                                     filetype[2], "}}" )))
+                                               filetype[2], "}}" )))
+    #Check if user cancels file dialog window
+    tryCatch(
+      {
+        assert_character(path, min.chars = 1, .var.name = "path")
+      },
+      error = function(cond){
+        message(err_msg_dialog_cancelled)
+        invisible()
+      }
+    )
 
-    checkmate::assert_character(path, min.chars = 1, .var.name = "path")
   }else{
     #fallback on file.choose
     path <- file.choose()
   }
 
-  return(path.expand(path))
+  return(path)
 }
 
 
@@ -47,9 +72,12 @@ open_file_dialog <- function(filetype){
 #'
 #' @param filetype filename extension
 #'
+#' @importFrom checkmate assert_character
+#'
 save_file_dialog <- function(filetype){
 
   filetype <- validate_filetype()
+  err_msg_dialog_cancelled <- "File choice cancelled"
 
   if(rstudioapi::isAvailable()){
     target <- rstudioapi::selectFile(caption="Save File",
@@ -57,13 +85,37 @@ save_file_dialog <- function(filetype){
                                      existing=FALSE,
                                      filter=paste0(filetype[1],
                                                    " (*", filetype[2], ")" ))
+
+    #Check if user cancels file dialog window
+    tryCatch(
+      {
+        assert_character(target, null.ok = FALSE)
+        path <- path.expand(path)
+      },
+      error = function(cond) {
+        message(err_msg_dialog_cancelled)
+        invisible()
+      }
+
+    )
+
   }else if(capabilities("tcltk")){
     target <- tcltk::tclvalue(
       tcltk::tkgetSaveFile(initialdir = here::here(),
                            filetypes = paste0( "{{", filetype[1], "} {",
                                                        filetype[2], "}}" )))
+    #Check if user cancels file dialog window
+    tryCatch(
+      {
+        checkmate::assert_character(target, min.chars = 1, .var.name = "target")
+      },
+      error = function(cond){
+        message(err_msg_dialog_cancelled)
+        invisible()
+      }
+    )
 
-    checkmate::assert_character(path, min.chars = 1, .var.name = "target")
+
 
   }else{
     #fallback on file.choose
