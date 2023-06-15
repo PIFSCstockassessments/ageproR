@@ -103,12 +103,12 @@ bootstrap <- R6Class(
       cli_ul()
       cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
       cli_li("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
-      cli_end()
-      cli_alert_info("Bootstrap File")
+      cli_alert_info("Bootstrap File:")
       ifelse(is.null(self$bootstrap_file),
              cli_alert_warning(c("Replace with a valid Bootstrap file before ",
                             "processing to AGEPRO calcualtion engine")),
-             self$bootstrap_file)
+             cli_li("{.val {self$bootstrap_file}}"))
+      cli_end()
     }
 
 
