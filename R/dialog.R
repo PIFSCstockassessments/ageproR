@@ -20,8 +20,11 @@ open_file_dialog <- function(filetype){
   #                   rstudioapi::selectFile(),
   #                   file.choose(new=TRUE))
 
-
-  if(rstudioapi::isAvailable()){
+  # Check Rstudio is used.
+  # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
+  # implemented. vscode's rstudio version information is set to '0'.
+  # For Rstudio specific code, set version_needed to '1'
+  if(rstudioapi::isAvailable(1)){
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
@@ -79,7 +82,11 @@ save_file_dialog <- function(filetype){
   filetype <- validate_filetype()
   err_msg_dialog_cancelled <- "File choice cancelled"
 
-  if(rstudioapi::isAvailable()){
+  # Check Rstudio is used.
+  # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
+  # implemented. vscode's rstudio version information is set to '0'.
+  # For Rstudio specific code, set version_needed to '1'
+  if(rstudioapi::isAvailable(1)){
     target <- rstudioapi::selectFile(caption="Save File",
                                      label="Save",
                                      existing=FALSE,
