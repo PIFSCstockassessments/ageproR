@@ -112,6 +112,14 @@ agepro_model <- R6Class(
       self$recruit$print()
 
 
+    },
+
+    #' @description
+    #' Wrapper function to call bootstrap's get_bootstrap_filename
+    #'
+    get_bootstrap_filename = function() {
+
+      self$bootstrap$get_bootstrap_filename()
     }
 
   )
