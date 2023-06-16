@@ -30,15 +30,18 @@ bootstrap <- R6Class(
         cli_alert_success("Bootstrap file: {.val {value}}")
         private$.bootstrap_file <- value
       }else {
-        #Else, warn bootstrap file name does not exist and NULLify
+        #Else, warn bootstrap file name does not exist
         cli_div(
           theme = list(span.val = list(color="orange",
                                        "font-style"="italic")))
         cli_alert_warning(c("Bootstrap file path does not exist in system: ",
                             "{.val {value}}"))
         cli_end()
-        private$.bootstrap_file <- NULL
+        warning(paste0("'",value,"' does not exist. \n",
+        "Please provide a vaild bootstrap filepath when saving to input ",
+        "file for the AGEPRO calcuation engine."), call. = FALSE)
       }
+
     }
 
 
@@ -54,6 +57,8 @@ bootstrap <- R6Class(
 
       self$num_bootstraps <- 0
       self$pop_scale_factor <- 0
+
+      suppressWarnings(self$bootstrap_file <- NULL)
 
       self$print()
 
@@ -104,10 +109,11 @@ bootstrap <- R6Class(
       cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
       cli_li("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
       cli_alert_info("Bootstrap File:")
-      ifelse(is.null(self$bootstrap_file),
+      ifelse(test_file_exists(self$bootstrap_file),
+             cli_li("{.val {self$bootstrap_file}}"),
              cli_alert_warning(c("Replace with a valid Bootstrap file before ",
-                            "processing to AGEPRO calcualtion engine")),
-             cli_li("{.val {self$bootstrap_file}}"))
+                            "processing to AGEPRO calcualtion engine"))
+             )
       cli_end()
     }
 
