@@ -24,12 +24,17 @@ bootstrap <- R6Class(
 
     #Validate bootstrap_file
     validate_bootstrap_file = function(value) {
-      #Validate that 'value' points to a existing bootstrap file.
+
+      #Set value to bootstrap file
+      private$.bootstrap_file <- value
+
+      #Validate that 'value' points to a existing file.
       if(test_file_exists(value, access= "r", extension = "bsn")){
         #If validated, assign value
         cli_alert_success("Bootstrap file: {.val {value}}")
-        private$.bootstrap_file <- value
+
       }else if(is.null(value)){
+        #Warn if file path is NULL,
         warning(paste0("NULL Bootstrap file path. \n",
                        "Please provide a vaild bootstrap filepath when saving ",
                        "to input file for the AGEPRO calcuation engine."),
@@ -42,6 +47,7 @@ bootstrap <- R6Class(
         cli_alert_warning(c("Bootstrap file path does not exist in system: ",
                             "{.val {value}}"))
         cli_end()
+
         warning(paste0("'",value,"' does not exist. \n",
         "Please provide a vaild bootstrap filepath when saving to input ",
         "file for the AGEPRO calcuation engine."), call. = FALSE)
@@ -105,8 +111,6 @@ bootstrap <- R6Class(
       nline <- nline + 1
       cli_alert("Line {nline}: ")
       self$bootstrap_file <- readLines(inp_con, n = 1, warn = FALSE)
-
-
       return(nline)
 
     },
