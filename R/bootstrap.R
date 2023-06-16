@@ -29,6 +29,11 @@ bootstrap <- R6Class(
         #If validated, assign value
         cli_alert_success("Bootstrap file: {.val {value}}")
         private$.bootstrap_file <- value
+      }else if(is.null(value)){
+        warning(paste0("NULL Bootstrap file path. \n",
+                       "Please provide a vaild bootstrap filepath when saving ",
+                       "to input file for the AGEPRO calcuation engine."),
+                call. = FALSE)
       }else {
         #Else, warn bootstrap file name does not exist
         cli_div(
