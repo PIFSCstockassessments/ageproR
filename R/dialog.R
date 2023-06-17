@@ -42,6 +42,7 @@ open_file_dialog <- function(filetype){
     )
 
   }else if(capabilities("tcltk")){
+
     path <- tcltk::tclvalue(
       tcltk::tkgetOpenFile(initialdir = here::here(),
                            filetypes = paste0( "{{", filetype[1], "} {",
@@ -149,6 +150,7 @@ save_file_dialog <- function(filetype){
 validate_filetype <- function(filetype){
 
   if(missing(filetype)){
+    #Default "All Files (*)" file type
     filetype <- c("All Files", "*")
   }
 
