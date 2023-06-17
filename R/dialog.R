@@ -54,7 +54,7 @@ open_file_dialog <- function(filetype){
       },
       error = function(cond){
         message(err_msg_dialog_cancelled)
-        invisible()
+        return(invisible())
       }
     )
 
@@ -102,7 +102,7 @@ save_file_dialog <- function(filetype){
       },
       error = function(cond) {
         message(err_msg_dialog_cancelled)
-        invisible()
+        return(invisible())
       }
 
     )
@@ -119,7 +119,7 @@ save_file_dialog <- function(filetype){
       },
       error = function(cond){
         message(err_msg_dialog_cancelled)
-        invisible()
+        return(invisible())
       }
     )
 

@@ -200,15 +200,17 @@ agepro_inp_model <- R6Class(
     #' @param inpfile input file name
     read_inp = function(inpfile){
 
+
       if(missing(inpfile)){
-        #Open file dialog
-        #Use rstudioapi to show file dialog in front of RStudio.
-        inpfile <- ifelse(rstudioapi::isAvailable(),
-                          rstudioapi::selectFile(),
-                          file.choose(new=TRUE))
+
+        inpfile <- open_file_dialog(c("AGEPRO input File",".inp"))
+        #Exit Function if user cancels out of file dialog
+        if(!test_file_exists(inpfile, access="r", extension="inp")){
+          return(invisible(NULL))
+        }
       }
 
-      #Verify that input file location is valid
+      ##Verify that input file location is valid
       assert_file_exists(inpfile, access="r", extension = "inp")
 
       tryCatch(
