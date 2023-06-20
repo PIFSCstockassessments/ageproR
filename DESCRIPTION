@@ -1,11 +1,13 @@
 Package: ageproj
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
+Title: Age Structured Projection Model (AGEPRO) data structure
+Version: 0.2.0
 Author: Eric Fletcher
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Object-oriented data structures based on the input file format 
+    defined by the Age Structured Projection Model Reference Manual. Includes 
+    support modules for AGEPRO input file support and interactivity with
+    AGEPRO calculation engine.
 Imports:
   jsonlite,
   here,
