@@ -115,11 +115,11 @@ agepro_model <- R6Class(
     },
 
     #' @description
-    #' Wrapper function to call bootstrap's get_bootstrap_filename
+    #' Wrapper function to call bootstrap's set_bootstrap_filename
     #'
-    get_bootstrap_filename = function() {
+    set_bootstrap_filename = function() {
 
-      self$bootstrap$get_bootstrap_filename()
+      self$bootstrap$set_bootstrap_filename()
     }
 
   )

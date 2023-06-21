@@ -78,7 +78,7 @@ bootstrap <- R6Class(
     #' @description
     #' Uses file dialog interface to retrieve Bootstrap file name
     #'
-    get_bootstrap_filename = function() {
+    set_bootstrap_filename = function() {
 
       bootstrap_path <-
             open_file_dialog(c("AGEPRO Bootstrap File",".bsn"))
