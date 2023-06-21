@@ -3,6 +3,9 @@
 #'
 #' Input title identifying model attributes
 #'
+#' @template inp_con
+#' @template nline
+#'
 #' @export
 #' @importFrom R6 R6Class
 case_id <- R6Class(
@@ -18,14 +21,13 @@ case_id <- R6Class(
     },
 
 
-    #' @description Read AGEPRO Case ID from input data file
+    #' @description
+    #' Read AGEPRO Case ID from input data file
     #'
-    #' @param con input file connection
-    #' @param nline Line number
-    read_inp_lines = function(con, nline){
+    read_inp_lines = function(inp_con, nline){
 
       nline <- nline + 1
-      self$case_id <- readLines(con, n = 1, warn = FALSE)
+      self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
       message("Line ", nline, ": Case ID: ", self$case_id)
       return(nline)
     }

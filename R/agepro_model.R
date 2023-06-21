@@ -45,6 +45,9 @@ agepro_model <- R6Class(
     #' @field inp_pointer AGEPRO input file pointer
     inp_pointer = NULL,
 
+    #' @field bootstrap Bootstrapping
+    bootstrap = NULL,
+
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -93,6 +96,8 @@ agepro_model <- R6Class(
       self$recruit <- recruitment$new(
         rep(0,self$general$num_rec_models), self$general$seq_years)
 
+      self$bootstrap <- bootstrap$new()
+
     },
 
     #' @description
@@ -107,6 +112,14 @@ agepro_model <- R6Class(
       self$recruit$print()
 
 
+    },
+
+    #' @description
+    #' Wrapper function to call bootstrap's get_bootstrap_filename
+    #'
+    get_bootstrap_filename = function() {
+
+      self$bootstrap$get_bootstrap_filename()
     }
 
   )
@@ -152,8 +165,10 @@ agepro_inp_model <- R6Class(
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
       self$recruit$observation_years <- self$general$seq_years
       self$nline <- self$recruit$read_inp_lines(con, nline)
+    },
 
-
+    read_bootstrap = function(con, nline) {
+      self$nline <- self$bootstrap$read_inp_lines(con, nline)
     }
 
   ),
@@ -173,6 +188,7 @@ agepro_inp_model <- R6Class(
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
+      self$bootstrap <- suppressMessages(bootstrap$new())
 
 
 
@@ -182,9 +198,19 @@ agepro_inp_model <- R6Class(
     #' Read AGEPRO INP Input Files
     #'
     #' @param inpfile input file name
-    read_inp = function(inpfile=file.choose()){
+    read_inp = function(inpfile){
 
-      #Verify that input file location is valid
+
+      if(missing(inpfile)){
+
+        inpfile <- open_file_dialog(c("AGEPRO input File",".inp"))
+        #Exit Function if user cancels out of file dialog
+        if(!test_file_exists(inpfile, access="r", extension="inp")){
+          return(invisible(NULL))
+        }
+      }
+
+      ##Verify that input file location is valid
       assert_file_exists(inpfile, access="r", extension = "inp")
 
       tryCatch(
@@ -265,7 +291,8 @@ agepro_inp_model <- R6Class(
           {rlang::expr(private$read_general_params(inp_con, self$nline))},
         "[RECRUIT]" =
           {rlang::expr(private$read_recruit(inp_con, self$nline))},
-        "[BOOTSTRAP]" = {{ rlang::expr(self$not_implemented()) }}
+        "[BOOTSTRAP]" =
+          {rlang::expr(private$read_bootstrap(inp_con, self$nline)) }
       ))
 
       message("line ", self$nline, ": ", inp_line)
@@ -354,10 +381,11 @@ agepro_json_model <- R6Class(
         ver = private$str_ver
       )
 
-      #Get VERSION, GENERAL, and RECRUIT
+      #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
       agepro_json <- list("version" = version_json,
                           "general" = self$general$json_list_general,
-                          "recruit" = self$recruit$json_list_recruit)
+                          "recruit" = self$recruit$json_list_recruit,
+                          "bootstrap" = self$bootstrap$json_bootstrap)
 
 
       # TODO: use the write() function to write JSON files

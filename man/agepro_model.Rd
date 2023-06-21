@@ -21,6 +21,8 @@ determine age-structured population over a time period. Brodziak, 2022
 \item{\code{case_id}}{Case id}
 
 \item{\code{inp_pointer}}{AGEPRO input file pointer}
+
+\item{\code{bootstrap}}{Bootstrapping}
 }
 \if{html}{\out{</div>}}
 }
@@ -29,6 +31,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \itemize{
 \item \href{#method-agepro_model-new}{\code{agepro_model$new()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
+\item \href{#method-agepro_model-get_bootstrap_filename}{\code{agepro_model$get_bootstrap_filename()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -92,6 +95,16 @@ AGEPRO Recruitment Model Number}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-get_bootstrap_filename"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-get_bootstrap_filename}{}}}
+\subsection{Method \code{get_bootstrap_filename()}}{
+Wrapper function to call bootstrap's get_bootstrap_filename
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$get_bootstrap_filename()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_model-clone"></a>}}

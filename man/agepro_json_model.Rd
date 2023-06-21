@@ -25,6 +25,7 @@ json related
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="agepro_model" data-id="get_bootstrap_filename"><a href='../../ageproj/html/agepro_model.html#method-agepro_model-get_bootstrap_filename'><code>ageproj::agepro_model$get_bootstrap_filename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="agepro_model" data-id="initialize"><a href='../../ageproj/html/agepro_model.html#method-agepro_model-initialize'><code>ageproj::agepro_model$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproj/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproj::agepro_model$set_recruit_model()</code></a></span></li>
 </ul>

@@ -36,6 +36,7 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="agepro_model" data-id="get_bootstrap_filename"><a href='../../ageproj/html/agepro_model.html#method-agepro_model-get_bootstrap_filename'><code>ageproj::agepro_model$get_bootstrap_filename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproj/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproj::agepro_model$set_recruit_model()</code></a></span></li>
 </ul>
 </details>
@@ -56,7 +57,7 @@ Initializes the input file
 \subsection{Method \code{read_inp()}}{
 Read AGEPRO INP Input Files
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$read_inp(inpfile = file.choose())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$read_inp(inpfile)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

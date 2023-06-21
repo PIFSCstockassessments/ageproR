@@ -184,6 +184,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template num_observations
 #' @template elipses
 #' @template inp_con
+#' @template nline
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
@@ -283,7 +284,6 @@ empirical_recruit <- R6Class(
     #' @description
     #' Read inp lines
     #'
-    #' @param nline Line Number
     read_inp_lines = function(inp_con, nline) {
 
       # Read an additional line from the file connection and split the string
@@ -448,6 +448,7 @@ empirical_cdf_model <- R6Class(
 #' @template inp_con
 #' @template elipses
 #' @template two_stage_empirical_parameters
+#' @template nline
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -525,8 +526,6 @@ two_stage_empirical_recruit <- R6Class(
     #' @description
     #' Reads the two State Empirical model data from AGEPRO Input file
     #'
-    #' @param nline Line Number
-    #'
     read_inp_lines = function(inp_con, nline) {
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -546,7 +545,7 @@ two_stage_empirical_recruit <- R6Class(
       self$low_recruitment <- cbind(recruit=inp_low_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} Low Recruitment ...")
+      cli_alert("Line {nline} Low Recruitment ...")
       cat_line(capture.output(as_tibble(self$low_recruitment)))
 
 
@@ -557,7 +556,7 @@ two_stage_empirical_recruit <- R6Class(
       self$high_recruitment <- cbind(recruit=inp_high_recruits)
 
       nline <- nline + 1
-      cli_alert_info("Line {nline} High Recruitment ...")
+      cli_alert("Line {nline} High Recruitment ...")
       cat_line(capture.output(as_tibble(self$high_recruitment)))
 
       ## ssb_cutoff
@@ -754,6 +753,7 @@ two_stage_empirical_cdf <- R6Class(
 #' @template parametric_parameters
 #' @template elipses
 #' @template inp_con
+#' @template nline
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -876,8 +876,6 @@ parametric_curve <- R6Class(
     #' @description
     #' Reads Parametric Curve model data from AGEPRO Input file
     #'
-    #' @param nline Line Number
-    #'
     read_inp_lines = function (inp_con, nline){
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -948,6 +946,7 @@ ricker_curve_model <- R6Class(
 #' @template parametric_parameters
 #' @template elipses
 #' @template inp_con
+#' @template nline
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
@@ -1002,8 +1001,6 @@ shepherd_curve_model <- R6Class(
 
     #' @description
     #' Reads Parametric Curve model data from AGEPRO Input file
-    #'
-    #' @param nline Line Number
     #'
     read_inp_lines = function (inp_con, nline){
       # Read an additional line from the file connection and split the string
