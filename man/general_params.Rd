@@ -73,9 +73,9 @@ Starts an instances of the AGEPRO Model
   yr_end = 2,
   age_begin = 1,
   age_end = 6,
+  num_pop_sims = 1000,
   num_fleets = 1,
   num_rec_models = 1,
-  num_pop_sims = 1000,
   discards = FALSE,
   seed = 0
 )}\if{html}{\out{</div>}}
@@ -92,11 +92,11 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{age_end}}{age end}
 
+\item{\code{num_pop_sims}}{Number of population sims}
+
 \item{\code{num_fleets}}{Number of fleets}
 
-\item{\code{num_rec_models}}{Number of Recruit Modles}
-
-\item{\code{num_pop_sims}}{Number of population sims}
+\item{\code{num_rec_models}}{Number of Recruit Modeles}
 
 \item{\code{discards}}{discards}
 
