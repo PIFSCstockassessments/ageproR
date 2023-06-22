@@ -47,6 +47,9 @@ of the first and last age class.}
 projection}
 
 \item{\code{json_list_general}}{List of GENERAL keyword fields values, exportable to JSON.}
+
+\item{\code{inplines_general}}{Returns the values for the GENERAL keyword parameter formatted
+to the AGEPRO input file format.}
 }
 \if{html}{\out{</div>}}
 }

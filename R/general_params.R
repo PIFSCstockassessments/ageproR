@@ -181,6 +181,23 @@ general_params <- R6Class(
         discFlag = as.numeric(self$discards),
         seed = self$seed
       ))
+    },
+
+    #' @field inplines_general
+    #' Returns the values for the GENERAL keyword parameter formatted
+    #' to the AGEPRO input file format.
+    inplines_general = function() {
+      return(list(paste(
+        self$yr_start,
+        self$yr_end,
+        self$age_begin,
+        self$age_end,
+        self$num_pop_sims,
+        self$num_fleets,
+        self$num_rec_models,
+        as.numeric(self$discards),
+        self$seed
+      )))
     }
 
 
