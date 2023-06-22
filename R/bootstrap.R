@@ -2,9 +2,11 @@
 #' @title Input information for bootstrap numbers at age file
 #'
 #' @description
-#' -The Number of data values of each row must equal to the number of age classes.
-#' -The number of rows in a bootstrap file must be at least equal to the number of bootstrap
-#' iterations containing the population of the first year in the projection
+#' -The Number of data values of each row must equal to the number of age
+#' classes.
+#' -The number of rows in a bootstrap file must be at least equal to the number
+#' of bootstrap iterations containing the population of the first year in
+#' the projection
 #'
 #' @template inp_con
 #' @template nline
@@ -15,7 +17,7 @@
 #' @importFrom checkmate assert_numeric test_file_exists
 bootstrap <- R6Class(
   "bootstrap",
-  private = list (
+  private = list(
 
     .num_bootstraps = NULL,
     .pop_scale_factor = NULL,
@@ -29,11 +31,11 @@ bootstrap <- R6Class(
       private$.bootstrap_file <- value
 
       #Validate that 'value' points to a existing file.
-      if(test_file_exists(value, access= "r", extension = "bsn")){
+      if (test_file_exists(value, access = "r", extension = "bsn")) {
         #If validated, assign value
         cli_alert_success("Bootstrap file: {.val {value}}")
 
-      }else if(is.null(value)){
+      }else if (is.null(value)) {
         #Warn if file path is NULL,
         warning(paste0("NULL Bootstrap file path. \n",
                        "Please provide a vaild bootstrap filepath when saving ",
@@ -42,13 +44,13 @@ bootstrap <- R6Class(
       }else {
         #Else, warn bootstrap file name does not exist
         cli_div(
-          theme = list(span.val = list(color="orange",
-                                       "font-style"="italic")))
+          theme = list(span.val = list(color = "orange",
+                                       "font-style" = "italic")))
         cli_alert_warning(c("Bootstrap file path does not exist in system: ",
                             "{.val {value}}"))
         cli_end()
 
-        warning(paste0("'",value,"' does not exist. \n",
+        warning(paste0("'", value, "' does not exist. \n",
         "Please provide a vaild bootstrap filepath when saving to input ",
         "file for the AGEPRO calcuation engine.\n"), call. = FALSE)
       }
@@ -56,12 +58,12 @@ bootstrap <- R6Class(
     }
 
 
-  ), public = list (
+  ), public = list(
 
     #' @description
     #' Initializes the Bootstrap Class
     #'
-    initialize = function(){
+    initialize = function() {
 
       cli_keyword_heading("Bootstrap")
       cli_alert("Setting up Default Values")
@@ -81,9 +83,9 @@ bootstrap <- R6Class(
     set_bootstrap_filename = function() {
 
       bootstrap_path <-
-            open_file_dialog(c("AGEPRO Bootstrap File",".bsn"))
+            open_file_dialog(c("AGEPRO Bootstrap File", ".bsn"))
 
-      if(test_file_exists(bootstrap_path, access = "r", extension = "bsn" )){
+      if (test_file_exists(bootstrap_path, access = "r", extension = "bsn")) {
         self$bootstrap_file <- bootstrap_path
       }
 
@@ -92,7 +94,7 @@ bootstrap <- R6Class(
     #' @description
     #' Reads in BOOTSTRAP numbers and options from AGEPRO Input file
     #'
-    read_inp_lines = function(inp_con, nline){
+    read_inp_lines = function(inp_con, nline) {
       #Read an additional line from the file connection,
       #and split the line into 2 substrings, and ...
       inp_line <- read_inp_numeric_line(inp_con)
@@ -104,7 +106,8 @@ bootstrap <- R6Class(
       nline <- nline + 1
       cli_alert("Line {nline}: ")
       cli_text("Number of Bootstraps: {.val {self$num_bootstraps}}")
-      cli_text("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
+      cli_text(c("Population Scale Factor (BootFac): ",
+                 "{.val {self$pop_scale_factor}}"))
 
       #Read another line from the file connection, and
       #assign it as bootstrap filename
@@ -121,7 +124,8 @@ bootstrap <- R6Class(
     print = function(...) {
       cli_ul()
       cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
-      cli_li("Population Scale Factor (BootFac): {.val {self$pop_scale_factor}}")
+      cli_li(c("Population Scale Factor (BootFac): ",
+               "{.val {self$pop_scale_factor}}"))
       cli_alert_info("Bootstrap File:")
       ifelse(test_file_exists(self$bootstrap_file),
              cli_li("{.val {self$bootstrap_file}}"),
@@ -133,14 +137,14 @@ bootstrap <- R6Class(
 
 
 
-  ), active = list (
+  ), active = list(
 
     #' @field num_bootstraps
     #' Number of bootstraps replicates of initial popualion size
     num_bootstraps = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         private$.num_bootstraps
-      }else{
+      }else {
         assert_numeric(value, lower = 0)
         private$.num_bootstraps <- value
       }
@@ -151,9 +155,9 @@ bootstrap <- R6Class(
     #' factor to convert the relative bootstrap population numbers at age to
     #' absolute numbers at age.
     pop_scale_factor = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         private$.pop_scale_factor
-      }else{
+      }else {
         assert_numeric(value, lower = 0)
         private$.pop_scale_factor <- value
       }
@@ -162,9 +166,9 @@ bootstrap <- R6Class(
     #' @field bootstrap_file
     #' Bootstrap file path.
     bootstrap_file = function(value) {
-      if(missing(value)){
+      if (missing(value)) {
         private$.bootstrap_file
-      }else{
+      }else {
         #Validate that 'value' points to a existing bootstrap file.
         private$validate_bootstrap_file(value)
       }
@@ -186,7 +190,7 @@ bootstrap <- R6Class(
     #' Returns BOOTSTRAP values AGEPRO input file format (*,inp)
     inp_bootstrap = function() {
       #Warn if bootstrap file does not exists on system
-      if(!test_file_exists(self$bootstrap_file)){
+      if (!test_file_exists(self$bootstrap_file)) {
         warning("Bootstrap filename does not exist on system.", call. = FALSE)
       }
       return(list(

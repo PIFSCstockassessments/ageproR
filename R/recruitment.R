@@ -1,6 +1,4 @@
 
-
-
 #' @title AGEPRO Recruitment Parameter
 #'
 #' @description
@@ -24,7 +22,7 @@
 #' @importFrom collections dict
 #' @importFrom rlang expr eval_tidy
 #'
-recruitment <- R6Class(
+recruitment <- R6Class( # nolint: cyclocomp_linter
   "recruitment",
   private = list(
     .number_projection_years = NULL,
@@ -58,7 +56,7 @@ recruitment <- R6Class(
     #Handle observed_years as single int or a vector of sequential values
     assert_observed_years = function(obs_years) {
 
-      if(test_int(obs_years)) {
+      if (test_int(obs_years)) {
         #single
         private$.number_projection_years <- obs_years
         private$.sequence_projection_years <- 1:obs_years
@@ -159,7 +157,7 @@ recruitment <- R6Class(
       self$ssb_scaling_factor <- 0
 
 
-      if(!missing(max_rec_obs)) {
+      if (!missing(max_rec_obs)) {
         private$.max_rec_obs <- max_rec_obs
       }
 
@@ -231,7 +229,7 @@ recruitment <- R6Class(
     #' @param value Recruitment Probability
     #' @param verbose Flag to allow based cli messages printed on
     #' console. Default is TRUE
-    set_recruit_probability = function(j, year, value, verbose = TRUE ) {
+    set_recruit_probability = function(j, year, value, verbose = TRUE) {
 
       assert_int(j, lower = 1, upper = self$num_recruit_models)
       assert_numeric(year,
@@ -257,7 +255,7 @@ recruitment <- R6Class(
     #'
     #' @param cat_verbose Flag to allow `cat` based cli messages printed on
     #' console. Default is TRUE
-    print = function(cat_verbose = TRUE , ...) {
+    print = function(cat_verbose = TRUE, ...) {
 
       #verify private fields are numeric
       assert_numeric(private$.number_recruit_models)
@@ -277,7 +275,7 @@ recruitment <- R6Class(
              #Allow Recruitment Probability 'cat' cli message
              private$cli_recruit_probability(),
              #Suppress Recruitment Probability 'cat' cli message
-             capture.output( x <- private$cli_recruit_probability())
+             capture.output(x <- private$cli_recruit_probability())
              )
 
       for (recruit in 1:private$.number_recruit_models){
@@ -361,7 +359,7 @@ recruitment <- R6Class(
       cli_alert_info("{.emph Reading Recruitment Probabaility}")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
-      for(year in self$observation_years){
+      for (year in self$observation_years){
 
         # Read an additional line from the file connection ...
         inp_line <- read_inp_numeric_line(inp_con)
@@ -371,12 +369,12 @@ recruitment <- R6Class(
                     "{.val {inp_line}}"))
 
         # Verify recruit probability value ...
-        assert_numeric(inp_line, lower = 0 , upper = 1)
+        assert_numeric(inp_line, lower = 0, upper = 1)
 
         #TODO: Refactor loop
         # And then append line to the recruitment probability (list) ...
-        for(j in seq_along(inp_line)) {
-          self$set_recruit_probability(j,year,inp_line[[j]], verbose = FALSE)
+        for (j in seq_along(inp_line)) {
+          self$set_recruit_probability(j, year, inp_line[[j]], verbose = FALSE)
         }
 
       }
@@ -385,7 +383,7 @@ recruitment <- R6Class(
       private$cli_recruit_probability()
 
       # For each recruit model in recruit_model_collection
-      for(recruit in private$.number_recruit_models){
+      for (recruit in private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
         self$model_collection_list[[recruit]] <-

@@ -4,9 +4,11 @@
 \alias{bootstrap}
 \title{Input information for bootstrap numbers at age file}
 \description{
--The Number of data values of each row must equal to the number of age classes.
--The number of rows in a bootstrap file must be at least equal to the number of bootstrap
-iterations containing the population of the first year in the projection
+-The Number of data values of each row must equal to the number of age
+classes.
+-The number of rows in a bootstrap file must be at least equal to the number
+of bootstrap iterations containing the population of the first year in
+the projection
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

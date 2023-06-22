@@ -112,7 +112,7 @@ general_params <- R6Class(
 
     #' @description
     #' Reads General AGEPRO parameters from AGEPRO INP Input File
-    read_inp_lines = function (inp_con, nline){
+    read_inp_lines = function(inp_con, nline) {
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <-

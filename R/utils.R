@@ -14,9 +14,9 @@
 #'
 assert_numeric_substrings <- function(inp_line) {
 
-  if(!all(grepl("^[[:digit:]]",inp_line))) {
+  if (!all(grepl("^[[:digit:]]", inp_line))) {
 
-    non_numerics <- inp_line[!grepl("^[[:digit:]]",inp_line)]
+    non_numerics <- inp_line[!grepl("^[[:digit:]]", inp_line)]
     stop("Line contains a Non Numeric Substring",
          paste(non_numerics, collapse = ", "))
   }
@@ -38,7 +38,7 @@ assert_numeric_substrings <- function(inp_line) {
 #'
 read_inp_numeric_line <- function(inp_con) {
 
-  if(!isOpen(inp_con)){
+  if (!isOpen(inp_con)) {
     stop("No open file Connection to AGEPRO input file")
   }
 
@@ -67,7 +67,3 @@ cli_keyword_heading <- function(keyword, heading_color = "cyan") {
   cli_rule(keyword)
   cli_end(d)
 }
-
-
-
-

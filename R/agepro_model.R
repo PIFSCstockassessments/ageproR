@@ -94,7 +94,7 @@ agepro_model <- R6Class(
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
-        rep(0,self$general$num_rec_models), self$general$seq_years)
+        rep(0, self$general$num_rec_models), self$general$seq_years)
 
       self$bootstrap <- bootstrap$new()
 
@@ -142,7 +142,7 @@ agepro_model <- R6Class(
 agepro_inp_model <- R6Class(
   "agepro_inp_model",
   inherit = agepro_model,
-  private =list(
+  private = list(
 
     .pre_v4 = FALSE,
     .supported_inp_versions = "AGEPRO VERSION 4.0",
@@ -150,7 +150,7 @@ agepro_inp_model <- R6Class(
     .nline = NULL,
 
     read_case_id = function(con, nline) {
-      message("Read Case ID at line ",nline," ...")
+      message("Read Case ID at line ", nline, " ...")
       self$nline <- self$case_id$read_inp_lines(con, nline)
     },
 
@@ -198,20 +198,20 @@ agepro_inp_model <- R6Class(
     #' Read AGEPRO INP Input Files
     #'
     #' @param inpfile input file name
-    read_inp = function(inpfile){
+    read_inp = function(inpfile) {
 
 
-      if(missing(inpfile)){
+      if (missing(inpfile)) {
 
-        inpfile <- open_file_dialog(c("AGEPRO input File",".inp"))
+        inpfile <- open_file_dialog(c("AGEPRO input File", ".inp"))
         #Exit Function if user cancels out of file dialog
-        if(!test_file_exists(inpfile, access="r", extension="inp")){
+        if (!test_file_exists(inpfile, access = "r", extension = "inp")) {
           return(invisible(NULL))
         }
       }
 
       ##Verify that input file location is valid
-      assert_file_exists(inpfile, access="r", extension = "inp")
+      assert_file_exists(inpfile, access = "r", extension = "inp")
 
       tryCatch(
         {
@@ -233,7 +233,7 @@ agepro_inp_model <- R6Class(
         },
         error = function(cond) {
           message("There was an error reading this file.")
-          message("Error ",cond)
+          message("Error ", cond)
           close(inp_con)
           invisible()
         },
@@ -257,13 +257,13 @@ agepro_inp_model <- R6Class(
       #check_inputfile_version: assume line 1 is version string
       self$nline <- 1
 
-      message("line ", self$nline ,":")
-      self$check_inpfile_version( readLines(inp_con, n = 1, warn = FALSE) )
+      message("line ", self$nline, ":")
+      self$check_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
-      while(TRUE) {
+      while (TRUE) {
         inp_line <- readLines(inp_con, n = 1, warn = FALSE)
-        if(length(inp_line) == 0 ) {
+        if (length(inp_line) == 0) {
           break
         }
 
@@ -277,7 +277,7 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Match Keyword
     #'
-    match_keyword = function(inp_line, inp_con ) {
+    match_keyword = function(inp_line, inp_con) {
 
       #' TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
       #' MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
@@ -285,23 +285,28 @@ agepro_inp_model <- R6Class(
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
-        "[CASEID]" =
-          {rlang::expr(private$read_case_id(inp_con, self$nline) ) },
-        "[GENERAL]" =
-          {rlang::expr(private$read_general_params(inp_con, self$nline))},
-        "[RECRUIT]" =
-          {rlang::expr(private$read_recruit(inp_con, self$nline))},
-        "[BOOTSTRAP]" =
-          {rlang::expr(private$read_bootstrap(inp_con, self$nline)) }
+        "[CASEID]" = {
+            rlang::expr(private$read_case_id(inp_con, self$nline))
+          },
+        "[GENERAL]" = {
+            rlang::expr(private$read_general_params(inp_con, self$nline))
+          },
+        "[RECRUIT]" = {
+            rlang::expr(private$read_recruit(inp_con, self$nline))
+          },
+        "[BOOTSTRAP]" = {
+            rlang::expr(private$read_bootstrap(inp_con, self$nline))
+          }
       ))
 
       message("line ", self$nline, ": ", inp_line)
 
 
-      if(rlang::eval_tidy(!keyword_dict$has(inp_line))){
-        message("Input line ",self$nline, " does not match AGEPRO keyword parameter")
+      if (rlang::eval_tidy(!keyword_dict$has(inp_line))) {
+        message(c("Input line ", self$nline,
+                  " does not match AGEPRO keyword parameter"))
         invisible() #next
-      }else{
+      }else {
         #If there is a match w/ keyword_dict then use the keyword's own
         #readLine function
         data <- list(inp_con = inp_con)
@@ -346,9 +351,9 @@ agepro_inp_model <- R6Class(
 
     #' @field nline nlines
     nline = function(val) {
-      if(missing(val)){
+      if (missing(val)) {
         return(private$.nline)
-      }else{
+      }else {
         private$.nline <- val
       }
     }
@@ -370,7 +375,7 @@ agepro_inp_model <- R6Class(
 agepro_json_model <- R6Class(
   "agepro_json_model",
   inherit = agepro_model,
-  public = list (
+  public = list(
 
     #' @description
     #' Get json

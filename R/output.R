@@ -20,15 +20,27 @@
 #'
 output_fn <- function() {
 
-  has_rproj <- tryCatch( { find_root( criterion = is_rstudio_project)
-    }, error = function(cond) { return(FALSE) } )
-  has_git_root <- tryCatch( { find_root( criterion = is_git_root )
-    }, error = function(cond) { return(FALSE) } )
-  has_rpkg <- tryCatch( { find_root( criterion = is_r_package )
-    }, error = function(cond) { return(FALSE) } )
+  has_rproj <- tryCatch({
+      find_root(criterion = is_rstudio_project)
+    }, error = function(cond) {
+      return(FALSE)
+    }
+  )
+  has_git_root <- tryCatch({
+    find_root(criterion = is_git_root)
+    }, error = function(cond) {
+      return(FALSE)
+    }
+  )
+  has_rpkg <- tryCatch({
+    find_root(criterion = is_r_package)
+    }, error = function(cond) {
+      return(FALSE)
+    }
+  )
 
 
-  if( any(c(has_rproj, has_git_root, has_rpkg) %in% find_root(from_wd)) ) {
+  if (any(c(has_rproj, has_git_root, has_rpkg) %in% find_root(from_wd))) {
 
 
 
@@ -57,14 +69,12 @@ output_fn <- function() {
 #' @importFrom usethis use_build_ignore use_git_ignore
 #' @importFrom rprojroot find_root from_wd
 #'
-output_subdir <- function(ignore_outdir=TRUE) {
+output_subdir <- function(ignore_outdir = TRUE) {
   #create an output subdirectory
-  dir.create(file.path(here(),"output"))
+  dir.create(file.path(here(), "output"))
 
   #Add the output subdirectory to .gitignore and .Rbuildingnore
 
   #
 
 }
-
-

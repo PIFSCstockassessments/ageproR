@@ -215,7 +215,7 @@ empirical_recruit <- R6Class(
       super$model_group <- 1
 
       #Set the number of observations used of the model projection
-      if(!missing(num_observations)) {
+      if (!missing(num_observations)) {
         self$observed_points <- num_observations
       }
 
@@ -262,7 +262,6 @@ empirical_recruit <- R6Class(
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
       cli_alert_info("Observations:")
-      #cat_print(as_tibble(self$observations))
       cat_line(paste0("  ",
                       capture.output(as_tibble(self$observations))))
       cli_end()
@@ -308,7 +307,7 @@ empirical_recruit <- R6Class(
       cli_alert("Line {nline} Observations ...")
 
 
-      if(self$with_ssb) {
+      if (self$with_ssb) {
 
         # Read an additional line from the file connection and split the string
         # into substrings by whitespace and assign as observation table
@@ -317,11 +316,11 @@ empirical_recruit <- R6Class(
         nline <- nline + 1
         cli_alert("Line {nline} ...")
 
-        self$observations <- cbind(recruit=inp_recruit,
-                                       ssb=inp_ssb)
+        self$observations <- cbind(recruit = inp_recruit,
+                                       ssb = inp_ssb)
 
       } else {
-        self$observations <- cbind(recruit=inp_recruit)
+        self$observations <- cbind(recruit = inp_recruit)
       }
 
       print(as_tibble(self$observations), n = self$observed_points)
@@ -374,7 +373,7 @@ empirical_recruit <- R6Class(
     #' @field observations
     #' Recruitment Inupt Array (data)
     observations = function(value) {
-      if(missing(value)) {
+      if (missing(value)) {
         private$.observations
       }else {
         assert_matrix(value, min.cols = 1, max.cols = 2)
@@ -425,7 +424,7 @@ empirical_cdf_model <- R6Class(
     initialize = function(num_observations = 1) {
 
       #Set the number of observations used of the model projection
-      if(!missing(num_observations)) {
+      if (!missing(num_observations)) {
         self$observed_points <- num_observations
       }
 
@@ -464,7 +463,7 @@ two_stage_empirical_recruit <- R6Class(
     .high_recruitment = NULL,
     .with_ssb = FALSE
 
-  ), public = list (
+  ), public = list(
 
     #' @description
     #' Initialize the Empirical CDF Model
@@ -542,7 +541,7 @@ two_stage_empirical_recruit <- R6Class(
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_low_recruits <- read_inp_numeric_line(inp_con)
-      self$low_recruitment <- cbind(recruit=inp_low_recruits)
+      self$low_recruitment <- cbind(recruit = inp_low_recruits)
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
@@ -553,7 +552,7 @@ two_stage_empirical_recruit <- R6Class(
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation table
       inp_high_recruits <- read_inp_numeric_line(inp_con)
-      self$high_recruitment <- cbind(recruit=inp_high_recruits)
+      self$high_recruitment <- cbind(recruit = inp_high_recruits)
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
@@ -602,10 +601,10 @@ two_stage_empirical_recruit <- R6Class(
 
     #' @field num_low_recruits
     #' Number of Low State Recruitments
-    num_low_recruits = function(value){
-      if(missing(value)){
+    num_low_recruits = function(value) {
+      if (missing(value)) {
         private$.num_low_recruits
-      }else{
+      }else {
         assert_numeric(value, lower = 1, len = 1)
         private$.num_low_recruits <- value
       }
@@ -613,8 +612,8 @@ two_stage_empirical_recruit <- R6Class(
 
     #' @field num_high_recruits
     #' Number of high State Recruitments
-    num_high_recruits = function(value){
-      if(missing(value)){
+    num_high_recruits = function(value) {
+      if (missing(value)) {
         private$.num_high_recruits
       }else {
         assert_numeric(value, lower = 1, len = 1)
@@ -624,20 +623,20 @@ two_stage_empirical_recruit <- R6Class(
 
     #' @field ssb_cutoff
     #' Cutoff level of spawning Biomass
-    ssb_cutoff = function(value){
-      if(missing(value)){
+    ssb_cutoff = function(value) {
+      if (missing(value)) {
         private$.ssb_cutoff
       }else {
         #Validate input holds single value
-        assert_numeric(value, len = 1 )
+        assert_numeric(value, len = 1)
         private$.ssb_cutoff <- value
       }
     },
 
     #' @field low_recruitment
     #' Vector of Low State Recruitments per Spawning Biomass
-    low_recruitment = function(value){
-      if(missing(value)){
+    low_recruitment = function(value) {
+      if (missing(value)) {
         private$.low_recruitment
       }else {
         assert_numeric(value)
@@ -647,8 +646,8 @@ two_stage_empirical_recruit <- R6Class(
 
     #' @field high_recruitment
     #' Vector of High State Recruitments per Spawning Biomass
-    high_recruitment = function(value){
-      if(missing(value)){
+    high_recruitment = function(value) {
+      if (missing(value)) {
         private$.high_recruitment
       }else {
         assert_numeric(value)
@@ -680,7 +679,7 @@ two_stage_empirical_recruit <- R6Class(
 two_stage_empirical_ssb <- R6Class(
   "two_stage_empirical_ssb",
   inherit = two_stage_empirical_recruit,
-  public = list (
+  public = list(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
@@ -707,10 +706,10 @@ two_stage_empirical_ssb <- R6Class(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
         #Use subset to get JSON list in a list object structure
-        lowRecruits = subset(self$low_recruitment, select="recruit"),
-        lowSSB = subset(self$low_recruitment, select="ssb"),
-        highRecruits = subset(self$high_recruitment, select="recruit"),
-        highSSB = subset(self$high_recruitment, select="ssb"),
+        lowRecruits = subset(self$low_recruitment, select = "recruit"),
+        lowSSB = subset(self$low_recruitment, select = "ssb"),
+        highRecruits = subset(self$high_recruitment, select = "recruit"),
+        highSSB = subset(self$high_recruitment, select = "ssb"),
         ssbCutoff = self$ssb_cutoff
       ))
     }
@@ -725,7 +724,7 @@ two_stage_empirical_ssb <- R6Class(
 two_stage_empirical_cdf <- R6Class(
   "two_stage_empirical_cdf",
   inherit = two_stage_empirical_recruit,
-  public = list (
+  public = list(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
@@ -876,7 +875,7 @@ parametric_curve <- R6Class(
     #' @description
     #' Reads Parametric Curve model data from AGEPRO Input file
     #'
-    read_inp_lines = function (inp_con, nline){
+    read_inp_lines = function(inp_con, nline) {
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <- read_inp_numeric_line(inp_con)
@@ -1002,7 +1001,7 @@ shepherd_curve_model <- R6Class(
     #' @description
     #' Reads Parametric Curve model data from AGEPRO Input file
     #'
-    read_inp_lines = function (inp_con, nline){
+    read_inp_lines = function(inp_con, nline) {
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <- read_inp_numeric_line(inp_con)

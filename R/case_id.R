@@ -13,10 +13,10 @@ case_id <- R6Class(
   private = list(
     .case_id = NULL
   ),
-  public = list (
+  public = list(
 
     #' @description Initalize
-    initalize = function(){
+    initalize = function() {
       self$case_id <- private$.case_id
     },
 
@@ -24,7 +24,7 @@ case_id <- R6Class(
     #' @description
     #' Read AGEPRO Case ID from input data file
     #'
-    read_inp_lines = function(inp_con, nline){
+    read_inp_lines = function(inp_con, nline) {
 
       nline <- nline + 1
       self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
@@ -34,13 +34,13 @@ case_id <- R6Class(
     #TODO: CASE ID print function
 
   ),
-  active = list (
+  active = list(
 
     #' @field case_id case id
     case_id = function(val) {
-      if(missing(val)){
+      if (missing(val)) {
         return(private$.case_id)
-      }else{
+      }else {
         private$.case_id <- val
       }
     }
