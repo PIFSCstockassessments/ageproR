@@ -187,17 +187,18 @@ general_params <- R6Class(
     #' Returns the values for the GENERAL keyword parameter formatted
     #' to the AGEPRO input file format.
     inplines_general = function() {
-      return(list(paste(
-        self$yr_start,
-        self$yr_end,
-        self$age_begin,
-        self$age_end,
-        self$num_pop_sims,
-        self$num_fleets,
-        self$num_rec_models,
-        as.numeric(self$discards),
-        self$seed
-      )))
+      return(list(
+        "[GENERAL]",
+        paste(self$yr_start,
+              self$yr_end,
+              self$age_begin,
+              self$age_end,
+              self$num_pop_sims,
+              self$num_fleets,
+              self$num_rec_models,
+              as.numeric(self$discards),
+              self$seed)
+        ))
     }
 
 
