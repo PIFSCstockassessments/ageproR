@@ -37,6 +37,9 @@ absolute numbers of fish}
 spawning weight of fish in kilograms (kg)}
 
 \item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
+
+\item{\code{inplines_recruit}}{Returns the values for the RECRUIT keyword parameter formatted
+to the AGEPRO input file format.}
 }
 \if{html}{\out{</div>}}
 }

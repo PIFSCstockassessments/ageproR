@@ -477,8 +477,27 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))
 
-    }
+    },
 
+    #' @field inplines_recruit
+    #' Returns the values for the RECRUIT keyword parameter formatted
+    #' to the AGEPRO input file format.
+    inplines_recruit = function() {
+      return(list(
+        "[RECRUIT]",
+        paste(
+          self$recruit_scaling_factor,
+          self$ssb_scaling_factor,
+          self$max_recruit_obs
+        ),
+        paste(self$recruit_model_num_list, collapse = " "),
+        # Recruit Probability string will store newline character delimiters
+        # until it is written to file.
+        paste(self$recruit_probability, collapse = "\n")
+        #recruit data
+
+      ))
+    }
 
   )
 
