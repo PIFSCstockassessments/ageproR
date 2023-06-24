@@ -494,7 +494,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         # Recruit Probability string will store newline character delimiters
         # until it is written to file.
         paste(self$recruit_probability, collapse = "\n")
-        #recruit data
+        # TODO: recruit data
 
       ))
     }

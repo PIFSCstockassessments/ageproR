@@ -385,6 +385,29 @@ empirical_recruit <- R6Class(
     #' Binds the super class with the empirical_recruit child classes
     super_ = function(value) {
       super
+    },
+
+    #' @field inplines_recruit_data
+    #' Exports RECRUIT submodel data for empirical recruitment types
+    #' to AGEPRO input file lines.
+    inplines_recruit_data = function() {
+
+      #Observation Matrix columns are labeled "recruit" and "ssb"
+      if(self$with_ssb){
+        return(list(
+         self$observed_points,
+         paste(self$observations[,"recruit"], collapse = " "),
+         paste(self$observations[,"ssb"], collabse = " ")
+        ))
+
+      }else{
+        return(list(
+          self$observed_points,
+          paste(self$observations[,"recruit"], collapse = " ")
+        ))
+      }
+
+
     }
 
   )
@@ -665,8 +688,19 @@ two_stage_empirical_recruit <- R6Class(
         highRecruits = self$high_recruitment,
         ssbCutoff = self$ssb_cutoff
       ))
-    }
+    },
 
+    #' @field inplines_recruit_data
+    #' Exports RECRUIT submodel data for two-stage empirical recruitment types
+    #' to AGEPRO input file lines.
+    inplines_recruit_data = function() {
+      return(list(
+        paste(self$num_low_recruits,self$num_high_recruits),
+        paste(self$low_recruitment, collapse = " "),
+        paste(self$high_recruitment, collapse = " "),
+        self$ssb_cutoff
+      ))
+    }
   )
 
 )

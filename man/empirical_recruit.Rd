@@ -23,6 +23,9 @@ Recruitment Model Description
 \item{\code{observations}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
+
+\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for empirical recruitment types
+to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }

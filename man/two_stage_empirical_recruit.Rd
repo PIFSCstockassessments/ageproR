@@ -25,6 +25,9 @@ Two-Stage Empirical Recruitment Base
 \item{\code{high_recruitment}}{Vector of High State Recruitments per Spawning Biomass}
 
 \item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+
+\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for two-stage empirical recruitment types
+to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }
