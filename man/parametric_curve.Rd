@@ -26,6 +26,9 @@ current value if no argument was passed.}
 \item{\code{model_group}}{Model group Number}
 
 \item{\code{super_}}{Binds the super class to parametric_curve child classes}
+
+\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for parametric curve recruitment
+to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }

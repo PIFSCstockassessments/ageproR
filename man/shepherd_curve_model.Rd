@@ -19,6 +19,9 @@ Sets the Parametric Curve Parameter, k. Returns the
 current value if no argument was passed}
 
 \item{\code{recruit_data}}{Returns JSON-ready Recruit Model Data}
+
+\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for shepherd curve recruitment
+to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }

@@ -12,8 +12,6 @@ Recruitment Model Description
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data as AGEPRO input file lines.}
-
 \item{\code{with_ssb}}{with ssb}
 
 \item{\code{low_bound}}{Lowest significant number bound}
@@ -25,6 +23,9 @@ Recruitment Model Description
 \item{\code{observations}}{Recruitment Inupt Array (data)}
 
 \item{\code{super_}}{Binds the super class with the empirical_recruit child classes}
+
+\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for empirical recruitment types
+to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }
