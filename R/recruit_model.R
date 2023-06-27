@@ -931,6 +931,8 @@ parametric_curve <- R6Class(
       self$beta <- inp_line[2]
       self$variance <- inp_line[3]
 
+      self$print()
+
       return(nline)
     }
 

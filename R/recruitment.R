@@ -382,8 +382,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Print out Recruitment Probability from Input data to console
       private$cli_recruit_probability()
 
+
       # For each recruit model in recruit_model_collection
-      for (recruit in private$.number_recruit_models){
+      for (recruit in 1:private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
         self$model_collection_list[[recruit]] <-
@@ -495,6 +496,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         # until it is written to file.
         paste(self$recruit_probability, collapse = "\n")
         # TODO: "append" recruit data
+
 
       ))
     }
