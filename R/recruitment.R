@@ -484,26 +484,30 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Returns the values for the RECRUIT keyword parameter formatted
     #' to the AGEPRO input file format.
     inplines_recruit = function() {
-      return(list(
+
+      #Set recruitment probability as a matrix and then separate matrix by
+      #(year) rows as assign rows as separate list objects representing
+      #AGEPRO input data file line. "unname" to remove data.frame labeling.
+      list_recruit_probability <-
+        unname(as.list(data.frame(t(sapply(self$recruit_probability, matrix)))))
+
+      list_recruit_data <-
+        as.list(unlist(rapply(self$model_collection_list,
+                              f = function(X){X[["inplines_recruit_data"]]},
+                              how = "list")))
+
+      return(append(list(
         "[RECRUIT]",
         paste(
           self$recruit_scaling_factor,
           self$ssb_scaling_factor,
           self$max_recruit_obs
         ),
-        paste(self$recruit_model_num_list, collapse = " "),
-        # Recruit Probability string will store newline character delimiters
-        # until it is written to file.
-        #paste(self$recruit_probability, collapse = "\n")
-        unlist(
-          lapply(self$model_collection_list,
-                 function(X){X[["inplines_recruit_data"]]}) ),
-        # append recruit data
-        as.list(unlist(rapply(self$model_collection_list,
-               f = function(X){X[["inplines_recruit_data"]]},
-               how = "list")))
-
-
+        paste(self$recruit_model_num_list, collapse = " ")),
+        # Append Recruit probability
+        append(list_recruit_probability,
+        # Append recruit data
+        list_recruit_data)
       ))
     }
 
