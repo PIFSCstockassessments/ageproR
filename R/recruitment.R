@@ -494,8 +494,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         paste(self$recruit_model_num_list, collapse = " "),
         # Recruit Probability string will store newline character delimiters
         # until it is written to file.
-        paste(self$recruit_probability, collapse = "\n")
-        # TODO: "append" recruit data
+        #paste(self$recruit_probability, collapse = "\n")
+        unlist(
+          lapply(self$model_collection_list,
+                 function(X){X[["inplines_recruit_data"]]}) ),
+        # append recruit data
+        as.list(unlist(rapply(self$model_collection_list,
+               f = function(X){X[["inplines_recruit_data"]]},
+               how = "list")))
 
 
       ))
