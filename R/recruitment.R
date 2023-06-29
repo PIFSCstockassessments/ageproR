@@ -485,10 +485,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' to the AGEPRO input file format.
     inplines_recruit = function() {
 
-      #Set recruitment probability as a matrix and then separate matrix by
-      #(year) rows as assign rows as separate list objects representing
-      #AGEPRO input data file line. "unname" to remove data.frame labeling.
-      #Collapse multi-recruit prob values as a single inpline list string.
+      # Set recruitment probability as a matrix and then separate matrix by
+      # (year) rows as assign rows as separate list objects representing
+      # AGEPRO input data file line. "unname" to remove data.frame labeling.
+      # Collapse multi-recruit prob values as a single inpline list string.
       list_recruit_probability <-
         lapply(
           unname(as.list(
@@ -497,6 +497,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           paste,
           collapse = " ")
 
+      # Unlist each recruitment model's "inplines_recruit_data", via rapply:
+      # returning a flat string vector of input data lines. Relist vector,
+      # via "as.list", to convert to list of input data line elements.
       list_recruit_data <-
         as.list(unlist(rapply(self$model_collection_list,
                               f = function(X){X[["inplines_recruit_data"]]},
