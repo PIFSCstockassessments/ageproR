@@ -496,7 +496,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                               f = function(X){X[["inplines_recruit_data"]]},
                               how = "list")))
 
-      return(append(list(
+      return(c(list(
         "[RECRUIT]",
         paste(
           self$recruit_scaling_factor,
@@ -505,9 +505,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         ),
         paste(self$recruit_model_num_list, collapse = " ")),
         # Append Recruit probability
-        append(list_recruit_probability,
+        list_recruit_probability,
         # Append recruit data
-        list_recruit_data)
+        list_recruit_data
       ))
     }
 
