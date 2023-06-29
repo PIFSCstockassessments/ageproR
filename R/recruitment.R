@@ -488,8 +488,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Set recruitment probability as a matrix and then separate matrix by
       #(year) rows as assign rows as separate list objects representing
       #AGEPRO input data file line. "unname" to remove data.frame labeling.
+      #Collapse multi-recruit prob values as a single inpline list string.
       list_recruit_probability <-
-        unname(as.list(data.frame(t(sapply(self$recruit_probability, matrix)))))
+        lapply(
+          unname(as.list(
+            data.frame(t(sapply(self$recruit_probability, matrix)))
+            )),
+          paste,
+          collapse = " ")
 
       list_recruit_data <-
         as.list(unlist(rapply(self$model_collection_list,
