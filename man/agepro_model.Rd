@@ -26,6 +26,16 @@ determine age-structured population over a time period. Brodziak, 2022
 }
 \if{html}{\out{</div>}}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{ver_legacy_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
+with Jon Brodiak's AGEPRO calculation engine.}
+
+\item{\code{ver_string}}{Semantic versioning based character string format.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

@@ -19,8 +19,8 @@ agepro_model <- R6Class(
   classname = "agepro_model",
   private = list(
 
-    str_legacy_ver = "AGEPRO VERSION 4.0",
-    str_ver = "4.0.0.0",
+    .ver_leagacy_string = "AGEPRO VERSION 4.0",
+    .ver_string = "4.0.0.0",
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -120,6 +120,33 @@ agepro_model <- R6Class(
     set_bootstrap_filename = function() {
 
       self$bootstrap$set_bootstrap_filename()
+    }
+
+  ), active = list(
+
+    #' @field ver_legacy_string
+    #' Version string on AGEPRO input files (*.inp) for version compatibility
+    #' with Jon Brodiak's AGEPRO calculation engine.
+    ver_legacy_string = function(value){
+      if(missing(value)){
+        return(private$.ver_legacy_string)
+      } else {
+        checkmate::assert_character(value,
+                                    pattern="AGEPRO VERSION")
+        private$.ver_legacy_string <- value
+      }
+    },
+
+    #' @field ver_string
+    #' Semantic versioning based character string format.
+    ver_string = function(value){
+      if(missing(value)){
+        return(private$.ver_string)
+      }else{
+        checkmate::assert_character(value,
+                                    pattern="^[[:digit:]]+")
+        private$.ver_string <- value
+      }
     }
 
   )
@@ -342,8 +369,32 @@ agepro_inp_model <- R6Class(
     #' @param keyword keyword
     not_implemented = function(keyword = "") {
       message(keyword, "Not Implemented")
-    }
+    },
 
+    #' @description
+    #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
+    #'
+    write_inp = function(file) {
+
+      if (missing(inpfile)) {
+
+        inpfile <- save_file_dialog(c("AGEPRO input File", ".inp"))
+        #Exit Function if user cancels out of file dialog
+        if (!test_file_exists(inpfile, access = "r", extension = "inp")) {
+          return(invisible(NULL))
+        }
+      }
+
+      tryCatch(
+        {
+          list_inplines <- c(
+
+          )
+        }
+
+      )
+
+    }
 
 
   ),
@@ -382,8 +433,8 @@ agepro_json_model <- R6Class(
     get_json = function() {
 
       version_json <- list(
-        legacyVer = private$str_legacy_ver,
-        ver = private$str_ver
+        legacyVer = private$.ver_leagacy_string,
+        ver = private$.ver_string
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
