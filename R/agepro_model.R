@@ -143,8 +143,8 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.ver_string)
       }else{
-        checkmate::assert_character(value,
-                                    pattern="^[[:digit:]]+")
+        #use as.numeric_version to validate
+        cli::cli_alert_info("Version: {as.numeric_version(value)}")
         private$.ver_string <- value
       }
     }
