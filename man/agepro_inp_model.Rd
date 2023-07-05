@@ -152,6 +152,13 @@ Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(file)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{input file path}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_inp_model-clone"></a>}}
