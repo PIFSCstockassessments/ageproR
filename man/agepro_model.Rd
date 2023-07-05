@@ -32,7 +32,7 @@ determine age-structured population over a time period. Brodziak, 2022
 \item{\code{ver_legacy_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
 with Jon Brodiak's AGEPRO calculation engine.}
 
-\item{\code{ver_string}}{Semantic versioning based character string format.}
+\item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
 }
 \if{html}{\out{</div>}}
 }

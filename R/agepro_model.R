@@ -19,8 +19,8 @@ agepro_model <- R6Class(
   classname = "agepro_model",
   private = list(
 
-    .ver_leagacy_string = "AGEPRO VERSION 4.0",
-    .ver_string = "4.0.0.0",
+    .ver_legacy_string = NULL,
+    .ver_numeric_string = NULL,
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -74,6 +74,9 @@ agepro_model <- R6Class(
 
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
+
+      private$.ver_leagacy_string = "AGEPRO VERSION 4.0"
+      private$.ver_numeric_string = "4.0.0.0"
 
       assert_number(age_begin, lower = 0, upper = 1)
       assert_number(num_fleets, lower = 1)
@@ -137,15 +140,15 @@ agepro_model <- R6Class(
       }
     },
 
-    #' @field ver_string
-    #' Semantic versioning based character string format.
-    ver_string = function(value){
+    #' @field ver_numeric_string
+    #' Numeric character string based by Semantic-like versioning format.
+    ver_numeric_string = function(value){
       if(missing(value)){
-        return(private$.ver_string)
+        return(private$.ver_numeric_string)
       }else{
         #use as.numeric_version to validate
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
-        private$.ver_string <- value
+        private$.ver_numeric_string <- value
       }
     }
 
@@ -434,7 +437,7 @@ agepro_json_model <- R6Class(
 
       version_json <- list(
         legacyVer = private$.ver_leagacy_string,
-        ver = private$.ver_string
+        ver = private$.ver_numeric_string
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
