@@ -92,6 +92,7 @@ save_file_dialog <- function(filetype) {
     tryCatch(
       {
         checkmate::assert_character(target, null.ok = FALSE)
+        target <- path.expand(target)
       },
       error = function(cond) {
         message(err_msg_dialog_cancelled)
@@ -122,7 +123,7 @@ save_file_dialog <- function(filetype) {
     #fallback on file.choose
     target <- file.choose()
   }
-  return(path.expand(target))
+  return(target)
 }
 
 #' Checks the validity of filetype key-value pair.
