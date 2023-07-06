@@ -386,8 +386,9 @@ agepro_inp_model <- R6Class(
       if (missing(inpfile)) {
 
         inpfile <- save_file_dialog(c("AGEPRO input File", ".inp"))
-        #Exit Function if user cancels out of file dialog
-        if (!test_file_exists(inpfile, access = "r", extension = "inp")) {
+        # Exit Function if user cancels out of file dialog
+        # User cancelled dialogs return NULL values
+        if (is.null(inpfile)) {
           return(invisible(NULL))
         }
       }
@@ -402,6 +403,10 @@ agepro_inp_model <- R6Class(
         }
 
       )
+
+      #TODO: Write list_inplines to inpfile
+
+      return(list_inplines)
 
     }
 
