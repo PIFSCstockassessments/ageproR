@@ -379,9 +379,9 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
     #'
-    #' @param file input file path
+    #' @param inpfile input file path
     #'
-    write_inp = function(file) {
+    write_inp = function(inpfile) {
 
       if (missing(inpfile)) {
 
@@ -394,6 +394,10 @@ agepro_inp_model <- R6Class(
 
       tryCatch(
         {
+          list_inplines <- c(
+            self$ver_legacy_string,
+            self$case_id$inplines_case_id
+          )
 
         }
 
