@@ -91,8 +91,7 @@ save_file_dialog <- function(filetype) {
     #Check if user cancels file dialog window
     tryCatch(
       {
-        assert_character(target, null.ok = FALSE)
-        path <- path.expand(path)
+        checkmate::assert_character(target, null.ok = FALSE)
       },
       error = function(cond) {
         message(err_msg_dialog_cancelled)
