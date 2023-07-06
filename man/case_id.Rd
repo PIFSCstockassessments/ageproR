@@ -15,6 +15,9 @@ Input title identifying model attributes
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{case_id}}{case id}
+
+\item{\code{inplines_case_id}}{Returns the values for the RECRUIT keyword parameter formatted
+to the AGEPRO input file format.description}
 }
 \if{html}{\out{</div>}}
 }

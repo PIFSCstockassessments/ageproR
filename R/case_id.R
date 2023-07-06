@@ -43,6 +43,15 @@ case_id <- R6Class(
       }else {
         private$.case_id <- val
       }
+    },
+    #' @field inplines_case_id
+    #' Returns the values for the RECRUIT keyword parameter formatted
+    #' to the AGEPRO input file format.description
+    inplines_case_id = function() {
+      return(list(
+        "[CASEID]",
+        self$case_id
+      ))
     }
   )
 )
