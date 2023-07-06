@@ -397,16 +397,21 @@ agepro_inp_model <- R6Class(
         {
           list_inplines <- c(
             self$ver_legacy_string,
-            self$case_id$inplines_case_id
+            self$case_id$inplines_case_id,
+            self$general$inplines_general,
+            self$recruit$inplines_recruit,
+            self$bootstrap$inplines_bootstrap
           )
 
         }
 
       )
 
-      #TODO: Write list_inplines to inpfile
-
-      return(list_inplines)
+      #Write list_inplines to inpfile
+      sink(inpfile)
+      cat(unlist(list_inplines), sep = "\n")
+      sink()
+      cli::cli_alert_info("Saved to {.file {inpfile}}")
 
     }
 
