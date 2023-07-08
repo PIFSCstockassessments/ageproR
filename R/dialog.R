@@ -134,9 +134,9 @@ save_file_dialog <- function(filetype) {
 #'
 #' @details
 #' The filetype key-value pair is defined as _fileTypeName_ _extension_. This
-#' is used to [specifying flie patterns]
-#' (https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11) for Tcl/TK
-#' file modules.
+#' is used to [specifying flie
+#' patterns](https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11) for
+#' Tcl/TK file modules.
 #'
 #'
 #' @param filetype filename extension.

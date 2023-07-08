@@ -15,8 +15,7 @@ as not passed in the parameter, it will return the default "{All files} {*}"
 string vector.
 }
 \details{
-The filetype key-value pair is defined as _fileTypeName_ _extension_. This
-is used to [specifying flie patterns]
-(https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11) for Tcl/TK
-file modules.
+The filetype key-value pair is defined as \emph{fileTypeName} \emph{extension}. This
+is used to \href{https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11}{specifying flie patterns} for
+Tcl/TK file modules.
 }

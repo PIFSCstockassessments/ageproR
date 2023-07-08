@@ -17,7 +17,7 @@ If the current working directory has an instance or instances of either a
 R project file, a git root subdirectory, or detected R package source files,
 then the output will be pointed to the output subdirectory. The output
 subdirectory will be created. In addition to this, it will add the output
-subdirectory to `.gitignore` and `.Rbuildignore` if the git root
+subdirectory to \code{.gitignore} and \code{.Rbuildignore} if the git root
 subdirectory and/or R package criteria was
 found.
 }

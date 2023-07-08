@@ -76,7 +76,7 @@ Array representing the Projection Time Horizon}
 
 \item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
 
-\item{\code{cat_verbose}}{Flag to print out `cat` based cli messages printed on console. Default
+\item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
 }
 \if{html}{\out{</div>}}
@@ -106,7 +106,7 @@ AGEPRO Recruitment Model Number}
 \subsection{Method \code{set_recruit_model()}}{
 Initializes Recruit Model Data.
 
-Recruitment class field `observation_years` is used for recruitment
+Recruitment class field \code{observation_years} is used for recruitment
 models that use the model projection year time horizon for setup.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
@@ -157,7 +157,7 @@ Prints out Recruitment
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cat_verbose}}{Flag to allow `cat` based cli messages printed on
+\item{\code{cat_verbose}}{Flag to allow \code{cat} based cli messages printed on
 console. Default is TRUE}
 
 \item{\code{...}}{further arguments passed to or from other methods}

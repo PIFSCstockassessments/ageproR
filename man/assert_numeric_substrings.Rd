@@ -13,7 +13,7 @@ assert_numeric_substrings(inp_line)
 Converts the input data line string vector as numeric.
 }
 \description{
-Validates the string vector via `grepl` if all values match the digit
+Validates the string vector via \code{grepl} if all values match the digit
 character class. Function will throw an exception if non digit characters
 were found.
 }
