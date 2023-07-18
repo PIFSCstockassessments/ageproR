@@ -400,7 +400,7 @@ agepro_inp_model <- R6Class(
             self$case_id$inplines_case_id(),
             self$general$inplines_general(),
             self$recruit$inplines_recruit,
-            self$bootstrap$inplines_bootstrap
+            self$bootstrap$inplines_bootstrap()
           )
 
         }
