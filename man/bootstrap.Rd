@@ -83,13 +83,13 @@ the AGEPRO input file is open.}
 \subsection{Method \code{inplines_bootstrap()}}{
 Returns BOOTSTRAP values AGEPRO input file format (*,inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{bootstrap$inplines_bootstrap(sep = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$inplines_bootstrap(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sep}}{Character string delimiter separating values of AGEPRO input file line.}
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

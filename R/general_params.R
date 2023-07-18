@@ -10,7 +10,7 @@
 #' @template inp_line
 #' @template inp_con
 #' @template nline
-#' @template sep
+#' @template delimiter
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -144,7 +144,7 @@ general_params <- R6Class(
     #' Returns the values for the GENERAL keyword parameter formatted
     #' to the AGEPRO input file format.
     #'
-    inplines_general = function(sep = "  ") {
+    inplines_general = function(delimiter = "  ") {
       return(list(
         "[GENERAL]",
         paste(self$yr_start,
@@ -156,7 +156,7 @@ general_params <- R6Class(
               self$num_rec_models,
               as.numeric(self$discards),
               self$seed,
-              sep = sep)
+              sep = delimiter)
       ))
     }
 

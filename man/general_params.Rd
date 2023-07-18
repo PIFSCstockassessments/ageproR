@@ -148,13 +148,13 @@ the AGEPRO input file is open.}
 Returns the values for the GENERAL keyword parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{general_params$inplines_general(sep = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{general_params$inplines_general(delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sep}}{Character string delimiter separating values of AGEPRO input file line.}
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
