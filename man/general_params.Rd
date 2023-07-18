@@ -154,7 +154,7 @@ to the AGEPRO input file format.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sep}}{Must be Character string delimiter seperating values of AGEPRO input file line.}
+\item{\code{sep}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

@@ -10,6 +10,7 @@
 #' @template inp_line
 #' @template inp_con
 #' @template nline
+#' @template sep
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -143,7 +144,6 @@ general_params <- R6Class(
     #' Returns the values for the GENERAL keyword parameter formatted
     #' to the AGEPRO input file format.
     #'
-    #' @param sep Must be `r sep()`
     #'
     inplines_general = function(sep = "  ") {
       return(list(
