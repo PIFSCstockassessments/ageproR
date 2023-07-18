@@ -149,13 +149,15 @@ Throws a Not Implemented exception message. Placeholder function.
 \subsection{Method \code{write_inp()}}{
 Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{inpfile}}{input file path}
+
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

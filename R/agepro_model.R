@@ -163,6 +163,7 @@ agepro_model <- R6Class(
 #'
 #' @template inp_line
 #' @template inp_con
+#' @template delimiter
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -381,7 +382,7 @@ agepro_inp_model <- R6Class(
     #'
     #' @param inpfile input file path
     #'
-    write_inp = function(inpfile) {
+    write_inp = function(inpfile, delimiter = " ") {
 
       if (missing(inpfile)) {
 
@@ -398,9 +399,9 @@ agepro_inp_model <- R6Class(
           list_inplines <- c(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
-            self$general$inplines_general(),
-            self$recruit$inplines_recruit(),
-            self$bootstrap$inplines_bootstrap()
+            self$general$inplines_general(delimiter),
+            self$recruit$inplines_recruit(delimiter),
+            self$bootstrap$inplines_bootstrap(delimiter)
           )
 
         }
