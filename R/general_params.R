@@ -144,7 +144,6 @@ general_params <- R6Class(
     #' Returns the values for the GENERAL keyword parameter formatted
     #' to the AGEPRO input file format.
     #'
-    #'
     inplines_general = function(sep = "  ") {
       return(list(
         "[GENERAL]",
