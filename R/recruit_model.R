@@ -185,6 +185,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template elipses
 #' @template inp_con
 #' @template nline
+#' @template delimiter
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
@@ -327,6 +328,30 @@ empirical_recruit <- R6Class(
 
 
       return(nline)
+    },
+
+
+    #' @description
+    #' Exports RECRUIT submodel data for empirical recruitment types
+    #' to AGEPRO input file lines.
+    inplines_recruit_data = function(delimiter = " ") {
+
+      #Observation Matrix columns are labeled "recruit" and "ssb"
+      if(self$with_ssb){
+        return(list(
+          self$observed_points,
+          paste(self$observations[,"recruit"], collapse = delimiter),
+          paste(self$observations[,"ssb"], collabse = delimiter)
+        ))
+
+      }else{
+        return(list(
+          self$observed_points,
+          paste(self$observations[,"recruit"], collapse = delimiter)
+        ))
+      }
+
+
     }
 
   ),
@@ -385,30 +410,9 @@ empirical_recruit <- R6Class(
     #' Binds the super class with the empirical_recruit child classes
     super_ = function(value) {
       super
-    },
-
-    #' @field inplines_recruit_data
-    #' Exports RECRUIT submodel data for empirical recruitment types
-    #' to AGEPRO input file lines.
-    inplines_recruit_data = function() {
-
-      #Observation Matrix columns are labeled "recruit" and "ssb"
-      if(self$with_ssb){
-        return(list(
-         self$observed_points,
-         paste(self$observations[,"recruit"], collapse = " "),
-         paste(self$observations[,"ssb"], collabse = " ")
-        ))
-
-      }else{
-        return(list(
-          self$observed_points,
-          paste(self$observations[,"recruit"], collapse = " ")
-        ))
-      }
-
-
     }
+
+
 
   )
   #TODO: Set MaxRecObs
@@ -471,6 +475,7 @@ empirical_cdf_model <- R6Class(
 #' @template elipses
 #' @template two_stage_empirical_parameters
 #' @template nline
+#' @template delimiter
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -595,6 +600,18 @@ two_stage_empirical_recruit <- R6Class(
     },
 
     #' @description
+    #' Exports RECRUIT submodel data for two-stage empirical recruitment types
+    #' to AGEPRO input file lines.
+    inplines_recruit_data = function(delimiter = " ") {
+      return(list(
+        paste(self$num_low_recruits,self$num_high_recruits),
+        paste(self$low_recruitment, collapse =  delimiter),
+        paste(self$high_recruitment, collapse = delimiter),
+        self$ssb_cutoff
+      ))
+    },
+
+    #' @description
     #' Prints out Recruitment Model
     print = function(...) {
 
@@ -688,19 +705,8 @@ two_stage_empirical_recruit <- R6Class(
         highRecruits = self$high_recruitment,
         ssbCutoff = self$ssb_cutoff
       ))
-    },
-
-    #' @field inplines_recruit_data
-    #' Exports RECRUIT submodel data for two-stage empirical recruitment types
-    #' to AGEPRO input file lines.
-    inplines_recruit_data = function() {
-      return(list(
-        paste(self$num_low_recruits,self$num_high_recruits),
-        paste(self$low_recruitment, collapse = " "),
-        paste(self$high_recruitment, collapse = " "),
-        self$ssb_cutoff
-      ))
     }
+
   )
 
 )
@@ -787,6 +793,7 @@ two_stage_empirical_cdf <- R6Class(
 #' @template elipses
 #' @template inp_con
 #' @template nline
+#' @template delimiter
 #'
 #' @importFrom checkmate assert_numeric
 #'
@@ -862,16 +869,7 @@ parametric_curve <- R6Class(
     #' Binds the super class to parametric_curve child classes
     super_ = function(value) {
       super
-    },
-
-    #' @field inplines_recruit_data
-    #' Exports RECRUIT submodel data for parametric curve recruitment
-    #' to AGEPRO input file lines.
-    inplines_recruit_data = function() {
-      return(list(paste(self$alpha, self$beta, self$variance)))
     }
-
-
 
   ),
   public = list(
@@ -899,6 +897,17 @@ parametric_curve <- R6Class(
 
 
 
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for parametric curve recruitment
+    #' to AGEPRO input file lines.
+    #'
+    inplines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        sep = delimiter)))
     },
 
     #' @description
@@ -991,6 +1000,7 @@ ricker_curve_model <- R6Class(
 #' @template elipses
 #' @template inp_con
 #' @template nline
+#' @template delimiter
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
@@ -1062,7 +1072,20 @@ shepherd_curve_model <- R6Class(
 
 
       return(nline)
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for shepherd curve recruitment
+    #' to AGEPRO input file lines.
+    inplines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$kpar,
+                        self$variance,
+                        sep = delimiter
+      )))
     }
+
 
 
 
@@ -1091,16 +1114,8 @@ shepherd_curve_model <- R6Class(
         k = self$kpar,
         variance = self$variance
       ))
-    },
-
-    #' @field inplines_recruit_data
-    #' Exports RECRUIT submodel data for shepherd curve recruitment
-    #' to AGEPRO input file lines.
-    inplines_recruit_data = function() {
-      return(list(paste(
-        self$alpha, self$beta, self$kpar, self$variance, collapse = " "
-      )))
     }
+
 
 
   )

@@ -26,10 +26,11 @@ Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-inplines_recruit_data'><code>ageproj::two_stage_empirical_recruit$inplines_recruit_data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="new_recruitment_matrix"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-new_recruitment_matrix'><code>ageproj::two_stage_empirical_recruit$new_recruitment_matrix()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="print"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-print'><code>ageproj::two_stage_empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-read_inp_lines'><code>ageproj::two_stage_empirical_recruit$read_inp_lines()</code></a></span></li>

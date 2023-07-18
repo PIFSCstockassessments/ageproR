@@ -37,9 +37,6 @@ absolute numbers of fish}
 spawning weight of fish in kilograms (kg)}
 
 \item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
-
-\item{\code{inplines_recruit}}{Returns the values for the RECRUIT keyword parameter formatted
-to the AGEPRO input file format.}
 }
 \if{html}{\out{</div>}}
 }
@@ -53,6 +50,7 @@ to the AGEPRO input file format.}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
+\item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -192,6 +190,24 @@ Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-inplines_recruit"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-inplines_recruit}{}}}
+\subsection{Method \code{inplines_recruit()}}{
+Returns the values for the RECRUIT keyword parameter formatted
+to the AGEPRO input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$inplines_recruit(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

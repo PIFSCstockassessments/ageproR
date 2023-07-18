@@ -19,9 +19,6 @@ Sets the Parametric Curve Parameter, k. Returns the
 current value if no argument was passed}
 
 \item{\code{recruit_data}}{Returns JSON-ready Recruit Model Data}
-
-\item{\code{inplines_recruit_data}}{Exports RECRUIT submodel data for shepherd curve recruitment
-to AGEPRO input file lines.}
 }
 \if{html}{\out{</div>}}
 }
@@ -31,6 +28,7 @@ to AGEPRO input file lines.}
 \item \href{#method-shepherd_curve_model-new}{\code{shepherd_curve_model$new()}}
 \item \href{#method-shepherd_curve_model-print}{\code{shepherd_curve_model$print()}}
 \item \href{#method-shepherd_curve_model-read_inp_lines}{\code{shepherd_curve_model$read_inp_lines()}}
+\item \href{#method-shepherd_curve_model-inplines_recruit_data}{\code{shepherd_curve_model$inplines_recruit_data()}}
 \item \href{#method-shepherd_curve_model-clone}{\code{shepherd_curve_model$clone()}}
 }
 }
@@ -94,6 +92,24 @@ Reads Parametric Curve model data from AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-shepherd_curve_model-inplines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-shepherd_curve_model-inplines_recruit_data}{}}}
+\subsection{Method \code{inplines_recruit_data()}}{
+Exports RECRUIT submodel data for shepherd curve recruitment
+to AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{shepherd_curve_model$inplines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

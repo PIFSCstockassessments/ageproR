@@ -399,7 +399,7 @@ agepro_inp_model <- R6Class(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
             self$general$inplines_general(),
-            self$recruit$inplines_recruit,
+            self$recruit$inplines_recruit(),
             self$bootstrap$inplines_bootstrap()
           )
 
