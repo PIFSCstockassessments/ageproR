@@ -30,7 +30,20 @@ case_id <- R6Class(
       self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
       message("Line ", nline, ": Case ID: ", self$case_id)
       return(nline)
+    },
+
+
+    #' @description
+    #' Returns the values for the CASEID keyword parameter formatted
+    #' to the AGEPRO input file format.description
+    #'
+    inplines_case_id = function() {
+      return(list(
+        "[CASEID]",
+        self$case_id
+      ))
     }
+
     #TODO: CASE ID print function
 
   ),

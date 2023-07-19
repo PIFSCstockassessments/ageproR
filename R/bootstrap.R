@@ -11,6 +11,7 @@
 #' @template inp_con
 #' @template nline
 #' @template elipses
+#' @template delimiter
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -119,6 +120,21 @@ bootstrap <- R6Class(
     },
 
     #' @description
+    #' Returns BOOTSTRAP values AGEPRO input file format (*,inp)
+    #'
+    inplines_bootstrap = function(delimiter = " ") {
+      #Warn if bootstrap file does not exists on system
+      if (!test_file_exists(self$bootstrap_file)) {
+        warning("Bootstrap filename does not exist on system.", call. = FALSE)
+      }
+      return(list(
+        "[BOOTSTRAP]",
+        paste(self$num_bootstraps, self$pop_scale_factor, sep = delimiter),
+        self$bootstrap_file
+      ))
+    },
+
+    #' @description
     #' Prints out BOOTSTRAP fields
     #'
     print = function(...) {
@@ -183,21 +199,8 @@ bootstrap <- R6Class(
         bootFac = self$pop_scale_factor,
         bootFile = self$bootstrap_file
       ))
-    },
-
-
-    #' @field inp_bootstrap
-    #' Returns BOOTSTRAP values AGEPRO input file format (*,inp)
-    inp_bootstrap = function() {
-      #Warn if bootstrap file does not exists on system
-      if (!test_file_exists(self$bootstrap_file)) {
-        warning("Bootstrap filename does not exist on system.", call. = FALSE)
-      }
-      return(list(
-        paste(self$num_bootstraps, self$pop_scale_factor),
-        self$bootstrap_file
-      ))
     }
+
 
   )
 

@@ -19,8 +19,8 @@ agepro_model <- R6Class(
   classname = "agepro_model",
   private = list(
 
-    str_legacy_ver = "AGEPRO VERSION 4.0",
-    str_ver = "4.0.0.0",
+    .ver_legacy_string = NULL,
+    .ver_numeric_string = NULL,
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -75,6 +75,9 @@ agepro_model <- R6Class(
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
 
+      private$.ver_leagacy_string = "AGEPRO VERSION 4.0"
+      private$.ver_numeric_string = "4.0.0.0"
+
       assert_number(age_begin, lower = 0, upper = 1)
       assert_number(num_fleets, lower = 1)
       assert_number(num_rec_models, lower = 1)
@@ -122,6 +125,33 @@ agepro_model <- R6Class(
       self$bootstrap$set_bootstrap_filename()
     }
 
+  ), active = list(
+
+    #' @field ver_legacy_string
+    #' Version string on AGEPRO input files (*.inp) for version compatibility
+    #' with Jon Brodiak's AGEPRO calculation engine.
+    ver_legacy_string = function(value){
+      if(missing(value)){
+        return(private$.ver_legacy_string)
+      } else {
+        checkmate::assert_character(value,
+                                    pattern="AGEPRO VERSION")
+        private$.ver_legacy_string <- value
+      }
+    },
+
+    #' @field ver_numeric_string
+    #' Numeric character string based by Semantic-like versioning format.
+    ver_numeric_string = function(value){
+      if(missing(value)){
+        return(private$.ver_numeric_string)
+      }else{
+        #use as.numeric_version to validate
+        cli::cli_alert_info("Version: {as.numeric_version(value)}")
+        private$.ver_numeric_string <- value
+      }
+    }
+
   )
 
 )
@@ -133,6 +163,7 @@ agepro_model <- R6Class(
 #'
 #' @template inp_line
 #' @template inp_con
+#' @template delimiter
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -145,7 +176,7 @@ agepro_inp_model <- R6Class(
   private = list(
 
     .pre_v4 = FALSE,
-    .supported_inp_versions = "AGEPRO VERSION 4.0",
+    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.2"),
 
     .nline = NULL,
 
@@ -254,11 +285,11 @@ agepro_inp_model <- R6Class(
 
       message("Check Version")
 
-      #check_inputfile_version: assume line 1 is version string
+      #assert_inpfile_version: assume line 1 is version string
       self$nline <- 1
 
       message("line ", self$nline, ":")
-      self$check_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
+      self$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
       while (TRUE) {
@@ -319,17 +350,19 @@ agepro_inp_model <- R6Class(
     #' @description
     #' Check Input File Version
     #'
-    check_inpfile_version = function(inp_line) {
+    assert_inpfile_version = function(inp_line) {
       assert_character(inp_line, len = 1)
       tryCatch(
         {
           message("inp_line:", inp_line)
           inp_line %in% private$.supported_inp_versions
+          self$ver_legacy_string <- inp_line
         },
         error = function(cond) {
           message("This version of this input file is not supported : ",
                   inp_line)
-          message("Supported verion(s): ", private$.supported_inp_versions)
+          message("Supported verion(s): ",
+                  paste(private$.supported_inp_versions,collapse=", "))
           message("Error: ", cond)
         }
       )
@@ -342,8 +375,46 @@ agepro_inp_model <- R6Class(
     #' @param keyword keyword
     not_implemented = function(keyword = "") {
       message(keyword, "Not Implemented")
-    }
+    },
 
+    #' @description
+    #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
+    #'
+    #' @param inpfile input file path
+    #'
+    write_inp = function(inpfile, delimiter = " ") {
+
+      if (missing(inpfile)) {
+
+        inpfile <- save_file_dialog(c("AGEPRO input File", ".inp"))
+        # Exit Function if user cancels out of file dialog
+        # User cancelled dialogs return NULL values
+        if (is.null(inpfile)) {
+          return(invisible(NULL))
+        }
+      }
+
+      tryCatch(
+        {
+          list_inplines <- c(
+            self$ver_legacy_string,
+            self$case_id$inplines_case_id(),
+            self$general$inplines_general(delimiter),
+            self$recruit$inplines_recruit(delimiter),
+            self$bootstrap$inplines_bootstrap(delimiter)
+          )
+
+        }
+
+      )
+
+      #Write list_inplines to inpfile
+      sink(inpfile)
+      cat(unlist(list_inplines), sep = "\n")
+      sink()
+      cli::cli_alert_info("Saved to {.file {inpfile}}")
+
+    }
 
 
   ),
@@ -382,8 +453,8 @@ agepro_json_model <- R6Class(
     get_json = function() {
 
       version_json <- list(
-        legacyVer = private$str_legacy_ver,
-        ver = private$str_ver
+        legacyVer = private$.ver_leagacy_string,
+        ver = private$.ver_numeric_string
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP

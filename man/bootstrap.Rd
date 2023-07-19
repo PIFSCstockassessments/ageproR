@@ -22,8 +22,6 @@ absolute numbers at age.}
 \item{\code{bootstrap_file}}{Bootstrap file path.}
 
 \item{\code{json_bootstrap}}{JSON list object for BOOTSTRAP keyword parameter}
-
-\item{\code{inp_bootstrap}}{Returns BOOTSTRAP values AGEPRO input file format (*,inp)}
 }
 \if{html}{\out{</div>}}
 }
@@ -33,6 +31,7 @@ absolute numbers at age.}
 \item \href{#method-bootstrap-new}{\code{bootstrap$new()}}
 \item \href{#method-bootstrap-set_bootstrap_filename}{\code{bootstrap$set_bootstrap_filename()}}
 \item \href{#method-bootstrap-read_inp_lines}{\code{bootstrap$read_inp_lines()}}
+\item \href{#method-bootstrap-inplines_bootstrap}{\code{bootstrap$inplines_bootstrap()}}
 \item \href{#method-bootstrap-print}{\code{bootstrap$print()}}
 \item \href{#method-bootstrap-clone}{\code{bootstrap$clone()}}
 }
@@ -74,6 +73,23 @@ Reads in BOOTSTRAP numbers and options from AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-bootstrap-inplines_bootstrap"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-inplines_bootstrap}{}}}
+\subsection{Method \code{inplines_bootstrap()}}{
+Returns BOOTSTRAP values AGEPRO input file format (*,inp)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$inplines_bootstrap(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

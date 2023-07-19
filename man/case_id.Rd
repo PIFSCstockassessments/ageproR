@@ -23,6 +23,7 @@ Input title identifying model attributes
 \itemize{
 \item \href{#method-case_id-initalize}{\code{case_id$initalize()}}
 \item \href{#method-case_id-read_inp_lines}{\code{case_id$read_inp_lines()}}
+\item \href{#method-case_id-inplines_case_id}{\code{case_id$inplines_case_id()}}
 \item \href{#method-case_id-clone}{\code{case_id$clone()}}
 }
 }
@@ -56,6 +57,17 @@ the AGEPRO input file is open.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-case_id-inplines_case_id"></a>}}
+\if{latex}{\out{\hypertarget{method-case_id-inplines_case_id}{}}}
+\subsection{Method \code{inplines_case_id()}}{
+Returns the values for the CASEID keyword parameter formatted
+to the AGEPRO input file format.description
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{case_id$inplines_case_id()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-case_id-clone"></a>}}

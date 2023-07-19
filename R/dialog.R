@@ -91,8 +91,8 @@ save_file_dialog <- function(filetype) {
     #Check if user cancels file dialog window
     tryCatch(
       {
-        assert_character(target, null.ok = FALSE)
-        path <- path.expand(path)
+        checkmate::assert_character(target, null.ok = FALSE)
+        target <- path.expand(target)
       },
       error = function(cond) {
         message(err_msg_dialog_cancelled)
@@ -123,7 +123,7 @@ save_file_dialog <- function(filetype) {
     #fallback on file.choose
     target <- file.choose()
   }
-  return(path.expand(target))
+  return(target)
 }
 
 #' Checks the validity of filetype key-value pair.
@@ -134,9 +134,9 @@ save_file_dialog <- function(filetype) {
 #'
 #' @details
 #' The filetype key-value pair is defined as _fileTypeName_ _extension_. This
-#' is used to [specifying flie patterns]
-#' (https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11) for Tcl/TK
-#' file modules.
+#' is used to [specifying flie
+#' patterns](https://www.tcl.tk/man/tcl8.0/TkCmd/getOpenFile.html#M11) for
+#' Tcl/TK file modules.
 #'
 #'
 #' @param filetype filename extension.

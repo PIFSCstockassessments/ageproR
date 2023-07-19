@@ -28,8 +28,9 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \item \href{#method-agepro_inp_model-read_inp}{\code{agepro_inp_model$read_inp()}}
 \item \href{#method-agepro_inp_model-read_inpfile_values}{\code{agepro_inp_model$read_inpfile_values()}}
 \item \href{#method-agepro_inp_model-match_keyword}{\code{agepro_inp_model$match_keyword()}}
-\item \href{#method-agepro_inp_model-check_inpfile_version}{\code{agepro_inp_model$check_inpfile_version()}}
+\item \href{#method-agepro_inp_model-assert_inpfile_version}{\code{agepro_inp_model$assert_inpfile_version()}}
 \item \href{#method-agepro_inp_model-not_implemented}{\code{agepro_inp_model$not_implemented()}}
+\item \href{#method-agepro_inp_model-write_inp}{\code{agepro_inp_model$write_inp()}}
 \item \href{#method-agepro_inp_model-clone}{\code{agepro_inp_model$clone()}}
 }
 }
@@ -109,12 +110,12 @@ FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_inp_model-check_inpfile_version"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_inp_model-check_inpfile_version}{}}}
-\subsection{Method \code{check_inpfile_version()}}{
+\if{html}{\out{<a id="method-agepro_inp_model-assert_inpfile_version"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_inp_model-assert_inpfile_version}{}}}
+\subsection{Method \code{assert_inpfile_version()}}{
 Check Input File Version
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$check_inpfile_version(inp_line)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$assert_inpfile_version(inp_line)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -138,6 +139,25 @@ Throws a Not Implemented exception message. Placeholder function.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{keyword}}{keyword}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_inp_model-write_inp"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_inp_model-write_inp}{}}}
+\subsection{Method \code{write_inp()}}{
+Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inpfile}}{input file path}
+
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

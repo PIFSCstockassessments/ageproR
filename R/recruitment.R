@@ -12,6 +12,7 @@
 #' @template elipses
 #' @template inp_con
 #' @template nline
+#' @template delimiter
 #'
 #' @export
 #' @import cli
@@ -382,8 +383,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Print out Recruitment Probability from Input data to console
       private$cli_recruit_probability()
 
+
       # For each recruit model in recruit_model_collection
-      for (recruit in private$.number_recruit_models){
+      for (recruit in 1:private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
         self$model_collection_list[[recruit]] <-
@@ -397,11 +399,52 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       }
 
-
-
-
       return(nline)
 
+    },
+
+    #' @description
+    #' Returns the values for the RECRUIT keyword parameter formatted
+    #' to the AGEPRO input file format.
+    inplines_recruit = function(delimiter = " ") {
+
+      # Set recruitment probability as a matrix and then separate matrix by
+      # (year) rows as assign rows as separate list objects representing
+      # AGEPRO input data file line. "unname" to remove data.frame labeling.
+      # Collapse multi-recruit prob values as a single inpline list string.
+      list_recruit_probability <-
+        lapply(
+          unname(as.list(
+            data.frame(t(sapply(self$recruit_probability, matrix)))
+          )),
+          paste,
+          collapse = delimiter)
+
+      # Unlist each recruitment model's "inplines_recruit_data", via rapply:
+      # returning a flat string vector of input data lines. Relist vector,
+      # via "as.list", to convert to list of input data line elements.
+
+      list_recruit_data <-
+        as.list(unlist(rapply(
+          self$model_collection_list,
+          f = function(X) {X$inplines_recruit_data(delimiter)},
+          how = "list")))
+
+      return(c(list(
+        "[RECRUIT]",
+        paste(
+          self$recruit_scaling_factor,
+          self$ssb_scaling_factor,
+          self$max_recruit_obs,
+          sep = delimiter
+        ),
+        # Append recruit list of recruit models as a single line
+        paste(self$recruit_model_num_list, collapse = delimiter)),
+        # Append Recruit probability
+        list_recruit_probability,
+        # Append recruit data
+        list_recruit_data
+      ))
     }
 
   ), active <- list(
@@ -478,7 +521,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         recruitData = recruit_model_data_list))
 
     }
-
 
   )
 

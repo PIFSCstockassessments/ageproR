@@ -71,7 +71,7 @@ output_fn <- function() {
 #'
 output_subdir <- function(ignore_outdir = TRUE) {
   #create an output subdirectory
-  dir.create(file.path(here(), "output"))
+  dir.create(file.path(here::here(), "output"))
 
   #Add the output subdirectory to .gitignore and .Rbuildingnore
 

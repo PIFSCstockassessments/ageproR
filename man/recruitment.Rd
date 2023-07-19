@@ -50,6 +50,7 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
+\item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -73,7 +74,7 @@ Array representing the Projection Time Horizon}
 
 \item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
 
-\item{\code{cat_verbose}}{Flag to print out `cat` based cli messages printed on console. Default
+\item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
 }
 \if{html}{\out{</div>}}
@@ -103,7 +104,7 @@ AGEPRO Recruitment Model Number}
 \subsection{Method \code{set_recruit_model()}}{
 Initializes Recruit Model Data.
 
-Recruitment class field `observation_years` is used for recruitment
+Recruitment class field \code{observation_years} is used for recruitment
 models that use the model projection year time horizon for setup.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
@@ -154,7 +155,7 @@ Prints out Recruitment
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cat_verbose}}{Flag to allow `cat` based cli messages printed on
+\item{\code{cat_verbose}}{Flag to allow \code{cat} based cli messages printed on
 console. Default is TRUE}
 
 \item{\code{...}}{further arguments passed to or from other methods}
@@ -189,6 +190,24 @@ Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-inplines_recruit"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-inplines_recruit}{}}}
+\subsection{Method \code{inplines_recruit()}}{
+Returns the values for the RECRUIT keyword parameter formatted
+to the AGEPRO input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$inplines_recruit(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

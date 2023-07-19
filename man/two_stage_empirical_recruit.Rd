@@ -34,6 +34,7 @@ Two-Stage Empirical Recruitment Base
 \item \href{#method-two_stage_empirical_recruit-new}{\code{two_stage_empirical_recruit$new()}}
 \item \href{#method-two_stage_empirical_recruit-new_recruitment_matrix}{\code{two_stage_empirical_recruit$new_recruitment_matrix()}}
 \item \href{#method-two_stage_empirical_recruit-read_inp_lines}{\code{two_stage_empirical_recruit$read_inp_lines()}}
+\item \href{#method-two_stage_empirical_recruit-inplines_recruit_data}{\code{two_stage_empirical_recruit$inplines_recruit_data()}}
 \item \href{#method-two_stage_empirical_recruit-print}{\code{two_stage_empirical_recruit$print()}}
 \item \href{#method-two_stage_empirical_recruit-clone}{\code{two_stage_empirical_recruit$clone()}}
 }
@@ -107,6 +108,24 @@ Reads the two State Empirical model data from AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-two_stage_empirical_recruit-inplines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-two_stage_empirical_recruit-inplines_recruit_data}{}}}
+\subsection{Method \code{inplines_recruit_data()}}{
+Exports RECRUIT submodel data for two-stage empirical recruitment types
+to AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_recruit$inplines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

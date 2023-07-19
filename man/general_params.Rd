@@ -56,6 +56,7 @@ projection}
 \item \href{#method-general_params-new}{\code{general_params$new()}}
 \item \href{#method-general_params-print}{\code{general_params$print()}}
 \item \href{#method-general_params-read_inp_lines}{\code{general_params$read_inp_lines()}}
+\item \href{#method-general_params-inplines_general}{\code{general_params$inplines_general()}}
 \item \href{#method-general_params-clone}{\code{general_params$clone()}}
 }
 }
@@ -70,9 +71,9 @@ Starts an instances of the AGEPRO Model
   yr_end = 2,
   age_begin = 1,
   age_end = 6,
+  num_pop_sims = 1000,
   num_fleets = 1,
   num_rec_models = 1,
-  num_pop_sims = 1000,
   discards = FALSE,
   seed = 0
 )}\if{html}{\out{</div>}}
@@ -89,11 +90,11 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{age_end}}{age end}
 
+\item{\code{num_pop_sims}}{Number of population sims}
+
 \item{\code{num_fleets}}{Number of fleets}
 
-\item{\code{num_rec_models}}{Number of Recruit Modles}
-
-\item{\code{num_pop_sims}}{Number of population sims}
+\item{\code{num_rec_models}}{Number of Recruit Modeles}
 
 \item{\code{discards}}{discards}
 
@@ -136,6 +137,24 @@ Reads General AGEPRO parameters from AGEPRO INP Input File
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-general_params-inplines_general"></a>}}
+\if{latex}{\out{\hypertarget{method-general_params-inplines_general}{}}}
+\subsection{Method \code{inplines_general()}}{
+Returns the values for the GENERAL keyword parameter formatted
+to the AGEPRO input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{general_params$inplines_general(delimiter = "  ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
