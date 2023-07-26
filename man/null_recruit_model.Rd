@@ -7,7 +7,7 @@
 Recruitment Model Description
 }
 \section{Super class}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{null_recruit_model}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{null_recruit_model}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -12,7 +12,7 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 (Recruit #15)
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{\link[ageproj:two_stage_empirical_recruit]{ageproj::two_stage_empirical_recruit}} -> \code{two_stage_empirical_cdf}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{\link[ageproR:empirical_recruit]{ageproR::empirical_recruit}} -> \code{\link[ageproR:two_stage_empirical_recruit]{ageproR::two_stage_empirical_recruit}} -> \code{two_stage_empirical_cdf}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -24,12 +24,12 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-inplines_recruit_data'><code>ageproj::two_stage_empirical_recruit$inplines_recruit_data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="new_recruitment_matrix"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-new_recruitment_matrix'><code>ageproj::two_stage_empirical_recruit$new_recruitment_matrix()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="print"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-print'><code>ageproj::two_stage_empirical_recruit$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="two_stage_empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-read_inp_lines'><code>ageproj::two_stage_empirical_recruit$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="two_stage_empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproR/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-inplines_recruit_data'><code>ageproR::two_stage_empirical_recruit$inplines_recruit_data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="two_stage_empirical_recruit" data-id="new_recruitment_matrix"><a href='../../ageproR/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-new_recruitment_matrix'><code>ageproR::two_stage_empirical_recruit$new_recruitment_matrix()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="two_stage_empirical_recruit" data-id="print"><a href='../../ageproR/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-print'><code>ageproR::two_stage_empirical_recruit$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="two_stage_empirical_recruit" data-id="read_inp_lines"><a href='../../ageproR/html/two_stage_empirical_recruit.html#method-two_stage_empirical_recruit-read_inp_lines'><code>ageproR::two_stage_empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}

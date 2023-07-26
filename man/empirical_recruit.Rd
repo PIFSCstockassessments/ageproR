@@ -7,7 +7,7 @@
 Recruitment Model Description
 }
 \section{Super class}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{empirical_recruit}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{empirical_recruit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

@@ -1,18 +1,18 @@
 
-# ageproj
+# ageproR
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of ageproj is to ...
+The goal of ageproR is to ...
 
 ## Installation
 
-You can install the development version of ageproj from [GitHub](https://github.com/) with:
+You can install the development version of ageproR from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("PIFSCstockassessments/ageproj")
+devtools::install_github("PIFSCstockassessments/ageproR")
 ```
 
 ## Example
@@ -20,7 +20,7 @@ devtools::install_github("PIFSCstockassessments/ageproj")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(ageproj)
+library(ageproR)
 ## basic example code
 ```
 

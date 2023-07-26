@@ -9,7 +9,7 @@ Two-Stage Empirical Recruitment Base
 Two-Stage Empirical Recruitment Base
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{two_stage_empirical_recruit}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{\link[ageproR:empirical_recruit]{ageproR::empirical_recruit}} -> \code{two_stage_empirical_recruit}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -42,8 +42,8 @@ Two-Stage Empirical Recruitment Base
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>
 </ul>
 </details>
 }}

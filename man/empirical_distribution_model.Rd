@@ -9,7 +9,7 @@ Empirical Recruitment Distribution (Model #3)
 Empirical Recruitment Distribution (Model #3)
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:empirical_recruit]{ageproj::empirical_recruit}} -> \code{empirical_distribution_model}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{\link[ageproR:empirical_recruit]{ageproR::empirical_recruit}} -> \code{empirical_distribution_model}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -21,11 +21,11 @@ Empirical Recruitment Distribution (Model #3)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-inplines_recruit_data'><code>ageproj::empirical_recruit$inplines_recruit_data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproj::empirical_recruit$new_obs_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproj::empirical_recruit$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproj::empirical_recruit$print_json()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproj/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproj::empirical_recruit$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-inplines_recruit_data'><code>ageproR::empirical_recruit$inplines_recruit_data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproR::empirical_recruit$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproR::empirical_recruit$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}

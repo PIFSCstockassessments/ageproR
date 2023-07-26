@@ -15,7 +15,7 @@ DEPRECATED Recruitment Model #9
 Handles an instance for deprecated recruitment model #9.
 }
 \section{Super class}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{deprecated_recruit_model_9}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{deprecated_recruit_model_9}
 }
 \section{Methods}{
 \subsection{Public methods}{

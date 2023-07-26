@@ -9,7 +9,7 @@ Beverton-Holt w/ Lognormal Error (Model #5)
 Beverton-Holt w/ Lognormal Error (Model #5)
 }
 \section{Super classes}{
-\code{\link[ageproj:recruit_model]{ageproj::recruit_model}} -> \code{\link[ageproj:parametric_curve]{ageproj::parametric_curve}} -> \code{beverton_holt_curve_model}
+\code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{\link[ageproR:parametric_curve]{ageproR::parametric_curve}} -> \code{beverton_holt_curve_model}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -21,9 +21,9 @@ Beverton-Holt w/ Lognormal Error (Model #5)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="inplines_recruit_data"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-inplines_recruit_data'><code>ageproj::parametric_curve$inplines_recruit_data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="print"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-print'><code>ageproj::parametric_curve$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproj" data-topic="parametric_curve" data-id="read_inp_lines"><a href='../../ageproj/html/parametric_curve.html#method-parametric_curve-read_inp_lines'><code>ageproj::parametric_curve$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="inplines_recruit_data"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-inplines_recruit_data'><code>ageproR::parametric_curve$inplines_recruit_data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="print"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-print'><code>ageproR::parametric_curve$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="read_inp_lines"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-read_inp_lines'><code>ageproR::parametric_curve$read_inp_lines()</code></a></span></li>
 </ul>
 </details>
 }}
