@@ -88,8 +88,17 @@ bootstrap <- R6Class(
         bootstrap_path <-
             open_file_dialog(c("AGEPRO Bootstrap File", ".bsn"))
       }
+
       if (test_file_exists(bootstrap_path, access = "r", extension = "bsn")) {
         self$bootstrap_file <- bootstrap_path
+      }else{
+        local({
+          #Disable cli hyperlinking
+          withr::local_options(cli.hyperlink = FALSE)
+          cli::cli_alert_danger(
+            "Falied to reconzise as bootstrap file: {.path {bootstrap_path}}.")
+        })
+
       }
 
     },
