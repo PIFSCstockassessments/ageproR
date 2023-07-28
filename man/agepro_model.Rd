@@ -112,9 +112,16 @@ AGEPRO Recruitment Model Number}
 \subsection{Method \code{set_bootstrap_filename()}}{
 Wrapper function to call bootstrap's set_bootstrap_filename
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_bootstrap_filename()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_bootstrap_filename(bsnfile)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{bsnfile}}{bootstrap filename}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_model-clone"></a>}}

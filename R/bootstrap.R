@@ -81,11 +81,13 @@ bootstrap <- R6Class(
     #' @description
     #' Uses file dialog interface to retrieve Bootstrap file name
     #'
-    set_bootstrap_filename = function() {
+    #' @param bootstrap_path Bootstrap Filename
+    set_bootstrap_filename = function(bootstrap_path) {
 
-      bootstrap_path <-
+      if(missing(bootstrap_path)){
+        bootstrap_path <-
             open_file_dialog(c("AGEPRO Bootstrap File", ".bsn"))
-
+      }
       if (test_file_exists(bootstrap_path, access = "r", extension = "bsn")) {
         self$bootstrap_file <- bootstrap_path
       }
