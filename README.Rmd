@@ -1,0 +1,90 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ageproR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+ageproR is a R-package designed to handle input data to and from Jon Brodizak's 
+AGEPRO (Age Structured Projection Model). 
+
+_**ageproR** is still in early development. Code base may change without warning 
+prior to first stable release._
+
+If you use AGEPRO for production, please use:
+
+- [Jon Brodziak's original AGEPRO program (source code)](https://github.com/PIFSCstockassessments/AGEPRO)
+- [GUI interface for AGEPRO (installer & source)](https://github.com/PIFSCstockassessments/AGEPRO-GUI)
+
+## Installation
+
+You can install the development version of ageproR from 
+[PIFSCstockassessments GitHub Repository](https://github.com/PIFSCstockassessments/ageproR) 
+with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("PIFSCstockassessments/ageproR")
+```
+
+## Reading AGEPRO input files 
+
+Note: **ageproR** is currently incompatible with the supported AGEPRO input file
+format (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`). Included example 
+AGEPRO input file (`inst/test-example4.inp`) is used to demonstrate it's current 
+implementation.
+
+Loading a AGEPRO Input File:
+
+```{r example}
+library(ageproR)
+## basic example code
+test <- agepro_inp_model$new()
+
+test$read_inp("inst/test-example4.inp")
+```
+
+To set (or correct) bootstrap filename 
+
+```{r bootstrap}
+test$set_bootstrap_filename("inst/Example1.BSN")
+```
+
+
+## Links
+
+Impl
+
+<!-- Do not edit below. This adds the Disclaimer and NMFS footer. -->
+
+****
+
+```{r add-disclaimer, echo=FALSE, results='asis'}
+url <- "https://raw.githubusercontent.com/nmfs-fish-tools/Resources/master/Disclaimer.md"
+childtext <- readLines(url)
+cat(childtext, sep="\n")
+```
+
+****
+
+```{r footer, echo=FALSE, results='asis'}
+url <- "https://raw.githubusercontent.com/nmfs-fish-tools/Resources/master/footer.md" 
+childtext <- readLines(url)
+cat(childtext, sep="\n")
+```
+
+
+
