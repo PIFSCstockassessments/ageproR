@@ -254,23 +254,19 @@ agepro_inp_model <- R6Class(
 
           #Cleanup and close file connections
           message("Input File Read")
-          close(inp_con)
-
         },
         warning = function(cond) {
-          message("Warning. There was an issue reading this file:")
-          message(cond)
-          close(inp_con)
+          message("There were warnings raised when reading this file:")
+          message(paste0(cond))
           invisible()
         },
         error = function(cond) {
           message("There was an error reading this file.")
           message("Error ", cond)
-          close(inp_con)
           invisible()
         },
-        finally = function(cond) {
-          message("Input File Read")
+        finally = {
+          message("Finished reading to file.")
           #close file connections
           close(inp_con)
         }
