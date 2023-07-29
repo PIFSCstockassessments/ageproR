@@ -30,6 +30,10 @@ Repository](https://github.com/PIFSCstockassessments/ageproR) with:
 remotes::install_github("PIFSCstockassessments/ageproR")
 ```
 
+## Create AGEPRO Model
+
+TODO
+
 ## Reading AGEPRO input files
 
 Note: **ageproR** is currently incompatible with the supported AGEPRO
