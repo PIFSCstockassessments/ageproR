@@ -45,12 +45,12 @@ TODO
 
 ## Reading AGEPRO input files 
 
-Note: **ageproR** is currently incompatible with the supported AGEPRO input file
-format (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`). Included example 
-AGEPRO input file (`inst/test-example4.inp`) is used to demonstrate it's current 
-implementation.
+_Note: **ageproR** is currently incompatible with the supported AGEPRO input 
+file format_ (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`). _Included example 
+AGEPRO input file_ (`inst/test-example4.inp`) _is used to demonstrate it's 
+current implementation._
 
-Loading a AGEPRO Input File:
+### Loading a AGEPRO Input File:
 
 ```{r example}
 library(ageproR)
@@ -60,10 +60,18 @@ test <- agepro_inp_model$new()
 test$read_inp("inst/test-example4.inp")
 ```
 
-To set (or correct) bootstrap filename 
+### To set (or correct) bootstrap filename 
 
 ```{r bootstrap}
 test$set_bootstrap_filename("inst/Example1.BSN")
+```
+
+
+## Save to AGEPRO input file
+
+```{r save-inp, eval=FALSE}
+# Opens file dialog window 
+test$write_inp()
 ```
 
 
