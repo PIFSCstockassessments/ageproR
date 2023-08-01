@@ -285,8 +285,15 @@ agepro_inp_model <- R6Class(
       #assert_inpfile_version: assume line 1 is version string
       self$nline <- 1
 
-      #message("line ", self$nline, ":")
-      cli::cli_alert("line {self$nline}:")
+      #message("line ", self$nline, ":"
+      div_line1_alert = function() {
+        cli::cli_div(class = "tmp",
+                     theme = list(.tmp = list(color="darkorange",
+                                              "font-weight" = "bold")))
+        cli::cli_alert("line {self$nline}:", class = "tmp")
+      }
+      div_line1_alert()
+
       self$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
@@ -329,7 +336,13 @@ agepro_inp_model <- R6Class(
       ))
 
       #message("line ", self$nline, ": ", inp_line)
-      cli::cli_alert("line {self$nline}: {inp_line}")
+      div_keyword_line_alert <- function() {
+        cli::cli_div(class = "tmp",
+                     theme = list(.tmp = list(color="darkorange",
+                                              "font-weight" = "bold")))
+        cli::cli_alert("line {self$nline}: {inp_line}", class = "tmp")
+      }
+      div_keyword_line_alert()
 
 
       if (rlang::eval_tidy(!keyword_dict$has(inp_line))) {
