@@ -285,7 +285,8 @@ agepro_inp_model <- R6Class(
       #assert_inpfile_version: assume line 1 is version string
       self$nline <- 1
 
-      message("line ", self$nline, ":")
+      #message("line ", self$nline, ":")
+      cli::cli_alert("line {self$nline}:")
       self$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
@@ -327,7 +328,8 @@ agepro_inp_model <- R6Class(
           }
       ))
 
-      message("line ", self$nline, ": ", inp_line)
+      #message("line ", self$nline, ": ", inp_line)
+      cli::cli_alert("line {self$nline}: {inp_line}")
 
 
       if (rlang::eval_tidy(!keyword_dict$has(inp_line))) {
@@ -351,7 +353,8 @@ agepro_inp_model <- R6Class(
       assert_character(inp_line, len = 1)
       tryCatch(
         {
-          message("inp_line:", inp_line)
+          #message("inp_line:", inp_line)
+          cli::cli_alert_info("Version: '{inp_line}'")
           inp_line %in% private$.supported_inp_versions
           self$ver_legacy_string <- inp_line
         },
