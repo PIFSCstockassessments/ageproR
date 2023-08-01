@@ -28,7 +28,8 @@ case_id <- R6Class(
 
       nline <- nline + 1
       self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
-      message("Line ", nline, ": Case ID: ", self$case_id)
+      #message("Line ", nline, ": Case ID: ", self$case_id)
+      cli::cli_alert("Line {nline}: CASE ID: {self$case_id}")
       return(nline)
     },
 
