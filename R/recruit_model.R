@@ -257,7 +257,8 @@ empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
-      cli_text("{self$model_name}")
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
       cli_ul()
       cli_li("Has SSB?  {.val {self$with_ssb}}")
       cli_li(paste0("Number of Recruitment Data Points: ",
@@ -286,12 +287,15 @@ empirical_recruit <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline}: Observed points : {.val {inp_line}}...")
+      cli_alert("Line {nline}: Observed points: {.val {inp_line}} ")
 
       #Validate input line holds single value for observation recruits
       assert_numeric(inp_line, len = 1)
@@ -305,7 +309,7 @@ empirical_recruit <- R6Class(
       inp_recruit <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline} Observations ...")
+      cli_alert("Line {nline}: Observations ...")
 
 
       if (self$with_ssb) {
@@ -556,6 +560,10 @@ two_stage_empirical_recruit <- R6Class(
     #' Reads the two State Empirical model data from AGEPRO Input file
     #'
     read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
       inp_line <- read_inp_numeric_line(inp_con)
@@ -918,7 +926,7 @@ parametric_curve <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli_text("{self$model_name}")
+      cli::cli_alert_info("{self$model_name}")
       cli_ul()
       cli_li("Alpha: {.val {private$.alpha}}")
       cli_li("Beta: {.val {private$.beta}}")
@@ -930,6 +938,10 @@ parametric_curve <- R6Class(
     #' Reads Parametric Curve model data from AGEPRO Input file
     #'
     read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <- read_inp_numeric_line(inp_con)
@@ -942,7 +954,12 @@ parametric_curve <- R6Class(
       self$beta <- inp_line[2]
       self$variance <- inp_line[3]
 
-      self$print()
+      #self$print()
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
 
       return(nline)
     }
@@ -1045,7 +1062,8 @@ shepherd_curve_model <- R6Class(
     #'
     print = function(...) {
 
-      cli_text("{self$model_name}")
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
       cli_ul()
       cli_li("Alpha: {.val {private$.alpha}}")
       cli_li("Beta: {.val {private$.beta}}")
@@ -1059,18 +1077,29 @@ shepherd_curve_model <- R6Class(
     #' Reads Parametric Curve model data from AGEPRO Input file
     #'
     read_inp_lines = function(inp_con, nline) {
+
+      cli_alert_info("{self$model_name}")
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline} ...")
+      cli_alert("Line {nline}: parameters ...")
 
       # Assign substrings
       self$alpha <- inp_line[1]
       self$beta <- inp_line[2]
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
+
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("K: {.val {private$.kpar}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
+
 
 
       return(nline)
