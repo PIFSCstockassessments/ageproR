@@ -322,8 +322,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       nline <- nline + 1
       cli_alert(
-        "Line {nline} : Recruit/SSB Scaling Factors & max recruit obs ...")
-      cli_text("{.val {inp_line}}")
+        "Line {nline} : Scaling Factors & Max Recruit Observations ...")
+      #cli_text("{.val {inp_line}}")
 
       # Assign substrings
       self$recruit_scaling_factor <- inp_line[1]
@@ -331,13 +331,22 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       self$max_recruit_obs <- inp_line[3]
       #TODO: rename to max_recruit_observations
 
+      cli::cli_ul()
+      cli::cli_li(paste0("Recruit Scaling Factor: ",
+                    "{.val {self$recruit_scaling_factor}}"))
+      cli::cli_li(paste0("SSB Scaling Factor: ",
+                    "{.val {self$ssb_scaling_factor}}"))
+      cli::cli_li(paste0("Max Recruit Observations: ",
+                    "{.val {self$max_recruit_obs}}"))
+      cli::cli_end()
+
       # Read an additional line from the file connection, and parse the
       # substring(s) for Recruitment Model(s) for model_collection_list
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert(c("Line {nline}: Recruitment model number: ",
-                  "{.val {inp_line}}"))
+      cli_alert(c("Line {nline}: Reading recruitment model number ",
+                  "{.val {inp_line}} ..."))
 
       #?Validate length Recruitment's recruit_model_num_list matches
       #length of recruitment models field from the set_recruit_data function
@@ -349,15 +358,13 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # Setup Default Recruitment probability
       private$setup_recruitment_probability()
 
-      #TODO: Refactor loop
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
         self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
-
       }
 
-      cli_alert_info("{.emph Reading Recruitment Probabaility}")
+      cli_alert_info("Reading Recruitment Probabaility ... ")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
       for (year in self$observation_years){
@@ -366,7 +373,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         inp_line <- read_inp_numeric_line(inp_con)
 
         nline <- nline + 1
-        cli_alert(c("Line {nline}: Recruitment probabaility for year {year} : ",
+        cli_alert(c("Line {nline}: Recruitment probabaility for year {year}: ",
                     "{.val {inp_line}}"))
 
         # Verify recruit probability value ...
@@ -391,8 +398,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
-        cli_alert(c("Reading recruitment model ",
-                    "{.field #{self$recruit_model_num_list[[recruit]]}}"))
+        cli_alert_info(c("Reading recruitment model ",
+                    "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)
