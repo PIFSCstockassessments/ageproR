@@ -255,8 +255,7 @@ agepro_inp_model <- R6Class(
           message("Input File Read")
         },
         warning = function(cond) {
-          message("There were warnings raised when reading this file:")
-          message(paste0(cond))
+          warning(cond)
           invisible()
         },
         error = function(cond) {
