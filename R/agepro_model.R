@@ -261,7 +261,7 @@ agepro_inp_model <- R6Class(
         },
         error = function(cond) {
           message("There was an error reading this file.")
-          message("Error ", cond)
+          stop(cond)
           invisible()
         },
         finally = {
@@ -363,21 +363,20 @@ agepro_inp_model <- R6Class(
     #'
     assert_inpfile_version = function(inp_line) {
       assert_character(inp_line, len = 1)
-      tryCatch(
-        {
-          #message("inp_line:", inp_line)
-          cli::cli_alert_info("Version: '{inp_line}'")
-          inp_line %in% private$.supported_inp_versions
+
+        #message("inp_line:", inp_line)
+        cli::cli_alert_info("Version: '{inp_line}'")
+        if(inp_line %in% private$.supported_inp_versions){
           self$ver_legacy_string <- inp_line
-        },
-        error = function(cond) {
-          message("This version of this input file is not supported : ",
-                  inp_line)
-          message("Supported verion(s): ",
-                  paste(private$.supported_inp_versions,collapse=", "))
-          message("Error: ", cond)
+        }else{
+          # Throw Unsupported Version Error Message
+          stop(paste0(
+            "This version of this input file is not supported: ",inp_line,
+            "\n - Supported verion(s): ",
+            paste(private$.supported_inp_versions,collapse=", ")),
+            call.= FALSE)
         }
-      )
+
     },
 
 
