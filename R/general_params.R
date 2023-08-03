@@ -120,7 +120,7 @@ general_params <- R6Class(
         unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
       nline <- nline + 1
-      cli_alert("Line {nline} ...")
+      cli_alert("Line {nline} : Reading AGEPRO model GENERAL options ...")
 
       inp_line <- assert_numeric_substrings(inp_line)
 

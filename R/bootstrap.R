@@ -40,7 +40,7 @@ bootstrap <- R6Class(
         #Warn if file path is NULL,
         warning(paste0("NULL Bootstrap file path. \n",
                        "Please provide a vaild bootstrap filepath when saving ",
-                       "to input file for the AGEPRO calcuation engine.\n"),
+                       "to input file for the AGEPRO calcuation engine."),
                 call. = FALSE)
       }else {
         #Else, warn bootstrap file name does not exist
@@ -53,7 +53,7 @@ bootstrap <- R6Class(
 
         warning(paste0("'", value, "' does not exist. \n",
         "Please provide a vaild bootstrap filepath when saving to input ",
-        "file for the AGEPRO calcuation engine.\n"), call. = FALSE)
+        "file for the AGEPRO calcuation engine."), call. = FALSE)
       }
 
     }

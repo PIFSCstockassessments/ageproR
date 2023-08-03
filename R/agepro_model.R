@@ -182,7 +182,6 @@ agepro_inp_model <- R6Class(
     .nline = NULL,
 
     read_case_id = function(con, nline) {
-      message("Read Case ID at line ", nline, " ...")
       self$nline <- self$case_id$read_inp_lines(con, nline)
     },
 
@@ -193,7 +192,7 @@ agepro_inp_model <- R6Class(
     read_recruit = function(con, nline) {
       # Set Recruitment's observation year sequence array using GENERAL's
       # year names from the projection time period
-      cli_alert(c("Setting Recruitment data for ",
+      cli_alert_info(c("Setting Recruitment data for ",
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
       self$recruit$observation_years <- self$general$seq_years
       self$nline <- self$recruit$read_inp_lines(con, nline)
@@ -256,13 +255,12 @@ agepro_inp_model <- R6Class(
           message("Input File Read")
         },
         warning = function(cond) {
-          message("There were warnings raised when reading this file:")
-          message(paste0(cond))
+          warning(cond)
           invisible()
         },
         error = function(cond) {
           message("There was an error reading this file.")
-          message("Error ", cond)
+          stop(cond)
           invisible()
         },
         finally = {
@@ -285,7 +283,14 @@ agepro_inp_model <- R6Class(
       #assert_inpfile_version: assume line 1 is version string
       self$nline <- 1
 
-      message("line ", self$nline, ":")
+      div_line1_alert = function() {
+        cli::cli_div(class = "tmp",
+                     theme = list(.tmp = list(color="darkorange",
+                                              "font-weight" = "bold")))
+        cli::cli_alert("line {self$nline}:", class = "tmp")
+      }
+      div_line1_alert()
+
       self$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
@@ -327,7 +332,13 @@ agepro_inp_model <- R6Class(
           }
       ))
 
-      message("line ", self$nline, ": ", inp_line)
+      div_keyword_line_alert <- function() {
+        cli::cli_div(class = "tmp",
+                     theme = list(.tmp = list(color="darkorange",
+                                              "font-weight" = "bold")))
+        cli::cli_alert("line {self$nline}: {inp_line}", class = "tmp")
+      }
+      div_keyword_line_alert()
 
 
       if (rlang::eval_tidy(!keyword_dict$has(inp_line))) {
@@ -349,20 +360,19 @@ agepro_inp_model <- R6Class(
     #'
     assert_inpfile_version = function(inp_line) {
       assert_character(inp_line, len = 1)
-      tryCatch(
-        {
-          message("inp_line:", inp_line)
-          inp_line %in% private$.supported_inp_versions
+
+        cli::cli_alert_info("Version: '{inp_line}'")
+        if(inp_line %in% private$.supported_inp_versions){
           self$ver_legacy_string <- inp_line
-        },
-        error = function(cond) {
-          message("This version of this input file is not supported : ",
-                  inp_line)
-          message("Supported verion(s): ",
-                  paste(private$.supported_inp_versions,collapse=", "))
-          message("Error: ", cond)
+        }else{
+          # Throw Unsupported Version Error Message
+          stop(paste0(
+            "This version of this input file is not supported: ",inp_line,
+            "\n - Supported verion(s): ",
+            paste(private$.supported_inp_versions,collapse=", ")),
+            call.= FALSE)
         }
-      )
+
     },
 
 
