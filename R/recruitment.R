@@ -323,7 +323,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       nline <- nline + 1
       cli_alert(
         "Line {nline} : Scaling Factors & Max Recruit Observations ...")
-      #cli_text("{.val {inp_line}}")
 
       # Assign substrings
       self$recruit_scaling_factor <- inp_line[1]
@@ -331,6 +330,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       self$max_recruit_obs <- inp_line[3]
       #TODO: rename to max_recruit_observations
 
+      # Console Output
       cli::cli_ul()
       cli::cli_li(paste0("Recruit Scaling Factor: ",
                     "{.val {self$recruit_scaling_factor}}"))
@@ -379,7 +379,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         # Verify recruit probability value ...
         assert_numeric(inp_line, lower = 0, upper = 1)
 
-        #TODO: Refactor loop
         # And then append line to the recruitment probability (list) ...
         for (j in seq_along(inp_line)) {
           self$set_recruit_probability(j, year, inp_line[[j]], verbose = FALSE)

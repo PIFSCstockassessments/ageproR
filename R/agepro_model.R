@@ -284,7 +284,6 @@ agepro_inp_model <- R6Class(
       #assert_inpfile_version: assume line 1 is version string
       self$nline <- 1
 
-      #message("line ", self$nline, ":"
       div_line1_alert = function() {
         cli::cli_div(class = "tmp",
                      theme = list(.tmp = list(color="darkorange",
@@ -334,7 +333,6 @@ agepro_inp_model <- R6Class(
           }
       ))
 
-      #message("line ", self$nline, ": ", inp_line)
       div_keyword_line_alert <- function() {
         cli::cli_div(class = "tmp",
                      theme = list(.tmp = list(color="darkorange",
@@ -364,7 +362,6 @@ agepro_inp_model <- R6Class(
     assert_inpfile_version = function(inp_line) {
       assert_character(inp_line, len = 1)
 
-        #message("inp_line:", inp_line)
         cli::cli_alert_info("Version: '{inp_line}'")
         if(inp_line %in% private$.supported_inp_versions){
           self$ver_legacy_string <- inp_line

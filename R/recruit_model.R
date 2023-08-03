@@ -328,7 +328,6 @@ empirical_recruit <- R6Class(
         self$observations <- cbind(recruit = inp_recruit)
       }
 
-      #print(as_tibble(self$observations), n = self$observed_points)
       #Note: Printing first 10 rows to console
       print(as_tibble(self$observations), n = 10)
 
