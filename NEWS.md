@@ -1,3 +1,8 @@
+# ageproR 0.3.1  2023-08-03
+
+* Tweaks to R Console cli when loading AGEPRO input file.
+  - Improved AGEPRO Input File version validation check.
+  - Tweaked Invalid Bootstrap Filename Warning message. 
 
 # ageproR 0.3.0  2023-07-31
 
