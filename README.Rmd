@@ -36,8 +36,8 @@ You can install the development version of ageproR from
 with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("PIFSCstockassessments/ageproR")
+# install.packages("devtools")
+devtools::install_github("PIFSCstockassessments/ageproR")
 ```
 ## Create AGEPRO Model
 
@@ -75,9 +75,6 @@ test$write_inp()
 ```
 
 
-## Links
-
-TODO
 
 <!-- Do not edit below. This adds the Disclaimer and NMFS footer. -->
 

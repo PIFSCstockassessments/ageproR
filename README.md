@@ -26,8 +26,8 @@ You can install the development version of ageproR from
 Repository](https://github.com/PIFSCstockassessments/ageproR) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("PIFSCstockassessments/ageproR")
+# install.packages("devtools")
+devtools::install_github("PIFSCstockassessments/ageproR")
 ```
 
 ## Create AGEPRO Model
@@ -50,13 +50,12 @@ test <- agepro_inp_model$new()
 
 test$read_inp("inst/test-example4.inp")
 #> Check Version
-#> line 1:
-#> inp_line:AGEPRO VERSION 4.2
-#> line 2: [CASEID]
-#> Read Case ID at line 2 ...
-#> Line 3: Case ID: Test EXAMPLE4 - Uku Projection Base (2019-2026)
-#> line 4: [GENERAL]
-#> → Line 5 ...
+#> → line 1:
+#> ℹ Version: 'AGEPRO VERSION 4.2'
+#> → line 2: [CASEID]
+#> → Line 3: CASE ID: Test EXAMPLE4 - Uku Projection Base (2019-2026)
+#> → line 4: [GENERAL]
+#> → Line 5 : Reading AGEPRO model GENERAL options ...
 #> • First Year in Projection: 2019
 #> • Last Year in Projection: 2026
 #> • First Age Class: 1
@@ -66,20 +65,22 @@ test$read_inp("inst/test-example4.inp")
 #> • Number of Recruitment Model(s): 3
 #> • Discards are present: FALSE
 #> • Calculation Engine Random Number Seed: 300
-#> line 6: [RECRUIT]
-#> → Setting Recruitment data for 2019 - 2026 ...
-#> → Line 7 : Recruit/SSB Scaling Factors & max recruit obs ...
-#> 1000, 1, and 500
-#> → Line 8: Recruitment model number: 5, 3, and 3
-#> ℹ Reading Recruitment Probabaility
-#> → Line 9: Recruitment probabaility for year 2019 : 0.6, 0.2, and 0.2
-#> → Line 10: Recruitment probabaility for year 2020 : 0.6, 0.2, and 0.2
-#> → Line 11: Recruitment probabaility for year 2021 : 0.6, 0.2, and 0.2
-#> → Line 12: Recruitment probabaility for year 2022 : 0.6, 0.2, and 0.2
-#> → Line 13: Recruitment probabaility for year 2023 : 0.6, 0.2, and 0.2
-#> → Line 14: Recruitment probabaility for year 2024 : 0.6, 0.2, and 0.2
-#> → Line 15: Recruitment probabaility for year 2025 : 0.6, 0.2, and 0.2
-#> → Line 16: Recruitment probabaility for year 2026 : 0.6, 0.2, and 0.2
+#> → line 6: [RECRUIT]
+#> ℹ Setting Recruitment data for 2019 - 2026 ...
+#> → Line 7 : Scaling Factors & Max Recruit Observations ...
+#> • Recruit Scaling Factor: 1000
+#> • SSB Scaling Factor: 1
+#> • Max Recruit Observations: 500
+#> → Line 8: Reading recruitment model number 5, 3, and 3 ...
+#> ℹ Reading Recruitment Probabaility ...
+#> → Line 9: Recruitment probabaility for year 2019: 0.6, 0.2, and 0.2
+#> → Line 10: Recruitment probabaility for year 2020: 0.6, 0.2, and 0.2
+#> → Line 11: Recruitment probabaility for year 2021: 0.6, 0.2, and 0.2
+#> → Line 12: Recruitment probabaility for year 2022: 0.6, 0.2, and 0.2
+#> → Line 13: Recruitment probabaility for year 2023: 0.6, 0.2, and 0.2
+#> → Line 14: Recruitment probabaility for year 2024: 0.6, 0.2, and 0.2
+#> → Line 15: Recruitment probabaility for year 2025: 0.6, 0.2, and 0.2
+#> → Line 16: Recruitment probabaility for year 2026: 0.6, 0.2, and 0.2
 #> ℹ Recruitment Probability:
 #> [[1]]
 #> 2019 2020 2021 2022 2023 2024 2025 2026 
@@ -92,15 +93,16 @@ test$read_inp("inst/test-example4.inp")
 #> [[3]]
 #> 2019 2020 2021 2022 2023 2024 2025 2026 
 #>  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2
-#> → Reading recruitment model #5
+#> ℹ Reading recruitment model 5 ...
+#> ℹ Beverton-Holt Curve w/ Lognormal Error
 #> → Line 17 ...
-#> Beverton-Holt Curve w/ Lognormal Error
-#> • Alpha: 81.1
-#> • Beta: 157.2
-#> • Variance: 0.1521
-#> → Reading recruitment model #3
-#> → Line 18: Observed points : 71...
-#> → Line 19 Observations ...
+#>   • Alpha: 81.1
+#>   • Beta: 157.2
+#>   • Variance: 0.1521
+#> ℹ Reading recruitment model 3 ...
+#> ℹ Empirical Recruitment Distribution
+#> → Line 18: Observed points: 71
+#> → Line 19: Observations ...
 #> # A tibble: 71 × 1
 #>    recruit
 #>      <dbl>
@@ -115,9 +117,10 @@ test$read_inp("inst/test-example4.inp")
 #>  9    50.7
 #> 10    48.4
 #> # ℹ 61 more rows
-#> → Reading recruitment model #3
-#> → Line 20: Observed points : 18...
-#> → Line 21 Observations ...
+#> ℹ Reading recruitment model 3 ...
+#> ℹ Empirical Recruitment Distribution
+#> → Line 20: Observed points: 18
+#> → Line 21: Observations ...
 #> # A tibble: 18 × 1
 #>    recruit
 #>      <dbl>
@@ -132,14 +135,13 @@ test$read_inp("inst/test-example4.inp")
 #>  9    92.8
 #> 10    91.5
 #> # ℹ 8 more rows
-#> line 22: [BOOTSTRAP]
+#> → line 22: [BOOTSTRAP]
 #> → Line 23:
 #> Number of Bootstraps: 100
 #> Population Scale Factor (BootFac): 1000
 #> → Line 24:
 #> ! Bootstrap file path does not exist in system: "C:\\Users\\Jon.Brodziak\\Documents\\AGEPRO\\Example\\Example1.BSN"
-#> There were warnings raised when reading this file:
-#> simpleWarning: 'C:\Users\Jon.Brodziak\Documents\AGEPRO\Example\Example1.BSN' does not exist. 
+#> Warning: 'C:\Users\Jon.Brodziak\Documents\AGEPRO\Example\Example1.BSN' does not exist. 
 #> Please provide a vaild bootstrap filepath when saving to input file for the AGEPRO calcuation engine.
 #> Finished reading to file.
 ```
@@ -157,10 +159,6 @@ test$set_bootstrap_filename("inst/Example1.BSN")
 # Opens file dialog window 
 test$write_inp()
 ```
-
-## Links
-
-TODO
 
 <!-- Do not edit below. This adds the Disclaimer and NMFS footer. -->
 
