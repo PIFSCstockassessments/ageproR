@@ -26,11 +26,45 @@ stochastic <- R6Class(
     #' @description
     #' Initializes the stochastic class
     #'
+    #' @param num_obs_yrs Numbers of years in from first to last year of
+    #' projection.
+    #' @param num_ages Number of Age classes
+    #' @param num_fleets Number of Fleets. Default is 1
+    #'
     initialize = function(num_obs_yrs, num_ages, num_fleets = 1){
 
+      #initialize tables
+      private$.stochastic_table <- vector("list", 1)
+      private$.cv_table <- vector("list", 1)
+
+    },
+
+
+
+    #' @description
+    #' Create a Stochastic table
+    #'
+    #' @param num_obs_yrs Numbers of years in from first to last year of
+    #' projection.
+    #' @param num_ages Number of Age classes
+    #' @param num_fleets Number of Fleets. Default is 1
+    #'
+    setup_stochastic_table(num_obs_yrs, num_ages, num_fleets = 1) {
+
+
+      fleet_yrs_rows <- num_obs_yrs * num_fleets
+      ages_cols <- num_ages
+
+      self$stochastic_table <- matrix(rep(NA, (fleet_yrs_rows * ages_cols) ) ,
+                                      nrow = fleet_yrs_rows,
+                                      ncol = ages_cols)
 
 
     }
+
+
+
+
   ), active = list (
 
     #' @field input_option Stochastic Input option
@@ -54,13 +88,27 @@ stochastic <- R6Class(
       }
     },
 
-    #' @field stochastic_table Stochastic Table
+    #' @field stochastic_table This is the logic for the average stochastic
+    #' AGEPRO keyword parameter's at age (and by fleet if fleets are a
+    #' factor).
     stocastic_table = function(value) {
       if(missing(value)){
         private$.stochastic_table
       } else {
         checkmate::assert_matrix(value, min.cols = 1, min.rows = 1)
         private$.stochastic_table <- value
+      }
+    },
+
+    #' @field cv_table Matrix containing the vector of of age-specific CVs for
+    #' sampling the average stochastic AGEPRO keyword parameter's at age
+    #' (and by fleet if fleets are a factor) with lognormal process error.
+    cv_table = function(value) {
+      if(missing(value)) {
+        private$.cv_table
+      } else {
+        checkmate::assert_matrix(value, min.cols = 1, min.rows = 1)
+        private$.cv_table <- value
       }
     }
 
