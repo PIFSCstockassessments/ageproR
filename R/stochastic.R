@@ -36,7 +36,32 @@ stochastic <- R6Class(
     .cv_table = NULL,
     .upper_bounds = NULL,
 
-    .valid_input_options = c(0,1)
+    .valid_input_options = c(0,1),
+
+
+    #Private method to initialize Stochastic and CV tables
+    setup_stochastic_tables = function (num_obs_yrs, num_ages, num_fleets = 1) {
+      #initialize tables
+      private$.stochastic_table <- vector("list", 1)
+      private$.cv_table <- vector("list", 1)
+
+      if(self$time_varying){
+
+        self$stochastastic_table <-
+          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
+        self$cv_table <-
+          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
+
+      }else{
+        #All Years
+        self$stochastic_table <-
+          self$create_stochastic_table((1 * num_fleets), num_ages)
+        self$cv_table <-
+          self$create_stochastic_table((1 * num_fleets), num_ages)
+
+      }
+
+    }
 
 
 
@@ -57,30 +82,8 @@ stochastic <- R6Class(
       #Time Varying
       self$time_varying <- time_varying
 
-      #initialize tables
-      private$.stochastic_table <- vector("list", 1)
-      private$.cv_table <- vector("list", 1)
-
-      if(self$time_varying){
-
-        self$stochastastic_table <-
-          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
-        self$cv_table <-
-          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
-
-      }else{
-        #All Years
-        self$stochastic_table <-
-          self$create_stochastic_table((1 * num_fleets), num_ages)
-        self$cv_table <-
-          self$create_stochastic_table((1 * num_fleets), num_ages)
-
-
-      }
-
-
-
-
+      #Initialize Stochastic and CV tables
+      private$setup_stochastic_tables(num_obs_yrs, num_ages, num_fleets)
 
     },
 
@@ -98,11 +101,6 @@ stochastic <- R6Class(
                     ncol = ages_cols))
 
     }
-
-
-
-
-
 
 
   ), active = list (
