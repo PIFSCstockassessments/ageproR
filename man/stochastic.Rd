@@ -43,7 +43,7 @@ Initializes the stochastic class
   num_ages,
   num_fleets = 1,
   input_option = 0,
-  time_flag = TRUE
+  time_varying = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -63,7 +63,7 @@ projection.}
 \item \code{1} Imported from a the location of an existing data file
 }}
 
-\item{\code{time_flag}}{Logical flag that enables the stochastic parameter to use
+\item{\code{time_varying}}{Logical flag that enables the stochastic parameter to use
 as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
 cover "all years" of the projection. Default is TRUE.}
 }
@@ -76,18 +76,15 @@ cover "all years" of the projection. Default is TRUE.}
 \subsection{Method \code{create_stochastic_table()}}{
 Creates an stochastic table
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{stochastic$create_stochastic_table(num_obs_yrs, num_ages, num_fleets = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$create_stochastic_table(fleet_yr_rows, ages_cols)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_obs_yrs}}{Numbers of years in from first to last year of
-projection.}
+\item{\code{fleet_yr_rows}}{(Fleet-)Year Row}
 
-\item{\code{num_ages}}{Number of Age classes}
-
-\item{\code{num_fleets}}{Number of Fleets. Default is 1}
+\item{\code{ages_cols}}{Age Columns}
 }
 \if{html}{\out{</div>}}
 }

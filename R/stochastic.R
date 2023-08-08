@@ -14,7 +14,7 @@
 #'  \item `0` By default, interactively via interface.
 #'  \item `1` Imported from a the location of an existing data file
 #' }
-#' @param time_flag Logical flag that enables the stochastic parameter to use
+#' @param time_varying Logical flag that enables the stochastic parameter to use
 #' as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
 #' cover "all years" of the projection. Default is TRUE.
 #'
@@ -34,6 +34,7 @@ stochastic <- R6Class(
     .stochastic_datafile = NULL,
     .stochastic_table = NULL,
     .cv_table = NULL,
+    .upper_bounds = NULL,
 
     .valid_input_options = c(0,1)
 
@@ -48,29 +49,36 @@ stochastic <- R6Class(
                           num_ages,
                           num_fleets = 1,
                           input_option = 0,
-                          time_flag = TRUE){
+                          time_varying = TRUE){
+
+      #set and validate input_option value
+      self$input_option <- input_option
+
+      #Time Varying
+      self$time_varying <- time_varying
 
       #initialize tables
       private$.stochastic_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
 
-      self$input_option <- input_option
-
       if(self$time_varying){
 
         self$stochastastic_table <-
-          self$create_stochastic_table(num_obs_yrs, num_ages, num_fleets)
-
+          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
         self$cv_table <-
-          self$create_stochastic_table(num_obs_yrs, num_ages, num_fleets)
+          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
+
       }else{
         #All Years
         self$stochastic_table <-
-          self$create_stochastic_table(1, num_ages, num_fleets)
-        self$cv_table <- self$create_stochastic_table(1, num_ages, num_fleets)
+          self$create_stochastic_table((1 * num_fleets), num_ages)
+        self$cv_table <-
+          self$create_stochastic_table((1 * num_fleets), num_ages)
 
 
       }
+
+
 
 
 
@@ -79,16 +87,14 @@ stochastic <- R6Class(
     #' @description
     #' Creates an stochastic table
     #'
-    create_stochastic_table = function(num_obs_yrs,
-                                      num_ages,
-                                      num_fleets = 1) {
+    #' @param fleet_yr_rows (Fleet-)Year Row
+    #' @param ages_cols Age Columns
+    #'
+    create_stochastic_table = function(fleet_yr_rows, ages_cols) {
 
 
-      fleet_yrs_rows <- num_obs_yrs * num_fleets
-      ages_cols <- num_ages
-
-      return(matrix(rep(NA, (fleet_yrs_rows * ages_cols) ) ,
-                    nrow = fleet_yrs_rows,
+      return(matrix(rep(NA, (fleet_yr_rows * ages_cols) ) ,
+                    nrow = fleet_yr_rows,
                     ncol = ages_cols))
 
     }
@@ -131,6 +137,7 @@ stochastic <- R6Class(
         private$.stochastic_table
       } else {
         checkmate::assert_matrix(value, min.cols = 1, min.rows = 1)
+        #TODO: Create stochastic_table value Validation for upper_bound
         private$.stochastic_table <- value
       }
     },
