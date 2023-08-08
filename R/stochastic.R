@@ -105,6 +105,12 @@ stochastic <- R6Class(
 
     }
 
+    #TODO: print function
+
+    #TODO: read_inp_lines
+
+
+    #TODO: inplines_stochastic
 
   ), active = list (
 
@@ -155,6 +161,7 @@ stochastic <- R6Class(
       }
     }
 
+    #TODO: json_list_stochastic
 
   )
 
