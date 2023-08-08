@@ -9,7 +9,11 @@
 #' projection.
 #' @param num_ages Number of Age classes
 #' @param num_fleets Number of Fleets. Default is 1
-#' @param input_option
+#' @param input_option Option to indicate stochastic parameter will be:
+#' \itemize{
+#'  \item `0` By default, interactively via interface.
+#'  \item `1` Imported from a the location of an existing data file
+#' }
 #' @param time_flag Logical flag that enables the stochastic parameter to use
 #' as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
 #' cover "all years" of the projection. Default is TRUE.
@@ -43,7 +47,7 @@ stochastic <- R6Class(
     initialize = function(num_obs_yrs,
                           num_ages,
                           num_fleets = 1,
-                          input_option = 1,
+                          input_option = 0,
                           time_flag = TRUE){
 
       #initialize tables

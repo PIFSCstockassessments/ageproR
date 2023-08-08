@@ -42,7 +42,7 @@ Initializes the stochastic class
   num_obs_yrs,
   num_ages,
   num_fleets = 1,
-  input_option = 1,
+  input_option = 0,
   time_flag = TRUE
 )}\if{html}{\out{</div>}}
 }
@@ -56,6 +56,12 @@ projection.}
 \item{\code{num_ages}}{Number of Age classes}
 
 \item{\code{num_fleets}}{Number of Fleets. Default is 1}
+
+\item{\code{input_option}}{Option to indicate stochastic parameter will be:
+\itemize{
+\item \code{0} By default, interactively via interface.
+\item \code{1} Imported from a the location of an existing data file
+}}
 
 \item{\code{time_flag}}{Logical flag that enables the stochastic parameter to use
 as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
