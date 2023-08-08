@@ -5,7 +5,7 @@
 #' @description
 #' Generalized Class Structure for Stochastic AGEPRO Keyword parameters.
 #'
-#' @param num_obs_yrs Numbers of years in from first to last year of
+#' @param num_projection_years Numbers of years in from first to last year of
 #' projection.
 #' @param num_ages Number of Age classes
 #' @param num_fleets Number of Fleets. Default is 1
@@ -27,8 +27,6 @@ stochastic <- R6Class(
   "stochastic",
   private = list(
 
-    .count_observation_years = NULL,
-    .count_ages = NULL,
     .input_option = NULL,
     .time_varying = NULL,
     .stochastic_datafile = NULL,
@@ -40,17 +38,20 @@ stochastic <- R6Class(
 
 
     #Private method to initialize Stochastic and CV tables
-    setup_stochastic_tables = function (num_obs_yrs, num_ages, num_fleets = 1) {
+    setup_stochastic_tables = function (num_projection_years,
+                                        num_ages,
+                                        num_fleets = 1) {
       #initialize tables
       private$.stochastic_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
 
       if(self$time_varying){
 
-        self$stochastastic_table <-
-          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
-        self$cv_table <-
-          self$create_stochastic_table((num_obs_yrs * num_fleets), num_ages)
+        self$stochastastic_table <- self$create_stochastic_table(
+          (num_projection_years * num_fleets), num_ages)
+
+        self$cv_table <- self$create_stochastic_table(
+          (num_projection_years * num_fleets), num_ages)
 
       }else{
         #All Years
@@ -70,7 +71,7 @@ stochastic <- R6Class(
     #' @description
     #' Initializes the stochastic class
     #'
-    initialize = function(num_obs_yrs,
+    initialize = function(num_projection_years,
                           num_ages,
                           num_fleets = 1,
                           input_option = 0,
@@ -83,7 +84,9 @@ stochastic <- R6Class(
       self$time_varying <- time_varying
 
       #Initialize Stochastic and CV tables
-      private$setup_stochastic_tables(num_obs_yrs, num_ages, num_fleets)
+      private$setup_stochastic_tables(num_projection_years,
+                                      num_ages,
+                                      num_fleets)
 
     },
 

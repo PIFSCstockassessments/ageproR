@@ -39,7 +39,7 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 Initializes the stochastic class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{stochastic$new(
-  num_obs_yrs,
+  num_projection_years,
   num_ages,
   num_fleets = 1,
   input_option = 0,
@@ -50,7 +50,7 @@ Initializes the stochastic class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_obs_yrs}}{Numbers of years in from first to last year of
+\item{\code{num_projection_years}}{Numbers of years in from first to last year of
 projection.}
 
 \item{\code{num_ages}}{Number of Age classes}
