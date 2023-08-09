@@ -42,9 +42,6 @@ agepro_model <- R6Class(
     #' @field case_id Case id
     case_id = NULL,
 
-    #' @field inp_pointer AGEPRO input file pointer
-    inp_pointer = NULL,
-
     #' @field bootstrap Bootstrapping
     bootstrap = NULL,
 
