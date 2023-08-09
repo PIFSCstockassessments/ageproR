@@ -72,7 +72,7 @@ agepro_model <- R6Class(
       ## TODO TODO: Consider a helper function to create a new instance of
       ## AgeproModel
 
-      private$.ver_leagacy_string = "AGEPRO VERSION 4.0"
+      private$.ver_legacy_string = "AGEPRO VERSION 4.0"
       private$.ver_numeric_string = "4.0.0.0"
 
       assert_number(age_begin, lower = 0, upper = 1)
