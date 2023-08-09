@@ -1,3 +1,8 @@
+# ageproR 0.3.2  2023-08-09
+
+* Fixed `ver_legacy_string` typo that affected the creation of the
+`agepro_model` class.
+
 # ageproR 0.3.1  2023-08-03
 
 * Tweaks to R Console cli when loading AGEPRO input file.
