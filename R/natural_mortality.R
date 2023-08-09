@@ -9,6 +9,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @export
 natural_mortality <- R6Class(
   "natural_mortality",
   inherit = stochastic,
@@ -38,6 +39,7 @@ natural_mortality <- R6Class(
                          input_option = 0,
                          time_varying = TRUE) {
 
+      private$.paramter_name <- "natural mortality"
 
       super$initalize(num_projection_years,
                       num_ages,

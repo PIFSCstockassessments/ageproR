@@ -23,6 +23,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @export
 stochastic <- R6Class(
   "stochastic",
   private = list(
@@ -35,6 +36,8 @@ stochastic <- R6Class(
     .upper_bounds = NULL,
 
     .valid_input_options = c(0,1),
+    .parameter_name = NULL,
+    .discards = NULL,
 
 
     #Private method to initialize Stochastic and CV tables
