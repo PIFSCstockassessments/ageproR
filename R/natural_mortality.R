@@ -34,20 +34,21 @@ natural_mortality <- R6Class(
     #' vector will cover "all years" of the projection. Default is TRUE.
     #'
     #'
-    initalize = function(num_projection_years,
+    initialize = function(num_projection_years,
                          num_ages,
                          input_option = 0,
                          time_varying = TRUE) {
 
-      private$.paramter_name <- "natural mortality"
-
-      super$initalize(num_projection_years,
+      super$initialize(num_projection_years,
                       num_ages,
                       1, #Single, non-Fleet dependent parameter.
                       input_option,
                       time_varying)
-    }
 
+      super$parameter_name <- "Natural mortality Of Age"
+
+
+    }
   )
 
 )

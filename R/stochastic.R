@@ -89,7 +89,8 @@ stochastic <- R6Class(
       private$setup_stochastic_tables(num_projection_years,
                                       num_ages,
                                       num_fleets)
-
+      #Fallback Parameter Name
+      self$parameter_name <- "Stochastic Parameter At Age"
 
     },
 
@@ -113,9 +114,9 @@ stochastic <- R6Class(
     #'
     print = function(...) {
       cli::cli_ul()
-      cli::cli_li("Input Option: {.val {Self$input_option}}")
+      cli::cli_li("Input Option: {.val {self$input_option}}")
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
-      cli::cli_alert_info("private$.parameter_name")
+      cli::cli_alert_info("{self$parameter_name}")
       cli::cat_print(self$stochastic_table)
       cli::cli_alert_info("Coefficent of Variation")
       cli::cat_print(self$cv_table)
@@ -176,7 +177,18 @@ stochastic <- R6Class(
         checkmate::assert_matrix(value, min.cols = 1, min.rows = 1)
         private$.cv_table <- value
       }
+    },
+
+    #' @field parameter_name Parameter Name
+    parameter_name = function(value) {
+      if(missing(value)){
+        private$.parameter_name
+      } else {
+        checkmate::assert_character(value)
+        private$.parameter_name <- value
+      }
     }
+
 
     #TODO: json_list_stochastic
 

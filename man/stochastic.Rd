@@ -21,6 +21,8 @@ factor).}
 \item{\code{cv_table}}{Matrix containing the vector of of age-specific CVs for
 sampling the average stochastic AGEPRO keyword parameter's at age
 (and by fleet if fleets are a factor) with lognormal process error.}
+
+\item{\code{parameter_name}}{Parameter Name}
 }
 \if{html}{\out{</div>}}
 }

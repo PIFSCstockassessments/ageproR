@@ -13,7 +13,7 @@ AGEPRO Keyword parameter.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-natural_mortality-initalize}{\code{natural_mortality$initalize()}}
+\item \href{#method-natural_mortality-new}{\code{natural_mortality$new()}}
 \item \href{#method-natural_mortality-clone}{\code{natural_mortality$clone()}}
 }
 }
@@ -21,18 +21,17 @@ AGEPRO Keyword parameter.
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="create_stochastic_table"><a href='../../ageproR/html/stochastic.html#method-stochastic-create_stochastic_table'><code>ageproR::stochastic$create_stochastic_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="initialize"><a href='../../ageproR/html/stochastic.html#method-stochastic-initialize'><code>ageproR::stochastic$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="print"><a href='../../ageproR/html/stochastic.html#method-stochastic-print'><code>ageproR::stochastic$print()</code></a></span></li>
 </ul>
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-natural_mortality-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-natural_mortality-initalize}{}}}
-\subsection{Method \code{initalize()}}{
+\if{html}{\out{<a id="method-natural_mortality-new"></a>}}
+\if{latex}{\out{\hypertarget{method-natural_mortality-new}{}}}
+\subsection{Method \code{new()}}{
 Initializes the stochastic class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{natural_mortality$initalize(
+\if{html}{\out{<div class="r">}}\preformatted{natural_mortality$new(
   num_projection_years,
   num_ages,
   input_option = 0,
