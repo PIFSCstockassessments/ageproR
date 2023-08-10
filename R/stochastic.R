@@ -39,7 +39,6 @@ stochastic <- R6Class(
     .parameter_name = NULL,
     .discards = NULL,
 
-
     #Private method to initialize Stochastic and CV tables
     setup_stochastic_tables = function (num_projection_years,
                                         num_ages,
@@ -50,7 +49,7 @@ stochastic <- R6Class(
 
       if(self$time_varying){
 
-        self$stochastastic_table <- self$create_stochastic_table(
+        self$stochastic_table <- self$create_stochastic_table(
           (num_projection_years * num_fleets), num_ages)
 
         self$cv_table <- self$create_stochastic_table(
