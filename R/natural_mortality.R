@@ -12,7 +12,7 @@
 #' @export
 natural_mortality <- R6Class(
   "natural_mortality",
-  inherit = stochastic,
+  inherit = ageproR::stochastic,
   private = list(
 
   ),
