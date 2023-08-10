@@ -66,8 +66,6 @@ stochastic <- R6Class(
 
     }
 
-
-
   ), public = list (
 
     #' @description
@@ -89,6 +87,7 @@ stochastic <- R6Class(
       private$setup_stochastic_tables(num_projection_years,
                                       num_ages,
                                       num_fleets)
+
 
     },
 
@@ -121,7 +120,7 @@ stochastic <- R6Class(
       if(missing(value)){
         private$.input_option
       } else {
-        checkmate::assert_integer(value, lower = 0)
+        checkmate::assert_integerish(value, lower = 0)
         checkmate::assert_subset(value, private$.valid_input_options)
         private$.input_option <- value
       }
