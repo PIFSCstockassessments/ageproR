@@ -19,6 +19,8 @@
 #' cover "all years" of the projection. Default is TRUE.
 #'
 #'
+#' @template elipses
+#'
 #' @import cli
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
@@ -104,9 +106,23 @@ stochastic <- R6Class(
                     nrow = fleet_yr_rows,
                     ncol = ages_cols))
 
+    },
+
+    #' @description
+    #' Formatted print out Stochastic Parameter Values
+    #'
+    print = function(...) {
+      cli::cli_ul()
+      cli::cli_li("Input Option: {.val {Self$input_option}}")
+      cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_alert_info("private$.parameter_name")
+      cli::cat_print(self$stochastic_table)
+      cli::cli_alert_info("Coefficent of Variation")
+      cli::cat_print(self$cv_table)
+      cli::cli_end()
+
     }
 
-    #TODO: print function
 
     #TODO: read_inp_lines
 

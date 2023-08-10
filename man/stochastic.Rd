@@ -29,6 +29,7 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 \itemize{
 \item \href{#method-stochastic-new}{\code{stochastic$new()}}
 \item \href{#method-stochastic-create_stochastic_table}{\code{stochastic$create_stochastic_table()}}
+\item \href{#method-stochastic-print}{\code{stochastic$print()}}
 \item \href{#method-stochastic-clone}{\code{stochastic$clone()}}
 }
 }
@@ -85,6 +86,23 @@ Creates an stochastic table
 \item{\code{fleet_yr_rows}}{(Fleet-)Year Row}
 
 \item{\code{ages_cols}}{Age Columns}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stochastic-print"></a>}}
+\if{latex}{\out{\hypertarget{method-stochastic-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted print out Stochastic Parameter Values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

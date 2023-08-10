@@ -22,6 +22,7 @@ AGEPRO Keyword parameter.
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="create_stochastic_table"><a href='../../ageproR/html/stochastic.html#method-stochastic-create_stochastic_table'><code>ageproR::stochastic$create_stochastic_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="initialize"><a href='../../ageproR/html/stochastic.html#method-stochastic-initialize'><code>ageproR::stochastic$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="print"><a href='../../ageproR/html/stochastic.html#method-stochastic-print'><code>ageproR::stochastic$print()</code></a></span></li>
 </ul>
 </details>
 }}
