@@ -45,6 +45,11 @@ stochastic <- R6Class(
     setup_stochastic_tables = function (num_projection_years,
                                         num_ages,
                                         num_fleets = 1) {
+      #Validate parameters
+      checkmate::assert_numeric(num_projection_years, lower = 1)
+      checkmate::assert_integerish(num_ages, lower = 1)
+      checkmate::assert_integerish(num_fleets, lower = 1)
+
       #initialize tables
       private$.stochastic_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
@@ -65,6 +70,11 @@ stochastic <- R6Class(
           self$create_stochastic_table((1 * num_fleets), num_ages)
 
       }
+
+      #Colnames: Ages
+      colnames_ages <- paste0("Age", seq(num_ages))
+      colnames(self$stochastic_table) <- colnames_ages
+      colnames(self$cv_table) <- colnames_ages
 
     }
 
