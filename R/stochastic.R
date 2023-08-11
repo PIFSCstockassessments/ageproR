@@ -78,6 +78,9 @@ stochastic <- R6Class(
 
     }
 
+    #TODO: Create private method to handle "Projection_years" as a
+    #single and  single int or a vector of sequential values
+
   ), public = list (
 
     #' @description
