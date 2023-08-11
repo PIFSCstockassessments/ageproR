@@ -54,13 +54,17 @@ stochastic <- R6Class(
       private$.stochastic_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
 
+      # Handle num_projection_years that may be a single int
+      # or vector of sequential values
+      projection_years <- ageproR::projection_years$new(num_projection_years)
+
       if(self$time_varying){
 
         self$stochastic_table <- self$create_stochastic_table(
-          (num_projection_years * num_fleets), num_ages)
+          (projection_years$count * num_fleets), num_ages)
 
         self$cv_table <- self$create_stochastic_table(
-          (num_projection_years * num_fleets), num_ages)
+          (projection_years$count * num_fleets), num_ages)
 
       }else{
         #All Years
@@ -71,10 +75,44 @@ stochastic <- R6Class(
 
       }
 
+      #Rownames: Fleet-Years
+      private$setup_stochastic_rownames(projection_years,
+                                        num_fleets)
+
       #Colnames: Ages
       colnames_ages <- paste0("Age", seq(num_ages))
       colnames(self$stochastic_table) <- colnames_ages
       colnames(self$cv_table) <- colnames_ages
+
+    },
+
+    #Rownames: Fleet-Years
+    setup_stochastic_rownames = function (proj_years,
+                                           num_fleets = 1){
+      #Validate num_fleets
+      checkmate::check_integerish(num_fleets, lower = 1)
+
+      if(num_fleets > 1) {
+
+        # Assemble Fleet-years rownames vector using the `outer prouduct of`
+        # Fleet and projected_years sequence strings. Re-sort the vector
+        # where the first fleet and starting projection year is the first
+        # rowname of the vector.
+        rownames_fleetyears <-
+          sort(as.vector(outer(paste0("Fleet",seq(num_fleets)),
+                               proj_years$sequence,
+                               paste, sep="-")))
+      } else {
+        # If num_fleets is 1 && use the projection_years sequence as rownames,
+        # Otherwise use the "All years" rowname
+        ifelse(self$time_varying,
+               rownames_fleetyears <- proj_years$sequence,
+               rownames_fleetyears <- "All Years" )
+
+      }
+
+      rownames(self$stochastic_table) <- rownames_fleetyears
+      rownames(self$cv_table) <- rownames_fleetyears
 
     }
 
@@ -98,10 +136,12 @@ stochastic <- R6Class(
       #Time Varying
       self$time_varying <- time_varying
 
+
       #Initialize Stochastic and CV tables
       private$setup_stochastic_tables(num_projection_years,
                                       num_ages,
                                       num_fleets)
+
       #Fallback Parameter Name
       self$parameter_name <- "Stochastic Parameter At Age"
 
@@ -114,7 +154,6 @@ stochastic <- R6Class(
     #' @param ages_cols Age Columns
     #'
     create_stochastic_table = function(fleet_yr_rows, ages_cols) {
-
 
       return(matrix(rep(NA, (fleet_yr_rows * ages_cols) ) ,
                     nrow = fleet_yr_rows,
