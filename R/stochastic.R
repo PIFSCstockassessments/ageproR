@@ -93,21 +93,25 @@ stochastic <- R6Class(
       checkmate::check_integerish(num_fleets, lower = 1)
 
       if(num_fleets > 1) {
+        if(self$time_varying) {
+          # Assemble Fleet-years rownames vector using the `outer product of`
+          # Fleet and projected_years sequence strings. Re-sort the vector
+          # where the first fleet and starting projection year is the first
+          # rowname of the vector.
+          rownames_fleetyears <-
+            sort(as.vector(outer(paste0("Fleet",seq(num_fleets)),
+                                 proj_years$sequence,
+                                 paste, sep="-")))
+        }else {
+          rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
+        }
 
-        # Assemble Fleet-years rownames vector using the `outer prouduct of`
-        # Fleet and projected_years sequence strings. Re-sort the vector
-        # where the first fleet and starting projection year is the first
-        # rowname of the vector.
-        rownames_fleetyears <-
-          sort(as.vector(outer(paste0("Fleet",seq(num_fleets)),
-                               proj_years$sequence,
-                               paste, sep="-")))
       } else {
         # If num_fleets is 1 && use the projection_years sequence as rownames,
         # Otherwise use the "All years" rowname
-        ifelse(self$time_varying,
-               rownames_fleetyears <- proj_years$sequence,
-               rownames_fleetyears <- "All Years" )
+        rownames_fleetyears <- ifelse(self$time_varying,
+                                       proj_years$sequence,
+                                       "All Years" )
 
       }
 
@@ -116,8 +120,6 @@ stochastic <- R6Class(
 
     }
 
-    #TODO: Create private method to handle "Projection_years" as a
-    #single and  single int or a vector of sequential values
 
   ), public = list (
 
