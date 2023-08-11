@@ -27,6 +27,7 @@ year of the AGEPRO model's time projection.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-projection_years-new}{\code{projection_years$new()}}
+\item \href{#method-projection_years-print}{\code{projection_years$print()}}
 \item \href{#method-projection_years-clone}{\code{projection_years$clone()}}
 }
 }
@@ -46,6 +47,16 @@ Initializes the class
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-projection_years-print"></a>}}
+\if{latex}{\out{\hypertarget{method-projection_years-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out projection_years fields
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{projection_years$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-projection_years-clone"></a>}}

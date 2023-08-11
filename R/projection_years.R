@@ -6,7 +6,7 @@
 #' sequential values representing a vector of "years" from first to last
 #' year of the AGEPRO model's time projection.
 #'
-#'
+#' @import cli
 #' @importFrom R6 R6Class
 #' @export
 #'
@@ -36,6 +36,17 @@ projection_years <- R6Class(
         self$count <- length(x)
         self$sequence <- x
       }
+
+    },
+
+    #' @description
+    #' Prints out projection_years fields
+    #'
+    print = function (){
+      cli_ul()
+      cli_alert_info("Projection Years")
+      cli_li("count: {.val {self$count}}")
+      cli_li("sequence: {.val {self$sequence}}")
     }
 
   ),
