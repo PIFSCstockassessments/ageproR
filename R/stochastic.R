@@ -187,24 +187,24 @@ stochastic <- R6Class(
   ), active = list (
 
     #' @field input_option Stochastic Input option
-    input_option = function(value) {
-      if(missing(value)){
+    input_option = function(input_flag) {
+      if(missing(input_flag)){
         private$.input_option
       } else {
-        checkmate::assert_integerish(value, lower = 0)
-        checkmate::assert_subset(value, private$.valid_input_options)
-        private$.input_option <- value
+        checkmate::assert_integerish(input_flag, lower = 0)
+        checkmate::assert_subset(input_flag, private$.valid_input_options)
+        private$.input_option <- input_flag
       }
     },
 
     #' @field time_varying Logical flag to list stochastic data by observation
     #' year
-    time_varying = function(value) {
-      if(missing(value)){
+    time_varying = function(time_flag) {
+      if(missing(time_flag)){
         private$.time_varying
       } else {
-        checkmate::assert_logical(value)
-        private$.time_varying <- value
+        checkmate::assert_logical(time_flag)
+        private$.time_varying <- time_flag
       }
     },
 
