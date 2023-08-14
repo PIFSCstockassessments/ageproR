@@ -109,16 +109,22 @@ stochastic <- R6Class(
       } else {
         # If num_fleets is 1 && use the projection_years sequence as rownames,
         # Otherwise use the "All years" rowname
-        rownames_fleetyears <- ifelse(self$time_varying,
-                                       proj_years$sequence,
-                                       "All Years" )
-
+        if(self$time_varying){
+          rownames_fleetyears <- proj_years$sequence
+        }else{
+          rownames_fleetyears <- "All Years"
+        }
       }
 
       rownames(self$stochastic_table) <- rownames_fleetyears
       rownames(self$cv_table) <- rownames_fleetyears
 
     }
+
+    #TODO: Subset stochastic_table by rowname,columname
+    #stoch-table[rownames(stoch-table) %in% nodenames, colnames(stoch-table) %in% nodenames ]
+
+
 
 
   ), public = list (
