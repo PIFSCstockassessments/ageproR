@@ -94,14 +94,17 @@ stochastic <- R6Class(
 
       if(num_fleets > 1) {
         if(self$time_varying) {
-          # Assemble Fleet-years rownames vector using the `outer product of`
-          # Fleet and projected_years sequence strings. Re-sort the vector
-          # where the first fleet and starting projection year is the first
-          # rowname of the vector.
+          # Assemble Fleet-years rownames vector by creating a sequence of
+          # Fleet and projected_years sequence strings. For fleet-dependent
+          # stochastic parameters, repeat each unique element of the fleet
+          # sequence by the length of the time projection.
           rownames_fleetyears <-
-            sort(as.vector(outer(paste0("Fleet",seq(num_fleets)),
-                                 proj_years$sequence,
-                                 paste, sep="-")))
+
+            paste(paste0("Fleet", rep(seq(num_fleets),
+                                each = length(proj_years$sequence))),
+                  proj_years$sequence, sep = "-")
+
+
         }else {
           rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
         }
@@ -120,6 +123,9 @@ stochastic <- R6Class(
       rownames(self$cv_table) <- rownames_fleetyears
 
     }
+
+
+
 
     #TODO: Subset stochastic_table by rowname,columname
     #stoch-table[rownames(stoch-table) %in% nodenames, colnames(stoch-table) %in% nodenames ]
