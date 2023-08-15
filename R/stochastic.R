@@ -127,10 +127,6 @@ stochastic <- R6Class(
 
 
 
-    #TODO: Subset stochastic_table by rowname,columname
-    #stoch-table[rownames(stoch-table) %in% nodenames, colnames(stoch-table) %in% nodenames ]
-
-
 
 
   ), public = list (
