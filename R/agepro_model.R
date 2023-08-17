@@ -22,6 +22,9 @@ agepro_model <- R6Class(
     .ver_legacy_string = NULL,
     .ver_numeric_string = NULL,
 
+    .general_options = NULL,
+    .natural_mortality = NULL,
+
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
         color = "cyan",
@@ -33,8 +36,8 @@ agepro_model <- R6Class(
   ),
   public = list(
 
-    #' @field general General Parameters
-    general = NULL,
+    # #' @field general General Parameters
+    #general = NULL,
 
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
@@ -98,6 +101,9 @@ agepro_model <- R6Class(
 
       self$bootstrap <- bootstrap$new()
 
+      self$natmort <- natural_mortality$new(self$general$seq_years,
+                                            self$general$num_ages)
+
     },
 
     #' @description
@@ -147,6 +153,29 @@ agepro_model <- R6Class(
         #use as.numeric_version to validate
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
         private$.ver_numeric_string <- value
+      }
+    },
+
+    #' @field general
+    #' General Options
+    general = function(value) {
+      if(missing(value)){
+        return(private$.general_options)
+      }else {
+        checkmate::assert_r6(value)
+        private$.general_options <- value
+      }
+    },
+
+
+    #' @field natmort
+    #' Natural Mortality
+    natmort = function(value){
+      if(missing(value)){
+        return(private$.natural_mortality)
+      }else {
+        checkmate::assert_r6(value, "stochastic")
+        private$.natural_mortality <- value
       }
     }
 
@@ -223,10 +252,9 @@ agepro_inp_model <- R6Class(
                                          cat_verbose = FALSE))
       self$bootstrap <- suppressMessages(bootstrap$new())
 
-      # self$natural_mortality <-
-      #   supressMessages(
-      #     natrual_mortality$new(self$general$seq_years,
-      #                           self$general$num_ages))
+      self$natmort <-
+        suppressMessages(natural_mortality$new(self$general$seq_years,
+                                              self$general$num_ages))
 
     },
 

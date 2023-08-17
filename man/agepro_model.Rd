@@ -14,8 +14,6 @@ determine age-structured population over a time period. Brodziak, 2022
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{general}}{General Parameters}
-
 \item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
 
 \item{\code{case_id}}{Case id}
@@ -31,6 +29,10 @@ determine age-structured population over a time period. Brodziak, 2022
 with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
+
+\item{\code{general}}{General Options}
+
+\item{\code{natmort}}{Natural Mortality}
 }
 \if{html}{\out{</div>}}
 }
