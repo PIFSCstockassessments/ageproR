@@ -197,6 +197,11 @@ agepro_inp_model <- R6Class(
 
     read_bootstrap = function(con, nline) {
       self$nline <- self$bootstrap$read_inp_lines(con, nline)
+    },
+
+    read_natural_mortality = function(con, nline) {
+      #self
+      #self$nline <- self$natural_mortality$read_inp_lines(con, nline)
     }
 
   ),
@@ -218,7 +223,10 @@ agepro_inp_model <- R6Class(
                                          cat_verbose = FALSE))
       self$bootstrap <- suppressMessages(bootstrap$new())
 
-
+      # self$natural_mortality <-
+      #   supressMessages(
+      #     natrual_mortality$new(self$general$seq_years,
+      #                           self$general$num_ages))
 
     },
 
