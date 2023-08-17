@@ -70,7 +70,7 @@ general_params <- R6Class(
                           num_fleets = 1,
                           num_rec_models = 1,
                           discards = FALSE,
-                          seed = 0) {
+                          seed = sample.int(1e8, 1)) {
 
       private$cli_general_rule()
       # Discards: Assert logical format

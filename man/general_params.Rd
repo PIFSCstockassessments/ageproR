@@ -75,7 +75,7 @@ Starts an instances of the AGEPRO Model
   num_fleets = 1,
   num_rec_models = 1,
   discards = FALSE,
-  seed = 0
+  seed = sample.int(1e+08, 1)
 )}\if{html}{\out{</div>}}
 }
 
