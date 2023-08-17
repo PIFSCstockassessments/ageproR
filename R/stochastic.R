@@ -100,7 +100,7 @@ stochastic <- R6Class(
 
 
       #Initialize Stochastic and CV tables
-      private$setup_stochastic_tables(num_projection_years,
+      self$setup_stochastic_tables(num_projection_years,
                                       num_ages,
                                       num_fleets)
 
@@ -114,23 +114,24 @@ stochastic <- R6Class(
     #'
     #' @param num_projection_years Number of Projection years
     #' @param num_ages Number of Ages
-    #' @param num_fleets Number of Fleets. Defaluts to 1
+    #' @param num_fleets Number of Fleets. Defaults to 1
     #'
     setup_stochastic_tables = function (num_projection_years,
                                         num_ages,
                                         num_fleets = 1) {
+
+      # Handle num_projection_years that may be a single int
+      # or vector of sequential values
+      projection_years <- ageproR::projection_years$new(num_projection_years)
+
       #Validate parameters
-      checkmate::assert_numeric(num_projection_years, lower = 1)
+      checkmate::assert_numeric(projection_years$count, lower = 1)
       checkmate::assert_integerish(num_ages, lower = 1)
       checkmate::assert_integerish(num_fleets, lower = 1)
 
       #initialize tables
       private$.stochastic_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
-
-      # Handle num_projection_years that may be a single int
-      # or vector of sequential values
-      projection_years <- ageproR::projection_years$new(num_projection_years)
 
       if(self$time_varying){
 

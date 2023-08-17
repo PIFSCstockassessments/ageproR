@@ -96,7 +96,7 @@ Initialize Stochastic and CV tables
 
 \item{\code{num_ages}}{Number of Ages}
 
-\item{\code{num_fleets}}{Number of Fleets. Defaluts to 1}
+\item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
 }
 \if{html}{\out{</div>}}
 }
