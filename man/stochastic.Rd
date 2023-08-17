@@ -30,8 +30,11 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-stochastic-new}{\code{stochastic$new()}}
+\item \href{#method-stochastic-setup_stochastic_tables}{\code{stochastic$setup_stochastic_tables()}}
 \item \href{#method-stochastic-create_stochastic_table}{\code{stochastic$create_stochastic_table()}}
 \item \href{#method-stochastic-print}{\code{stochastic$print()}}
+\item \href{#method-stochastic-read_inp_lines}{\code{stochastic$read_inp_lines()}}
+\item \href{#method-stochastic-read_inplines_stochastic_tables}{\code{stochastic$read_inplines_stochastic_tables()}}
 \item \href{#method-stochastic-clone}{\code{stochastic$clone()}}
 }
 }
@@ -74,6 +77,31 @@ cover "all years" of the projection. Default is TRUE.}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stochastic-setup_stochastic_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-stochastic-setup_stochastic_tables}{}}}
+\subsection{Method \code{setup_stochastic_tables()}}{
+Initialize Stochastic and CV tables
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$setup_stochastic_tables(
+  num_projection_years,
+  num_ages,
+  num_fleets = 1
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{num_projection_years}}{Number of Projection years}
+
+\item{\code{num_ages}}{Number of Ages}
+
+\item{\code{num_fleets}}{Number of Fleets. Defaluts to 1}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-stochastic-create_stochastic_table"></a>}}
 \if{latex}{\out{\hypertarget{method-stochastic-create_stochastic_table}{}}}
 \subsection{Method \code{create_stochastic_table()}}{
@@ -105,6 +133,49 @@ Formatted print out Stochastic Parameter Values
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stochastic-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-stochastic-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in stochastic parameter's from AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stochastic-read_inplines_stochastic_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-stochastic-read_inplines_stochastic_tables}{}}}
+\subsection{Method \code{read_inplines_stochastic_tables()}}{
+Internal helper function to set stochastic tables from
+AGEPRO input files.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inplines_stochastic_tables(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
 }
 \if{html}{\out{</div>}}
 }

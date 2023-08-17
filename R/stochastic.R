@@ -20,6 +20,8 @@
 #'
 #'
 #' @template elipses
+#' @template inp_con
+#' @template nline
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -41,7 +43,79 @@ stochastic <- R6Class(
     .parameter_name = NULL,
     .discards = NULL,
 
-    #Private method to initialize Stochastic and CV tables
+    #Rownames: Fleet-Years
+    setup_stochastic_rownames = function (proj_years,
+                                           num_fleets = 1){
+      #Validate num_fleets
+      checkmate::check_integerish(num_fleets, lower = 1)
+
+      if(num_fleets > 1) {
+        if(self$time_varying) {
+          # Assemble Fleet-years rownames vector by creating a sequence of
+          # Fleet and projected_years sequence strings. For fleet-dependent
+          # stochastic parameters, repeat each unique element of the fleet
+          # sequence by the length of the time projection.
+          rownames_fleetyears <-
+
+            paste(paste0("Fleet", rep(seq(num_fleets),
+                                each = length(proj_years$sequence))),
+                  proj_years$sequence, sep = "-")
+
+
+        }else {
+          rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
+        }
+
+      } else {
+        # If num_fleets is 1 && use the projection_years sequence as rownames,
+        # Otherwise use the "All years" rowname
+        if(self$time_varying){
+          rownames_fleetyears <- proj_years$sequence
+        }else{
+          rownames_fleetyears <- "All Years"
+        }
+      }
+
+      rownames(self$stochastic_table) <- rownames_fleetyears
+      rownames(self$cv_table) <- rownames_fleetyears
+
+    }
+
+  ), public = list (
+
+    #' @description
+    #' Initializes the stochastic class
+    #'
+    initialize = function(num_projection_years,
+                          num_ages,
+                          num_fleets = 1,
+                          input_option = 0,
+                          time_varying = TRUE){
+
+      #set and validate input_option value
+      self$input_option <- input_option
+
+      #Time Varying
+      self$time_varying <- time_varying
+
+
+      #Initialize Stochastic and CV tables
+      private$setup_stochastic_tables(num_projection_years,
+                                      num_ages,
+                                      num_fleets)
+
+      #Fallback Parameter Name
+      self$parameter_name <- "Stochastic Parameter At Age"
+
+    },
+
+    #' @description
+    #' Initialize Stochastic and CV tables
+    #'
+    #' @param num_projection_years Number of Projection years
+    #' @param num_ages Number of Ages
+    #' @param num_fleets Number of Fleets. Defaluts to 1
+    #'
     setup_stochastic_tables = function (num_projection_years,
                                         num_ages,
                                         num_fleets = 1) {
@@ -86,76 +160,7 @@ stochastic <- R6Class(
 
     },
 
-    #Rownames: Fleet-Years
-    setup_stochastic_rownames = function (proj_years,
-                                           num_fleets = 1){
-      #Validate num_fleets
-      checkmate::check_integerish(num_fleets, lower = 1)
 
-      if(num_fleets > 1) {
-        if(self$time_varying) {
-          # Assemble Fleet-years rownames vector by creating a sequence of
-          # Fleet and projected_years sequence strings. For fleet-dependent
-          # stochastic parameters, repeat each unique element of the fleet
-          # sequence by the length of the time projection.
-          rownames_fleetyears <-
-
-            paste(paste0("Fleet", rep(seq(num_fleets),
-                                each = length(proj_years$sequence))),
-                  proj_years$sequence, sep = "-")
-
-
-        }else {
-          rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
-        }
-
-      } else {
-        # If num_fleets is 1 && use the projection_years sequence as rownames,
-        # Otherwise use the "All years" rowname
-        if(self$time_varying){
-          rownames_fleetyears <- proj_years$sequence
-        }else{
-          rownames_fleetyears <- "All Years"
-        }
-      }
-
-      rownames(self$stochastic_table) <- rownames_fleetyears
-      rownames(self$cv_table) <- rownames_fleetyears
-
-    }
-
-
-
-
-
-
-  ), public = list (
-
-    #' @description
-    #' Initializes the stochastic class
-    #'
-    initialize = function(num_projection_years,
-                          num_ages,
-                          num_fleets = 1,
-                          input_option = 0,
-                          time_varying = TRUE){
-
-      #set and validate input_option value
-      self$input_option <- input_option
-
-      #Time Varying
-      self$time_varying <- time_varying
-
-
-      #Initialize Stochastic and CV tables
-      private$setup_stochastic_tables(num_projection_years,
-                                      num_ages,
-                                      num_fleets)
-
-      #Fallback Parameter Name
-      self$parameter_name <- "Stochastic Parameter At Age"
-
-    },
 
     #' @description
     #' Creates an stochastic table
@@ -184,10 +189,69 @@ stochastic <- R6Class(
       cli::cat_print(self$cv_table)
       cli::cli_end()
 
+    },
+
+    #' @description
+    #' Reads in stochastic parameter's from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      # Read an additional line from the file connection
+      # and split into 2 substrings
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      #Assign input option and time varying
+      self$input_option <- inp_line[1]
+      self$time_varying <- as.logical(inp_line[2])
+
+      #Validate input option
+      checkmate::assert_choice(self$input_option,
+                               private$.valid_input_options,
+                               .var.name = "Input Option")
+
+      nline <- nline + 1
+      cli::cli_alert("Line {nline}: ")
+      cli::cli_ul()
+      cli::cli_li("Input Option: {.val {self$input_option}}")
+      cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_end()
+
+
+      #Create new instance of stochastic and CV tables
+               setup_stochastic_tables
+      private$setup_stochastic_tables()
+
+
+      if(self$input_option == 1) {
+        #TODO: Read from file name
+
+      } else {
+        #from interface
+
+
+      }
+
+
+    },
+
+
+    #' @description
+    #' Internal helper function to set stochastic tables from
+    #' AGEPRO input files.
+    #'
+    read_inplines_stochastic_tables = function(inp_con, nline) {
+
+      #
+
+      if(self$time_varying){
+
+      }else{
+
+        # Read in only one additional line from the file connection
+        #
+        inp_line <- read_inp_numeric_line(inp_con)
+      }
     }
-
-
-    #TODO: read_inp_lines
 
 
     #TODO: inplines_stochastic
