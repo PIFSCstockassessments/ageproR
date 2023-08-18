@@ -77,6 +77,8 @@ stochastic <- R6Class(
         }
       }
 
+      #TODO: MODULARIZE: RETURN ROWNAME VALUE FOR CV TABLE
+      # RESOLVE TIME VARYING WITH CV TABLES
       rownames(self$stochastic_table) <- rownames_fleetyears
       rownames(self$cv_table) <- rownames_fleetyears
 
@@ -139,17 +141,21 @@ stochastic <- R6Class(
         self$stochastic_table <- self$create_stochastic_table(
           (projection_years$count * num_fleets), num_ages)
 
-        self$cv_table <- self$create_stochastic_table(
-          (projection_years$count * num_fleets), num_ages)
+        #self$cv_table <- self$create_stochastic_table(
+        #  (projection_years$count * num_fleets), num_ages)
 
       }else{
         #All Years
         self$stochastic_table <-
           self$create_stochastic_table((1 * num_fleets), num_ages)
-        self$cv_table <-
-          self$create_stochastic_table((1 * num_fleets), num_ages)
+        #self$cv_table <-
+        #  self$create_stochastic_table((1 * num_fleets), num_ages)
 
       }
+
+      self$cv_table <-
+        self$create_stochastic_table((1 * num_fleets), num_ages)
+
 
       #Rownames: Fleet-Years
       private$setup_stochastic_rownames(projection_years,
