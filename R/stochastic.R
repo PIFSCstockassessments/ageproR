@@ -198,6 +198,10 @@ stochastic <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
+      # Setup new instance of stochastic of age and CV tables
+      # (`setup_stochastic_tables`) in parent caller (example `read_fishery`
+      # in `agepro_inp_model`) before calling read_inp_lines.
+
       # Read an additional line from the file connection
       # and split into 2 substrings
       inp_line <- read_inp_numeric_line(inp_con)
@@ -219,9 +223,8 @@ stochastic <- R6Class(
       cli::cli_end()
 
 
-      #Create new instance of stochastic and CV tables
-               setup_stochastic_tables
-      private$setup_stochastic_tables()
+
+
 
 
       if(self$input_option == 1) {
@@ -247,11 +250,33 @@ stochastic <- R6Class(
 
       if(self$time_varying){
 
+        for(i in rownames(self$stochastic_table)){
+          inp_line <- read_inp_numeric_line(inp_con)
+          self$stochastic_table[i,] <- inp_line
+          nline <- nline + 1
+          cli_alert(c("Line {nline}: Stochastic Parameter at Age for {i}: ",
+                      "{.val {inp_line}}"))
+        }
+
+
+
       }else{
 
         # Read in only one additional line from the file connection
         #
         inp_line <- read_inp_numeric_line(inp_con)
+        self$stochstic_table["All Years",] <- inp_line
+        nline <- nline + 1
+        cli_alert(c("Line {nline}: Stochastic Parameter at Age for All Years: ",
+                    "{.val {inp_line}}"))
+
+        inp_line <- read_inp_numeric_line(inp_con)
+        self$cv_table["All Years",] <- inp_line
+        nline <- nline + 1
+        cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
+                    "{.val {inp_line}}"))
+
+
       }
     }
 
