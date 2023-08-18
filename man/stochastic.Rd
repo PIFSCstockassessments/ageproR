@@ -45,7 +45,7 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 Initializes the stochastic class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{stochastic$new(
-  num_projection_years,
+  proj_years,
   num_ages,
   num_fleets = 1,
   input_option = 0,
@@ -56,8 +56,9 @@ Initializes the stochastic class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_projection_years}}{Numbers of years in from first to last year of
-projection.}
+\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
 
 \item{\code{num_ages}}{Number of Age classes}
 
@@ -82,17 +83,13 @@ cover "all years" of the projection. Default is TRUE.}
 \subsection{Method \code{setup_stochastic_tables()}}{
 Initialize Stochastic and CV tables
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{stochastic$setup_stochastic_tables(
-  num_projection_years,
-  num_ages,
-  num_fleets = 1
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$setup_stochastic_tables(proj_years, num_ages, num_fleets = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_projection_years}}{Number of Projection years}
+\item{\code{proj_years}}{\link[=projection_years]{Projection years} value}
 
 \item{\code{num_ages}}{Number of Ages}
 
