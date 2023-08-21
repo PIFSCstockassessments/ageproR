@@ -229,8 +229,6 @@ agepro_inp_model <- R6Class(
     },
 
     read_natural_mortality = function(con, nline) {
-      self$natmort$setup_stochastic_table(self$general$seq_years,
-                                          self$general$num_ages)
       self$nline <- self$natmort$read_inp_lines(con, nline)
     }
 

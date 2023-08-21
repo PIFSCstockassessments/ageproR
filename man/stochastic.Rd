@@ -83,17 +83,27 @@ cover "all years" of the projection. Default is TRUE.}
 \subsection{Method \code{setup_stochastic_tables()}}{
 Initialize Stochastic and CV tables
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{stochastic$setup_stochastic_tables(proj_years, num_ages, num_fleets = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$setup_stochastic_tables(
+  projection_years,
+  num_ages,
+  num_fleets = 1,
+  time_varying = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{proj_years}}{\link[=projection_years]{Projection years} value}
+\item{\code{projection_years}}{\link[=projection_years]{Projection years}
+value}
 
 \item{\code{num_ages}}{Number of Ages}
 
 \item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
+
+\item{\code{time_varying}}{Logical flag that enables the stochastic parameter to use
+as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
+cover "all years" of the projection. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
