@@ -150,7 +150,7 @@ Formatted print out Stochastic Parameter Values
 \subsection{Method \code{read_inp_lines()}}{
 Reads in stochastic parameter's from AGEPRO Input file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inp_lines(inp_con, nline, proj_years, num_ages, num_fleets = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -161,6 +161,14 @@ Reads in stochastic parameter's from AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+
+\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
+
+\item{\code{num_ages}}{Number of Age classes}
+
+\item{\code{num_fleets}}{Number of Fleets. Default is 1}
 }
 \if{html}{\out{</div>}}
 }

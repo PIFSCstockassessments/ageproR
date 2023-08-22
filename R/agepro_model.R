@@ -229,7 +229,11 @@ agepro_inp_model <- R6Class(
     },
 
     read_natural_mortality = function(con, nline) {
-      self$nline <- self$natmort$read_inp_lines(con, nline)
+      cli::cli_alert("Reading Natural Mortaility")
+      self$nline <- self$natmort$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages)
     }
 
   ),
@@ -285,10 +289,10 @@ agepro_inp_model <- R6Class(
 
           #Cleanup and close file connections
           message("Input File Read")
-        },
-        warning = function(cond) {
-          warning(cond)
-          invisible()
+        #},
+        #warning = function(cond) {
+          #warning(cond)
+          #invisible()
         },
         error = function(cond) {
           message("There was an error reading this file.")
@@ -296,7 +300,7 @@ agepro_inp_model <- R6Class(
           invisible()
         },
         finally = {
-          message("Finished reading to file.")
+          message("Closing connection to file.")
           #close file connections
           close(inp_con)
         }
@@ -361,7 +365,10 @@ agepro_inp_model <- R6Class(
           },
         "[BOOTSTRAP]" = {
             rlang::expr(private$read_bootstrap(inp_con, self$nline))
-          }
+          },
+        "[NATMORT]" = {
+            rlang::expr(private$read_natural_mortality(inp_con, self$nline))
+         }
       ))
 
       div_keyword_line_alert <- function() {

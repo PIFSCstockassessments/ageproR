@@ -213,7 +213,7 @@ stochastic <- R6Class(
     #' @description
     #' Reads in stochastic parameter's from AGEPRO Input file
     #'
-    read_inp_lines = function(inp_con, nline) {
+    read_inp_lines = function(inp_con, nline, proj_years, num_ages, num_fleets = 1) {
 
       # Read an additional line from the file connection
       # and split into 2 substrings
@@ -238,9 +238,9 @@ stochastic <- R6Class(
       # Setup new instance of stochastic of age and CV tables time_varying
       # value read from the AGEPRO input file.
       # projection_years. num_ages, and num_fleets are set at initialization
-      self$setup_stochastic_tables(private$.projection_years,
-                                   private$.num_ages,
-                                   private$.num_fleets,
+      self$setup_stochastic_tables(ageproR::projection_years$new(proj_years),
+                                   num_ages,
+                                   num_fleets,
                                    time_varying = self$time_varying)
 
 
@@ -263,35 +263,35 @@ stochastic <- R6Class(
     read_inplines_stochastic_tables = function(inp_con, nline) {
 
       #TODO: Verify inp_line is same length as num_ages
-
       if(self$time_varying){
 
         for(i in rownames(self$stochastic_table)){
           inp_line <- read_inp_numeric_line(inp_con)
-          self$stochastic_table[i,] <- inp_line
           nline <- nline + 1
           cli_alert(c("Line {nline}: Stochastic Parameter at Age for {i}: ",
                       "{.val {inp_line}}"))
+
+          self$stochastic_table[i,] <- inp_line
         }
 
 
       }else{
-
         # Read in only one additional line from the file connection
         inp_line <- read_inp_numeric_line(inp_con)
-        self$stochstic_table["All Years",] <- inp_line
         nline <- nline + 1
         cli_alert(c("Line {nline}: Stochastic Parameter at Age for All Years: ",
                     "{.val {inp_line}}"))
+        self$stochastic_table["All Years",] <- inp_line
+
 
       }
 
       # Read in only one additional line from the file connection
       inp_line <- read_inp_numeric_line(inp_con)
-      self$cv_table["All Years",] <- inp_line
       nline <- nline + 1
       cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
                   "{.val {inp_line}}"))
+      self$cv_table["All Years",] <- inp_line
 
       return(nline)
     }
