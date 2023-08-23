@@ -105,15 +105,10 @@ stochastic <- R6Class(
 
       # Handle num_projection_years that may be a single int
       # or vector of sequential values
-      projection_years <- ageproR::projection_years$new(proj_years)
-
-      #Initialize private values
-      private$.projection_years <- projection_years
-      private$.num_ages <- num_ages
-      private$.num_fleets <- num_fleets
+      proj_years_class <- ageproR::projection_years$new(as.numeric(proj_years))
 
       #Initialize Stochastic and CV tables
-      self$setup_stochastic_tables(projection_years,
+      self$setup_stochastic_tables(proj_years_class,
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
@@ -135,6 +130,11 @@ stochastic <- R6Class(
                                         num_ages,
                                         num_fleets = 1,
                                         time_varying = FALSE) {
+
+      #Initialize private values
+      private$.projection_years <- projection_years
+      private$.num_ages <- num_ages
+      private$.num_fleets <- num_fleets
 
       #Validate parameters
       checkmate::assert_numeric(projection_years$count, lower = 1)
@@ -204,7 +204,7 @@ stochastic <- R6Class(
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
       cli::cli_alert_info("{self$parameter_name}")
       cli::cat_print(self$stochastic_table)
-      cli::cli_alert_info("Coefficent of Variation")
+      cli::cli_alert_info("Coefficient of Variation")
       cli::cat_print(self$cv_table)
       cli::cli_end()
 
@@ -229,15 +229,18 @@ stochastic <- R6Class(
                                .var.name = "Input Option")
 
       nline <- nline + 1
-      cli::cli_alert("Line {nline}: ")
+      cli::cli_alert("Line {nline} :")
       cli::cli_ul()
+      a <- cli::cli_ul()
       cli::cli_li("Input Option: {.val {self$input_option}}")
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_end(a)
       cli::cli_end()
 
+
       # Setup new instance of stochastic of age and CV tables time_varying
-      # value read from the AGEPRO input file.
-      # projection_years. num_ages, and num_fleets are set at initialization
+      # value read from the AGEPRO input file. Including values for
+      # projection_years. num_ages, and num_fleets.
       self$setup_stochastic_tables(ageproR::projection_years$new(proj_years),
                                    num_ages,
                                    num_fleets,
@@ -262,13 +265,14 @@ stochastic <- R6Class(
     #'
     read_inplines_stochastic_tables = function(inp_con, nline) {
 
+      cli::cli_alert_info("Number of Ages: {.val {private$.num_ages}}")
       #TODO: Verify inp_line is same length as num_ages
       if(self$time_varying){
 
         for(i in rownames(self$stochastic_table)){
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: Stochastic Parameter at Age for {i}: ",
+          cli_alert(c("Line {nline}: {self$parameter_name} for {i}: ",
                       "{.val {inp_line}}"))
 
           self$stochastic_table[i,] <- inp_line
@@ -279,7 +283,7 @@ stochastic <- R6Class(
         # Read in only one additional line from the file connection
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
-        cli_alert(c("Line {nline}: Stochastic Parameter at Age for All Years: ",
+        cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
                     "{.val {inp_line}}"))
         self$stochastic_table["All Years",] <- inp_line
 

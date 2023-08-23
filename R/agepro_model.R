@@ -229,7 +229,7 @@ agepro_inp_model <- R6Class(
     },
 
     read_natural_mortality = function(con, nline) {
-      cli::cli_alert("Reading Natural Mortaility")
+      cli::cli_alert_info("Reading Natural Mortaility")
       self$nline <- self$natmort$read_inp_lines(con,
                                                 nline,
                                                 self$general$seq_years,
