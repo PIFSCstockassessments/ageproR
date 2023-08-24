@@ -480,9 +480,11 @@ agepro_inp_model <- R6Class(
   )
 )
 
-#' AGEPRO JSON model
+#' @title
+#' AGEPRO model w/ JSON input file bindings
 #'
-#' json related
+#' @description
+#' File Functionality on experimental JSON input file
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -496,6 +498,11 @@ agepro_json_model <- R6Class(
 
     #' @description
     #' Get json
+    #'
+    #' @details
+    #' See [jsonlite::toJSON] for more details. `NULL` values is written as
+    #' `{}`. `NA` values is written as `null`
+    #'
     get_json = function() {
 
       version_json <- list(
@@ -508,10 +515,12 @@ agepro_json_model <- R6Class(
       agepro_json <- list("version" = version_json,
                           "general" = self$general$json_list_general,
                           "recruit" = self$recruit$json_list_recruit,
-                          "bootstrap" = self$bootstrap$json_bootstrap)
+                          "bootstrap" = self$bootstrap$json_bootstrap,
+                          "natmort" = self$natmort$json_list_stochastic)
 
 
       # TODO: use the write() function to write JSON files
+
       toJSON(agepro_json,
              pretty = TRUE,
              auto_unbox = TRUE)

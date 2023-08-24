@@ -2,14 +2,9 @@
 % Please edit documentation in R/agepro_model.R
 \name{agepro_json_model}
 \alias{agepro_json_model}
-\title{AGEPRO JSON model}
+\title{AGEPRO model w/ JSON input file bindings}
 \description{
-AGEPRO JSON model
-
-AGEPRO JSON model
-}
-\details{
-json related
+File Functionality on experimental JSON input file
 }
 \section{Super class}{
 \code{\link[ageproR:agepro_model]{ageproR::agepro_model}} -> \code{agepro_json_model}
@@ -38,6 +33,11 @@ json related
 Get json
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$get_json()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details. \code{NULL} values is written as
+\code{{}}. \code{NA} values is written as \code{null}
 }
 
 }
