@@ -43,7 +43,7 @@ Two-Stage Empirical Recruits Per Spawning Biomass Distribution (Model #4)
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_ssb$new(low_recruits = 1, high_recruits = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_ssb$new(low_recruits = 2, high_recruits = 2)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

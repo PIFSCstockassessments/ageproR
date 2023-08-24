@@ -499,8 +499,9 @@ agepro_json_model <- R6Class(
     get_json = function() {
 
       version_json <- list(
-        legacyVer = private$.ver_leagacy_string,
-        ver = private$.ver_numeric_string
+
+        legacyVer = self$ver_legacy_string,
+        ver = self$ver_numeric_string
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP

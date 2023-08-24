@@ -522,7 +522,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         recFac = self$recruit_scaling_factor,
         ssbFac = self$ssb_scaling_factor,
         maxRecObs = private$.max_rec_obs,
-        type = self$recruit_model_num_list,
+        type = unlist(self$recruit_model_num_list),
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))
 

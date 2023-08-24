@@ -381,7 +381,8 @@ empirical_recruit <- R6Class(
     #' gets JSON-ready Recruit Model Data
     recruit_data = function() {
       return(list(points = self$observed_points,
-           recruits = self$observations))
+                  recruits = subset(self$observations,
+                                    select = "recruit", drop = TRUE) ))
     },
 
     #' @field observed_points
@@ -453,12 +454,9 @@ empirical_cdf_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 1) {
+    initialize = function(num_observations = 2) {
 
-      #Set the number of observations used of the model projection
-      if (!missing(num_observations)) {
-        self$observed_points <- num_observations
-      }
+      self$observed_points <- num_observations
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 14
@@ -732,7 +730,7 @@ two_stage_empirical_ssb <- R6Class(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
-    initialize = function(low_recruits = 1, high_recruits = 1) {
+    initialize = function(low_recruits = 2, high_recruits = 2) {
 
       #Set the number of observations used of the model projection
       self$num_low_recruits <- low_recruits
@@ -755,10 +753,14 @@ two_stage_empirical_ssb <- R6Class(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
         #Use subset to get JSON list in a list object structure
-        lowRecruits = subset(self$low_recruitment, select = "recruit"),
-        lowSSB = subset(self$low_recruitment, select = "ssb"),
-        highRecruits = subset(self$high_recruitment, select = "recruit"),
-        highSSB = subset(self$high_recruitment, select = "ssb"),
+        lowRecruits = subset(self$low_recruitment,
+                             select = "recruit", drop = TRUE),
+        lowSSB = subset(self$low_recruitment,
+                        select = "ssb", drop = TRUE),
+        highRecruits = subset(self$high_recruitment,
+                              select = "recruit", drop = TRUE),
+        highSSB = subset(self$high_recruitment,
+                         select = "ssb", drop = TRUE),
         ssbCutoff = self$ssb_cutoff
       ))
     }
@@ -777,7 +779,7 @@ two_stage_empirical_cdf <- R6Class(
     #' @description
     #' Initialize the Empirical CDF Model
     #'
-    initialize = function(low_recruits = 1, high_recruits = 1) {
+    initialize = function(low_recruits = 2, high_recruits = 2) {
 
       #Set the number of observations used of the model projection
       self$num_low_recruits <- low_recruits
@@ -789,6 +791,23 @@ two_stage_empirical_cdf <- R6Class(
       super$initialize(self$num_low_recruits,
                        self$num_high_recruits,
                        with_ssb = FALSE)
+    }
+
+  ), active = list(
+
+    #' @field recruit_data
+    #' gets JSON-ready Recruit Model Data
+    recruit_data = function() {
+      return(list(
+        numLowRecruits = self$num_low_recruits,
+        numHighRecruits = self$num_high_recruits,
+        #Use subset to get JSON list in a list object structure
+        lowRecruits = subset(self$low_recruitment,
+                             select = "recruit", drop = TRUE),
+        highRecruits = subset(self$high_recruitment,
+                              select = "recruit", drop = TRUE),
+        ssbCutoff = self$ssb_cutoff
+      ))
     }
 
   )
