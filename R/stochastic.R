@@ -360,10 +360,18 @@ stochastic <- R6Class(
         checkmate::assert_character(value)
         private$.parameter_name <- value
       }
+    },
+
+    #' @field json_list_stochastic
+    #' Returns JSON list object with Stochastic Parameter values
+    json_list_stochastic = function(){
+      return(list(
+        flag = self$input_option,
+        timeflag = self$time_varying,
+        value = self$stochastic_table,
+        error = self$cv_table
+      ))
     }
-
-
-    #TODO: json_list_stochastic
 
   )
 

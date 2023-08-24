@@ -23,6 +23,8 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 (and by fleet if fleets are a factor) with lognormal process error.}
 
 \item{\code{parameter_name}}{Parameter Name}
+
+\item{\code{json_list_stochastic}}{Returns JSON list object with Stochastic Parameter values}
 }
 \if{html}{\out{</div>}}
 }
