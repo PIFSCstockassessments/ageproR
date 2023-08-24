@@ -4,10 +4,7 @@
 \alias{save_file_dialog}
 \title{Save file dialog or interface to interactively return file path.}
 \usage{
-save_file_dialog(filetype)
-}
-\arguments{
-\item{filetype}{filename extension}
+save_file_dialog()
 }
 \description{
 If Rconsole is currently running in Rstudio, it will use the rstudioapi

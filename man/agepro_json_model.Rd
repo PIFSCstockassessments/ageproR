@@ -47,12 +47,14 @@ See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details. \code{NULL} val
 \subsection{Method \code{write_json()}}{
 Write JSON file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$write_json(show_dir = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$write_json(file, show_dir = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{file}}{input file path}
+
 \item{\code{show_dir}}{Option to show directory after JSON file is written.}
 }
 \if{html}{\out{</div>}}

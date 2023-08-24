@@ -432,7 +432,7 @@ agepro_inp_model <- R6Class(
 
       if (missing(inpfile)) {
 
-        inpfile <- save_file_dialog(c("AGEPRO input File", ".inp"))
+        inpfile <- save_file_dialog()
         # Exit Function if user cancels out of file dialog
         # User cancelled dialogs return NULL values
         if (is.null(inpfile)) {
@@ -530,14 +530,27 @@ agepro_json_model <- R6Class(
     #' @description
     #' Write JSON file
     #'
+    #' @param file input file path
     #' @param show_dir Option to show directory after JSON file is written.
-    write_json = function(show_dir = FALSE) {
-      tmp <- tempfile("agepro_", fileext = ".json")
-      write(self$get_json(), tmp)
+    #'
+    write_json = function(file, show_dir = FALSE) {
 
-      message("Saved at :\n", tmp)
+      if (missing(file)) {
+
+        file <- save_file_dialog()
+        # Exit Function if user cancels out of file dialog
+        # User cancelled dialogs return NULL values
+        if (is.null(file)) {
+          return(invisible(NULL))
+        }
+      }
+
+
+      write(self$get_json(), file)
+
+      message("Saved at :\n", file)
       if (show_dir) {
-        browseURL(dirname(tmp))
+        browseURL(dirname(file))
       }
     }
 

@@ -68,13 +68,11 @@ open_file_dialog <- function(filetype) {
 #'
 #' @keywords internal
 #'
-#' @param filetype filename extension
-#'
 #' @importFrom checkmate assert_character
 #'
-save_file_dialog <- function(filetype) {
+save_file_dialog <- function() {
 
-  filetype <- validate_filetype()
+  filetype <- validate_filetype() # Defaults to "All Files (*)"
   err_msg_dialog_cancelled <- "File choice cancelled"
 
   # Check Rstudio is used.
