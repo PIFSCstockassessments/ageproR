@@ -279,6 +279,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
              capture.output(x <- private$cli_recruit_probability())
              )
 
+      cli_par()
+      cli::cli_alert_info("Recruit Data in recruitment's model collection list:")
       for (recruit in 1:private$.number_recruit_models){
         cli_par()
         cli_alert_info(paste0("Recruit {recruit} of ",
