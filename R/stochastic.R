@@ -23,6 +23,7 @@
 #' @template elipses
 #' @template inp_con
 #' @template nline
+#' @template delimiter
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -300,7 +301,26 @@ stochastic <- R6Class(
       self$cv_table["All Years",] <- inp_line
 
       return(nline)
+    },
+
+    #' @description
+    #' Returns the values for the Stochastic parameter formatted
+    #' to the AGEPRO input file format.
+    inplines_stochastic = function(delimiter = "  ") {
+
+      return(list(
+        self$inp_keyword,
+        paste(self$input_option,
+              as.numeric(Self$time_varying),
+              sep = delimiter),
+        paste(apply(self$stochastic_table, 1, paste,
+                     collapse = delimiter), collapse = "\n"),
+        paste(apply(self$cv_table, 1, paste,
+                    collapse = delimiter), collapse = "\n")
+
+      ))
     }
+
 
 
 
