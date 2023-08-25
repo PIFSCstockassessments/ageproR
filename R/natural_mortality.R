@@ -9,7 +9,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
-#' @template stochastic_class
+#' @template stochastic_years_ages
 #'
 #' @export
 natural_mortality <- R6Class(
