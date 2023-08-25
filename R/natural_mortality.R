@@ -46,9 +46,11 @@ natural_mortality <- R6Class(
                       time_varying)
 
       super$parameter_name <- "Natural mortality Of Age"
+      private$.inp_keyword <- "[NATMORT]"
 
 
     }
+
   )
 
 )

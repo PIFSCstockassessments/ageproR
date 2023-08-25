@@ -24,6 +24,8 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 
 \item{\code{parameter_name}}{Parameter Name}
 
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter name}
+
 \item{\code{json_list_stochastic}}{Returns JSON list object with Stochastic Parameter values}
 }
 \if{html}{\out{</div>}}

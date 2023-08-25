@@ -43,6 +43,7 @@ stochastic <- R6Class(
     .valid_input_options = c(0,1),
     .parameter_name = NULL,
     .discards = NULL,
+    .inp_keyword = NULL,
 
     .projection_years = NULL,
     .num_ages = NULL,
@@ -115,6 +116,7 @@ stochastic <- R6Class(
 
       #Fallback Parameter Name
       self$parameter_name <- "Stochastic Parameter At Age"
+      private$.inp_keyword <- "[STOCHASTIC]"
 
     },
 
@@ -303,6 +305,9 @@ stochastic <- R6Class(
 
 
 
+
+
+
   ), active = list (
 
     #' @field input_option Stochastic Input option
@@ -360,6 +365,12 @@ stochastic <- R6Class(
         checkmate::assert_character(value)
         private$.parameter_name <- value
       }
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter name
+    inp_keyword = function() {
+      private$.inp_keyword
     },
 
     #' @field json_list_stochastic
