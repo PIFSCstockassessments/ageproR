@@ -311,7 +311,7 @@ stochastic <- R6Class(
       return(list(
         self$inp_keyword,
         paste(self$input_option,
-              as.numeric(Self$time_varying),
+              as.numeric(self$time_varying),
               sep = delimiter),
         paste(apply(self$stochastic_table, 1, paste,
                      collapse = delimiter), collapse = "\n"),
