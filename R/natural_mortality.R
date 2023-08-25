@@ -9,6 +9,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @template stochastic_class
+#'
 #' @export
 natural_mortality <- R6Class(
   "natural_mortality",
@@ -20,18 +22,6 @@ natural_mortality <- R6Class(
 
     #' @description
     #' Initializes the stochastic class
-    #'
-    #' @param num_projection_years Numbers of years in from first to last
-    #' year of projection.
-    #' @param num_ages Number of Age classes
-    #' @param input_option Option to indicate Natural Mortality at age will be:
-    #' \itemize{
-    #'  \item `0` By default, done interactively via interface.
-    #'  \item `1` Imported from a the location of an existing data file
-    #' }
-    #' @param time_varying Logical flag that enables  Natural Mortality at age
-    #' to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
-    #' vector will cover "all years" of the projection. Default is TRUE.
     #'
     #'
     initialize = function(num_projection_years,

@@ -51,14 +51,15 @@ year of projection.}
 
 \item{\code{num_ages}}{Number of Age classes}
 
-\item{\code{input_option}}{Option to indicate Natural Mortality at age will be:
+\item{\code{input_option}}{Option to indicate the stochastic Parameter at age will
+be:
 \itemize{
 \item \code{0} By default, done interactively via interface.
 \item \code{1} Imported from a the location of an existing data file
 }}
 
-\item{\code{time_varying}}{Logical flag that enables  Natural Mortality at age
-to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
+\item{\code{time_varying}}{Logical flag that enables the stochastic parameter at
+age to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
