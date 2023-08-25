@@ -447,7 +447,8 @@ agepro_inp_model <- R6Class(
             self$case_id$inplines_case_id(),
             self$general$inplines_general(delimiter),
             self$recruit$inplines_recruit(delimiter),
-            self$bootstrap$inplines_bootstrap(delimiter)
+            self$bootstrap$inplines_bootstrap(delimiter),
+            self$natmort$inplines_stochastic(delimiter)
           )
 
         }
