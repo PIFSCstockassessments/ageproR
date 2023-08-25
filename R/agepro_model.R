@@ -428,7 +428,7 @@ agepro_inp_model <- R6Class(
     #'
     #' @param inpfile input file path
     #'
-    write_inp = function(inpfile, delimiter = " ") {
+    write_inp = function(inpfile, delimiter = "  ") {
 
       if (missing(inpfile)) {
 
