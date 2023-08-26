@@ -442,4 +442,44 @@ natural_mortality <- R6Class(
 
 )
 
+#' @title
+#' Fishery Selectivity at age by fleet
+#'
+#' @description
+#' Class Structure for Fishery Selectivity at age by fleet AGEPRO Keyword
+#' parameter.
+#'
+#' @param num_fleets Number of Fleets. Default is 1
+#'
+#' @template stochastic_years_ages
+#'
+#' @importFrom R6 R6Class
+#'
+fishery_selectivity <- R6Class(
+  "fishery_selectivity",
+  inherit = ageproR::stochastic,
+  public = list(
+
+    #' @description
+    #' Initalizes new instance
+    #'
+    initalize = function(proj_years,
+                         num_ages,
+                         num_fleets,
+                         input_option,
+                         time_varying = TRUE) {
+
+      super$initalize(proj_years,
+                      num_ages,
+                      num_fleets,
+                      input_option,
+                      time_varying)
+
+      self$parameter_name <- "Fishery Selectivity at age by fleet"
+      private$.inp_keyword <- "[FISHERY]"
+
+    }
+
+  )
+)
 
