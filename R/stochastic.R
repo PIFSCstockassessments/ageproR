@@ -5,25 +5,13 @@
 #' @description
 #' Generalized Class Structure for Stochastic AGEPRO Keyword parameters.
 #'
-#' @param proj_years [Projection years][ageproR::projection_years]:
-#' Input can be Sequence of years in from first to last year of
-#' projection or the number of years in the time projection.
-#' @param num_ages Number of Age classes
 #' @param num_fleets Number of Fleets. Default is 1
-#' @param input_option Option to indicate stochastic parameter will be:
-#' \itemize{
-#'  \item `0` By default, interactively via interface.
-#'  \item `1` Imported from a the location of an existing data file
-#' }
-#' @param time_varying Logical flag that enables the stochastic parameter to use
-#' as a time-varying array if TRUE (or 1). Otherwise, FALSE the vector will
-#' cover "all years" of the projection. Default is TRUE.
-#'
 #'
 #' @template elipses
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @template stochastic_years_ages
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -433,12 +421,12 @@ natural_mortality <- R6Class(
     #' Initializes the stochastic class
     #'
     #'
-    initialize = function(num_projection_years,
+    initialize = function(proj_years,
                           num_ages,
                           input_option = 0,
                           time_varying = TRUE) {
 
-      super$initialize(num_projection_years,
+      super$initialize(proj_years,
                        num_ages,
                        1, #Single, non-Fleet dependent parameter.
                        input_option,
@@ -453,4 +441,3 @@ natural_mortality <- R6Class(
   )
 
 )
-
