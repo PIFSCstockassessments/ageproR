@@ -36,7 +36,7 @@ AGEPRO Keyword parameter.
 Initializes the stochastic class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{natural_mortality$new(
-  num_projection_years,
+  proj_years,
   num_ages,
   input_option = 0,
   time_varying = TRUE
@@ -46,20 +46,20 @@ Initializes the stochastic class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_projection_years}}{Numbers of years in from first to last
-year of projection.}
+\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
 
 \item{\code{num_ages}}{Number of Age classes}
 
-\item{\code{input_option}}{Option to indicate the stochastic Parameter at age will
-be:
+\item{\code{input_option}}{Option to indicate this parameter will be:
 \itemize{
 \item \code{0} By default, done interactively via interface.
-\item \code{1} Imported from a the location of an existing data file
+\item \code{1} Imported via location of an existing data file.
 }}
 
-\item{\code{time_varying}}{Logical flag that enables the stochastic parameter at
-age to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
+\item{\code{time_varying}}{Logical flag that enables the stochastic parameter
+to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
