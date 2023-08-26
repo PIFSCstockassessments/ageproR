@@ -432,7 +432,7 @@ natural_mortality <- R6Class(
                        input_option,
                        time_varying)
 
-      super$parameter_name <- "Natural mortality Of Age"
+      self$parameter_name <- "Natural mortality Of Age"
       private$.inp_keyword <- "[NATMORT]"
 
 
@@ -441,3 +441,5 @@ natural_mortality <- R6Class(
   )
 
 )
+
+
