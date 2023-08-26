@@ -441,7 +441,6 @@ natural_mortality <- R6Class(
   )
 
 )
-<<<<<<< HEAD
 
 #' @title
 #' Fishery Selectivity at age by fleet
@@ -483,6 +482,3 @@ fishery_selectivity <- R6Class(
 
   )
 )
-
-=======
->>>>>>> c50f8c105da309d7ba19049967805912b285751f
