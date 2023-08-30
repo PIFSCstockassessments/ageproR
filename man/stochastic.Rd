@@ -39,6 +39,7 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 \item \href{#method-stochastic-print}{\code{stochastic$print()}}
 \item \href{#method-stochastic-read_inp_lines}{\code{stochastic$read_inp_lines()}}
 \item \href{#method-stochastic-read_inplines_stochastic_tables}{\code{stochastic$read_inplines_stochastic_tables()}}
+\item \href{#method-stochastic-read_inplines_cv_table}{\code{stochastic$read_inplines_cv_table()}}
 \item \href{#method-stochastic-inplines_stochastic}{\code{stochastic$inplines_stochastic()}}
 \item \href{#method-stochastic-clone}{\code{stochastic$clone()}}
 }
@@ -183,9 +184,33 @@ projection or the number of years in the time projection.}
 \if{latex}{\out{\hypertarget{method-stochastic-read_inplines_stochastic_tables}{}}}
 \subsection{Method \code{read_inplines_stochastic_tables()}}{
 Internal helper function to set stochastic tables from
-AGEPRO input files.
+AGEPRO input files. Reads in an additional line (or lines) from the
+file connection to assign to the \code{stochastic_table}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inplines_stochastic_tables(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-stochastic-read_inplines_cv_table"></a>}}
+\if{latex}{\out{\hypertarget{method-stochastic-read_inplines_cv_table}{}}}
+\subsection{Method \code{read_inplines_cv_table()}}{
+Internal helper function to set cv tables from
+AGEPRO input files. Reads in an additional line (or lines) from the
+file connection to assign to the \code{cv_table}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{stochastic$read_inplines_cv_table(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

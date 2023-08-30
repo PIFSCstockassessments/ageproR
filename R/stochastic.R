@@ -244,21 +244,38 @@ stochastic <- R6Class(
       } else {
         #from interface
         nline <- self$read_inplines_stochastic_tables(inp_con, nline)
+        nline <- self$read_inplines_cv_table(inp_con, nline)
       }
 
       return(nline)
     },
 
 
+
+
     #' @description
     #' Internal helper function to set stochastic tables from
-    #' AGEPRO input files.
+    #' AGEPRO input files. Reads in an additional line (or lines) from the
+    #' file connection to assign to the `stochastic_table`
     #'
     read_inplines_stochastic_tables = function(inp_con, nline) {
 
       cli::cli_alert_info("Number of Ages: {.val {private$.num_ages}}")
       #TODO: Verify inp_line is same length as num_ages
-      if(self$time_varying){
+
+      #Non-time varying, single fleet data
+      if(private$.num_fleets == 1 && !(self$time_varying)) {
+
+
+        inp_line <- read_inp_numeric_line(inp_con)
+        nline <- nline + 1
+        cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
+                    "{.val {inp_line}}"))
+
+        self$stochastic_table["All Years",] <- inp_line
+
+      #Multi-fleet or Single fleet w/ time varying
+      }else {
 
         for(i in rownames(self$stochastic_table)){
           inp_line <- read_inp_numeric_line(inp_con)
@@ -268,28 +285,43 @@ stochastic <- R6Class(
 
           self$stochastic_table[i,] <- inp_line
         }
-
-
-      }else{
-        # Read in only one additional line from the file connection
-        inp_line <- read_inp_numeric_line(inp_con)
-        nline <- nline + 1
-        cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
-                    "{.val {inp_line}}"))
-        self$stochastic_table["All Years",] <- inp_line
-
-
       }
 
-      # Read in only one additional line from the file connection
-      inp_line <- read_inp_numeric_line(inp_con)
-      nline <- nline + 1
-      cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
-                  "{.val {inp_line}}"))
-      self$cv_table["All Years",] <- inp_line
 
       return(nline)
     },
+
+    #' @description
+    #' Internal helper function to set cv tables from
+    #' AGEPRO input files. Reads in an additional line (or lines) from the
+    #' file connection to assign to the `cv_table`
+    #'
+    read_inplines_cv_table = function(inp_con, nline) {
+
+      if(private$.num_fleets == 1) {
+        inp_line <- read_inp_numeric_line(inp_con)
+        nline <- nline + 1
+        cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
+                    "{.val {inp_line}}"))
+        self$cv_table["All Years",] <- inp_line
+
+      } else {
+
+        for(i in rownames(self$cv_table)){
+          inp_line <- read_inp_numeric_line(inp_con)
+          nline <- nline + 1
+          cli_alert(c("Line {nline}: Coefficent of Variation for {i}: ",
+                      "{.val {inp_line}}"))
+
+          self$cv_table[i,] <- inp_line
+        }
+
+      }
+
+      return(nline)
+
+    },
+
 
     #' @description
     #' Returns the values for the Stochastic parameter formatted

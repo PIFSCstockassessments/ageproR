@@ -25,6 +25,7 @@ parameter.
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="inplines_stochastic"><a href='../../ageproR/html/stochastic.html#method-stochastic-inplines_stochastic'><code>ageproR::stochastic$inplines_stochastic()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="print"><a href='../../ageproR/html/stochastic.html#method-stochastic-print'><code>ageproR::stochastic$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="read_inp_lines"><a href='../../ageproR/html/stochastic.html#method-stochastic-read_inp_lines'><code>ageproR::stochastic$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="read_inplines_cv_table"><a href='../../ageproR/html/stochastic.html#method-stochastic-read_inplines_cv_table'><code>ageproR::stochastic$read_inplines_cv_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="read_inplines_stochastic_tables"><a href='../../ageproR/html/stochastic.html#method-stochastic-read_inplines_stochastic_tables'><code>ageproR::stochastic$read_inplines_stochastic_tables()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="stochastic" data-id="setup_stochastic_tables"><a href='../../ageproR/html/stochastic.html#method-stochastic-setup_stochastic_tables'><code>ageproR::stochastic$setup_stochastic_tables()</code></a></span></li>
 </ul>
