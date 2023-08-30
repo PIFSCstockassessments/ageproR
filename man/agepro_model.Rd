@@ -33,6 +33,9 @@ with Jon Brodiak's AGEPRO calculation engine.}
 \item{\code{general}}{General Options}
 
 \item{\code{natmort}}{Natural Mortality}
+
+\item{\code{fishery}}{\cr
+Fishery Selectivity}
 }
 \if{html}{\out{</div>}}
 }

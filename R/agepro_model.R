@@ -22,8 +22,10 @@ agepro_model <- R6Class(
     .ver_legacy_string = NULL,
     .ver_numeric_string = NULL,
 
+    # AGEPRO keyword parameters
     .general_options = NULL,
     .natural_mortality = NULL,
+    .fishery_selectivity = NULL,
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -35,9 +37,6 @@ agepro_model <- R6Class(
 
   ),
   public = list(
-
-    # #' @field general General Parameters
-    #general = NULL,
 
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
@@ -103,6 +102,10 @@ agepro_model <- R6Class(
 
       self$natmort <- natural_mortality$new(self$general$seq_years,
                                             self$general$num_ages)
+
+      self$fishery <- fishery_selectivity$new(self$general$seq_years,
+                                              self$general$num_ages,
+                                              self$general$num_fleets)
 
     },
 
@@ -174,8 +177,19 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.natural_mortality)
       }else {
-        checkmate::assert_r6(value, "stochastic")
+        checkmate::assert_r6(value, classes = "stochastic")
         private$.natural_mortality <- value
+      }
+    },
+
+    #' @field fishery \cr
+    #' Fishery Selectivity
+    fishery = function(value) {
+      if(missing(value)) {
+        return(private$.fishery_selectivity)
+      }else {
+        checkmate::assert_r6(value, classes = "stochastic")
+        private$.fishery_selectivity <- value
       }
     }
 
@@ -234,6 +248,16 @@ agepro_inp_model <- R6Class(
                                                 nline,
                                                 self$general$seq_years,
                                                 self$general$num_ages)
+    },
+
+    read_fishery_selectivity = function(con, nline) {
+      cli::cli_alert_info("Reading Fishery Selectivity")
+      self$nline <-
+        self$fishery$read_inp_lines(con,
+                                    nline,
+                                    self$general$seq_years,
+                                    self$general$num_ages,
+                                    self$general$num_fleets)
     }
 
   ),
@@ -258,6 +282,11 @@ agepro_inp_model <- R6Class(
       self$natmort <-
         suppressMessages(natural_mortality$new(self$general$seq_years,
                                               self$general$num_ages))
+      self$fishery <-
+        suppressMessages(fishery_selectivity$new(self$general$seq_years,
+                                                 self$general$num_ages,
+                                                 self$general$num_fleets))
+
 
     },
 
@@ -368,7 +397,10 @@ agepro_inp_model <- R6Class(
           },
         "[NATMORT]" = {
             rlang::expr(private$read_natural_mortality(inp_con, self$nline))
-         }
+         },
+        "[FISHERY]" = {
+            rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
+        }
       ))
 
       div_keyword_line_alert <- function() {
@@ -448,7 +480,8 @@ agepro_inp_model <- R6Class(
             self$general$inplines_general(delimiter),
             self$recruit$inplines_recruit(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
-            self$natmort$inplines_stochastic(delimiter)
+            self$natmort$inplines_stochastic(delimiter),
+            self$fishery$inplines_stochastic(delimiter)
           )
 
         }
@@ -517,7 +550,8 @@ agepro_json_model <- R6Class(
                           "general" = self$general$json_list_general,
                           "recruit" = self$recruit$json_list_recruit,
                           "bootstrap" = self$bootstrap$json_bootstrap,
-                          "natmort" = self$natmort$json_list_stochastic)
+                          "natmort" = self$natmort$json_list_stochastic,
+                          "fishery" = selg$fishery$json_list_stochastic)
 
 
       # TODO: use the write() function to write JSON files
