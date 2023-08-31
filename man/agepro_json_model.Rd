@@ -14,6 +14,7 @@ File Functionality on experimental JSON input file
 \itemize{
 \item \href{#method-agepro_json_model-get_json}{\code{agepro_json_model$get_json()}}
 \item \href{#method-agepro_json_model-write_json}{\code{agepro_json_model$write_json()}}
+\item \href{#method-agepro_json_model-read_json}{\code{agepro_json_model$read_json()}}
 \item \href{#method-agepro_json_model-clone}{\code{agepro_json_model$clone()}}
 }
 }
@@ -56,6 +57,23 @@ Write JSON file
 \item{\code{file}}{input file path}
 
 \item{\code{show_dir}}{Option to show directory after JSON file is written.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_json_model-read_json"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_json_model-read_json}{}}}
+\subsection{Method \code{read_json()}}{
+Reads AGEPRO json experimental input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$read_json(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{input file path}
 }
 \if{html}{\out{</div>}}
 }

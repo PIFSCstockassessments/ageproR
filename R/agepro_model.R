@@ -12,7 +12,6 @@
 #' @template model_num
 #'
 #' @export
-#' @importFrom rprojroot is_rstudio_project is_git_root is_r_package
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number assert_file_exists
 agepro_model <- R6Class(
@@ -587,6 +586,16 @@ agepro_json_model <- R6Class(
       if (show_dir) {
         browseURL(dirname(file))
       }
+    },
+
+    #' @description
+    #' Reads AGEPRO json experimental input file format.
+    #'
+    #' @param file input file path
+    #'
+    read_json = function(file) {
+      warning("AGEPRO JSON input is in development, and format may change.")
+      return(jsonlite::read_json(file, simplifyVector = TRUE))
     }
 
   )

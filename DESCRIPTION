@@ -11,8 +11,6 @@ Description: Object-oriented data structures based on the input file format
 Imports:
   jsonlite,
   here,
-  usethis,
-  rprojroot,
   checkmate,
   cli,
   collections,
