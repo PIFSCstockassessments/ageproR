@@ -551,7 +551,7 @@ agepro_json_model <- R6Class(
                           "recruit" = self$recruit$json_list_recruit,
                           "bootstrap" = self$bootstrap$json_bootstrap,
                           "natmort" = self$natmort$json_list_stochastic,
-                          "fishery" = selg$fishery$json_list_stochastic)
+                          "fishery" = self$fishery$json_list_stochastic)
 
 
       # TODO: use the write() function to write JSON files
