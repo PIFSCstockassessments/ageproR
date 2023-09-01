@@ -11,7 +11,7 @@
 #' @template inp_con
 #' @template nline
 #' @template delimiter
-#' @template stochastic_years_ages
+#' @template stochastic_initalize_params
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -442,7 +442,7 @@ stochastic <- R6Class(
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
-#' @template stochastic_years_ages
+#' @template stochastic_initalize_params
 #'
 #' @export
 natural_mortality <- R6Class(
@@ -484,7 +484,7 @@ natural_mortality <- R6Class(
 #'
 #' @param num_fleets Number of Fleets.
 #'
-#' @template stochastic_years_ages
+#' @template stochastic_initalize_params
 #'
 #' @importFrom R6 R6Class
 #'
@@ -528,7 +528,7 @@ fishery_selectivity <- R6Class(
 #'
 #' @param num_fleets Number of Fleets.
 #'
-#' @template stochastic_years_ages
+#' @template stochastic_initalize_params
 #'
 #' @importFrom R6 R6Class
 #'
