@@ -20,13 +20,13 @@ AGEPRO Keyword parameter.
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_stochastic_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_stochastic_table'><code>ageproR::process_error$create_stochastic_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="inplines_stochastic"><a href='../../ageproR/html/process_error.html#method-process_error-inplines_stochastic'><code>ageproR::process_error$inplines_stochastic()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_parameter_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_parameter_table'><code>ageproR::process_error$create_parameter_table()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="inplines_process_error"><a href='../../ageproR/html/process_error.html#method-process_error-inplines_process_error'><code>ageproR::process_error$inplines_process_error()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="print"><a href='../../ageproR/html/process_error.html#method-process_error-print'><code>ageproR::process_error$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inp_lines"><a href='../../ageproR/html/process_error.html#method-process_error-read_inp_lines'><code>ageproR::process_error$read_inp_lines()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inplines_cv_table"><a href='../../ageproR/html/process_error.html#method-process_error-read_inplines_cv_table'><code>ageproR::process_error$read_inplines_cv_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inplines_stochastic_tables"><a href='../../ageproR/html/process_error.html#method-process_error-read_inplines_stochastic_tables'><code>ageproR::process_error$read_inplines_stochastic_tables()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="setup_stochastic_tables"><a href='../../ageproR/html/process_error.html#method-process_error-setup_stochastic_tables'><code>ageproR::process_error$setup_stochastic_tables()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inplines_parameter_tables"><a href='../../ageproR/html/process_error.html#method-process_error-read_inplines_parameter_tables'><code>ageproR::process_error$read_inplines_parameter_tables()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="setup_parameter_tables"><a href='../../ageproR/html/process_error.html#method-process_error-setup_parameter_tables'><code>ageproR::process_error$setup_parameter_tables()</code></a></span></li>
 </ul>
 </details>
 }}

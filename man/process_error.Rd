@@ -2,31 +2,37 @@
 % Please edit documentation in R/process_error.R
 \name{process_error}
 \alias{process_error}
-\title{Stochastic AGEPRO Keyword Parameter Structure.}
+\title{Process Errors for Population and Fishery Processes}
 \description{
-Generalized Class Structure for Stochastic AGEPRO Keyword parameters.
+Generalized Class Structure for AGEPRO Keyword parameters who have process
+errors that generate time-varying dynamics of population and fishery
+process.
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{input_option}}{Stochastic Input option}
+\item{\code{input_option}}{Option to indicate this parameter will be read:
+\itemize{
+\item \code{0} By default, done interactively via interface.
+\item \code{1} Imported via location of an existing data file.
+}}
 
-\item{\code{time_varying}}{Logical flag to list stochastic data by observation
-year}
+\item{\code{time_varying}}{\link[base:logical]{Logical} flag to list parameter process data by
+observation year}
 
-\item{\code{stochastic_table}}{This is the logic for the average stochastic
-AGEPRO keyword parameter's at age (and by fleet if fleets are a
+\item{\code{parameter_table}}{This is the logic for the fish population or
+fishery's processes by age (and by fleet if fleets are a
 factor).}
 
-\item{\code{cv_table}}{Matrix containing the vector of of age-specific CVs for
-sampling the average stochastic AGEPRO keyword parameter's at age
-(and by fleet if fleets are a factor) with lognormal process error.}
+\item{\code{cv_table}}{Matrix containing the vector of the lognormal process
+error of the average population or fishery process parameter's at age
+(and by fleet if fleets are a factor).}
 
-\item{\code{parameter_name}}{Parameter Name}
+\item{\code{parameter_name}}{Name of the population or fishery process}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter name}
 
-\item{\code{json_list_stochastic}}{Returns JSON list object with Stochastic Parameter values}
+\item{\code{json_list_process_error}}{Returns JSON list object with Process Error Parameter values}
 }
 \if{html}{\out{</div>}}
 }
@@ -34,13 +40,13 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-process_error-new}{\code{process_error$new()}}
-\item \href{#method-process_error-setup_stochastic_tables}{\code{process_error$setup_stochastic_tables()}}
-\item \href{#method-process_error-create_stochastic_table}{\code{process_error$create_stochastic_table()}}
+\item \href{#method-process_error-setup_parameter_tables}{\code{process_error$setup_parameter_tables()}}
+\item \href{#method-process_error-create_parameter_table}{\code{process_error$create_parameter_table()}}
 \item \href{#method-process_error-print}{\code{process_error$print()}}
 \item \href{#method-process_error-read_inp_lines}{\code{process_error$read_inp_lines()}}
-\item \href{#method-process_error-read_inplines_stochastic_tables}{\code{process_error$read_inplines_stochastic_tables()}}
+\item \href{#method-process_error-read_inplines_parameter_tables}{\code{process_error$read_inplines_parameter_tables()}}
 \item \href{#method-process_error-read_inplines_cv_table}{\code{process_error$read_inplines_cv_table()}}
-\item \href{#method-process_error-inplines_stochastic}{\code{process_error$inplines_stochastic()}}
+\item \href{#method-process_error-inplines_process_error}{\code{process_error$inplines_process_error()}}
 \item \href{#method-process_error-clone}{\code{process_error$clone()}}
 }
 }
@@ -48,7 +54,7 @@ sampling the average stochastic AGEPRO keyword parameter's at age
 \if{html}{\out{<a id="method-process_error-new"></a>}}
 \if{latex}{\out{\hypertarget{method-process_error-new}{}}}
 \subsection{Method \code{new()}}{
-Initializes the stochastic class
+Initializes the class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{process_error$new(
   proj_years,
@@ -84,12 +90,12 @@ vector will cover "all years" of the projection. Default is TRUE.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-setup_stochastic_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-setup_stochastic_tables}{}}}
-\subsection{Method \code{setup_stochastic_tables()}}{
-Initialize Stochastic and CV tables
+\if{html}{\out{<a id="method-process_error-setup_parameter_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-setup_parameter_tables}{}}}
+\subsection{Method \code{setup_parameter_tables()}}{
+Initialize Parameter and CV tables
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$setup_stochastic_tables(
+\if{html}{\out{<div class="r">}}\preformatted{process_error$setup_parameter_tables(
   projection_years,
   num_ages,
   num_fleets = 1,
@@ -115,12 +121,12 @@ vector will cover "all years" of the projection. Default is TRUE.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-create_stochastic_table"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-create_stochastic_table}{}}}
-\subsection{Method \code{create_stochastic_table()}}{
-Creates an stochastic table
+\if{html}{\out{<a id="method-process_error-create_parameter_table"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-create_parameter_table}{}}}
+\subsection{Method \code{create_parameter_table()}}{
+Creates an Population or Fishery process Parameter table
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$create_stochastic_table(fleet_yr_rows, ages_cols)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$create_parameter_table(fleet_yr_rows, ages_cols)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -137,7 +143,7 @@ Creates an stochastic table
 \if{html}{\out{<a id="method-process_error-print"></a>}}
 \if{latex}{\out{\hypertarget{method-process_error-print}{}}}
 \subsection{Method \code{print()}}{
-Formatted print out Stochastic Parameter Values
+Formatted to print out the values pf the Process Error Parameter
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{process_error$print(...)}\if{html}{\out{</div>}}
 }
@@ -154,7 +160,7 @@ Formatted print out Stochastic Parameter Values
 \if{html}{\out{<a id="method-process_error-read_inp_lines"></a>}}
 \if{latex}{\out{\hypertarget{method-process_error-read_inp_lines}{}}}
 \subsection{Method \code{read_inp_lines()}}{
-Reads in stochastic parameter's from AGEPRO Input file
+Reads in Process Error keyword parameter's values from AGEPRO Input file
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{process_error$read_inp_lines(
   inp_con,
@@ -186,14 +192,14 @@ projection or the number of years in the time projection.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-read_inplines_stochastic_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-read_inplines_stochastic_tables}{}}}
-\subsection{Method \code{read_inplines_stochastic_tables()}}{
-Internal helper function to set stochastic tables from
-AGEPRO input files. Reads in an additional line (or lines) from the
-file connection to assign to the \code{stochastic_table}
+\if{html}{\out{<a id="method-process_error-read_inplines_parameter_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-read_inplines_parameter_tables}{}}}
+\subsection{Method \code{read_inplines_parameter_tables()}}{
+Helper function to set population or fishery process parameter
+tables from AGEPRO input files. Reads in an additional line (or lines)
+from the file connection to assign to the \code{parameter_table}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_stochastic_tables(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_parameter_tables(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -232,13 +238,13 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-inplines_stochastic"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-inplines_stochastic}{}}}
-\subsection{Method \code{inplines_stochastic()}}{
-Returns the values for the Stochastic parameter formatted
+\if{html}{\out{<a id="method-process_error-inplines_process_error"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-inplines_process_error}{}}}
+\subsection{Method \code{inplines_process_error()}}{
+Returns the values for the Process Error parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$inplines_stochastic(delimiter = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$inplines_process_error(delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

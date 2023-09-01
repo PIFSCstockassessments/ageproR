@@ -1,9 +1,12 @@
 
 
-#' @title Stochastic AGEPRO Keyword Parameter Structure.
+#' @title
+#' Process Errors for Population and Fishery Processes
 #'
 #' @description
-#' Generalized Class Structure for Stochastic AGEPRO Keyword parameters.
+#' Generalized Class Structure for AGEPRO Keyword parameters who have process
+#' errors that generate time-varying dynamics of population and fishery
+#' process.
 #'
 #' @param num_fleets Number of Fleets. Default is 1
 #'
@@ -24,8 +27,8 @@ process_error <- R6Class(
 
     .input_option = NULL,
     .time_varying = NULL,
-    .stochastic_datafile = NULL,
-    .stochastic_table = NULL,
+    .parameter_datafile = NULL,
+    .parameter_table = NULL,
     .cv_table = NULL,
     .upper_bounds = NULL,
 
@@ -39,7 +42,7 @@ process_error <- R6Class(
     .num_fleets = NULL,
 
     #Rownames: Fleet-Years
-    setup_stochastic_rownames = function (proj_years_sequence,
+    setup_parameter_table_rownames = function (proj_years_sequence,
                                           num_fleets = 1,
                                           time_varying = FALSE){
       #Validate num_fleets
@@ -49,7 +52,7 @@ process_error <- R6Class(
         if(time_varying) {
           # Assemble Fleet-years rownames vector by creating a sequence of
           # Fleet and projected_years sequence strings. For fleet-dependent
-          # stochastic parameters, repeat each unique element of the fleet
+          # parameters, repeat each unique element of the fleet
           # sequence by the length of the time projection.
           rownames_fleetyears <-
 
@@ -79,7 +82,7 @@ process_error <- R6Class(
   ), public = list (
 
     #' @description
-    #' Initializes the stochastic class
+    #' Initializes the class
     #'
     initialize = function(proj_years,
                           num_ages,
@@ -97,28 +100,28 @@ process_error <- R6Class(
       # or vector of sequential values
       proj_years_class <- ageproR::projection_years$new(as.numeric(proj_years))
 
-      #Initialize Stochastic and CV tables
-      self$setup_stochastic_tables(proj_years_class,
+      #Initialize parameter and CV tables
+      self$setup_parameter_tables(proj_years_class,
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
 
       #Fallback Parameter Name
-      self$parameter_name <- "Stochastic Parameter At Age"
-      private$.inp_keyword <- "[STOCHASTIC]"
+      self$parameter_name <- "Process Error Parameter At Age"
+      private$.inp_keyword <- "[PROCESS_ERROR]"
       private$.discards_parameter <- FALSE
 
     },
 
     #' @description
-    #' Initialize Stochastic and CV tables
+    #' Initialize Parameter and CV tables
     #'
     #' @param projection_years [Projection years][ageproR::projection_years]
     #' value
     #' @param num_ages Number of Ages
     #' @param num_fleets Number of Fleets. Defaults to 1
     #'
-    setup_stochastic_tables = function (projection_years,
+    setup_parameter_tables = function (projection_years,
                                         num_ages,
                                         num_fleets = 1,
                                         time_varying = FALSE) {
@@ -134,39 +137,39 @@ process_error <- R6Class(
       checkmate::assert_integerish(num_fleets, lower = 1)
 
       #initialize tables
-      private$.stochastic_table <- vector("list", 1)
+      private$.parameter_table <- vector("list", 1)
       private$.cv_table <- vector("list", 1)
 
       if(time_varying){
 
-        self$stochastic_table <- self$create_stochastic_table(
+        self$parameter_table <- self$create_parameter_table(
           (projection_years$count * num_fleets), num_ages)
 
       }else{
         #All Years
-        self$stochastic_table <-
-          self$create_stochastic_table((1 * num_fleets), num_ages)
+        self$parameter_table <-
+          self$create_parameter_table((1 * num_fleets), num_ages)
       }
 
       self$cv_table <-
-        self$create_stochastic_table((1 * num_fleets), num_ages)
+        self$create_parameter_table((1 * num_fleets), num_ages)
 
 
       #Rownames: Fleet-Years
-      # Fleet-year rownames for Stochastic Parameter of Age table
-      rownames(self$stochastic_table)  <-
-        private$setup_stochastic_rownames(projection_years$sequence,
-                                          num_fleets,
-                                          self$time_varying)
+      # Fleet-year rownames for Parameter of Age table
+      rownames(self$parameter_table)  <-
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets,
+                                               self$time_varying)
 
       # Fleet-year rownames for CV. Not affected by time varying
       rownames(self$cv_table) <-
-        private$setup_stochastic_rownames(projection_years$sequence,
-                                          num_fleets)
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets)
 
       #Colnames: Ages
       colnames_ages <- paste0("Age", seq(num_ages))
-      colnames(self$stochastic_table) <- colnames_ages
+      colnames(self$parameter_table) <- colnames_ages
       colnames(self$cv_table) <- colnames_ages
 
     },
@@ -174,12 +177,12 @@ process_error <- R6Class(
 
 
     #' @description
-    #' Creates an stochastic table
+    #' Creates an Population or Fishery process Parameter table
     #'
     #' @param fleet_yr_rows (Fleet-)Year Row
     #' @param ages_cols Age Columns
     #'
-    create_stochastic_table = function(fleet_yr_rows, ages_cols) {
+    create_parameter_table = function(fleet_yr_rows, ages_cols) {
 
       return(matrix(rep(NA, (fleet_yr_rows * ages_cols) ) ,
                     nrow = fleet_yr_rows,
@@ -188,14 +191,14 @@ process_error <- R6Class(
     },
 
     #' @description
-    #' Formatted print out Stochastic Parameter Values
+    #' Formatted to print out the values pf the Process Error Parameter
     #'
     print = function(...) {
       cli::cli_ul()
       cli::cli_li("Input Option: {.val {self$input_option}}")
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
       cli::cli_alert_info("{self$parameter_name}")
-      cli::cat_print(self$stochastic_table)
+      cli::cat_print(self$parameter_table)
       cli::cli_alert_info("Coefficient of Variation")
       cli::cat_print(self$cv_table)
       cli::cli_end()
@@ -203,9 +206,13 @@ process_error <- R6Class(
     },
 
     #' @description
-    #' Reads in stochastic parameter's from AGEPRO Input file
+    #' Reads in Process Error keyword parameter's values from AGEPRO Input file
     #'
-    read_inp_lines = function(inp_con, nline, proj_years, num_ages, num_fleets = 1) {
+    read_inp_lines = function(inp_con,
+                              nline,
+                              proj_years,
+                              num_ages,
+                              num_fleets = 1) {
 
       # Read an additional line from the file connection
       # and split into 2 substrings
@@ -230,10 +237,10 @@ process_error <- R6Class(
       cli::cli_end()
 
 
-      # Setup new instance of stochastic of age and CV tables time_varying
+      # Setup new instance of Parameter and CV tables. time_varying
       # value read from the AGEPRO input file. Including values for
       # projection_years. num_ages, and num_fleets.
-      self$setup_stochastic_tables(ageproR::projection_years$new(proj_years),
+      self$setup_parameter_tables(ageproR::projection_years$new(proj_years),
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
@@ -244,7 +251,7 @@ process_error <- R6Class(
         stop("NOT IMPLMENTED")
       } else {
         #from interface
-        nline <- self$read_inplines_stochastic_tables(inp_con, nline)
+        nline <- self$read_inplines_parameter_tables(inp_con, nline)
         nline <- self$read_inplines_cv_table(inp_con, nline)
       }
 
@@ -255,11 +262,11 @@ process_error <- R6Class(
 
 
     #' @description
-    #' Internal helper function to set stochastic tables from
-    #' AGEPRO input files. Reads in an additional line (or lines) from the
-    #' file connection to assign to the `stochastic_table`
+    #' Helper function to set population or fishery process parameter
+    #' tables from AGEPRO input files. Reads in an additional line (or lines)
+    #' from the file connection to assign to the `parameter_table`
     #'
-    read_inplines_stochastic_tables = function(inp_con, nline) {
+    read_inplines_parameter_tables = function(inp_con, nline) {
 
       cli::cli_alert_info("Number of Ages: {.val {private$.num_ages}}")
       #TODO: Verify inp_line is same length as num_ages
@@ -273,18 +280,18 @@ process_error <- R6Class(
         cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
                     "{.val {inp_line}}"))
 
-        self$stochastic_table["All Years",] <- inp_line
+        self$parameter_table["All Years",] <- inp_line
 
       #Multi-fleet or Single fleet w/ time varying
       }else {
 
-        for(i in rownames(self$stochastic_table)){
+        for(i in rownames(self$parameter_table)){
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
           cli_alert(c("Line {nline}: {self$parameter_name} for {i}: ",
                       "{.val {inp_line}}"))
 
-          self$stochastic_table[i,] <- inp_line
+          self$parameter_table[i,] <- inp_line
         }
       }
 
@@ -325,16 +332,16 @@ process_error <- R6Class(
 
 
     #' @description
-    #' Returns the values for the Stochastic parameter formatted
+    #' Returns the values for the Process Error parameter formatted
     #' to the AGEPRO input file format.
-    inplines_stochastic = function(delimiter = "  ") {
+    inplines_process_error = function(delimiter = "  ") {
 
       return(list(
         self$inp_keyword,
         paste(self$input_option,
               as.numeric(self$time_varying),
               sep = delimiter),
-        paste(apply(self$stochastic_table, 1, paste,
+        paste(apply(self$parameter_table, 1, paste,
                      collapse = delimiter), collapse = "\n"),
         paste(apply(self$cv_table, 1, paste,
                     collapse = delimiter), collapse = "\n")
@@ -351,7 +358,12 @@ process_error <- R6Class(
 
   ), active = list (
 
-    #' @field input_option Stochastic Input option
+    #' @field input_option
+    #' Option to indicate this parameter will be read:
+    #' \itemize{
+    #'  \item `0` By default, done interactively via interface.
+    #'  \item `1` Imported via location of an existing data file.
+    #' }
     input_option = function(input_flag) {
       if(missing(input_flag)){
         private$.input_option
@@ -362,8 +374,9 @@ process_error <- R6Class(
       }
     },
 
-    #' @field time_varying Logical flag to list stochastic data by observation
-    #' year
+    #' @field time_varying
+    #' [Logical][base::logical] flag to list parameter process data by
+    #' observation year
     time_varying = function(time_flag) {
       if(missing(time_flag)){
         private$.time_varying
@@ -373,22 +386,22 @@ process_error <- R6Class(
       }
     },
 
-    #' @field stochastic_table This is the logic for the average stochastic
-    #' AGEPRO keyword parameter's at age (and by fleet if fleets are a
+    #' @field parameter_table This is the logic for the fish population or
+    #' fishery's processes by age (and by fleet if fleets are a
     #' factor).
-    stochastic_table = function(value) {
+    parameter_table = function(value) {
       if(missing(value)){
-        private$.stochastic_table
+        private$.parameter_table
       } else {
         checkmate::assert_matrix(value, min.cols = 1, min.rows = 1)
-        #TODO: Create stochastic_table value Validation for upper_bound
-        private$.stochastic_table <- value
+        #TODO: Create parameter_table value Validation for upper_bound
+        private$.parameter_table <- value
       }
     },
 
-    #' @field cv_table Matrix containing the vector of of age-specific CVs for
-    #' sampling the average stochastic AGEPRO keyword parameter's at age
-    #' (and by fleet if fleets are a factor) with lognormal process error.
+    #' @field cv_table Matrix containing the vector of the lognormal process
+    #' error of the average population or fishery process parameter's at age
+    #' (and by fleet if fleets are a factor).
     cv_table = function(value) {
       if(missing(value)) {
         private$.cv_table
@@ -398,7 +411,8 @@ process_error <- R6Class(
       }
     },
 
-    #' @field parameter_name Parameter Name
+    #' @field parameter_name
+    #' Name of the population or fishery process
     parameter_name = function(value) {
       if(missing(value)){
         private$.parameter_name
@@ -414,13 +428,13 @@ process_error <- R6Class(
       private$.inp_keyword
     },
 
-    #' @field json_list_stochastic
-    #' Returns JSON list object with Stochastic Parameter values
-    json_list_stochastic = function(){
+    #' @field json_list_process_error
+    #' Returns JSON list object with Process Error Parameter values
+    json_list_process_error = function(){
       return(list(
         flag = self$input_option,
         timeflag = self$time_varying,
-        value = self$stochastic_table,
+        value = self$parameter_table,
         error = self$cv_table
       ))
     }
