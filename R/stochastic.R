@@ -32,6 +32,7 @@ stochastic <- R6Class(
     .valid_input_options = c(0,1),
     .parameter_name = NULL,
     .inp_keyword = NULL,
+    .discards_parameter = NULL,
 
     .projection_years = NULL,
     .num_ages = NULL,
@@ -105,6 +106,7 @@ stochastic <- R6Class(
       #Fallback Parameter Name
       self$parameter_name <- "Stochastic Parameter At Age"
       private$.inp_keyword <- "[STOCHASTIC]"
+      private$.discards_parameter <- FALSE
 
     },
 
@@ -480,7 +482,7 @@ natural_mortality <- R6Class(
 #' Class Structure for Fishery Selectivity at age by fleet AGEPRO Keyword
 #' parameter.
 #'
-#' @param num_fleets Number of Fleets. Default is 1
+#' @param num_fleets Number of Fleets.
 #'
 #' @template stochastic_years_ages
 #'
@@ -492,12 +494,12 @@ fishery_selectivity <- R6Class(
   public = list(
 
     #' @description
-    #' Initalizes new instance
+    #' Initializes new instance
     #'
     initalize = function(proj_years,
                          num_ages,
                          num_fleets,
-                         input_option,
+                         input_option = 0,
                          time_varying = TRUE) {
 
       super$initalize(proj_years,
@@ -508,6 +510,51 @@ fishery_selectivity <- R6Class(
 
       self$parameter_name <- "Fishery Selectivity at age by fleet"
       private$.inp_keyword <- "[FISHERY]"
+
+    }
+
+  )
+)
+
+
+
+#' @title
+#' Discard fraction of numbers at age
+#'
+#' @description
+#' Class Structure for discard faction at age AGEPRO Keyword parameter.
+#' AGEPRO model must indicate _discards are present_, enabled via general
+#' options [discards field][ageproR::general_params].
+#'
+#' @param num_fleets Number of Fleets.
+#'
+#' @template stochastic_years_ages
+#'
+#' @importFrom R6 R6Class
+#'
+discard_fraction <- R6Class(
+  "discard_fraction",
+  inherit = ageproR::stochastic,
+  public = list (
+
+    #' @description
+    #' Initializes Class
+    #'
+    initialize = function(proj_years,
+                          num_ages,
+                          num_fleets,
+                          input_option = 0,
+                          time_varying = TRUE) {
+
+      super$initalize(proj_years,
+                      num_ages,
+                      num_fleets,
+                      input_option,
+                      time_varying)
+
+      self$parameter_name <- "Discards Fraction of Numbers at Age"
+      private$.inp_keyword <- "[DISCARDS]"
+      private$.discards_parameter <- TRUE
 
     }
 
