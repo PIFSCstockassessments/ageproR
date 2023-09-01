@@ -18,8 +18,8 @@
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-stochastic <- R6Class(
-  "stochastic",
+process_error <- R6Class(
+  "process_error",
   private = list(
 
     .input_option = NULL,
@@ -447,12 +447,11 @@ stochastic <- R6Class(
 #' @export
 natural_mortality <- R6Class(
   "natural_mortality",
-  inherit = ageproR::stochastic,
+  inherit = ageproR::process_error,
   public = list(
 
     #' @description
-    #' Initializes the stochastic class
-    #'
+    #' Initializes the class
     #'
     initialize = function(proj_years,
                           num_ages,
@@ -490,7 +489,7 @@ natural_mortality <- R6Class(
 #'
 fishery_selectivity <- R6Class(
   "fishery_selectivity",
-  inherit = ageproR::stochastic,
+  inherit = ageproR::process_error,
   public = list(
 
     #' @description
@@ -534,7 +533,7 @@ fishery_selectivity <- R6Class(
 #'
 discard_fraction <- R6Class(
   "discard_fraction",
-  inherit = ageproR::stochastic,
+  inherit = ageproR::process_error,
   public = list (
 
     #' @description

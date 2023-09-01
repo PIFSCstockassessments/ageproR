@@ -181,7 +181,7 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.natural_mortality)
       }else {
-        checkmate::assert_r6(value, classes = "stochastic")
+        checkmate::assert_r6(value, classes = "process_error")
         private$.natural_mortality <- value
       }
     },
@@ -192,7 +192,7 @@ agepro_model <- R6Class(
       if(missing(value)) {
         return(private$.fishery_selectivity)
       }else {
-        checkmate::assert_r6(value, classes = "stochastic")
+        checkmate::assert_r6(value, classes = "process_error")
         private$.fishery_selectivity <- value
       }
     }
