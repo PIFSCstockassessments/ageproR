@@ -14,7 +14,7 @@
 #'
 #' @import cli
 #' @importFrom R6 R6Class
-#' @importFrom checkmate test_logical test_true assert_number
+#' @importFrom checkmate test_logical assert_number
 general_params <- R6Class(
   classname = "general_params",
 
@@ -106,7 +106,7 @@ general_params <- R6Class(
       cli_li("Number of Population Simulations: {.val {self$num_pop_sims}}")
       cli_li("Number of Fleets: {.val {self$num_fleets}}")
       cli_li("Number of Recruitment Model(s): {.val {self$num_rec_models}}")
-      cli_li("Discards are present: {.val {test_true(self$discards)}} ")
+      cli_li("Discards are present: {.val {as.logical(self$discards)}} ")
       cli_li("Calculation Engine Random Number Seed: {.val {self$seed}}")
       invisible(self)
     },
