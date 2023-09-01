@@ -31,7 +31,6 @@ stochastic <- R6Class(
 
     .valid_input_options = c(0,1),
     .parameter_name = NULL,
-    .discards = NULL,
     .inp_keyword = NULL,
 
     .projection_years = NULL,

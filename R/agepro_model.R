@@ -26,6 +26,8 @@ agepro_model <- R6Class(
     .natural_mortality = NULL,
     .fishery_selectivity = NULL,
 
+    .discards_present = NULL,
+
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
         color = "cyan",
@@ -92,6 +94,9 @@ agepro_model <- R6Class(
                                         num_pop_sims,
                                         discards,
                                         seed)
+
+      private$.discards_present <- self$general$discards
+
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
@@ -226,6 +231,8 @@ agepro_inp_model <- R6Class(
 
     read_general_params = function(con, nline) {
       self$nline <- self$general$read_inp_lines(con, nline)
+      # Set .discards_present to Input file's "discards" value
+      private$.discards_present <- as.logical(self$general$discards)
     },
 
     read_recruit = function(con, nline) {
@@ -273,6 +280,8 @@ agepro_inp_model <- R6Class(
 
       self$case_id <- case_id$new()
       self$general <- suppressMessages(general_params$new())
+      private$.discards_present <- self$general$discards
+
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
