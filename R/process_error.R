@@ -77,6 +77,18 @@ process_error <- R6Class(
 
       return(rownames_fleetyears)
 
+    },
+
+    #Handles potential proj_years "Factor" types, and returns its
+    #"levels", the intended values assigned to this value.
+    handle_factors_proj_years = function(proj_years){
+
+      #Check proj_years
+      if(is.factor(proj_years)) {
+        proj_years <- levels(proj_years)
+      }
+
+      return(proj_years)
     }
 
   ), public = list (
@@ -95,6 +107,8 @@ process_error <- R6Class(
 
       #Time Varying
       self$time_varying <- time_varying
+
+      proj_years <- private$handle_factors_proj_years(proj_years)
 
       # Handle num_projection_years that may be a single int
       # or vector of sequential values
