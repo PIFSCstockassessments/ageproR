@@ -57,7 +57,8 @@ projection_years <- R6Class(
       if(missing(value)){
         private$.count
       } else {
-        checkmate::assert_integerish(value, lower = 1, len = 1)
+        checkmate::assert_integerish(value, lower = 1, len = 1,
+                                     .var.name = "projection_years count")
         private$.count <- value
       }
 
@@ -68,7 +69,8 @@ projection_years <- R6Class(
       if(missing(value)){
         private$.sequence
       } else {
-        checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE)
+        checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
+                                  .var.name = "projection_years sequence")
         if(all(diff(value) != 1)){
           stop("Invalid projection_years Sequence", call. = FALSE)
         }
