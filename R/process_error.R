@@ -89,7 +89,25 @@ process_error <- R6Class(
       }
 
       return(proj_years)
+    },
+
+    #Change in time_varying will reset parameter and CV table
+    time_varying_toggle_resets_parameter_table = function(time_flag) {
+
+      if(is.null(private$.time_varying)){
+        return()
+      }
+
+      if(time_flag != private$.time_varying){
+
+        self$setup_parameter_tables(private$.projection_years,
+                                      private$.num_ages,
+                                      private$.num_fleets,
+                                      time_varying = time_flag)
+      }
+      return()
     }
+
 
   ), public = list (
 
@@ -174,7 +192,7 @@ process_error <- R6Class(
       rownames(self$parameter_table)  <-
         private$setup_parameter_table_rownames(projection_years$sequence,
                                                num_fleets,
-                                               self$time_varying)
+                                               time_varying)
 
       # Fleet-year rownames for CV. Not affected by time varying
       rownames(self$cv_table) <-
@@ -396,6 +414,7 @@ process_error <- R6Class(
         private$.time_varying
       } else {
         checkmate::assert_logical(time_flag)
+        private$time_varying_toggle_resets_parameter_table(time_flag)
         private$.time_varying <- time_flag
       }
     },
