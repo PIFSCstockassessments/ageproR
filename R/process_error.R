@@ -516,6 +516,7 @@ natural_mortality <- R6Class(
 #'
 #' @importFrom R6 R6Class
 #'
+#' @export
 fishery_selectivity <- R6Class(
   "fishery_selectivity",
   inherit = ageproR::process_error,
@@ -561,6 +562,7 @@ fishery_selectivity <- R6Class(
 #'
 #' @importFrom R6 R6Class
 #'
+#' @export
 discard_fraction <- R6Class(
   "discard_fraction",
   inherit = ageproR::process_error,
