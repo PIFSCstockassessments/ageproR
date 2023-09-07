@@ -13,7 +13,7 @@ parameter.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-fishery_selectivity-initalize}{\code{fishery_selectivity$initalize()}}
+\item \href{#method-fishery_selectivity-new}{\code{fishery_selectivity$new()}}
 \item \href{#method-fishery_selectivity-clone}{\code{fishery_selectivity$clone()}}
 }
 }
@@ -21,7 +21,6 @@ parameter.
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_parameter_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_parameter_table'><code>ageproR::process_error$create_parameter_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="initialize"><a href='../../ageproR/html/process_error.html#method-process_error-initialize'><code>ageproR::process_error$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="inplines_process_error"><a href='../../ageproR/html/process_error.html#method-process_error-inplines_process_error'><code>ageproR::process_error$inplines_process_error()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="print"><a href='../../ageproR/html/process_error.html#method-process_error-print'><code>ageproR::process_error$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inp_lines"><a href='../../ageproR/html/process_error.html#method-process_error-read_inp_lines'><code>ageproR::process_error$read_inp_lines()</code></a></span></li>
@@ -32,12 +31,12 @@ parameter.
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-fishery_selectivity-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-fishery_selectivity-initalize}{}}}
-\subsection{Method \code{initalize()}}{
+\if{html}{\out{<a id="method-fishery_selectivity-new"></a>}}
+\if{latex}{\out{\hypertarget{method-fishery_selectivity-new}{}}}
+\subsection{Method \code{new()}}{
 Initializes new instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{fishery_selectivity$initalize(
+\if{html}{\out{<div class="r">}}\preformatted{fishery_selectivity$new(
   proj_years,
   num_ages,
   num_fleets,

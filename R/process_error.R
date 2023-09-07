@@ -486,6 +486,7 @@ natural_mortality <- R6Class(
                           input_option = 0,
                           time_varying = TRUE) {
 
+
       super$initialize(proj_years,
                        num_ages,
                        1, #Single, non-Fleet dependent parameter.
@@ -523,13 +524,13 @@ fishery_selectivity <- R6Class(
     #' @description
     #' Initializes new instance
     #'
-    initalize = function(proj_years,
+    initialize = function(proj_years,
                          num_ages,
                          num_fleets,
                          input_option = 0,
                          time_varying = TRUE) {
 
-      super$initalize(proj_years,
+      super$initialize(proj_years,
                       num_ages,
                       num_fleets,
                       input_option,
@@ -541,6 +542,7 @@ fishery_selectivity <- R6Class(
     }
 
   )
+
 )
 
 
