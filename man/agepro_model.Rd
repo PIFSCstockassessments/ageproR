@@ -59,9 +59,9 @@ Starts an instances of the AGEPRO Model
   yr_end,
   age_begin,
   age_end,
+  num_pop_sims,
   num_fleets,
   num_rec_models,
-  num_pop_sims,
   discards = FALSE,
   seed = sample.int(1e+08, 1)
 )}\if{html}{\out{</div>}}
@@ -78,11 +78,11 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{age_end}}{Age end}
 
+\item{\code{num_pop_sims}}{Number of population simulations}
+
 \item{\code{num_fleets}}{Number of fleets}
 
 \item{\code{num_rec_models}}{Number of Recruit Modules}
-
-\item{\code{num_pop_sims}}{Number of population simuations}
 
 \item{\code{discards}}{discards. FALSE by default}
 

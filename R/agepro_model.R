@@ -56,9 +56,9 @@ agepro_model <- R6Class(
     #' @param yr_end Last Year of Projection
     #' @param age_begin Age begin
     #' @param age_end Age end
+    #' @param num_pop_sims Number of population simulations
     #' @param num_fleets Number of fleets
     #' @param num_rec_models Number of Recruit Modules
-    #' @param num_pop_sims Number of population simuations
     #' @param discards discards. FALSE by default
     #' @param seed Random Number seed. A pesdorandom number is set as default.
     #'
@@ -66,9 +66,9 @@ agepro_model <- R6Class(
                            yr_end,
                            age_begin,
                            age_end,
+                           num_pop_sims,
                            num_fleets,
                            num_rec_models,
-                           num_pop_sims,
                            discards = FALSE,
                            seed = sample.int(1e8, 1)) {
 
@@ -89,9 +89,9 @@ agepro_model <- R6Class(
                                         yr_end,
                                         age_begin,
                                         age_end,
+                                        num_pop_sims,
                                         num_fleets,
                                         num_rec_models,
-                                        num_pop_sims,
                                         discards,
                                         seed)
 
