@@ -325,7 +325,7 @@ agepro_inp_model <- R6Class(
           self$read_inpfile_values(inp_con)
 
           #Cleanup and close file connections
-          message("Input File Read")
+          cli::cli_alert_info("Input File Read")
         #},
         #warning = function(cond) {
           #warning(cond)
@@ -337,7 +337,7 @@ agepro_inp_model <- R6Class(
           invisible()
         },
         finally = {
-          message("Closing connection to file.")
+          cli::cli_alert_info("Closing connection to file.")
           #close file connections
           close(inp_con)
         }
