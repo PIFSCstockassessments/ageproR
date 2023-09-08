@@ -226,6 +226,7 @@ process_error <- R6Class(
     #' Formatted to print out the values pf the Process Error Parameter
     #'
     print = function(...) {
+      #TODO: Option to hide or limit rows of parameter & CV table
       cli::cli_ul()
       cli::cli_li("Input Option: {.val {self$input_option}}")
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
@@ -518,6 +519,11 @@ natural_mortality <- R6Class(
       self$parameter_name <- "Natural mortality Of Age"
       private$.inp_keyword <- "[NATMORT]"
 
+      cli_keyword_heading(tolower(
+        substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
+      ))
+      cli_alert("Setting up Default Values")
+      self$print()
 
     }
 
@@ -561,6 +567,12 @@ fishery_selectivity <- R6Class(
 
       self$parameter_name <- "Fishery Selectivity at age by fleet"
       private$.inp_keyword <- "[FISHERY]"
+
+      cli_keyword_heading(tolower(
+        substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
+      ))
+      cli_alert("Setting up Default Values")
+      self$print()
 
     }
 
