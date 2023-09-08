@@ -300,7 +300,6 @@ process_error <- R6Class(
     #'
     read_inplines_parameter_tables = function(inp_con, nline) {
 
-      cli::cli_alert_info("Number of Ages: {.val {private$.num_ages}}")
       #TODO: Verify inp_line is same length as num_ages
 
       #Non-time varying, single fleet data
@@ -310,7 +309,8 @@ process_error <- R6Class(
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
         cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
-                    "{.val {inp_line}}"))
+                    "{.val {inp_line}} ",
+                    "{.emph ({private$.num_ages} Age{?s})}"))
 
         self$parameter_table["All Years",] <- inp_line
 
@@ -321,7 +321,8 @@ process_error <- R6Class(
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
           cli_alert(c("Line {nline}: {self$parameter_name} for {i}: ",
-                      "{.val {inp_line}}"))
+                      "{.val {inp_line}} ",
+                      "{.emph ({private$.num_ages} Age{?s})}"))
 
           self$parameter_table[i,] <- inp_line
         }
@@ -342,7 +343,8 @@ process_error <- R6Class(
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
         cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
-                    "{.val {inp_line}}"))
+                    "{.val {inp_line}} ",
+                    "{.emph ({private$.num_ages} Age{?s})}"))
         self$cv_table["All Years",] <- inp_line
 
       } else {
@@ -351,7 +353,8 @@ process_error <- R6Class(
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
           cli_alert(c("Line {nline}: Coefficent of Variation for {i}: ",
-                      "{.val {inp_line}}"))
+                      "{.val {inp_line}} ",
+                      "{.emph ({private$.num_ages} Age{?s})}"))
 
           self$cv_table[i,] <- inp_line
         }
