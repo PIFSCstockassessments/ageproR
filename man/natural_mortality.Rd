@@ -20,6 +20,7 @@ AGEPRO Keyword parameter.
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="cli_print_process_error_table"><a href='../../ageproR/html/process_error.html#method-process_error-cli_print_process_error_table'><code>ageproR::process_error$cli_print_process_error_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_parameter_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_parameter_table'><code>ageproR::process_error$create_parameter_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="inplines_process_error"><a href='../../ageproR/html/process_error.html#method-process_error-inplines_process_error'><code>ageproR::process_error$inplines_process_error()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="print"><a href='../../ageproR/html/process_error.html#method-process_error-print'><code>ageproR::process_error$print()</code></a></span></li>

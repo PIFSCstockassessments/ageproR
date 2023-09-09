@@ -230,13 +230,49 @@ process_error <- R6Class(
       cli::cli_ul()
       cli::cli_li("Input Option: {.val {self$input_option}}")
       cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_end()
+
+      cli::cli_par()
       cli::cli_alert_info("{self$parameter_name}")
-      cli::cat_print(self$parameter_table)
+      #cli::cat_print(self$parameter_table)
+      self$cli_print_process_error_table(self$parameter_table, ...)
+      cli::cli_end()
+
+      cli::cli_par()
       cli::cli_alert_info("Coefficient of Variation")
-      cli::cat_print(self$cv_table)
+      #cli::cat_print(self$cv_table)
+      self$cli_print_process_error_table(self$cv_table, ...)
       cli::cli_end()
 
     },
+
+
+    #' @description
+    #' Helper function to print out Process Error keyword parameter data to
+    #' Console.
+    #'
+    #' @param tbl Process Error Parameter or cv Table
+    #' @param omit_rows Logical flag, if `TRUE`, will print the first rows of
+    #' the process error table, via [`head()`][utils::head], to R console. In
+    #' addition total number of rows and rows omitted will be displayed. By
+    #' default is set to `FALSE`, prints normally.
+    #'
+    cli_print_process_error_table = function (tbl, omit_rows=FALSE) {
+
+      if(omit_rows) {
+
+        omitted_num_rows <- pmax(0, nrow(tbl)-6)
+
+        cli::cat_print(head(tbl)) #first 6 roww
+        cli::cli_text(
+          paste0("{symbol$info} ","Total of {nrow(tbl)} row{?s}; ",
+                 "{no(omitted_num_rows)} row{?s} omitted"))
+      }else{
+        cli::cat_print(tbl)
+      }
+
+    },
+
 
     #' @description
     #' Reads in Process Error keyword parameter's values from AGEPRO Input file
@@ -523,7 +559,7 @@ natural_mortality <- R6Class(
         substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
       ))
       cli_alert("Setting up Default Values")
-      self$print()
+      self$print(omit_rows=TRUE)
 
     }
 
@@ -572,7 +608,7 @@ fishery_selectivity <- R6Class(
         substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
       ))
       cli_alert("Setting up Default Values")
-      self$print()
+      self$print(omit_rows = TRUE)
 
     }
 

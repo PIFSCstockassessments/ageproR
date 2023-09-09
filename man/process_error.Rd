@@ -43,6 +43,7 @@ error of the average population or fishery process parameter's at age
 \item \href{#method-process_error-setup_parameter_tables}{\code{process_error$setup_parameter_tables()}}
 \item \href{#method-process_error-create_parameter_table}{\code{process_error$create_parameter_table()}}
 \item \href{#method-process_error-print}{\code{process_error$print()}}
+\item \href{#method-process_error-cli_print_process_error_table}{\code{process_error$cli_print_process_error_table()}}
 \item \href{#method-process_error-read_inp_lines}{\code{process_error$read_inp_lines()}}
 \item \href{#method-process_error-read_inplines_parameter_tables}{\code{process_error$read_inplines_parameter_tables()}}
 \item \href{#method-process_error-read_inplines_cv_table}{\code{process_error$read_inplines_cv_table()}}
@@ -152,6 +153,29 @@ Formatted to print out the values pf the Process Error Parameter
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-process_error-cli_print_process_error_table"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-cli_print_process_error_table}{}}}
+\subsection{Method \code{cli_print_process_error_table()}}{
+Helper function to print out Process Error keyword parameter data to
+Console.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{process_error$cli_print_process_error_table(tbl, omit_rows = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tbl}}{Process Error Parameter or cv Table}
+
+\item{\code{omit_rows}}{Logical flag, if \code{TRUE}, will print the first rows of
+the process error table, via \code{\link[utils:head]{head()}}, to R console. In
+addition total number of rows and rows omitted will be displayed. By
+default is set to \code{FALSE}, prints normally.}
 }
 \if{html}{\out{</div>}}
 }
