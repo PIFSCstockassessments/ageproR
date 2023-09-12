@@ -585,9 +585,7 @@ natural_mortality <- R6Class(
       self$parameter_title <- "Natural mortality Of Age"
       private$.keyword_name <- "natmort"
 
-      cli_keyword_heading(tolower(
-        substr(private$.keyword_name, 2, nchar(private$.keyword_name) - 1)
-      ))
+      cli_keyword_heading(private$.keyword_name)
       cli_alert("Setting up Default Values")
       self$print(enable_cat_print, omit_rows=TRUE)
 
@@ -636,9 +634,7 @@ fishery_selectivity <- R6Class(
       self$parameter_title <- "Fishery Selectivity at age by fleet"
       private$.keyword_name <- "fishery"
 
-      cli_keyword_heading(tolower(
-        substr(private$.keyword_name, 2, nchar(private$.keyword_name) - 1)
-      ))
+      cli_keyword_heading(private$.keyword_name)
       cli_alert("Setting up Default Values")
       self$print(enable_cat_print, omit_rows = TRUE)
 
