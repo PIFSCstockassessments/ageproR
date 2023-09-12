@@ -14,7 +14,7 @@
 #' @template inp_con
 #' @template nline
 #' @template delimiter
-#' @template process_error_initalize_params
+#' @template process_error_initialize_params
 #' @template enable_cat_print
 #'
 #' @import cli
@@ -557,7 +557,7 @@ process_error <- R6Class(
 #' @importFrom jsonlite toJSON
 #'
 #' @template enable_cat_print
-#' @template process_error_initalize_params
+#' @template process_error_initialize_params
 #'
 #' @export
 natural_mortality <- R6Class(
@@ -604,7 +604,7 @@ natural_mortality <- R6Class(
 #'
 #' @param num_fleets Number of Fleets.
 #'
-#' @template process_error_initalize_params
+#' @template process_error_initialize_params
 #' @template enable_cat_print
 #'
 #' @importFrom R6 R6Class
@@ -644,8 +644,6 @@ fishery_selectivity <- R6Class(
 
 )
 
-
-
 #' @title
 #' Discard fraction of numbers at age
 #'
@@ -656,7 +654,7 @@ fishery_selectivity <- R6Class(
 #'
 #' @param num_fleets Number of Fleets.
 #'
-#' @template process_error_initalize_params
+#' @template process_error_initialize_params
 #'
 #' @importFrom R6 R6Class
 #'
