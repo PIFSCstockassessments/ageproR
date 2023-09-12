@@ -28,7 +28,7 @@ factor).}
 error of the average population or fishery process parameter's at age
 (and by fleet if fleets are a factor).}
 
-\item{\code{parameter_name}}{Name of the population or fishery process}
+\item{\code{parameter_title}}{Name of the population or fishery process}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter name}
 

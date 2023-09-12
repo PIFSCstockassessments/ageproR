@@ -34,7 +34,7 @@ process_error <- R6Class(
     .upper_bounds = NULL,
 
     .valid_input_options = c(0,1),
-    .parameter_name = NULL,
+    .parameter_title = NULL,
     .inp_keyword = NULL,
     .discards_parameter = NULL,
 
@@ -141,7 +141,7 @@ process_error <- R6Class(
                                    time_varying = self$time_varying)
 
       #Fallback Parameter Name
-      self$parameter_name <- "Process Error Parameter At Age"
+      self$parameter_title <- "Process Error Parameter At Age"
       private$.inp_keyword <- "[PROCESS_ERROR]"
       private$.discards_parameter <- FALSE
 
@@ -235,7 +235,7 @@ process_error <- R6Class(
       cli::cli_end()
 
       cli::cli_par()
-      cli::cli_alert_info("parameter_table: {self$parameter_name}")
+      cli::cli_alert_info("parameter_table: {self$parameter_title}")
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
@@ -363,7 +363,7 @@ process_error <- R6Class(
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
         cli_alert(c("Line {nline}: ", "parameter_table (",
-                    "{self$parameter_name}) for All Years: ",
+                    "{self$parameter_title}) for All Years: ",
                     "{.val {inp_line}} ",
                     "{.emph ({private$.num_ages} Age{?s})}"))
 
@@ -376,7 +376,7 @@ process_error <- R6Class(
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
           cli_alert(c("Line {nline}: ", "parameter_table(",
-                      "{self$parameter_name} for {i}: ",
+                      "{self$parameter_title} for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
 
@@ -505,14 +505,14 @@ process_error <- R6Class(
       }
     },
 
-    #' @field parameter_name
+    #' @field parameter_title
     #' Name of the population or fishery process
-    parameter_name = function(value) {
+    parameter_title = function(value) {
       if(missing(value)){
-        private$.parameter_name
+        private$.parameter_title
       } else {
         checkmate::assert_character(value)
-        private$.parameter_name <- value
+        private$.parameter_title <- value
       }
     },
 
@@ -576,7 +576,7 @@ natural_mortality <- R6Class(
                        input_option,
                        time_varying)
 
-      self$parameter_name <- "Natural mortality Of Age"
+      self$parameter_title <- "Natural mortality Of Age"
       private$.inp_keyword <- "[NATMORT]"
 
       cli_keyword_heading(tolower(
@@ -627,7 +627,7 @@ fishery_selectivity <- R6Class(
                       input_option,
                       time_varying)
 
-      self$parameter_name <- "Fishery Selectivity at age by fleet"
+      self$parameter_title <- "Fishery Selectivity at age by fleet"
       private$.inp_keyword <- "[FISHERY]"
 
       cli_keyword_heading(tolower(
@@ -679,7 +679,7 @@ discard_fraction <- R6Class(
                       input_option,
                       time_varying)
 
-      self$parameter_name <- "Discards Fraction of Numbers at Age"
+      self$parameter_title <- "Discards Fraction of Numbers at Age"
       private$.inp_keyword <- "[DISCARDS]"
       private$.discards_parameter <- TRUE
 
