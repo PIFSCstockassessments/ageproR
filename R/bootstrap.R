@@ -23,7 +23,7 @@ bootstrap <- R6Class(
     .num_bootstraps = NULL,
     .pop_scale_factor = NULL,
     .bootstrap_file = NULL,
-    .parameter_name = "bootstrap",
+    .keyword_name = "bootstrap",
 
 
     #Validate bootstrap_file
@@ -67,7 +67,7 @@ bootstrap <- R6Class(
     #'
     initialize = function() {
 
-      cli_keyword_heading(private$.parameter_name)
+      cli_keyword_heading(private$.keyword_name)
       cli_alert("Setting up Default Values")
 
       self$num_bootstraps <- 0
