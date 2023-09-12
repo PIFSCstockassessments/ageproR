@@ -279,7 +279,10 @@ agepro_inp_model <- R6Class(
 
       #TODO: Initialize AGEPRO keyword params
 
+      cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
+
       self$case_id <- case_id$new()
+
       self$general <- suppressMessages(general_params$new())
       private$.discards_present <- self$general$discards
 
@@ -291,15 +294,15 @@ agepro_inp_model <- R6Class(
       self$natmort <-
         suppressMessages(natural_mortality$new(self$general$seq_years,
                                             self$general$num_ages,
-                                            cat_verbose = FALSE))
+                                            enable_cat_print = FALSE))
 
       self$fishery <-
         suppressMessages(fishery_selectivity$new(self$general$seq_years,
                                               self$general$num_ages,
                                               self$general$num_fleets,
-                                              cat_verbose = FALSE))
+                                              enable_cat_print = FALSE))
 
-
+      cli::cli_text("Done")
     },
 
     #' @description
