@@ -30,6 +30,8 @@ error of the average population or fishery process parameter's at age
 
 \item{\code{parameter_title}}{Name of the population or fishery process}
 
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter name}
 
 \item{\code{json_list_process_error}}{Returns JSON list object with Process Error Parameter values}

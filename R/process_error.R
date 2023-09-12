@@ -35,7 +35,7 @@ process_error <- R6Class(
 
     .valid_input_options = c(0,1),
     .parameter_title = NULL,
-    .inp_keyword = NULL,
+    .keyword_name = NULL,
     .discards_parameter = NULL,
 
     .projection_years = NULL,
@@ -142,7 +142,7 @@ process_error <- R6Class(
 
       #Fallback Parameter Name
       self$parameter_title <- "Process Error Parameter At Age"
-      private$.inp_keyword <- "[PROCESS_ERROR]"
+      private$.keyword_name <- "process_error"
       private$.discards_parameter <- FALSE
 
     },
@@ -516,10 +516,16 @@ process_error <- R6Class(
       }
     },
 
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
     #' @field inp_keyword
     #' Returns AGEPRO input-file formatted Parameter name
     inp_keyword = function() {
-      private$.inp_keyword
+      paste0("[",toupper(private$.keyword_name),"]")
     },
 
     #' @field json_list_process_error
@@ -577,10 +583,10 @@ natural_mortality <- R6Class(
                        time_varying)
 
       self$parameter_title <- "Natural mortality Of Age"
-      private$.inp_keyword <- "[NATMORT]"
+      private$.keyword_name <- "natmort"
 
       cli_keyword_heading(tolower(
-        substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
+        substr(private$.keyword_name, 2, nchar(private$.keyword_name) - 1)
       ))
       cli_alert("Setting up Default Values")
       self$print(enable_cat_print, omit_rows=TRUE)
@@ -628,10 +634,10 @@ fishery_selectivity <- R6Class(
                       time_varying)
 
       self$parameter_title <- "Fishery Selectivity at age by fleet"
-      private$.inp_keyword <- "[FISHERY]"
+      private$.keyword_name <- "fishery"
 
       cli_keyword_heading(tolower(
-        substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
+        substr(private$.keyword_name, 2, nchar(private$.keyword_name) - 1)
       ))
       cli_alert("Setting up Default Values")
       self$print(enable_cat_print, omit_rows = TRUE)
@@ -680,7 +686,7 @@ discard_fraction <- R6Class(
                       time_varying)
 
       self$parameter_title <- "Discards Fraction of Numbers at Age"
-      private$.inp_keyword <- "[DISCARDS]"
+      private$.keyword_name <- "discards"
       private$.discards_parameter <- TRUE
 
     }
