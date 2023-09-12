@@ -15,6 +15,7 @@
 #' @template nline
 #' @template delimiter
 #' @template process_error_initalize_params
+#' @template enable_cat_print
 #'
 #' @import cli
 #' @importFrom R6 R6Class
@@ -118,7 +119,8 @@ process_error <- R6Class(
                           num_ages,
                           num_fleets = 1,
                           input_option = 0,
-                          time_varying = TRUE){
+                          time_varying = TRUE,
+                          ...){
 
       #set and validate input_option value
       self$input_option <- input_option
@@ -225,23 +227,38 @@ process_error <- R6Class(
     #' @description
     #' Formatted to print out the values pf the Process Error Parameter
     #'
-    print = function(...) {
+    print = function(enable_cat_print = TRUE, ...) {
       #TODO: Option to hide or limit rows of parameter & CV table
       cli::cli_ul()
-      cli::cli_li("Input Option: {.val {self$input_option}}")
-      cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_li("input_option: {.val {self$input_option}}")
+      cli::cli_li("time_varying: {.val {self$time_varying}}")
       cli::cli_end()
 
       cli::cli_par()
-      cli::cli_alert_info("{self$parameter_name}")
-      #cli::cat_print(self$parameter_table)
-      self$cli_print_process_error_table(self$parameter_table, ...)
+      cli::cli_alert_info("parameter_table: {self$parameter_name}")
+      #Verbose flag check
+      if(enable_cat_print){
+        #Allow `cli::cat_print` message
+        self$cli_print_process_error_table(self$parameter_table, ...)
+      }else {
+        #Suppress `cli::cat_print` message
+        capture.output( x <- self$cli_print_process_error_table(
+          self$parameter_table, ...))
+      }
       cli::cli_end()
 
       cli::cli_par()
-      cli::cli_alert_info("Coefficient of Variation")
-      #cli::cat_print(self$cv_table)
-      self$cli_print_process_error_table(self$cv_table, ...)
+      cli::cli_alert_info("cv_table: Coefficient of Variation")
+      if(enable_cat_print) {
+        #Allow `cli::cat_print` message
+        self$cli_print_process_error_table(self$cv_table, ...)
+      }else {
+        #Suppress `cli::cat_print` message
+        capture.output( x <- self$cli_print_process_error_table(
+          self$cv_table, ...))
+      }
+
+
       cli::cli_end()
 
     },
@@ -300,8 +317,8 @@ process_error <- R6Class(
       cli::cli_alert("Line {nline} :")
       cli::cli_ul()
       a <- cli::cli_ul()
-      cli::cli_li("Input Option: {.val {self$input_option}}")
-      cli::cli_li("Time Varying: {.val {self$time_varying}}")
+      cli::cli_li("input_option: {.val {self$input_option}}")
+      cli::cli_li("time_varying: {.val {self$time_varying}}")
       cli::cli_end(a)
       cli::cli_end()
 
@@ -345,7 +362,8 @@ process_error <- R6Class(
 
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
-        cli_alert(c("Line {nline}: {self$parameter_name} for All Years: ",
+        cli_alert(c("Line {nline}: ", "parameter_table (",
+                    "{self$parameter_name}) for All Years: ",
                     "{.val {inp_line}} ",
                     "{.emph ({private$.num_ages} Age{?s})}"))
 
@@ -357,7 +375,8 @@ process_error <- R6Class(
         for(i in rownames(self$parameter_table)){
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: {self$parameter_name} for {i}: ",
+          cli_alert(c("Line {nline}: ", "parameter_table(",
+                      "{self$parameter_name} for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
 
@@ -379,7 +398,8 @@ process_error <- R6Class(
       if(private$.num_fleets == 1) {
         inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
-        cli_alert(c("Line {nline}: Coefficent of Variation for All Years: ",
+        cli_alert(c("Line {nline}: ",
+                    "cv_table (Coefficent of Variation) for All Years: ",
                     "{.val {inp_line}} ",
                     "{.emph ({private$.num_ages} Age{?s})}"))
         self$cv_table["All Years",] <- inp_line
@@ -389,7 +409,8 @@ process_error <- R6Class(
         for(i in rownames(self$cv_table)){
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: Coefficent of Variation for {i}: ",
+          cli_alert(c("Line {nline}: ",
+                      "cv_table (Coefficent of Variation) for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
 
@@ -529,6 +550,7 @@ process_error <- R6Class(
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @template enable_cat_print
 #' @template process_error_initalize_params
 #'
 #' @export
@@ -540,10 +562,12 @@ natural_mortality <- R6Class(
     #' @description
     #' Initializes the class
     #'
+    #'
     initialize = function(proj_years,
                           num_ages,
                           input_option = 0,
-                          time_varying = TRUE) {
+                          time_varying = TRUE,
+                          enable_cat_print = TRUE) {
 
 
       super$initialize(proj_years,
@@ -559,7 +583,7 @@ natural_mortality <- R6Class(
         substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
       ))
       cli_alert("Setting up Default Values")
-      self$print(omit_rows=TRUE)
+      self$print(enable_cat_print, omit_rows=TRUE)
 
     }
 
@@ -577,6 +601,7 @@ natural_mortality <- R6Class(
 #' @param num_fleets Number of Fleets.
 #'
 #' @template process_error_initalize_params
+#' @template enable_cat_print
 #'
 #' @importFrom R6 R6Class
 #'
@@ -593,7 +618,8 @@ fishery_selectivity <- R6Class(
                          num_ages,
                          num_fleets,
                          input_option = 0,
-                         time_varying = TRUE) {
+                         time_varying = TRUE,
+                         enable_cat_print = TRUE) {
 
       super$initialize(proj_years,
                       num_ages,
@@ -608,7 +634,7 @@ fishery_selectivity <- R6Class(
         substr(private$.inp_keyword, 2, nchar(private$.inp_keyword) - 1)
       ))
       cli_alert("Setting up Default Values")
-      self$print(omit_rows = TRUE)
+      self$print(enable_cat_print, omit_rows = TRUE)
 
     }
 

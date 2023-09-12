@@ -271,6 +271,7 @@ agepro_inp_model <- R6Class(
 
     #' @description
     #' Initializes the input file
+    #'
     initialize = function() {
 
       private$.pre_v4 <- FALSE
@@ -289,11 +290,14 @@ agepro_inp_model <- R6Class(
 
       self$natmort <-
         suppressMessages(natural_mortality$new(self$general$seq_years,
-                                              self$general$num_ages))
+                                            self$general$num_ages,
+                                            cat_verbose = FALSE))
+
       self$fishery <-
         suppressMessages(fishery_selectivity$new(self$general$seq_years,
-                                                 self$general$num_ages,
-                                                 self$general$num_fleets))
+                                              self$general$num_ages,
+                                              self$general$num_fleets,
+                                              cat_verbose = FALSE))
 
 
     },

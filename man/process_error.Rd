@@ -62,7 +62,8 @@ Initializes the class
   num_ages,
   num_fleets = 1,
   input_option = 0,
-  time_varying = TRUE
+  time_varying = TRUE,
+  ...
 )}\if{html}{\out{</div>}}
 }
 
@@ -86,6 +87,8 @@ projection or the number of years in the time projection.}
 \item{\code{time_varying}}{Logical flag that enables the stochastic parameter
 to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
@@ -146,12 +149,15 @@ Creates an Population or Fishery process Parameter table
 \subsection{Method \code{print()}}{
 Formatted to print out the values pf the Process Error Parameter
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$print(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console. Default is TRUE.}
+
 \item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}

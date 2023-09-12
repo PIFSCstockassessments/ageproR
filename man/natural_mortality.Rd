@@ -41,7 +41,8 @@ Initializes the class
   proj_years,
   num_ages,
   input_option = 0,
-  time_varying = TRUE
+  time_varying = TRUE,
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -63,6 +64,9 @@ projection or the number of years in the time projection.}
 \item{\code{time_varying}}{Logical flag that enables the stochastic parameter
 to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
