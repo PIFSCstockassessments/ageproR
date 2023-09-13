@@ -24,6 +24,7 @@ agepro_model <- R6Class(
     # AGEPRO keyword parameters
     .general_options = NULL,
     .natural_mortality = NULL,
+    .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
 
     .discards_present = NULL,
@@ -107,6 +108,9 @@ agepro_model <- R6Class(
       self$natmort <- natural_mortality$new(self$general$seq_years,
                                             self$general$num_ages)
 
+      self$maturity <- maturity_fraction$new(self$general$seq_years,
+                                             self$general$num_ages)
+
       self$fishery <- fishery_selectivity$new(self$general$seq_years,
                                               self$general$num_ages,
                                               self$general$num_fleets)
@@ -186,6 +190,17 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field maturity
+    #' Maturity Fraction
+    maturity = function(value){
+      if(missing(value)){
+        return(private$.maturity_fraction)
+      }else {
+        checkmate::assert_r6(value, classes= "process_error")
+        private$.maturity_fraction <- value
+      }
+    },
+
     #' @field fishery \cr
     #' Fishery Selectivity
     fishery = function(value) {
@@ -256,6 +271,14 @@ agepro_inp_model <- R6Class(
                                                 self$general$num_ages)
     },
 
+    read_maturity_fraction = function(con, nline) {
+      cli::cli_alert_info("Reading Maturity Fraction")
+      self$nline <- self$maturity$read_inp_lines(con,
+                                                 nline,
+                                                 self$general$seq_years,
+                                                 self$general$num_ages)
+    },
+
     read_fishery_selectivity = function(con, nline) {
       cli::cli_alert_info("Reading Fishery Selectivity")
       self$nline <-
@@ -295,6 +318,10 @@ agepro_inp_model <- R6Class(
         suppressMessages(natural_mortality$new(self$general$seq_years,
                                             self$general$num_ages,
                                             enable_cat_print = FALSE))
+      self$maturity <-
+        suppressMessages(maturity_fraction$new(self$general$seq_years,
+                                               self$general$num_ages,
+                                               enable_cat_print = FALSE))
 
       self$fishery <-
         suppressMessages(fishery_selectivity$new(self$general$seq_years,
@@ -412,6 +439,9 @@ agepro_inp_model <- R6Class(
           },
         "[NATMORT]" = {
             rlang::expr(private$read_natural_mortality(inp_con, self$nline))
+         },
+        "[MATURITY]" = {
+            rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
          },
         "[FISHERY]" = {
             rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))

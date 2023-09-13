@@ -34,6 +34,8 @@ with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{natmort}}{Natural Mortality}
 
+\item{\code{maturity}}{Maturity Fraction}
+
 \item{\code{fishery}}{\cr
 Fishery Selectivity}
 }
