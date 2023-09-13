@@ -235,7 +235,8 @@ process_error <- R6Class(
       cli::cli_end()
 
       cli::cli_par()
-      cli::cli_alert_info("parameter_table: {self$parameter_title}")
+      cli::cli_alert_info("parameter_table:")
+      cli::cli_text("{symbol$bullet} {self$parameter_title}")
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
@@ -248,7 +249,8 @@ process_error <- R6Class(
       cli::cli_end()
 
       cli::cli_par()
-      cli::cli_alert_info("cv_table: Coefficient of Variation")
+      cli::cli_alert_info("cv_table: ")
+      cli::cli_text("{symbol$bullet} Coefficient of Variation")
       if(enable_cat_print) {
         #Allow `cli::cat_print` message
         self$cli_print_process_error_table(self$cv_table, ...)
@@ -375,8 +377,8 @@ process_error <- R6Class(
         for(i in rownames(self$parameter_table)){
           inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: ", "parameter_table(",
-                      "{self$parameter_title} for {i}: ",
+          cli_alert(c("Line {nline}: ", "parameter_table (",
+                      "{self$parameter_title}) for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
 
