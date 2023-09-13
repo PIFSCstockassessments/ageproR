@@ -596,6 +596,54 @@ natural_mortality <- R6Class(
 )
 
 #' @title
+#' Maturation fraction at age
+#'
+#' @description
+#' AGEPRO keyword parameter class Structure for this fishery process with
+#' multiplicative lognormal error distribution.
+#'
+#' @template process_error_initialize_params
+#' @template enable_cat_print
+#'
+#' @importFrom R6 R6Class
+#'
+#' @export
+maturity_fraction <- R6Class(
+  "maturity_fraction",
+  inherit = ageproR::process_error,
+  public = list(
+
+    #' @description
+    #' Initializes Class
+    #'
+    initialize = function (proj_years,
+                           num_ages,
+                           input_option = 0,
+                           time_varying = TRUE,
+                           enable_cat_print = TRUE) {
+
+      super$initialize(proj_years,
+                       num_ages,
+                       1,
+                       input_option,
+                       time_varying)
+
+      self$parameter_title <- "Maturity Fraction at Age"
+      private$.keyword_name <- "maturity"
+
+      cli_keyword_heading(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print, omit_rows=TRUE)
+
+
+    }
+
+  )
+)
+
+
+
+#' @title
 #' Fishery Selectivity at age by fleet
 #'
 #' @description
@@ -643,6 +691,7 @@ fishery_selectivity <- R6Class(
   )
 
 )
+
 
 #' @title
 #' Discard fraction of numbers at age
