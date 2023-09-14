@@ -118,8 +118,8 @@ bootstrap <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline}: ")
-      cli_text("Number of Bootstraps: {.val {self$num_bootstraps}}")
-      cli_text(c("Population Scale Factor (BootFac): ",
+      cli_text("num_bootstraps: {.val {self$num_bootstraps}}")
+      cli_text(c("pop_scale_factor (BootFac): ",
                  "{.val {self$pop_scale_factor}}"))
 
       #Read another line from the file connection, and
