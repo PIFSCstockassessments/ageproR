@@ -734,6 +734,10 @@ discard_fraction <- R6Class(
       private$.keyword_name <- "discards"
       private$.discards_parameter <- TRUE
 
+      cli_keyword_heading(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print, omit_rows = TRUE)
+
     }
 
   )

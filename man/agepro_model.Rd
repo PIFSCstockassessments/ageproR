@@ -38,6 +38,9 @@ with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{fishery}}{\cr
 Fishery Selectivity}
+
+\item{\code{discard}}{\cr
+Discard Fraction}
 }
 \if{html}{\out{</div>}}
 }

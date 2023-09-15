@@ -26,6 +26,7 @@ agepro_model <- R6Class(
     .natural_mortality = NULL,
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
+    .discard_fraction = NULL,
 
     .discards_present = NULL,
 
@@ -114,6 +115,11 @@ agepro_model <- R6Class(
       self$fishery <- fishery_selectivity$new(self$general$seq_years,
                                               self$general$num_ages,
                                               self$general$num_fleets)
+      if(self$general$discards) {
+        self$discard <- discard_fraction$new(self$general$seq_years,
+                                             self$general$num_ages,
+                                             self$general$num_fleets)
+      }
 
     },
 
@@ -210,7 +216,19 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.fishery_selectivity <- value
       }
+    },
+
+    #' @field discard \cr
+    #' Discard Fraction
+    discard = function(value) {
+      if(missing(value)) {
+        return(private$.discard_fraction)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.discard_fraction <- value
+      }
     }
+
 
   )
 
@@ -287,6 +305,21 @@ agepro_inp_model <- R6Class(
                                     self$general$seq_years,
                                     self$general$num_ages,
                                     self$general$num_fleets)
+    },
+
+    read_discard_fraction = function(con, nline) {
+
+      if(!self$general$discards){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <-
+        self$discards$read_inp_lines(con,
+                                     nline,
+                                     self$general$seq_years,
+                                     self$general$num_ages,
+                                     self$general$num_fleets)
+
     }
 
   ),
@@ -328,6 +361,14 @@ agepro_inp_model <- R6Class(
                                               self$general$num_ages,
                                               self$general$num_fleets,
                                               enable_cat_print = FALSE))
+
+      if(self$general$discard){
+        self$discard <-
+          suppressMessages(discard_fraction$new(self$general$seq_years,
+                                                self$general$num_ages,
+                                                self$general$num_fleets,
+                                                enable_cat_print = FALSE))
+      }
 
       cli::cli_text("Done")
     },
@@ -445,6 +486,9 @@ agepro_inp_model <- R6Class(
          },
         "[FISHERY]" = {
             rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
+        },
+        "[DISCARD]" = {
+            rlang::expr(private$read_discard_fraction(inp_con, self$nline))
         }
       ))
 
