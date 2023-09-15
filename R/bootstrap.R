@@ -67,7 +67,7 @@ bootstrap <- R6Class(
     #'
     initialize = function() {
 
-      cli_keyword_heading(private$.keyword_name)
+      cli_keyword_heading(self$keyword_name)
       cli_alert("Setting up Default Values")
 
       self$num_bootstraps <- 0
@@ -140,7 +140,7 @@ bootstrap <- R6Class(
         warning("Bootstrap filename does not exist on system.", call. = FALSE)
       }
       return(list(
-        "[BOOTSTRAP]",
+        self$inp_keyword,
         paste(self$num_bootstraps, self$pop_scale_factor, sep = delimiter),
         self$bootstrap_file
       ))
@@ -212,7 +212,21 @@ bootstrap <- R6Class(
         bootFac = self$pop_scale_factor,
         bootFile = self$bootstrap_file
       ))
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
+
+
 
 
   )
