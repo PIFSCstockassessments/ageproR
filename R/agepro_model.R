@@ -570,7 +570,11 @@ agepro_inp_model <- R6Class(
             self$recruit$inplines_recruit(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
             self$natmort$inplines_process_error(delimiter),
-            self$fishery$inplines_process_error(delimiter)
+            self$maturity$inplines_process_error(delimiter),
+            self$fishery$inplines_process_error(delimiter),
+            if(self$general$discard){
+              self$discard$inplines_process_error(delimiter)
+            }
           )
 
         }
@@ -635,12 +639,17 @@ agepro_json_model <- R6Class(
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
-      agepro_json <- list("version" = version_json,
+      agepro_json <- as.list(c("version" = version_json,
                           "general" = self$general$json_list_general,
                           "recruit" = self$recruit$json_list_recruit,
                           "bootstrap" = self$bootstrap$json_bootstrap,
                           "natmort" = self$natmort$json_list_process_error,
-                          "fishery" = self$fishery$json_list_process_error)
+                          "maturity" = self$maturity$json_list_process_error,
+                          "fishery" = self$fishery$json_list_process_error,
+                          if(self$general$discards){
+                            "discards" = self$discards$json_list_process_error
+                          }
+                          ))
 
 
       # TODO: use the write() function to write JSON files
