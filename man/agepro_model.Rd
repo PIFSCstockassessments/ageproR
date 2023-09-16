@@ -41,6 +41,8 @@ Fishery Selectivity}
 
 \item{\code{discard}}{\cr
 Discard Fraction}
+
+\item{\code{stock_weight}}{Stock weight on January 1st at age}
 }
 \if{html}{\out{</div>}}
 }

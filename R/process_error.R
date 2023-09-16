@@ -706,6 +706,7 @@ fishery_selectivity <- R6Class(
 #' @param num_fleets Number of Fleets.
 #'
 #' @template process_error_initialize_params
+#' @template enable_cat_print
 #'
 #' @importFrom R6 R6Class
 #'
@@ -722,7 +723,8 @@ discard_fraction <- R6Class(
                           num_ages,
                           num_fleets,
                           input_option = 0,
-                          time_varying = TRUE) {
+                          time_varying = TRUE,
+                          enable_cat_print = TRUE) {
 
       super$initalize(proj_years,
                       num_ages,
@@ -741,4 +743,57 @@ discard_fraction <- R6Class(
     }
 
   )
+)
+
+
+#' @title
+#' Stock Weights on January 1st at Age
+#'
+#' @description
+#' AGEPRO keyword parameter class Structure for this fishery process with
+#' multiplicative lognormal error distribution.
+#'
+#' @template process_error_initialize_params
+#' @template enable_cat_print
+#'
+#' @importFrom R6 R6Class
+#'
+#' @export
+#'
+stock_weight <- R6Class(
+  "stock_weight",
+  inherit = ageproR::process_error,
+  public = list (
+
+    #' @description
+    #' Initializes class
+    #'
+    initialize = function(proj_years,
+                          num_ages,
+                          input_option = 0,
+                          time_varying = TRUE,
+                          enable_cat_print = TRUE) {
+
+
+      private$.valid_input_options <- c(0,1)
+
+      super$initialize(proj_years,
+                       num_ages,
+                       1,
+                       input_option,
+                       time_varying,
+                       enable_cat_print)
+
+      self$parameter_title <- "Stock Weights on January 1st at Age"
+      private$.keyword_name <- "stock_weights"
+
+      cli_keyword_heading(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print, omit_rows = TRUE)
+
+    }
+
+
+  )
+
 )

@@ -27,6 +27,7 @@ agepro_model <- R6Class(
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
     .discard_fraction = NULL,
+    .stock_weight = NULL,
 
     .discards_present = NULL,
 
@@ -115,6 +116,10 @@ agepro_model <- R6Class(
       self$fishery <- fishery_selectivity$new(self$general$seq_years,
                                               self$general$num_ages,
                                               self$general$num_fleets)
+
+      self$stock_weight <- stock_weight$new(self$general$seq_years,
+                                            self$general$num_ages)
+
       if(self$general$discards) {
         self$discard <- discard_fraction$new(self$general$seq_years,
                                              self$general$num_ages,
@@ -227,6 +232,17 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.discard_fraction <- value
       }
+    },
+
+    #' @field stock_weight
+    #' Stock weight on January 1st at age
+    stock_weight = function(value) {
+      if(missing(value)){
+        return(private$.stock_weight)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.stock_weight <- value
+      }
     }
 
 
@@ -320,6 +336,13 @@ agepro_inp_model <- R6Class(
                                      self$general$num_ages,
                                      self$general$num_fleets)
 
+    },
+
+    read_stock_weight = function(con, nline) {
+      self$nline <- self$stock_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages)
     }
 
   ),
@@ -460,9 +483,10 @@ agepro_inp_model <- R6Class(
     #'
     match_keyword = function(inp_line, inp_con) {
 
-      #' TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
-      #' MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
-      #' FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD
+      #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, STOCK_WEIGHT,
+      #' SSB_WEIGHT, MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT,
+      #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
+      #' ~~BOOTSTRAP~~, HARVEST, REBUILD
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
@@ -489,6 +513,9 @@ agepro_inp_model <- R6Class(
         },
         "[DISCARD]" = {
             rlang::expr(private$read_discard_fraction(inp_con, self$nline))
+        },
+        "[STOCK_WEIGHT]" = {
+            rlang::expr(private$read_stock_weight(inp_con, self$nline))
         }
       ))
 
@@ -574,7 +601,8 @@ agepro_inp_model <- R6Class(
             self$fishery$inplines_process_error(delimiter),
             if(self$general$discard){
               self$discard$inplines_process_error(delimiter)
-            }
+            },
+            self$stock_weight$inplines_process_error
           )
 
         }
@@ -648,7 +676,9 @@ agepro_json_model <- R6Class(
                           "fishery" = self$fishery$json_list_process_error,
                           if(self$general$discards){
                             "discards" = self$discards$json_list_process_error
-                          }
+                          },
+                          "stock_weight" =
+                            self$stock_weight$json_list_process_err
                           ))
 
 
