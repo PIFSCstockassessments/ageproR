@@ -535,7 +535,7 @@ process_error <- R6Class(
     json_list_process_error = function(){
       return(list(
         flag = self$input_option,
-        timeflag = self$time_varying,
+        timeflag = as.numeric(self$time_varying),
         value = self$parameter_table,
         error = self$cv_table
       ))

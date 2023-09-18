@@ -667,19 +667,20 @@ agepro_json_model <- R6Class(
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
-      agepro_json <- as.list(c("version" = version_json,
+      agepro_json <- list("version" = version_json,
                           "general" = self$general$json_list_general,
                           "recruit" = self$recruit$json_list_recruit,
                           "bootstrap" = self$bootstrap$json_bootstrap,
                           "natmort" = self$natmort$json_list_process_error,
                           "maturity" = self$maturity$json_list_process_error,
                           "fishery" = self$fishery$json_list_process_error,
-                          if(self$general$discards){
-                            "discards" = self$discards$json_list_process_error
-                          },
+                          "discards" =
+                            ifelse(self$general$discards,
+                                   self$discards$json_list_process_error,
+                                   NA),
                           "stock_weight" =
                             self$stock_weight$json_list_process_err
-                          ))
+                          )
 
 
       # TODO: use the write() function to write JSON files
