@@ -655,14 +655,11 @@ agepro_json_model <- R6Class(
     #' Return a json formatted object.
     #'
     #' @details
-    #' See [jsonlite::toJSON] for more details.
-    #'
-    #' `NA` values in a list or a multi-length vector will converted to JSON
-    #' style NULL value, but wrapped in a JSON array (`[null, null]`). Using
-    #' the defaults in [jsonlite::fromJSON], the JSON null array can be is
-    #' converted back to `NA`.
-    #'
-    #' `NULL` values can values is written as `null`
+    #' See [jsonlite::toJSON] for more details.`NA` values in a list or
+    #' a multi-length vector will converted to JSON style NULL value, but
+    #' wrapped in a JSON array (`[null, null]`). Using the defaults in
+    #' [jsonlite::fromJSON], the JSON null array can be is converted back to
+    #' `NA`. Single `NA` values will be reconverted to `NULL`.
     #'
     get_json = function() {
 
@@ -673,20 +670,20 @@ agepro_json_model <- R6Class(
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
-      agepro_json <- list("version" = version_json,
-                          "general" = self$general$json_list_general,
-                          "recruit" = self$recruit$json_list_recruit,
-                          "bootstrap" = self$bootstrap$json_bootstrap,
-                          "natmort" = self$natmort$json_list_process_error,
-                          "maturity" = self$maturity$json_list_process_error,
-                          "fishery" = self$fishery$json_list_process_error,
-                          "discards" =
-                            ifelse(self$general$discards,
-                                   self$discards$json_list_process_error,
-                                   NULL),
-                          "stock_weight" =
-                            self$stock_weight$json_list_process_err
-                          )
+      agepro_json <-
+        list("version" = version_json,
+             "general" = self$general$json_list_general,
+             "recruit" = self$recruit$json_list_recruit,
+             "bootstrap" = self$bootstrap$json_bootstrap,
+             "natmort" = self$natmort$json_list_process_error,
+             "maturity" = self$maturity$json_list_process_error,
+             "fishery" = self$fishery$json_list_process_error,
+             "discards" =
+               ifelse(!is.null(self$discard),
+                      self$discard$json_list_process_error,
+                      NA),
+             "stock_weight" = self$stock_weight$json_list_process_error
+             )
 
 
       # TODO: use the write() function to write JSON files

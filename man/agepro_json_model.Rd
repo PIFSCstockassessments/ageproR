@@ -37,14 +37,11 @@ Return a json formatted object.
 }
 
 \subsection{Details}{
-See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details.
-
-\code{NA} values in a list or a multi-length vector will converted to JSON
-style NULL value, but wrapped in a JSON array (\verb{[null, null]}). Using
-the defaults in \link[jsonlite:fromJSON]{jsonlite::fromJSON}, the JSON null array can be is
-converted back to \code{NA}.
-
-\code{NULL} values can values is written as \code{null}
+See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details.\code{NA} values in a list or
+a multi-length vector will converted to JSON style NULL value, but
+wrapped in a JSON array (\verb{[null, null]}). Using the defaults in
+\link[jsonlite:fromJSON]{jsonlite::fromJSON}, the JSON null array can be is converted back to
+\code{NA}. Single \code{NA} values will be reconverted to \code{NULL}.
 }
 
 }
