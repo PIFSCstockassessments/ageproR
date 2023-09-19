@@ -652,11 +652,17 @@ agepro_json_model <- R6Class(
   public = list(
 
     #' @description
-    #' Get json
+    #' Return a json formatted object.
     #'
     #' @details
-    #' See [jsonlite::toJSON] for more details. `NULL` values is written as
-    #' `{}`. `NA` values is written as `null`
+    #' See [jsonlite::toJSON] for more details.
+    #'
+    #' `NA` values in a list or a multi-length vector will converted to JSON
+    #' style NULL value, but wrapped in a JSON array (`[null, null]`). Using
+    #' the defaults in [jsonlite::fromJSON], the JSON null array can be is
+    #' converted back to `NA`.
+    #'
+    #' `NULL` values can values is written as `null`
     #'
     get_json = function() {
 
@@ -677,7 +683,7 @@ agepro_json_model <- R6Class(
                           "discards" =
                             ifelse(self$general$discards,
                                    self$discards$json_list_process_error,
-                                   NA),
+                                   NULL),
                           "stock_weight" =
                             self$stock_weight$json_list_process_err
                           )

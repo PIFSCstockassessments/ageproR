@@ -31,14 +31,20 @@ File Functionality on experimental JSON input file
 \if{html}{\out{<a id="method-agepro_json_model-get_json"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_json_model-get_json}{}}}
 \subsection{Method \code{get_json()}}{
-Get json
+Return a json formatted object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$get_json()}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
-See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details. \code{NULL} values is written as
-\code{{}}. \code{NA} values is written as \code{null}
+See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details.
+
+\code{NA} values in a list or a multi-length vector will converted to JSON
+style NULL value, but wrapped in a JSON array (\verb{[null, null]}). Using
+the defaults in \link[jsonlite:fromJSON]{jsonlite::fromJSON}, the JSON null array can be is
+converted back to \code{NA}.
+
+\code{NULL} values can values is written as \code{null}
 }
 
 }
