@@ -6,7 +6,7 @@
 \description{
 Class Structure for discard faction at age AGEPRO Keyword parameter.
 AGEPRO model must indicate \emph{discards are present}, enabled via general
-options \link[=general_params]{discards field}.
+options \link[=general_params]{discards_present field}.
 }
 \section{Super class}{
 \code{\link[ageproR:process_error]{ageproR::process_error}} -> \code{discard_fraction}

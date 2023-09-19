@@ -62,7 +62,7 @@ agepro_model <- R6Class(
     #' @param num_pop_sims Number of population simulations
     #' @param num_fleets Number of fleets
     #' @param num_rec_models Number of Recruit Modules
-    #' @param discards discards. FALSE by default
+    #' @param discards_present Are Discards present? FALSE by default
     #' @param seed Random Number seed. A pesdorandom number is set as default.
     #'
     initialize = function(yr_start,
@@ -72,7 +72,7 @@ agepro_model <- R6Class(
                            num_pop_sims,
                            num_fleets,
                            num_rec_models,
-                           discards = FALSE,
+                           discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
       ## TODO TODO: Consider a helper function to create a new instance of
@@ -95,10 +95,10 @@ agepro_model <- R6Class(
                                         num_pop_sims,
                                         num_fleets,
                                         num_rec_models,
-                                        discards,
+                                        discards_present,
                                         seed)
 
-      private$.discards_present <- self$general$discards
+      private$.discards_present <- self$general$discards_present
 
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
@@ -120,7 +120,7 @@ agepro_model <- R6Class(
       self$stock_weight <- stock_weight$new(self$general$seq_years,
                                             self$general$num_ages)
 
-      if(self$general$discards) {
+      if(self$general$discards_present) {
         self$discard <- discard_fraction$new(self$general$seq_years,
                                              self$general$num_ages,
                                              self$general$num_fleets)
@@ -280,8 +280,8 @@ agepro_inp_model <- R6Class(
 
     read_general_params = function(con, nline) {
       self$nline <- self$general$read_inp_lines(con, nline)
-      # Set .discards_present to Input file's "discards" value
-      private$.discards_present <- as.logical(self$general$discards)
+      # Set .discards_present to Input file's "discards_present" value
+      private$.discards_present <- as.logical(self$general$discards_present)
     },
 
     read_recruit = function(con, nline) {
@@ -325,12 +325,12 @@ agepro_inp_model <- R6Class(
 
     read_discard_fraction = function(con, nline) {
 
-      if(!self$general$discards){
+      if(!self$general$discards_present){
         stop(paste0("Reading Discard Fraction data but ",
                     "'Discards are present' option is FALSE"))
       }
       self$nline <-
-        self$discards$read_inp_lines(con,
+        self$discards_present$read_inp_lines(con,
                                      nline,
                                      self$general$seq_years,
                                      self$general$num_ages,
@@ -363,7 +363,7 @@ agepro_inp_model <- R6Class(
       self$case_id <- case_id$new()
 
       self$general <- suppressMessages(general_params$new())
-      private$.discards_present <- self$general$discards
+      private$.discards_present <- self$general$discards_present
 
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
@@ -385,7 +385,7 @@ agepro_inp_model <- R6Class(
                                               self$general$num_fleets,
                                               enable_cat_print = FALSE))
 
-      if(self$general$discard){
+      if(self$general$discards_present){
         self$discard <-
           suppressMessages(discard_fraction$new(self$general$seq_years,
                                                 self$general$num_ages,
@@ -599,7 +599,7 @@ agepro_inp_model <- R6Class(
             self$natmort$inplines_process_error(delimiter),
             self$maturity$inplines_process_error(delimiter),
             self$fishery$inplines_process_error(delimiter),
-            if(self$general$discard){
+            if(self$general$discards_present){
               self$discard$inplines_process_error(delimiter)
             },
             self$stock_weight$inplines_process_error
@@ -678,7 +678,7 @@ agepro_json_model <- R6Class(
              "natmort" = self$natmort$json_list_process_error,
              "maturity" = self$maturity$json_list_process_error,
              "fishery" = self$fishery$json_list_process_error,
-             "discards" =
+             "discard" =
                ifelse(!is.null(self$discard),
                       self$discard$json_list_process_error,
                       NA),

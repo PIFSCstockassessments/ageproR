@@ -26,7 +26,7 @@ projections.
 
 \item{\code{num_pop_sims}}{Number of Population Simulations}
 
-\item{\code{discards}}{Are discards present?}
+\item{\code{discards_present}}{Are discards present?}
 
 \item{\code{seed}}{Psuedorandom number seed}
 
@@ -74,7 +74,7 @@ Starts an instances of the AGEPRO Model
   num_pop_sims = 1000,
   num_fleets = 1,
   num_rec_models = 1,
-  discards = FALSE,
+  discards_present = FALSE,
   seed = sample.int(1e+08, 1)
 )}\if{html}{\out{</div>}}
 }
@@ -96,7 +96,7 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{num_rec_models}}{Number of Recruit Modeles}
 
-\item{\code{discards}}{discards}
+\item{\code{discards_present}}{discards_present}
 
 \item{\code{seed}}{Random Number seed}
 }

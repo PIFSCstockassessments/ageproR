@@ -701,7 +701,7 @@ fishery_selectivity <- R6Class(
 #' @description
 #' Class Structure for discard faction at age AGEPRO Keyword parameter.
 #' AGEPRO model must indicate _discards are present_, enabled via general
-#' options [discards field][ageproR::general_params].
+#' options [discards_present field][ageproR::general_params].
 #'
 #' @param num_fleets Number of Fleets.
 #'
@@ -733,7 +733,7 @@ discard_fraction <- R6Class(
                       time_varying)
 
       self$parameter_title <- "Discards Fraction of Numbers at Age"
-      private$.keyword_name <- "discards"
+      private$.keyword_name <- "discard"
       private$.discards_parameter <- TRUE
 
       cli_keyword_heading(private$.keyword_name)

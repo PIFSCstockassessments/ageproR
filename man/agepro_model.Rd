@@ -69,7 +69,7 @@ Starts an instances of the AGEPRO Model
   num_pop_sims,
   num_fleets,
   num_rec_models,
-  discards = FALSE,
+  discards_present = FALSE,
   seed = sample.int(1e+08, 1)
 )}\if{html}{\out{</div>}}
 }
@@ -91,7 +91,7 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{num_rec_models}}{Number of Recruit Modules}
 
-\item{\code{discards}}{discards. FALSE by default}
+\item{\code{discards_present}}{Are Discards present? FALSE by default}
 
 \item{\code{seed}}{Random Number seed. A pesdorandom number is set as default.}
 }
