@@ -107,6 +107,13 @@ process_error <- R6Class(
                                       time_varying = time_flag)
       }
       return()
+    },
+
+    # Function Wrapper to Print out Process Error Info at Initializtion
+    cli_initialize = function(enable_cat_print = TRUE, ...) {
+      cli_keyword_heading(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print, ...)
     }
 
 
@@ -225,7 +232,7 @@ process_error <- R6Class(
     },
 
     #' @description
-    #' Formatted to print out the values pf the Process Error Parameter
+    #' Formatted to print out the values of the Process Error Parameter
     #'
     print = function(enable_cat_print = TRUE, ...) {
       #TODO: Option to hide or limit rows of parameter & CV table
@@ -587,9 +594,7 @@ natural_mortality <- R6Class(
       self$parameter_title <- "Natural mortality Of Age"
       private$.keyword_name <- "natmort"
 
-      cli_keyword_heading(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, omit_rows=TRUE)
+      private$cli_initialize(enable_cat_print, omit_rows=TRUE)
 
     }
 
@@ -633,10 +638,10 @@ maturity_fraction <- R6Class(
       self$parameter_title <- "Maturity Fraction at Age"
       private$.keyword_name <- "maturity"
 
-      cli_keyword_heading(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, omit_rows=TRUE)
-
+      #cli_keyword_heading(private$.keyword_name)
+      #cli_alert("Setting up Default Values")
+      #self$print(enable_cat_print, omit_rows=TRUE)
+      private$cli_initialize(enable_cat_print, omit_rows=TRUE)
 
     }
 
@@ -684,9 +689,10 @@ fishery_selectivity <- R6Class(
       self$parameter_title <- "Fishery Selectivity at age by fleet"
       private$.keyword_name <- "fishery"
 
-      cli_keyword_heading(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, omit_rows = TRUE)
+      #cli_keyword_heading(private$.keyword_name)
+      #cli_alert("Setting up Default Values")
+      #self$print(enable_cat_print, omit_rows = TRUE)
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 
     }
 
@@ -736,9 +742,7 @@ discard_fraction <- R6Class(
       private$.keyword_name <- "discard"
       private$.discards_parameter <- TRUE
 
-      cli_keyword_heading(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, omit_rows = TRUE)
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 
     }
 
@@ -786,9 +790,7 @@ stock_weight_jan <- R6Class(
       self$parameter_title <- "Stock Weights on January 1st at Age"
       private$.keyword_name <- "stock_weight"
 
-      cli_keyword_heading(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, omit_rows = TRUE)
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 
     }
 

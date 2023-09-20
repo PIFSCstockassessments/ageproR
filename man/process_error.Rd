@@ -149,7 +149,7 @@ Creates an Population or Fishery process Parameter table
 \if{html}{\out{<a id="method-process_error-print"></a>}}
 \if{latex}{\out{\hypertarget{method-process_error-print}{}}}
 \subsection{Method \code{print()}}{
-Formatted to print out the values pf the Process Error Parameter
+Formatted to print out the values of the Process Error Parameter
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{process_error$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
 }
