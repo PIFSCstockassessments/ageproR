@@ -340,10 +340,11 @@ process_error <- R6Class(
                                    num_fleets,
                                    time_varying = self$time_varying)
 
-
       if(self$input_option == 1) {
         #TODO: Read from file name
         stop("NOT IMPLMENTED")
+      } else if (self$input_option < 0) {
+
       } else {
         #from interface
         nline <- self$read_inplines_parameter_tables(inp_con, nline)
@@ -352,8 +353,6 @@ process_error <- R6Class(
 
       return(nline)
     },
-
-
 
 
     #' @description
@@ -799,3 +798,49 @@ stock_weight_jan <- R6Class(
 
 )
 
+
+#' @title
+#' Spawning stock weight at Age
+#'
+#' @description
+#' AGEPRO keyword parameter class Structure for this population process with
+#' multiplicative lognormal error distribution.
+#'
+#' @template process_error_initialize_params
+#' @template enable_cat_print
+#'
+#' @importFrom R6 R6Class
+#'
+#' @export
+#'
+spawning_stock_weight <- R6Class(
+  "spawning_stock_weight",
+  inherit = ageproR::process_error,
+  public = list(
+
+    #' @description
+    #' Initializes class
+    #'
+    initalize = function(proj_years,
+                         num_ages,
+                         input_option = 0,
+                         time_varying = TRUE,
+                         enable_cat_print = TRUE) {
+
+      private$.valid_input_options <- c(0, 1, -1)
+
+      super$initialize(proj_years,
+                       num_ages,
+                       1,
+                       input_option,
+                       time_varying,
+                       enable_cat_print)
+
+      self$parameter_title <- "Spawning Stock Weight of Age"
+      private$.keyword_name <- "ssb_weight"
+
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
+
+    }
+  )
+)
