@@ -396,7 +396,8 @@ agepro_inp_model <- R6Class(
 
       self$stock_weight <-
         suppressMessages(stock_weight_jan$new(self$general$seq_years,
-                                                self$general$num_ages))
+                                              self$general$num_ages,
+                                              enable_cat_print = FALSE))
 
       cli::cli_text("Done")
     },
