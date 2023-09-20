@@ -27,7 +27,7 @@ agepro_model <- R6Class(
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
     .discard_fraction = NULL,
-    .stock_weight = NULL,
+    .stock_weight_jan = NULL,
 
     .discards_present = NULL,
 
@@ -117,8 +117,8 @@ agepro_model <- R6Class(
                                               self$general$num_ages,
                                               self$general$num_fleets)
 
-      self$stock_weight <- stock_weight$new(self$general$seq_years,
-                                            self$general$num_ages)
+      self$stock_weight <- stock_weight_jan$new(self$general$seq_years,
+                                                self$general$num_ages)
 
       if(self$general$discards_present) {
         self$discard <- discard_fraction$new(self$general$seq_years,
@@ -238,10 +238,10 @@ agepro_model <- R6Class(
     #' Stock weight on January 1st at age
     stock_weight = function(value) {
       if(missing(value)){
-        return(private$.stock_weight)
+        return(private$.stock_weight_jan)
       }else {
         checkmate::assert_r6(value, classes = "process_error")
-        private$.stock_weight <- value
+        private$.stock_weight_jan <- value
       }
     }
 
@@ -330,7 +330,7 @@ agepro_inp_model <- R6Class(
                     "'Discards are present' option is FALSE"))
       }
       self$nline <-
-        self$discards_present$read_inp_lines(con,
+        self$discard$read_inp_lines(con,
                                      nline,
                                      self$general$seq_years,
                                      self$general$num_ages,
@@ -338,7 +338,7 @@ agepro_inp_model <- R6Class(
 
     },
 
-    read_stock_weight = function(con, nline) {
+    read_stock_weight_jan = function(con, nline) {
       self$nline <- self$stock_weight$read_inp_lines(con,
                                                      nline,
                                                      self$general$seq_years,
@@ -391,7 +391,12 @@ agepro_inp_model <- R6Class(
                                                 self$general$num_ages,
                                                 self$general$num_fleets,
                                                 enable_cat_print = FALSE))
+
       }
+
+      self$stock_weight <-
+        suppressMessages(stock_weight_jan$new(self$general$seq_years,
+                                                self$general$num_ages))
 
       cli::cli_text("Done")
     },
@@ -515,7 +520,7 @@ agepro_inp_model <- R6Class(
             rlang::expr(private$read_discard_fraction(inp_con, self$nline))
         },
         "[STOCK_WEIGHT]" = {
-            rlang::expr(private$read_stock_weight(inp_con, self$nline))
+            rlang::expr(private$read_stock_weight_jan(inp_con, self$nline))
         }
       ))
 

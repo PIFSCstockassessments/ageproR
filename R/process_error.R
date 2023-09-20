@@ -760,7 +760,7 @@ discard_fraction <- R6Class(
 #'
 #' @export
 #'
-stock_weight <- R6Class(
+stock_weight_jan <- R6Class(
   "stock_weight",
   inherit = ageproR::process_error,
   public = list (
@@ -774,7 +774,6 @@ stock_weight <- R6Class(
                           time_varying = TRUE,
                           enable_cat_print = TRUE) {
 
-
       private$.valid_input_options <- c(0,1)
 
       super$initialize(proj_years,
@@ -785,7 +784,7 @@ stock_weight <- R6Class(
                        enable_cat_print)
 
       self$parameter_title <- "Stock Weights on January 1st at Age"
-      private$.keyword_name <- "stock_weights"
+      private$.keyword_name <- "stock_weight"
 
       cli_keyword_heading(private$.keyword_name)
       cli_alert("Setting up Default Values")
@@ -797,3 +796,4 @@ stock_weight <- R6Class(
   )
 
 )
+
