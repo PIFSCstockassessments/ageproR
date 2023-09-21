@@ -43,6 +43,8 @@ Fishery Selectivity}
 Discard Fraction}
 
 \item{\code{stock_weight}}{Stock weight on January 1st at age}
+
+\item{\code{ssb_weight}}{Spawning Stock Weight of Age}
 }
 \if{html}{\out{</div>}}
 }

@@ -28,6 +28,7 @@ agepro_model <- R6Class(
     .fishery_selectivity = NULL,
     .discard_fraction = NULL,
     .stock_weight_jan = NULL,
+    .spawning_stock_weight = NULL,
 
     .discards_present = NULL,
 
@@ -243,8 +244,18 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.stock_weight_jan <- value
       }
-    }
+    },
 
+    #' @field ssb_weight
+    #' Spawning Stock Weight of Age
+    ssb_weight = function(value) {
+      if(missing(value)){
+        return(private$.spawning_stock_weight)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.spawning_stock_weight <- value
+      }
+    }
 
   )
 
