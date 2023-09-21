@@ -34,9 +34,9 @@ process_error <- R6Class(
     .upper_bounds = NULL,
 
     .valid_input_options = c(0,1),
+    .weight_age_parameter = NULL,
     .parameter_title = NULL,
     .keyword_name = NULL,
-    .discards_parameter = NULL,
 
     .projection_years = NULL,
     .num_ages = NULL,
@@ -150,7 +150,7 @@ process_error <- R6Class(
       #Fallback Parameter Name
       self$parameter_title <- "Process Error Parameter At Age"
       private$.keyword_name <- "process_error"
-      private$.discards_parameter <- FALSE
+      private$.weight_age_parameter <- FALSE
 
     },
 
@@ -788,6 +788,7 @@ stock_weight_jan <- R6Class(
 
       self$parameter_title <- "Stock Weights on January 1st at Age"
       private$.keyword_name <- "stock_weight"
+      private$.weight_age_parameter <- TRUE
 
       private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 
@@ -828,6 +829,7 @@ spawning_stock_weight <- R6Class(
                          enable_cat_print = TRUE) {
 
       private$.valid_input_options <- c(0, 1, -1)
+      private$.weight_age_parameter <- TRUE
 
       super$initialize(proj_years,
                        num_ages,
