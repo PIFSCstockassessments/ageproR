@@ -14,9 +14,11 @@
 #'
 assert_numeric_substrings <- function(inp_line) {
 
-  if (!all(grepl("^[[:digit:]]", inp_line))) {
+  numeric_regex <- "^[-]?[[:digit:]]"
 
-    non_numerics <- inp_line[!grepl("^[[:digit:]]", inp_line)]
+  if (!all(grepl(numeric_regex, inp_line))) {
+
+    non_numerics <- inp_line[!grepl(numeric_regex, inp_line)]
     stop("Line contains a Non Numeric Substring",
          paste(non_numerics, collapse = ", "))
   }
