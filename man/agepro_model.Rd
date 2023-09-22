@@ -5,7 +5,7 @@
 \title{R6 class representing AGEPRO model}
 \description{
 AGEPRO model contains the projection time horizon, age class range, number
-of fleets, recruitment, and unertainties
+of fleets, recruitment, and uncertainties
 }
 \details{
 AGEPRO performs stochastic projections on exploited fisheries stock to

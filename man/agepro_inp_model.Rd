@@ -92,7 +92,7 @@ Read Input file Values
 \subsection{Method \code{match_keyword()}}{
 Match Keyword
 
-TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, STOCK_WEIGHT,
+TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
 SSB_WEIGHT, MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT,
 ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
 ~~BOOTSTRAP~~, HARVEST, REBUILD

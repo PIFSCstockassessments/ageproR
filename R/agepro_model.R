@@ -3,7 +3,7 @@
 #'
 #' @description
 #' AGEPRO model contains the projection time horizon, age class range, number
-#' of fleets, recruitment, and unertainties
+#' of fleets, recruitment, and uncertainties
 #'
 #' @details
 #' AGEPRO performs stochastic projections on exploited fisheries stock to
@@ -340,12 +340,11 @@ agepro_inp_model <- R6Class(
         stop(paste0("Reading Discard Fraction data but ",
                     "'Discards are present' option is FALSE"))
       }
-      self$nline <-
-        self$discard$read_inp_lines(con,
-                                     nline,
-                                     self$general$seq_years,
-                                     self$general$num_ages,
-                                     self$general$num_fleets)
+      self$nline <- self$discard$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages,
+                                                self$general$num_fleets)
 
     },
 
@@ -354,6 +353,13 @@ agepro_inp_model <- R6Class(
                                                      nline,
                                                      self$general$seq_years,
                                                      self$general$num_ages)
+    },
+
+    read_spawning_stock_weight = function(con, nline) {
+      self$nline <- self$ssb_weight$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years,
+                                                   self$general$num_ages)
     }
 
   ),
@@ -409,6 +415,10 @@ agepro_inp_model <- R6Class(
         suppressMessages(stock_weight_jan$new(self$general$seq_years,
                                               self$general$num_ages,
                                               enable_cat_print = FALSE))
+      self$ssb_weight <-
+        suppressMessages(spawning_stock_weight$new(self$general$seq_years,
+                                                   self$general$num_ages,
+                                                   enable_cat_print = FALSE))
 
       cli::cli_text("Done")
     },
@@ -500,7 +510,7 @@ agepro_inp_model <- R6Class(
     #'
     match_keyword = function(inp_line, inp_con) {
 
-      #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, STOCK_WEIGHT,
+      #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
       #' SSB_WEIGHT, MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT,
       #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
       #' ~~BOOTSTRAP~~, HARVEST, REBUILD
@@ -533,6 +543,9 @@ agepro_inp_model <- R6Class(
         },
         "[STOCK_WEIGHT]" = {
             rlang::expr(private$read_stock_weight_jan(inp_con, self$nline))
+        },
+        "[SSB_WEIGHT]" = {
+            rlang::expr(private$read_spawning_stock_weight(inp_con, self$nline))
         }
       ))
 
