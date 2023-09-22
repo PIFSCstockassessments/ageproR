@@ -309,6 +309,8 @@ process_error <- R6Class(
                               proj_years,
                               num_ages,
                               num_fleets = 1) {
+      nline <- nline + 1
+      cli::cli_alert("Line {nline} :")
 
       # Read an additional line from the file connection
       # and split into 2 substrings
@@ -323,8 +325,6 @@ process_error <- R6Class(
                                private$.valid_input_options,
                                .var.name = "Input Option")
 
-      nline <- nline + 1
-      cli::cli_alert("Line {nline} :")
       cli::cli_ul()
       a <- cli::cli_ul()
       cli::cli_li("input_option: {.val {self$input_option}}")
@@ -369,10 +369,10 @@ process_error <- R6Class(
       #Non-time varying, single fleet data
       if(private$.num_fleets == 1 && !(self$time_varying)) {
 
-
-        inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
-        cli_alert(c("Line {nline}: ", "parameter_table (",
+        cli::cli_alert("Line {nline}:")
+        inp_line <- read_inp_numeric_line(inp_con)
+        cli::cli_text(c("parameter_table (",
                     "{self$parameter_title}) for All Years: ",
                     "{.val {inp_line}} ",
                     "{.emph ({private$.num_ages} Age{?s})}"))
@@ -383,9 +383,10 @@ process_error <- R6Class(
       }else {
 
         for(i in rownames(self$parameter_table)){
-          inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: ", "parameter_table (",
+          cli::cli_alert("Line {nline}:")
+          inp_line <- read_inp_numeric_line(inp_con)
+          cli::cli_text(c("parameter_table (",
                       "{self$parameter_title}) for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
@@ -406,21 +407,22 @@ process_error <- R6Class(
     read_inplines_cv_table = function(inp_con, nline) {
 
       if(private$.num_fleets == 1) {
-        inp_line <- read_inp_numeric_line(inp_con)
         nline <- nline + 1
-        cli_alert(c("Line {nline}: ",
-                    "cv_table (Coefficent of Variation) for All Years: ",
+        cli::cli_alert("Line {nline}: ")
+        inp_line <- read_inp_numeric_line(inp_con)
+        cli::cli_text(c("cv_table (Coefficent of Variation) for All Years: ",
                     "{.val {inp_line}} ",
                     "{.emph ({private$.num_ages} Age{?s})}"))
+
         self$cv_table["All Years",] <- inp_line
 
       } else {
 
         for(i in rownames(self$cv_table)){
-          inp_line <- read_inp_numeric_line(inp_con)
           nline <- nline + 1
-          cli_alert(c("Line {nline}: ",
-                      "cv_table (Coefficent of Variation) for {i}: ",
+          cli::cli_alert("Line {nline}: ")
+          inp_line <- read_inp_numeric_line(inp_con)
+          cli::cli_text(c("cv_table (Coefficent of Variation) for {i}: ",
                       "{.val {inp_line}} ",
                       "{.emph ({private$.num_ages} Age{?s})}"))
 
