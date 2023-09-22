@@ -235,7 +235,8 @@ process_error <- R6Class(
     #' Formatted to print out the values of the Process Error Parameter
     #'
     print = function(enable_cat_print = TRUE, ...) {
-      #TODO: Option to hide or limit rows of parameter & CV table
+      #TODO: If (a valid) input_option is -1, -2, -3, or -4 say that
+      #this parameter used a "weight-of-age"
       cli::cli_ul()
       cli::cli_li("input_option: {.val {self$input_option}}")
       cli::cli_li("time_varying: {.val {self$time_varying}}")
@@ -345,6 +346,7 @@ process_error <- R6Class(
         stop("NOT IMPLMENTED")
       } else if (self$input_option < 0) {
 
+        return(nline)
       } else {
         #from interface
         nline <- self$read_inplines_parameter_tables(inp_con, nline)
@@ -469,7 +471,7 @@ process_error <- R6Class(
       if(missing(input_flag)){
         private$.input_option
       } else {
-        checkmate::assert_integerish(input_flag, lower = 0)
+        checkmate::assert_integerish(input_flag)
         checkmate::assert_subset(input_flag, private$.valid_input_options)
         private$.input_option <- input_flag
       }
@@ -822,14 +824,11 @@ spawning_stock_weight <- R6Class(
     #' @description
     #' Initializes class
     #'
-    initalize = function(proj_years,
+    initialize = function(proj_years,
                          num_ages,
                          input_option = 0,
                          time_varying = TRUE,
                          enable_cat_print = TRUE) {
-
-      private$.valid_input_options <- c(0, 1, -1)
-      private$.weight_age_parameter <- TRUE
 
       super$initialize(proj_years,
                        num_ages,
@@ -840,6 +839,9 @@ spawning_stock_weight <- R6Class(
 
       self$parameter_title <- "Spawning Stock Weight of Age"
       private$.keyword_name <- "ssb_weight"
+
+      private$.weight_age_parameter <- TRUE
+      private$.valid_input_options <- c(0, 1, -1)
 
       private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 

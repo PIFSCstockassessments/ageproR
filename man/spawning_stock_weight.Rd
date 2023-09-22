@@ -13,7 +13,7 @@ multiplicative lognormal error distribution.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-spawning_stock_weight-initalize}{\code{spawning_stock_weight$initalize()}}
+\item \href{#method-spawning_stock_weight-new}{\code{spawning_stock_weight$new()}}
 \item \href{#method-spawning_stock_weight-clone}{\code{spawning_stock_weight$clone()}}
 }
 }
@@ -22,7 +22,6 @@ multiplicative lognormal error distribution.
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="cli_print_process_error_table"><a href='../../ageproR/html/process_error.html#method-process_error-cli_print_process_error_table'><code>ageproR::process_error$cli_print_process_error_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_parameter_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_parameter_table'><code>ageproR::process_error$create_parameter_table()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="initialize"><a href='../../ageproR/html/process_error.html#method-process_error-initialize'><code>ageproR::process_error$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="inplines_process_error"><a href='../../ageproR/html/process_error.html#method-process_error-inplines_process_error'><code>ageproR::process_error$inplines_process_error()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="print"><a href='../../ageproR/html/process_error.html#method-process_error-print'><code>ageproR::process_error$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inp_lines"><a href='../../ageproR/html/process_error.html#method-process_error-read_inp_lines'><code>ageproR::process_error$read_inp_lines()</code></a></span></li>
@@ -33,12 +32,12 @@ multiplicative lognormal error distribution.
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-spawning_stock_weight-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-spawning_stock_weight-initalize}{}}}
-\subsection{Method \code{initalize()}}{
+\if{html}{\out{<a id="method-spawning_stock_weight-new"></a>}}
+\if{latex}{\out{\hypertarget{method-spawning_stock_weight-new}{}}}
+\subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{spawning_stock_weight$initalize(
+\if{html}{\out{<div class="r">}}\preformatted{spawning_stock_weight$new(
   proj_years,
   num_ages,
   input_option = 0,
