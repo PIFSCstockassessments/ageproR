@@ -43,8 +43,8 @@ process_error <- R6Class(
     .num_fleets = NULL,
 
     .names_input_option = list(
-      "1" = "Import Weights of Age from auxiliary data file",
-      "0" = "Read Weights of Age from input data",
+      "1" = "Import from auxiliary data file",
+      "0" = "Read from input data",
       "-1" = "Use (Jan 1st) Stock Weights of Age",
       "-2" = "Use SSB Weights of Age",
       "-3" = "Use (Mid-year) Mean Weights of Age",
