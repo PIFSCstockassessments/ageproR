@@ -42,6 +42,15 @@ process_error <- R6Class(
     .num_ages = NULL,
     .num_fleets = NULL,
 
+    .names_input_option = list(
+      "1" = "Import Weights of Age from auxiliary data file",
+      "0" = "Read Weights of Age from input data",
+      "-1" = "Use (Jan 1st) Stock Weights of Age",
+      "-2" = "Use SSB Weights of Age",
+      "-3" = "Use (Mid-year) Mean Weights of Age",
+      "-4" = "Use Catch Weights of Age"
+    ),
+
     #Rownames: Fleet-Years
     setup_parameter_table_rownames = function (proj_years_sequence,
                                           num_fleets = 1,
@@ -109,7 +118,26 @@ process_error <- R6Class(
       return()
     },
 
-    # Function Wrapper to Print out Process Error Info at Initializtion
+    # Function helper that prints the name representing the process error's
+    # input option.
+    print_input_option_name = function() {
+      #Check if input option is valid
+      checkmate::assert_choice(self$input_option,
+                               private$.valid_input_options,
+                               .var.name = "input_option")
+
+      input_option_name <-
+        private$.names_input_option[[as.character(self$input_option)]]
+
+      li_nested <- cli::cli_div(class = "input_field",
+                                theme = list(.input_field =
+                                               list("margin-left" = 2)))
+      cli::cli_text("{.emph {.field {input_option_name}}}")
+      cli::cli_end(li_nested)
+
+    },
+
+    # Function Wrapper to Print out Process Error Info at Initialization
     cli_initialize = function(enable_cat_print = TRUE, ...) {
       cli_keyword_heading(private$.keyword_name)
       cli_alert("Setting up Default Values")
@@ -239,6 +267,7 @@ process_error <- R6Class(
       #this parameter used a "weight-of-age"
       cli::cli_ul()
       cli::cli_li("input_option: {.val {self$input_option}}")
+      private$print_input_option_name()
       cli::cli_li("time_varying: {.val {self$time_varying}}")
       cli::cli_end()
 
@@ -328,6 +357,7 @@ process_error <- R6Class(
       cli::cli_ul()
       a <- cli::cli_ul()
       cli::cli_li("input_option: {.val {self$input_option}}")
+      private$print_input_option_name()
       cli::cli_li("time_varying: {.val {self$time_varying}}")
       cli::cli_end(a)
       cli::cli_end()
