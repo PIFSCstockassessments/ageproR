@@ -811,8 +811,6 @@ stock_weight_jan <- R6Class(
                           time_varying = TRUE,
                           enable_cat_print = TRUE) {
 
-      private$.valid_input_options <- c(0,1)
-
       super$initialize(proj_years,
                        num_ages,
                        1,
@@ -823,6 +821,7 @@ stock_weight_jan <- R6Class(
       self$parameter_title <- "Stock Weights on January 1st at Age"
       private$.keyword_name <- "stock_weight"
       private$.weight_age_parameter <- TRUE
+      private$.valid_input_options <- c(0,1)
 
       private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 
