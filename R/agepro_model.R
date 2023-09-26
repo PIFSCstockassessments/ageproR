@@ -121,6 +121,10 @@ agepro_model <- R6Class(
       self$stock_weight <- stock_weight_jan$new(self$general$seq_years,
                                                 self$general$num_ages)
 
+      self$ssb_weight <- spawning_stock_weight$new(self$general$seq_years,
+                                                   self$general$num_ages)
+
+
       if(self$general$discards_present) {
         self$discard <- discard_fraction$new(self$general$seq_years,
                                              self$general$num_ages,
