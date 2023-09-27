@@ -471,6 +471,21 @@ process_error <- R6Class(
     #' to the AGEPRO input file format.
     inplines_process_error = function(delimiter = "  ") {
 
+
+      if(self$input_option < 0){
+        if(!private$.weight_age_parameter){
+          stop(paste0("Popluation or Fishing Process Error using ",
+                      "'Weight of Age' input_options"))
+        }
+
+        return(list(
+          self$inp_keyword,
+          paste(self$input_option,
+                as.numeric(self$time_varying),
+                sep = delimiter)
+        ))
+      }
+
       return(list(
         self$inp_keyword,
         paste(self$input_option,
@@ -573,6 +588,16 @@ process_error <- R6Class(
     #' @field json_list_process_error
     #' Returns JSON list object with Process Error Parameter values
     json_list_process_error = function(){
+
+      if(self$input_option < 0){
+        if(!private$.weight_age_parameter){
+          stop(paste0("Popluation or Fishing Process Error using ",
+                      "'Weight of Age' input_options"))
+        }
+        return(list(flag = self$input_option,
+                    timeflag = as.numeric(self$time_varying)))
+      }
+
       return(list(
         flag = self$input_option,
         timeflag = as.numeric(self$time_varying),
