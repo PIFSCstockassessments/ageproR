@@ -29,6 +29,7 @@ agepro_model <- R6Class(
     .discard_fraction = NULL,
     .stock_weight_jan = NULL,
     .spawning_stock_weight = NULL,
+    .mean_population_weight = NULL,
 
     .discards_present = NULL,
 
@@ -123,6 +124,9 @@ agepro_model <- R6Class(
 
       self$ssb_weight <- spawning_stock_weight$new(self$general$seq_years,
                                                    self$general$num_ages)
+
+      self$mean_weight <- mean_population_weight$new(self$general$seq_years,
+                                                     self$general$num_ages)
 
 
       if(self$general$discards_present) {
@@ -259,6 +263,17 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.spawning_stock_weight <- value
       }
+    },
+
+    #' @field mean_weight
+    #' Midyear mean population weight at age
+    mean_weight = function(value) {
+      if(missing(value)){
+        return(private$.mean_population_weight)
+      } else{
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.mean_population_weight <- value
+      }
     }
 
   )
@@ -364,6 +379,13 @@ agepro_inp_model <- R6Class(
                                                    nline,
                                                    self$general$seq_years,
                                                    self$general$num_ages)
+    },
+
+    read_mean_population_weight = function(con, nline) {
+      self$nline <- self$mean_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_years,
+                                                    self$general$num_ages)
     }
 
   ),
@@ -423,6 +445,11 @@ agepro_inp_model <- R6Class(
         suppressMessages(spawning_stock_weight$new(self$general$seq_years,
                                                    self$general$num_ages,
                                                    enable_cat_print = FALSE))
+
+      self$mean_weight <-
+        suppressMessages(mean_population_weight$new(self$general$seq_years,
+                                                    self$general$num_ages,
+                                                    enable_cat_print = FALSE))
 
       cli::cli_text("Done")
     },
@@ -550,6 +577,10 @@ agepro_inp_model <- R6Class(
         },
         "[SSB_WEIGHT]" = {
             rlang::expr(private$read_spawning_stock_weight(inp_con, self$nline))
+        },
+        "[MEAN_WEIGHT]" = {
+            rlang::expr(private$read_mean_population_weight(inp_con,
+                                                            self$nline))
         }
       ))
 

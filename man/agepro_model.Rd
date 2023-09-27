@@ -45,6 +45,8 @@ Discard Fraction}
 \item{\code{stock_weight}}{Stock weight on January 1st at age}
 
 \item{\code{ssb_weight}}{Spawning Stock Weight of Age}
+
+\item{\code{mean_weight}}{Midyear mean population weight at age}
 }
 \if{html}{\out{</div>}}
 }

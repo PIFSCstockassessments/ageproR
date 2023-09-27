@@ -904,3 +904,51 @@ spawning_stock_weight <- R6Class(
     }
   )
 )
+
+#' @title
+#' Input information on Mean (or mid-year) weights at age
+#'
+#' @description
+#' AGEPRO keyword parameter class Structure for this population process with
+#' multiplicative lognormal error distribution.
+#'
+#' @template process_error_initialize_params
+#' @template enable_cat_print
+#'
+#' @importFrom R6 R6Class
+#'
+#' @export
+#'
+mean_population_weight <- R6Class(
+  "mean_population_weight",
+  inherit = ageproR::process_error,
+  public = list(
+
+    #' @description
+    #' Initializes class
+    #'
+    initialize = function (proj_years,
+                           num_ages,
+                           input_option = 0,
+                           time_varying = TRUE,
+                           enable_cat_print = TRUE) {
+
+      super$initialize(proj_years,
+                       num_ages,
+                       1,
+                       input_option,
+                       time_varying,
+                       enable_cat_print)
+
+      self$parameter_title <- "Midyear Mean Population Weight of Age"
+      private$.keyword_name <- "mean_weight"
+
+      private$.weight_age_parameter <- TRUE
+      private$.valid_input_options <- c(0, 1, -1, -2)
+
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
+
+
+    }
+  )
+)
