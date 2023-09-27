@@ -668,7 +668,8 @@ agepro_inp_model <- R6Class(
               self$discard$inplines_process_error(delimiter)
             },
             self$stock_weight$inplines_process_error(delimiter),
-            self$ssb_weight$inplines_process_error(delimiter)
+            self$ssb_weight$inplines_process_error(delimiter),
+            self$mean_weight$inplines_process_error(delimiter)
           )
 
         }
@@ -749,7 +750,8 @@ agepro_json_model <- R6Class(
                       self$discard$json_list_process_error,
                       NA),
              "stock_weight" = self$stock_weight$json_list_process_error,
-             "ssb_weight" = self$ssb_weight$json_list_process_error
+             "ssb_weight" = self$ssb_weight$json_list_process_error,
+             "mean_weight" = self$mean_weight$json_list_process_error
              )
 
 
