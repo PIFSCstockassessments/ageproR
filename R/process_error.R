@@ -906,7 +906,7 @@ spawning_stock_weight <- R6Class(
 )
 
 #' @title
-#' Input information on Mean (or mid-year) weights at age
+#' Mean (or mid-year) weights at age
 #'
 #' @description
 #' AGEPRO keyword parameter class Structure for this population process with
@@ -952,3 +952,6 @@ mean_population_weight <- R6Class(
     }
   )
 )
+
+
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_error.R
 \name{mean_population_weight}
 \alias{mean_population_weight}
-\title{Input information on Mean (or mid-year) weights at age}
+\title{Mean (or mid-year) weights at age}
 \description{
 AGEPRO keyword parameter class Structure for this population process with
 multiplicative lognormal error distribution.
