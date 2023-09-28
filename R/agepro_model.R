@@ -30,6 +30,7 @@ agepro_model <- R6Class(
     .stock_weight_jan = NULL,
     .spawning_stock_weight = NULL,
     .mean_population_weight = NULL,
+    .landed_catch_weight = NULL,
 
     .discards_present = NULL,
 
@@ -119,14 +120,22 @@ agepro_model <- R6Class(
                                               self$general$num_ages,
                                               self$general$num_fleets)
 
-      self$stock_weight <- stock_weight_jan$new(self$general$seq_years,
-                                                self$general$num_ages)
+      self$stock_weight <-
+        stock_weight_jan$new(self$general$seq_years,
+                             self$general$num_ages)
 
-      self$ssb_weight <- spawning_stock_weight$new(self$general$seq_years,
-                                                   self$general$num_ages)
+      self$ssb_weight <-
+        spawning_stock_weight$new(self$general$seq_years,
+                                  self$general$num_ages)
 
-      self$mean_weight <- mean_population_weight$new(self$general$seq_years,
-                                                     self$general$num_ages)
+      self$mean_weight <-
+        mean_population_weight$new(self$general$seq_years,
+                                   self$general$num_ages)
+
+      self$catch_weight <-
+        landed_catch_weight$new(self$general$seq_years,
+                                self$general$num_ages,
+                                self$general$num_fleets)
 
 
       if(self$general$discards_present) {
@@ -274,6 +283,17 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.mean_population_weight <- value
       }
+    },
+
+    #' @field catch_weight
+    #' Landed catch weight at age by fleet
+    catch_weight = function(value) {
+      if(missing(value)){
+        return(private$.landed_catch_weight)
+      } else{
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.landed_catch_weight <- value
+      }
     }
 
   )
@@ -386,6 +406,14 @@ agepro_inp_model <- R6Class(
                                                     nline,
                                                     self$general$seq_years,
                                                     self$general$num_ages)
+    },
+
+    read_landed_catch_weight = function(con, nline) {
+      self$nline <- self$catch_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages,
+                                                     self$general$num_fleets)
     }
 
   ),
@@ -450,6 +478,11 @@ agepro_inp_model <- R6Class(
         suppressMessages(mean_population_weight$new(self$general$seq_years,
                                                     self$general$num_ages,
                                                     enable_cat_print = FALSE))
+      self$catch_weight <-
+        suppressMessages(landed_catch_weight$new(self$general$seq_years,
+                                                 self$general$num_ages,
+                                                 self$general$num_fleets,
+                                                 enable_cat_print = FALSE))
 
       cli::cli_text("Done")
     },
@@ -542,7 +575,7 @@ agepro_inp_model <- R6Class(
     match_keyword = function(inp_line, inp_con) {
 
       #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-      #' SSB_WEIGHT, MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT,
+      #' ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, DISC_WEIGHT,
       #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
       #' ~~BOOTSTRAP~~, HARVEST, REBUILD
 
@@ -581,6 +614,9 @@ agepro_inp_model <- R6Class(
         "[MEAN_WEIGHT]" = {
             rlang::expr(private$read_mean_population_weight(inp_con,
                                                             self$nline))
+        },
+        "[CATCH_WEIGHT]" = {
+            rlang::expr(private$read_landed_catch_weight(inp_con, self$nline))
         }
       ))
 
@@ -669,7 +705,8 @@ agepro_inp_model <- R6Class(
             },
             self$stock_weight$inplines_process_error(delimiter),
             self$ssb_weight$inplines_process_error(delimiter),
-            self$mean_weight$inplines_process_error(delimiter)
+            self$mean_weight$inplines_process_error(delimiter),
+            self$catch_weight$inplines_process_error(delimiter)
           )
 
         }
@@ -751,7 +788,8 @@ agepro_json_model <- R6Class(
                       NA),
              "stock_weight" = self$stock_weight$json_list_process_error,
              "ssb_weight" = self$ssb_weight$json_list_process_error,
-             "mean_weight" = self$mean_weight$json_list_process_error
+             "mean_weight" = self$mean_weight$json_list_process_error,
+             "catch_weight" = self$catch_weight$json_list_process_error
              )
 
 

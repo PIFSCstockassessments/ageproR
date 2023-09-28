@@ -953,5 +953,54 @@ mean_population_weight <- R6Class(
   )
 )
 
+#' @title
+#' Landed Catch weight at age by fleet
+#'
+#' @description
+#' AGEPRO keyword parameter class Structure for this fishery process with
+#' multiplicative lognormal error distribution.
+#'
+#' @param num_fleets Number of Fleets.
+#'
+#' @template process_error_initialize_params
+#' @template enable_cat_print
+#'
+#' @importFrom R6 R6Class
+#'
+#' @export
+#'
+landed_catch_weight <- R6Class(
+  "landed_catch_weight",
+  inherit = ageproR::process_error,
+  public = list(
 
 
+    #' @description
+    #' Initializes class
+    #'
+    initialize = function (proj_years,
+                           num_ages,
+                           num_fleets,
+                           input_option = 0,
+                           time_varying = TRUE,
+                           enable_cat_print = TRUE) {
+
+      super$initialize(proj_years,
+                       num_ages,
+                       num_fleets,
+                       input_option,
+                       time_varying,
+                       enable_cat_print)
+
+      self$parameter_title <- "Catch Weights at Age by Fleet"
+      private$.keyword_name <- "catch_weight"
+
+      private$.weight_age_parameter <- TRUE
+      private$.valid_input_options <- c(0, 1, -1, -2, -3)
+
+      private$cli_initialize(enable_cat_print, omit_rows = TRUE)
+
+    }
+
+  )
+)
