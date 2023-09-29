@@ -823,7 +823,7 @@ agepro_json_model <- R6Class(
              "mean_weight" = self$mean_weight$json_list_process_error,
              "catch_weight" = self$catch_weight$json_list_process_error,
              "disc_weight" =
-               ifelse(!isnull(self$disc_weight),
+               ifelse(!is.null(self$disc_weight),
                       self$disc_weight$json_list_process_error,
                       NA),
              "recruit" = self$recruit$json_list_recruit
