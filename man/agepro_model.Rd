@@ -49,6 +49,8 @@ Discard Fraction}
 \item{\code{mean_weight}}{Midyear mean population weight at age}
 
 \item{\code{catch_weight}}{Landed catch weight at age by fleet}
+
+\item{\code{disc_weight}}{Discard weight of age by fleet}
 }
 \if{html}{\out{</div>}}
 }

@@ -31,6 +31,7 @@ agepro_model <- R6Class(
     .spawning_stock_weight = NULL,
     .mean_population_weight = NULL,
     .landed_catch_weight = NULL,
+    .discard_weight = NULL,
 
     .discards_present = NULL,
 
@@ -142,6 +143,10 @@ agepro_model <- R6Class(
         self$discard <- discard_fraction$new(self$general$seq_years,
                                              self$general$num_ages,
                                              self$general$num_fleets)
+
+        self$disc_weight <- discard_weight$new(self$general$seq_years,
+                                               self$general$num_ages,
+                                               self$general$num_fleets)
       }
 
     },
@@ -294,6 +299,17 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.landed_catch_weight <- value
       }
+    },
+
+    #' @field disc_weight
+    #' Discard weight of age by fleet
+    disc_weight = function(value) {
+      if(missing(value)) {
+        return(private$.discard_weight)
+      } else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.discard_weight <- value
+      }
     }
 
   )
@@ -411,6 +427,20 @@ agepro_inp_model <- R6Class(
                                                      self$general$seq_years,
                                                      self$general$num_ages,
                                                      self$general$num_fleets)
+    },
+
+    read_discard_weight = function(con, nline) {
+
+      if(!self$general$discards_present){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <- self$disc_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_yeaqrs,
+                                                    self$general$num_ages,
+                                                    self$general$num_fleets)
+
     }
 
   ),
@@ -614,6 +644,9 @@ agepro_inp_model <- R6Class(
         },
         "[CATCH_WEIGHT]" = {
             rlang::expr(private$read_landed_catch_weight(inp_con, self$nline))
+        },
+        "[DISC_WEIGHT]" = {
+            rlang::expr(private$read_discard_weight(inp_con, self$nline))
         }
       ))
 
@@ -692,18 +725,21 @@ agepro_inp_model <- R6Class(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
             self$general$inplines_general(delimiter),
-            self$recruit$inplines_recruit(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
+            self$stock_weight$inplines_process_error(delimiter),
+            self$ssb_weight$inplines_process_error(delimiter),
+            self$mean_weight$inplines_process_error(delimiter),
+            self$catch_weight$inplines_process_error(delimiter),
+            if(self$general$discards_present){
+              self$disc_weight$inplines_process_error(delimiter)
+            },
             self$natmort$inplines_process_error(delimiter),
             self$maturity$inplines_process_error(delimiter),
             self$fishery$inplines_process_error(delimiter),
             if(self$general$discards_present){
               self$discard$inplines_process_error(delimiter)
             },
-            self$stock_weight$inplines_process_error(delimiter),
-            self$ssb_weight$inplines_process_error(delimiter),
-            self$mean_weight$inplines_process_error(delimiter),
-            self$catch_weight$inplines_process_error(delimiter)
+            self$recruit$inplines_recruit(delimiter)
           )
 
         }
@@ -774,7 +810,6 @@ agepro_json_model <- R6Class(
       agepro_json <-
         list("version" = version_json,
              "general" = self$general$json_list_general,
-             "recruit" = self$recruit$json_list_recruit,
              "bootstrap" = self$bootstrap$json_bootstrap,
              "natmort" = self$natmort$json_list_process_error,
              "maturity" = self$maturity$json_list_process_error,
@@ -786,7 +821,12 @@ agepro_json_model <- R6Class(
              "stock_weight" = self$stock_weight$json_list_process_error,
              "ssb_weight" = self$ssb_weight$json_list_process_error,
              "mean_weight" = self$mean_weight$json_list_process_error,
-             "catch_weight" = self$catch_weight$json_list_process_error
+             "catch_weight" = self$catch_weight$json_list_process_error,
+             "disc_weight" =
+               ifelse(!isnull(self$disc_weight),
+                      self$disc_weight$json_list_process_error,
+                      NA),
+             "recruit" = self$recruit$json_list_recruit
              )
 
 
