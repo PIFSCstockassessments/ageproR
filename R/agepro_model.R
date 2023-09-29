@@ -348,7 +348,6 @@ agepro_inp_model <- R6Class(
     },
 
     read_natural_mortality = function(con, nline) {
-      cli::cli_alert_info("Reading Natural Mortaility")
       self$nline <- self$natmort$read_inp_lines(con,
                                                 nline,
                                                 self$general$seq_years,
@@ -356,7 +355,6 @@ agepro_inp_model <- R6Class(
     },
 
     read_maturity_fraction = function(con, nline) {
-      cli::cli_alert_info("Reading Maturity Fraction")
       self$nline <- self$maturity$read_inp_lines(con,
                                                  nline,
                                                  self$general$seq_years,
@@ -364,7 +362,6 @@ agepro_inp_model <- R6Class(
     },
 
     read_fishery_selectivity = function(con, nline) {
-      cli::cli_alert_info("Reading Fishery Selectivity")
       self$nline <-
         self$fishery$read_inp_lines(con,
                                     nline,

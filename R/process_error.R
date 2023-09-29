@@ -338,8 +338,12 @@ process_error <- R6Class(
                               proj_years,
                               num_ages,
                               num_fleets = 1) {
+
+      cli::cli_alert_info(paste0("Reading {.strong {private$.keyword_name}}: ",
+                                 "{self$parameter_title}"))
+
       nline <- nline + 1
-      cli::cli_alert("Line {nline} :")
+      cli::cli_alert("Line {nline}:")
 
       # Read an additional line from the file connection
       # and split into 2 substrings
