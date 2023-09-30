@@ -27,11 +27,11 @@ agepro_model <- R6Class(
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
     .discard_fraction = NULL,
-    .stock_weight_jan = NULL,
-    .spawning_stock_weight = NULL,
-    .mean_population_weight = NULL,
-    .landed_catch_weight = NULL,
-    .discard_weight = NULL,
+    .jan_stock_weight_age = NULL,
+    .spawning_stock_weight_age = NULL,
+    .mean_population_weight_age = NULL,
+    .landed_catch_weight_age = NULL,
+    .discard_weight_age = NULL,
 
     .discards_present = NULL,
 
@@ -122,19 +122,19 @@ agepro_model <- R6Class(
                                               self$general$num_fleets)
 
       self$stock_weight <-
-        stock_weight_jan$new(self$general$seq_years,
+        jan_stock_weight_age$new(self$general$seq_years,
                              self$general$num_ages)
 
       self$ssb_weight <-
-        spawning_stock_weight$new(self$general$seq_years,
+        spawning_stock_weight_age$new(self$general$seq_years,
                                   self$general$num_ages)
 
       self$mean_weight <-
-        mean_population_weight$new(self$general$seq_years,
+        mean_population_weight_age$new(self$general$seq_years,
                                    self$general$num_ages)
 
       self$catch_weight <-
-        landed_catch_weight$new(self$general$seq_years,
+        landed_catch_weight_age$new(self$general$seq_years,
                                 self$general$num_ages,
                                 self$general$num_fleets)
 
@@ -144,7 +144,7 @@ agepro_model <- R6Class(
                                              self$general$num_ages,
                                              self$general$num_fleets)
 
-        self$disc_weight <- discard_weight$new(self$general$seq_years,
+        self$disc_weight <- discard_weight_age$new(self$general$seq_years,
                                                self$general$num_ages,
                                                self$general$num_fleets)
       }
@@ -261,10 +261,10 @@ agepro_model <- R6Class(
     #' Stock weight on January 1st at age
     stock_weight = function(value) {
       if(missing(value)){
-        return(private$.stock_weight_jan)
+        return(private$.jan_stock_weight_age)
       }else {
         checkmate::assert_r6(value, classes = "process_error")
-        private$.stock_weight_jan <- value
+        private$.jan_stock_weight_age <- value
       }
     },
 
@@ -272,10 +272,10 @@ agepro_model <- R6Class(
     #' Spawning Stock Weight of Age
     ssb_weight = function(value) {
       if(missing(value)){
-        return(private$.spawning_stock_weight)
+        return(private$.spawning_stock_weight_age)
       }else {
         checkmate::assert_r6(value, classes = "process_error")
-        private$.spawning_stock_weight <- value
+        private$.spawning_stock_weight_age <- value
       }
     },
 
@@ -283,10 +283,10 @@ agepro_model <- R6Class(
     #' Midyear mean population weight at age
     mean_weight = function(value) {
       if(missing(value)){
-        return(private$.mean_population_weight)
+        return(private$.mean_population_weight_age)
       } else{
         checkmate::assert_r6(value, classes = "process_error")
-        private$.mean_population_weight <- value
+        private$.mean_population_weight_age <- value
       }
     },
 
@@ -294,10 +294,10 @@ agepro_model <- R6Class(
     #' Landed catch weight at age by fleet
     catch_weight = function(value) {
       if(missing(value)){
-        return(private$.landed_catch_weight)
+        return(private$.landed_catch_weight_age)
       } else{
         checkmate::assert_r6(value, classes = "process_error")
-        private$.landed_catch_weight <- value
+        private$.landed_catch_weight_age <- value
       }
     },
 
@@ -305,10 +305,10 @@ agepro_model <- R6Class(
     #' Discard weight of age by fleet
     disc_weight = function(value) {
       if(missing(value)) {
-        return(private$.discard_weight)
+        return(private$.discard_weight_age)
       } else {
         checkmate::assert_r6(value, classes = "process_error")
-        private$.discard_weight <- value
+        private$.discard_weight_age <- value
       }
     }
 
@@ -400,28 +400,28 @@ agepro_inp_model <- R6Class(
 
     },
 
-    read_stock_weight_jan = function(con, nline) {
+    read_jan_stock_weight_age = function(con, nline) {
       self$nline <- self$stock_weight$read_inp_lines(con,
                                                      nline,
                                                      self$general$seq_years,
                                                      self$general$num_ages)
     },
 
-    read_spawning_stock_weight = function(con, nline) {
+    read_spawning_stock_weight_age = function(con, nline) {
       self$nline <- self$ssb_weight$read_inp_lines(con,
                                                    nline,
                                                    self$general$seq_years,
                                                    self$general$num_ages)
     },
 
-    read_mean_population_weight = function(con, nline) {
+    read_mean_population_weight_age = function(con, nline) {
       self$nline <- self$mean_weight$read_inp_lines(con,
                                                     nline,
                                                     self$general$seq_years,
                                                     self$general$num_ages)
     },
 
-    read_landed_catch_weight = function(con, nline) {
+    read_landed_catch_weight_age = function(con, nline) {
       self$nline <- self$catch_weight$read_inp_lines(con,
                                                      nline,
                                                      self$general$seq_years,
@@ -429,7 +429,7 @@ agepro_inp_model <- R6Class(
                                                      self$general$num_fleets)
     },
 
-    read_discard_weight = function(con, nline) {
+    read_discard_weight_age = function(con, nline) {
 
       if(!self$general$discards_present){
         stop(paste0("Reading Discard Fraction data but ",
@@ -485,31 +485,42 @@ agepro_inp_model <- R6Class(
 
       if(self$general$discards_present){
         self$discard <-
-          suppressMessages(discard_fraction$new(self$general$seq_years,
-                                                self$general$num_ages,
-                                                self$general$num_fleets,
-                                                enable_cat_print = FALSE))
+          suppressMessages(
+            discard_fraction$new(self$general$seq_years,
+                                 self$general$num_ages,
+                                 self$general$num_fleets,
+                                 enable_cat_print = FALSE))
+
+        self$disc_weight <-
+          suppressMessages(
+            discard_weight$new(self$general$seq_years,
+                               self$general$num_ages,
+                               self$general$num_fleets,
+                               enable_cat_print = FALSE))
 
       }
 
       self$stock_weight <-
-        suppressMessages(stock_weight_jan$new(self$general$seq_years,
-                                              self$general$num_ages,
-                                              enable_cat_print = FALSE))
+        suppressMessages(
+          jan_stock_weight_age$new(self$general$seq_years,
+                                   self$general$num_ages,
+                                   enable_cat_print = FALSE))
       self$ssb_weight <-
-        suppressMessages(spawning_stock_weight$new(self$general$seq_years,
-                                                   self$general$num_ages,
-                                                   enable_cat_print = FALSE))
-
+        suppressMessages(
+          spawning_stock_weight_age$new(self$general$seq_years,
+                                        self$general$num_ages,
+                                        enable_cat_print = FALSE))
       self$mean_weight <-
-        suppressMessages(mean_population_weight$new(self$general$seq_years,
-                                                    self$general$num_ages,
-                                                    enable_cat_print = FALSE))
+        suppressMessages(
+          mean_population_weight_age$new(self$general$seq_years,
+                                         self$general$num_ages,
+                                         enable_cat_print = FALSE))
       self$catch_weight <-
-        suppressMessages(landed_catch_weight$new(self$general$seq_years,
-                                                 self$general$num_ages,
-                                                 self$general$num_fleets,
-                                                 enable_cat_print = FALSE))
+        suppressMessages(
+          landed_catch_weight_age$new(self$general$seq_years,
+                                      self$general$num_ages,
+                                      self$general$num_fleets,
+                                      enable_cat_print = FALSE))
 
       cli::cli_text("Done")
     },
@@ -633,20 +644,20 @@ agepro_inp_model <- R6Class(
             rlang::expr(private$read_discard_fraction(inp_con, self$nline))
         },
         "[STOCK_WEIGHT]" = {
-            rlang::expr(private$read_stock_weight_jan(inp_con, self$nline))
+            rlang::expr(private$read_jan_stock_weight_age(inp_con, self$nline))
         },
         "[SSB_WEIGHT]" = {
-            rlang::expr(private$read_spawning_stock_weight(inp_con, self$nline))
+            rlang::expr(private$read_spawning_stock_weight_age(inp_con, self$nline))
         },
         "[MEAN_WEIGHT]" = {
-            rlang::expr(private$read_mean_population_weight(inp_con,
+            rlang::expr(private$read_mean_population_weight_age(inp_con,
                                                             self$nline))
         },
         "[CATCH_WEIGHT]" = {
-            rlang::expr(private$read_landed_catch_weight(inp_con, self$nline))
+            rlang::expr(private$read_landed_catch_weight_age(inp_con, self$nline))
         },
         "[DISC_WEIGHT]" = {
-            rlang::expr(private$read_discard_weight(inp_con, self$nline))
+            rlang::expr(private$read_discard_weight_age(inp_con, self$nline))
         }
       ))
 

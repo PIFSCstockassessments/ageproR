@@ -826,8 +826,8 @@ discard_fraction <- R6Class(
 #'
 #' @export
 #'
-stock_weight_jan <- R6Class(
-  "stock_weight",
+jan_stock_weight_age <- R6Class(
+  "jan_stock_weight_age",
   inherit = ageproR::process_error,
   public = list (
 
@@ -876,8 +876,8 @@ stock_weight_jan <- R6Class(
 #'
 #' @export
 #'
-spawning_stock_weight <- R6Class(
-  "spawning_stock_weight",
+spawning_stock_weight_age <- R6Class(
+  "spawning_stock_weight_age",
   inherit = ageproR::process_error,
   public = list(
 
@@ -923,8 +923,8 @@ spawning_stock_weight <- R6Class(
 #'
 #' @export
 #'
-mean_population_weight <- R6Class(
-  "mean_population_weight",
+mean_population_weight_age <- R6Class(
+  "mean_population_weight_age",
   inherit = ageproR::process_error,
   public = list(
 
@@ -973,8 +973,8 @@ mean_population_weight <- R6Class(
 #'
 #' @export
 #'
-landed_catch_weight <- R6Class(
-  "landed_catch_weight",
+landed_catch_weight_age <- R6Class(
+  "landed_catch_weight_age",
   inherit = ageproR::process_error,
   public = list(
 
@@ -1025,8 +1025,8 @@ landed_catch_weight <- R6Class(
 #'
 #' @export
 #'
-discard_weight <- R6Class(
-  "discard_weight",
+discard_weight_age <- R6Class(
+  "discard_weight_age",
   inherit = ageproR::process_error,
   public = list (
 
