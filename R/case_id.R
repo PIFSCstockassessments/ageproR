@@ -1,6 +1,8 @@
 
-#' AGEPRO case id
+#' @title
+#' AGEPRO Case ID
 #'
+#' @description
 #' Input title identifying model attributes
 #'
 #' @template inp_con
@@ -20,6 +22,12 @@ case_id <- R6Class(
       self$case_id <- private$.case_id
     },
 
+    #' @description
+    #' Prints out Model case id
+    #'
+    print = function() {
+      cli::cli_text("{self$case_id}")
+    },
 
     #' @description
     #' Read AGEPRO Case ID from input data file

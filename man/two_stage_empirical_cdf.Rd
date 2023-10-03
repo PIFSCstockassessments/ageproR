@@ -14,6 +14,13 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \section{Super classes}{
 \code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{\link[ageproR:empirical_recruit]{ageproR::empirical_recruit}} -> \code{\link[ageproR:two_stage_empirical_recruit]{ageproR::two_stage_empirical_recruit}} -> \code{two_stage_empirical_cdf}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -39,7 +46,7 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(low_recruits = 1, high_recruits = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{two_stage_empirical_cdf$new(low_recruits = 2, high_recruits = 2)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

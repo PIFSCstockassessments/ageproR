@@ -3,7 +3,7 @@
 #'
 #' @description
 #' AGEPRO model contains the projection time horizon, age class range, number
-#' of fleets, recruitment, and unertainties
+#' of fleets, recruitment, and uncertainties
 #'
 #' @details
 #' AGEPRO performs stochastic projections on exploited fisheries stock to
@@ -12,7 +12,6 @@
 #' @template model_num
 #'
 #' @export
-#' @importFrom rprojroot is_rstudio_project is_git_root is_r_package
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number assert_file_exists
 agepro_model <- R6Class(
@@ -21,6 +20,20 @@ agepro_model <- R6Class(
 
     .ver_legacy_string = NULL,
     .ver_numeric_string = NULL,
+
+    # AGEPRO keyword parameters
+    .general_options = NULL,
+    .natural_mortality = NULL,
+    .maturity_fraction = NULL,
+    .fishery_selectivity = NULL,
+    .discard_fraction = NULL,
+    .jan_stock_weight_age = NULL,
+    .spawning_stock_weight_age = NULL,
+    .mean_population_weight_age = NULL,
+    .landed_catch_weight_age = NULL,
+    .discard_weight_age = NULL,
+
+    .discards_present = NULL,
 
     cli_recruit_rule = function() {
       d <- cli_div(theme = list(rule = list(
@@ -33,17 +46,11 @@ agepro_model <- R6Class(
   ),
   public = list(
 
-    #' @field general General Parameters
-    general = NULL,
-
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
 
     #' @field case_id Case id
     case_id = NULL,
-
-    #' @field inp_pointer AGEPRO input file pointer
-    inp_pointer = NULL,
 
     #' @field bootstrap Bootstrapping
     bootstrap = NULL,
@@ -56,20 +63,20 @@ agepro_model <- R6Class(
     #' @param yr_end Last Year of Projection
     #' @param age_begin Age begin
     #' @param age_end Age end
+    #' @param num_pop_sims Number of population simulations
     #' @param num_fleets Number of fleets
     #' @param num_rec_models Number of Recruit Modules
-    #' @param num_pop_sims Number of population simuations
-    #' @param discards discards. FALSE by default
+    #' @param discards_present Are Discards present? FALSE by default
     #' @param seed Random Number seed. A pesdorandom number is set as default.
     #'
     initialize = function(yr_start,
                            yr_end,
                            age_begin,
                            age_end,
+                           num_pop_sims,
                            num_fleets,
                            num_rec_models,
-                           num_pop_sims,
-                           discards = FALSE,
+                           discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
       ## TODO TODO: Consider a helper function to create a new instance of
@@ -89,17 +96,58 @@ agepro_model <- R6Class(
                                         yr_end,
                                         age_begin,
                                         age_end,
+                                        num_pop_sims,
                                         num_fleets,
                                         num_rec_models,
-                                        num_pop_sims,
-                                        discards,
+                                        discards_present,
                                         seed)
+
+      private$.discards_present <- self$general$discards_present
+
       private$cli_recruit_rule()
       cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
         rep(0, self$general$num_rec_models), self$general$seq_years)
 
       self$bootstrap <- bootstrap$new()
+
+      self$natmort <- natural_mortality$new(self$general$seq_years,
+                                            self$general$num_ages)
+
+      self$maturity <- maturity_fraction$new(self$general$seq_years,
+                                             self$general$num_ages)
+
+      self$fishery <- fishery_selectivity$new(self$general$seq_years,
+                                              self$general$num_ages,
+                                              self$general$num_fleets)
+
+      self$stock_weight <-
+        jan_stock_weight_age$new(self$general$seq_years,
+                             self$general$num_ages)
+
+      self$ssb_weight <-
+        spawning_stock_weight_age$new(self$general$seq_years,
+                                  self$general$num_ages)
+
+      self$mean_weight <-
+        mean_population_weight_age$new(self$general$seq_years,
+                                   self$general$num_ages)
+
+      self$catch_weight <-
+        landed_catch_weight_age$new(self$general$seq_years,
+                                self$general$num_ages,
+                                self$general$num_fleets)
+
+
+      if(self$general$discards_present) {
+        self$discard <- discard_fraction$new(self$general$seq_years,
+                                             self$general$num_ages,
+                                             self$general$num_fleets)
+
+        self$disc_weight <- discard_weight_age$new(self$general$seq_years,
+                                               self$general$num_ages,
+                                               self$general$num_fleets)
+      }
 
     },
 
@@ -151,6 +199,117 @@ agepro_model <- R6Class(
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
         private$.ver_numeric_string <- value
       }
+    },
+
+    #' @field general
+    #' General Options
+    general = function(value) {
+      if(missing(value)){
+        return(private$.general_options)
+      }else {
+        checkmate::assert_r6(value)
+        private$.general_options <- value
+      }
+    },
+
+
+    #' @field natmort
+    #' Natural Mortality
+    natmort = function(value){
+      if(missing(value)){
+        return(private$.natural_mortality)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.natural_mortality <- value
+      }
+    },
+
+    #' @field maturity
+    #' Maturity Fraction
+    maturity = function(value){
+      if(missing(value)){
+        return(private$.maturity_fraction)
+      }else {
+        checkmate::assert_r6(value, classes= "process_error")
+        private$.maturity_fraction <- value
+      }
+    },
+
+    #' @field fishery \cr
+    #' Fishery Selectivity
+    fishery = function(value) {
+      if(missing(value)) {
+        return(private$.fishery_selectivity)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.fishery_selectivity <- value
+      }
+    },
+
+    #' @field discard \cr
+    #' Discard Fraction
+    discard = function(value) {
+      if(missing(value)) {
+        return(private$.discard_fraction)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.discard_fraction <- value
+      }
+    },
+
+    #' @field stock_weight
+    #' Stock weight on January 1st at age
+    stock_weight = function(value) {
+      if(missing(value)){
+        return(private$.jan_stock_weight_age)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.jan_stock_weight_age <- value
+      }
+    },
+
+    #' @field ssb_weight
+    #' Spawning Stock Weight of Age
+    ssb_weight = function(value) {
+      if(missing(value)){
+        return(private$.spawning_stock_weight_age)
+      }else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.spawning_stock_weight_age <- value
+      }
+    },
+
+    #' @field mean_weight
+    #' Midyear mean population weight at age
+    mean_weight = function(value) {
+      if(missing(value)){
+        return(private$.mean_population_weight_age)
+      } else{
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.mean_population_weight_age <- value
+      }
+    },
+
+    #' @field catch_weight
+    #' Landed catch weight at age by fleet
+    catch_weight = function(value) {
+      if(missing(value)){
+        return(private$.landed_catch_weight_age)
+      } else{
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.landed_catch_weight_age <- value
+      }
+    },
+
+    #' @field disc_weight
+    #' Discard weight of age by fleet
+    disc_weight = function(value) {
+      if(missing(value)) {
+        return(private$.discard_weight_age)
+      } else {
+        checkmate::assert_r6(value, classes = "process_error")
+        private$.discard_weight_age <- value
+      }
     }
 
   )
@@ -187,6 +346,8 @@ agepro_inp_model <- R6Class(
 
     read_general_params = function(con, nline) {
       self$nline <- self$general$read_inp_lines(con, nline)
+      # Set .discards_present to Input file's "discards_present" value
+      private$.discards_present <- as.logical(self$general$discards_present)
     },
 
     read_recruit = function(con, nline) {
@@ -200,6 +361,86 @@ agepro_inp_model <- R6Class(
 
     read_bootstrap = function(con, nline) {
       self$nline <- self$bootstrap$read_inp_lines(con, nline)
+    },
+
+    read_natural_mortality = function(con, nline) {
+      self$nline <- self$natmort$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages)
+    },
+
+    read_maturity_fraction = function(con, nline) {
+      self$nline <- self$maturity$read_inp_lines(con,
+                                                 nline,
+                                                 self$general$seq_years,
+                                                 self$general$num_ages)
+    },
+
+    read_fishery_selectivity = function(con, nline) {
+      self$nline <-
+        self$fishery$read_inp_lines(con,
+                                    nline,
+                                    self$general$seq_years,
+                                    self$general$num_ages,
+                                    self$general$num_fleets)
+    },
+
+    read_discard_fraction = function(con, nline) {
+
+      if(!self$general$discards_present){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <- self$discard$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages,
+                                                self$general$num_fleets)
+
+    },
+
+    read_jan_stock_weight_age = function(con, nline) {
+      self$nline <- self$stock_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages)
+    },
+
+    read_spawning_stock_weight_age = function(con, nline) {
+      self$nline <- self$ssb_weight$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years,
+                                                   self$general$num_ages)
+    },
+
+    read_mean_population_weight_age = function(con, nline) {
+      self$nline <- self$mean_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_years,
+                                                    self$general$num_ages)
+    },
+
+    read_landed_catch_weight_age = function(con, nline) {
+      self$nline <- self$catch_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages,
+                                                     self$general$num_fleets)
+    },
+
+    read_discard_weight_age = function(con, nline) {
+
+      if(!self$general$discards_present){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <- self$disc_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_yeaqrs,
+                                                    self$general$num_ages,
+                                                    self$general$num_fleets)
+
     }
 
   ),
@@ -207,6 +448,7 @@ agepro_inp_model <- R6Class(
 
     #' @description
     #' Initializes the input file
+    #'
     initialize = function() {
 
       private$.pre_v4 <- FALSE
@@ -214,15 +456,73 @@ agepro_inp_model <- R6Class(
 
       #TODO: Initialize AGEPRO keyword params
 
+      cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
+
       self$case_id <- case_id$new()
+
       self$general <- suppressMessages(general_params$new())
+      private$.discards_present <- self$general$discards_present
+
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
       self$bootstrap <- suppressMessages(bootstrap$new())
 
+      self$natmort <-
+        suppressMessages(natural_mortality$new(self$general$seq_years,
+                                            self$general$num_ages,
+                                            enable_cat_print = FALSE))
+      self$maturity <-
+        suppressMessages(maturity_fraction$new(self$general$seq_years,
+                                               self$general$num_ages,
+                                               enable_cat_print = FALSE))
 
+      self$fishery <-
+        suppressMessages(fishery_selectivity$new(self$general$seq_years,
+                                              self$general$num_ages,
+                                              self$general$num_fleets,
+                                              enable_cat_print = FALSE))
 
+      if(self$general$discards_present){
+        self$discard <-
+          suppressMessages(
+            discard_fraction$new(self$general$seq_years,
+                                 self$general$num_ages,
+                                 self$general$num_fleets,
+                                 enable_cat_print = FALSE))
+
+        self$disc_weight <-
+          suppressMessages(
+            discard_weight$new(self$general$seq_years,
+                               self$general$num_ages,
+                               self$general$num_fleets,
+                               enable_cat_print = FALSE))
+
+      }
+
+      self$stock_weight <-
+        suppressMessages(
+          jan_stock_weight_age$new(self$general$seq_years,
+                                   self$general$num_ages,
+                                   enable_cat_print = FALSE))
+      self$ssb_weight <-
+        suppressMessages(
+          spawning_stock_weight_age$new(self$general$seq_years,
+                                        self$general$num_ages,
+                                        enable_cat_print = FALSE))
+      self$mean_weight <-
+        suppressMessages(
+          mean_population_weight_age$new(self$general$seq_years,
+                                         self$general$num_ages,
+                                         enable_cat_print = FALSE))
+      self$catch_weight <-
+        suppressMessages(
+          landed_catch_weight_age$new(self$general$seq_years,
+                                      self$general$num_ages,
+                                      self$general$num_fleets,
+                                      enable_cat_print = FALSE))
+
+      cli::cli_text("Done")
     },
 
     #' @description
@@ -252,11 +552,11 @@ agepro_inp_model <- R6Class(
           self$read_inpfile_values(inp_con)
 
           #Cleanup and close file connections
-          message("Input File Read")
-        },
-        warning = function(cond) {
-          warning(cond)
-          invisible()
+          cli::cli_alert_info("Input File Read")
+        #},
+        #warning = function(cond) {
+          #warning(cond)
+          #invisible()
         },
         error = function(cond) {
           message("There was an error reading this file.")
@@ -264,7 +564,7 @@ agepro_inp_model <- R6Class(
           invisible()
         },
         finally = {
-          message("Finished reading to file.")
+          cli::cli_alert_info("Closing connection to file.")
           #close file connections
           close(inp_con)
         }
@@ -312,9 +612,10 @@ agepro_inp_model <- R6Class(
     #'
     match_keyword = function(inp_line, inp_con) {
 
-      #' TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
-      #' MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
-      #' FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD
+      #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
+      #' ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, DISC_WEIGHT,
+      #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
+      #' ~~BOOTSTRAP~~, HARVEST, REBUILD
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
@@ -329,7 +630,35 @@ agepro_inp_model <- R6Class(
           },
         "[BOOTSTRAP]" = {
             rlang::expr(private$read_bootstrap(inp_con, self$nline))
-          }
+          },
+        "[NATMORT]" = {
+            rlang::expr(private$read_natural_mortality(inp_con, self$nline))
+         },
+        "[MATURITY]" = {
+            rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
+         },
+        "[FISHERY]" = {
+            rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
+        },
+        "[DISCARD]" = {
+            rlang::expr(private$read_discard_fraction(inp_con, self$nline))
+        },
+        "[STOCK_WEIGHT]" = {
+            rlang::expr(private$read_jan_stock_weight_age(inp_con, self$nline))
+        },
+        "[SSB_WEIGHT]" = {
+            rlang::expr(private$read_spawning_stock_weight_age(inp_con, self$nline))
+        },
+        "[MEAN_WEIGHT]" = {
+            rlang::expr(private$read_mean_population_weight_age(inp_con,
+                                                            self$nline))
+        },
+        "[CATCH_WEIGHT]" = {
+            rlang::expr(private$read_landed_catch_weight_age(inp_con, self$nline))
+        },
+        "[DISC_WEIGHT]" = {
+            rlang::expr(private$read_discard_weight_age(inp_con, self$nline))
+        }
       ))
 
       div_keyword_line_alert <- function() {
@@ -389,11 +718,11 @@ agepro_inp_model <- R6Class(
     #'
     #' @param inpfile input file path
     #'
-    write_inp = function(inpfile, delimiter = " ") {
+    write_inp = function(inpfile, delimiter = "  ") {
 
       if (missing(inpfile)) {
 
-        inpfile <- save_file_dialog(c("AGEPRO input File", ".inp"))
+        inpfile <- save_file_dialog()
         # Exit Function if user cancels out of file dialog
         # User cancelled dialogs return NULL values
         if (is.null(inpfile)) {
@@ -407,8 +736,21 @@ agepro_inp_model <- R6Class(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
             self$general$inplines_general(delimiter),
-            self$recruit$inplines_recruit(delimiter),
-            self$bootstrap$inplines_bootstrap(delimiter)
+            self$bootstrap$inplines_bootstrap(delimiter),
+            self$stock_weight$inplines_process_error(delimiter),
+            self$ssb_weight$inplines_process_error(delimiter),
+            self$mean_weight$inplines_process_error(delimiter),
+            self$catch_weight$inplines_process_error(delimiter),
+            if(self$general$discards_present){
+              self$disc_weight$inplines_process_error(delimiter)
+            },
+            self$natmort$inplines_process_error(delimiter),
+            self$maturity$inplines_process_error(delimiter),
+            self$fishery$inplines_process_error(delimiter),
+            if(self$general$discards_present){
+              self$discard$inplines_process_error(delimiter)
+            },
+            self$recruit$inplines_recruit(delimiter)
           )
 
         }
@@ -441,9 +783,11 @@ agepro_inp_model <- R6Class(
   )
 )
 
-#' AGEPRO JSON model
+#' @title
+#' AGEPRO model w/ JSON input file bindings
 #'
-#' json related
+#' @description
+#' File Functionality on experimental JSON input file
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -456,22 +800,49 @@ agepro_json_model <- R6Class(
   public = list(
 
     #' @description
-    #' Get json
+    #' Return a json formatted object.
+    #'
+    #' @details
+    #' See [jsonlite::toJSON] for more details.`NA` values in a list or
+    #' a multi-length vector will converted to JSON style NULL value, but
+    #' wrapped in a JSON array (`[null, null]`). Using the defaults in
+    #' [jsonlite::fromJSON], the JSON null array can be is converted back to
+    #' `NA`. Single `NA` values will be reconverted to `NULL`.
+    #'
     get_json = function() {
 
       version_json <- list(
-        legacyVer = private$.ver_leagacy_string,
-        ver = private$.ver_numeric_string
+
+        legacyVer = self$ver_legacy_string,
+        ver = self$ver_numeric_string
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
-      agepro_json <- list("version" = version_json,
-                          "general" = self$general$json_list_general,
-                          "recruit" = self$recruit$json_list_recruit,
-                          "bootstrap" = self$bootstrap$json_bootstrap)
+      agepro_json <-
+        list("version" = version_json,
+             "general" = self$general$json_list_general,
+             "bootstrap" = self$bootstrap$json_bootstrap,
+             "natmort" = self$natmort$json_list_process_error,
+             "maturity" = self$maturity$json_list_process_error,
+             "fishery" = self$fishery$json_list_process_error,
+             "discard" =
+               ifelse(!is.null(self$discard),
+                      self$discard$json_list_process_error,
+                      NA),
+             "stock_weight" = self$stock_weight$json_list_process_error,
+             "ssb_weight" = self$ssb_weight$json_list_process_error,
+             "mean_weight" = self$mean_weight$json_list_process_error,
+             "catch_weight" = self$catch_weight$json_list_process_error,
+             "disc_weight" =
+               ifelse(!is.null(self$disc_weight),
+                      self$disc_weight$json_list_process_error,
+                      NA),
+             "recruit" = self$recruit$json_list_recruit
+             )
 
 
       # TODO: use the write() function to write JSON files
+
       toJSON(agepro_json,
              pretty = TRUE,
              auto_unbox = TRUE)
@@ -481,15 +852,38 @@ agepro_json_model <- R6Class(
     #' @description
     #' Write JSON file
     #'
+    #' @param file input file path
     #' @param show_dir Option to show directory after JSON file is written.
-    write_json = function(show_dir = FALSE) {
-      tmp <- tempfile("agepro_", fileext = ".json")
-      write(self$get_json(), tmp)
+    #'
+    write_json = function(file, show_dir = FALSE) {
 
-      message("Saved at :\n", tmp)
-      if (show_dir) {
-        browseURL(dirname(tmp))
+      if (missing(file)) {
+
+        file <- save_file_dialog()
+        # Exit Function if user cancels out of file dialog
+        # User cancelled dialogs return NULL values
+        if (is.null(file)) {
+          return(invisible(NULL))
+        }
       }
+
+
+      write(self$get_json(), file)
+
+      message("Saved at :\n", file)
+      if (show_dir) {
+        browseURL(dirname(file))
+      }
+    },
+
+    #' @description
+    #' Reads AGEPRO json experimental input file format.
+    #'
+    #' @param file input file path
+    #'
+    read_json = function(file) {
+      warning("AGEPRO JSON input is in development, and format may change.")
+      return(jsonlite::read_json(file, simplifyVector = TRUE))
     }
 
   )

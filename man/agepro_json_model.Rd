@@ -2,14 +2,9 @@
 % Please edit documentation in R/agepro_model.R
 \name{agepro_json_model}
 \alias{agepro_json_model}
-\title{AGEPRO JSON model}
+\title{AGEPRO model w/ JSON input file bindings}
 \description{
-AGEPRO JSON model
-
-AGEPRO JSON model
-}
-\details{
-json related
+File Functionality on experimental JSON input file
 }
 \section{Super class}{
 \code{\link[ageproR:agepro_model]{ageproR::agepro_model}} -> \code{agepro_json_model}
@@ -19,6 +14,7 @@ json related
 \itemize{
 \item \href{#method-agepro_json_model-get_json}{\code{agepro_json_model$get_json()}}
 \item \href{#method-agepro_json_model-write_json}{\code{agepro_json_model$write_json()}}
+\item \href{#method-agepro_json_model-read_json}{\code{agepro_json_model$read_json()}}
 \item \href{#method-agepro_json_model-clone}{\code{agepro_json_model$clone()}}
 }
 }
@@ -35,9 +31,17 @@ json related
 \if{html}{\out{<a id="method-agepro_json_model-get_json"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_json_model-get_json}{}}}
 \subsection{Method \code{get_json()}}{
-Get json
+Return a json formatted object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$get_json()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+See \link[jsonlite:fromJSON]{jsonlite::toJSON} for more details.\code{NA} values in a list or
+a multi-length vector will converted to JSON style NULL value, but
+wrapped in a JSON array (\verb{[null, null]}). Using the defaults in
+\link[jsonlite:fromJSON]{jsonlite::fromJSON}, the JSON null array can be is converted back to
+\code{NA}. Single \code{NA} values will be reconverted to \code{NULL}.
 }
 
 }
@@ -47,13 +51,32 @@ Get json
 \subsection{Method \code{write_json()}}{
 Write JSON file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$write_json(show_dir = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$write_json(file, show_dir = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{file}}{input file path}
+
 \item{\code{show_dir}}{Option to show directory after JSON file is written.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_json_model-read_json"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_json_model-read_json}{}}}
+\subsection{Method \code{read_json()}}{
+Reads AGEPRO json experimental input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$read_json(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{input file path}
 }
 \if{html}{\out{</div>}}
 }

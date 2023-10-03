@@ -14,7 +14,7 @@
 #'
 #' @import cli
 #' @importFrom R6 R6Class
-#' @importFrom checkmate test_logical test_true assert_number
+#' @importFrom checkmate test_logical assert_number
 general_params <- R6Class(
   classname = "general_params",
 
@@ -40,8 +40,8 @@ general_params <- R6Class(
     #' @field num_pop_sims Number of Population Simulations
     num_pop_sims = NULL,
 
-    #' @field discards Are discards present?
-    discards = NULL,
+    #' @field discards_present Are discards present?
+    discards_present = NULL,
 
     #' @field seed Psuedorandom number seed
     seed = NULL,
@@ -59,7 +59,7 @@ general_params <- R6Class(
     #' @param num_pop_sims Number of population sims
     #' @param num_fleets Number of fleets
     #' @param num_rec_models Number of Recruit Modeles
-    #' @param discards discards
+    #' @param discards_present discards_present
     #' @param seed Random Number seed
     #'
     initialize = function(yr_start = 0,
@@ -69,14 +69,14 @@ general_params <- R6Class(
                           num_pop_sims = 1000,
                           num_fleets = 1,
                           num_rec_models = 1,
-                          discards = FALSE,
-                          seed = 0) {
+                          discards_present = FALSE,
+                          seed = sample.int(1e8, 1)) {
 
       private$cli_general_rule()
       # Discards: Assert logical format
-      if (!test_logical(discards)) {
-        assert_number(discards, lower = 0, upper = 1)
-        discards <- as.logical(discards)
+      if (!test_logical(discards_present)) {
+        assert_number(discards_present, lower = 0, upper = 1)
+        discards_present <- as.logical(discards_present)
       }
 
       self$yr_start <- yr_start
@@ -86,7 +86,7 @@ general_params <- R6Class(
       self$num_pop_sims <- num_pop_sims
       self$num_fleets <- num_fleets
       self$num_rec_models <- num_rec_models
-      self$discards <- discards
+      self$discards_present <- discards_present
       self$seed <- seed
 
       self$print()
@@ -106,7 +106,7 @@ general_params <- R6Class(
       cli_li("Number of Population Simulations: {.val {self$num_pop_sims}}")
       cli_li("Number of Fleets: {.val {self$num_fleets}}")
       cli_li("Number of Recruitment Model(s): {.val {self$num_rec_models}}")
-      cli_li("Discards are present: {.val {test_true(self$discards)}} ")
+      cli_li("Discards are present: {.val {as.logical(self$discards_present)}} ")
       cli_li("Calculation Engine Random Number Seed: {.val {self$seed}}")
       invisible(self)
     },
@@ -132,7 +132,7 @@ general_params <- R6Class(
       self$num_pop_sims <- inp_line[5]
       self$num_fleets <- inp_line[6]
       self$num_rec_models <- inp_line[7]
-      self$discards <- inp_line[8]
+      self$discards_present <- inp_line[8]
       self$seed <- inp_line[9]
 
       self$print()
@@ -154,7 +154,7 @@ general_params <- R6Class(
               self$num_pop_sims,
               self$num_fleets,
               self$num_rec_models,
-              as.numeric(self$discards),
+              as.numeric(self$discards_present),
               self$seed,
               sep = delimiter)
       ))
@@ -186,9 +186,9 @@ general_params <- R6Class(
     json_list_general = function() {
 
       #If discard Flag is numeric check if it is 0 or 1
-      if (!test_logical(self$discards)) {
+      if (!test_logical(self$discards_present)) {
         #Assert for 0 and 1
-        assert_number(self$discards, lower = 0, upper = 1)
+        assert_number(self$discards_present, lower = 0, upper = 1)
       }
 
       return(list(
@@ -199,7 +199,7 @@ general_params <- R6Class(
         nSims = self$num_pop_sims,
         nFleet = self$num_fleets,
         nRecModel = self$num_rec_models,
-        discFlag = as.numeric(self$discards),
+        discFlag = as.numeric(self$discards_present),
         seed = self$seed
       ))
     }

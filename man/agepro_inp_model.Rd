@@ -92,9 +92,10 @@ Read Input file Values
 \subsection{Method \code{match_keyword()}}{
 Match Keyword
 
-TODO: ~~CASEID~~, ~~GENERAL~~, RECRUIT, STOCK_WEIGHT, SSB_WEIGHT,
-MEAN_WEIGHT, CATCH_WEIGHT, DISC_WEIGHT, NATMORT, MATURITY,
-FISHERY, DISCARD, BIOLOGICAL, ~~BOOTSTRAP~~, HARVEST, REBUILD
+TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
+~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, DISC_WEIGHT,
+~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
+~~BOOTSTRAP~~, HARVEST, REBUILD
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$match_keyword(inp_line, inp_con)}\if{html}{\out{</div>}}
 }
@@ -149,7 +150,7 @@ Throws a Not Implemented exception message. Placeholder function.
 \subsection{Method \code{write_inp()}}{
 Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

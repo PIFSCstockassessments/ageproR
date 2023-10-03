@@ -5,7 +5,7 @@
 \title{R6 class representing AGEPRO model}
 \description{
 AGEPRO model contains the projection time horizon, age class range, number
-of fleets, recruitment, and unertainties
+of fleets, recruitment, and uncertainties
 }
 \details{
 AGEPRO performs stochastic projections on exploited fisheries stock to
@@ -14,13 +14,9 @@ determine age-structured population over a time period. Brodziak, 2022
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{general}}{General Parameters}
-
 \item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
 
 \item{\code{case_id}}{Case id}
-
-\item{\code{inp_pointer}}{AGEPRO input file pointer}
 
 \item{\code{bootstrap}}{Bootstrapping}
 }
@@ -33,6 +29,28 @@ determine age-structured population over a time period. Brodziak, 2022
 with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
+
+\item{\code{general}}{General Options}
+
+\item{\code{natmort}}{Natural Mortality}
+
+\item{\code{maturity}}{Maturity Fraction}
+
+\item{\code{fishery}}{\cr
+Fishery Selectivity}
+
+\item{\code{discard}}{\cr
+Discard Fraction}
+
+\item{\code{stock_weight}}{Stock weight on January 1st at age}
+
+\item{\code{ssb_weight}}{Spawning Stock Weight of Age}
+
+\item{\code{mean_weight}}{Midyear mean population weight at age}
+
+\item{\code{catch_weight}}{Landed catch weight at age by fleet}
+
+\item{\code{disc_weight}}{Discard weight of age by fleet}
 }
 \if{html}{\out{</div>}}
 }
@@ -56,10 +74,10 @@ Starts an instances of the AGEPRO Model
   yr_end,
   age_begin,
   age_end,
+  num_pop_sims,
   num_fleets,
   num_rec_models,
-  num_pop_sims,
-  discards = FALSE,
+  discards_present = FALSE,
   seed = sample.int(1e+08, 1)
 )}\if{html}{\out{</div>}}
 }
@@ -75,13 +93,13 @@ Starts an instances of the AGEPRO Model
 
 \item{\code{age_end}}{Age end}
 
+\item{\code{num_pop_sims}}{Number of population simulations}
+
 \item{\code{num_fleets}}{Number of fleets}
 
 \item{\code{num_rec_models}}{Number of Recruit Modules}
 
-\item{\code{num_pop_sims}}{Number of population simuations}
-
-\item{\code{discards}}{discards. FALSE by default}
+\item{\code{discards_present}}{Are Discards present? FALSE by default}
 
 \item{\code{seed}}{Random Number seed. A pesdorandom number is set as default.}
 }

@@ -23,6 +23,7 @@ bootstrap <- R6Class(
     .num_bootstraps = NULL,
     .pop_scale_factor = NULL,
     .bootstrap_file = NULL,
+    .keyword_name = "bootstrap",
 
 
     #Validate bootstrap_file
@@ -66,7 +67,7 @@ bootstrap <- R6Class(
     #'
     initialize = function() {
 
-      cli_keyword_heading("Bootstrap")
+      cli_keyword_heading(self$keyword_name)
       cli_alert("Setting up Default Values")
 
       self$num_bootstraps <- 0
@@ -117,8 +118,8 @@ bootstrap <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline}: ")
-      cli_text("Number of Bootstraps: {.val {self$num_bootstraps}}")
-      cli_text(c("Population Scale Factor (BootFac): ",
+      cli_text("num_bootstraps: {.val {self$num_bootstraps}}")
+      cli_text(c("pop_scale_factor (BootFac): ",
                  "{.val {self$pop_scale_factor}}"))
 
       #Read another line from the file connection, and
@@ -139,7 +140,7 @@ bootstrap <- R6Class(
         warning("Bootstrap filename does not exist on system.", call. = FALSE)
       }
       return(list(
-        "[BOOTSTRAP]",
+        self$inp_keyword,
         paste(self$num_bootstraps, self$pop_scale_factor, sep = delimiter),
         self$bootstrap_file
       ))
@@ -149,11 +150,12 @@ bootstrap <- R6Class(
     #' Prints out BOOTSTRAP fields
     #'
     print = function(...) {
+      cli::cli_par()
       cli_ul()
-      cli_li("Number of Bootstraps: {.val {self$num_bootstraps}}")
-      cli_li(c("Population Scale Factor (BootFac): ",
+      cli_li("num_bootstraps: {.val {self$num_bootstraps}}")
+      cli_li(paste0("pop_scale_factor (BootFac): ",
                "{.val {self$pop_scale_factor}}"))
-      cli_alert_info("Bootstrap File:")
+      cli_alert_info("bootstrap_file:")
       ifelse(test_file_exists(self$bootstrap_file),
              cli_li("{.val {self$bootstrap_file}}"),
              cli_alert_warning(c("Replace with a valid Bootstrap file before ",
@@ -210,7 +212,21 @@ bootstrap <- R6Class(
         bootFac = self$pop_scale_factor,
         bootFile = self$bootstrap_file
       ))
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
+
+
 
 
   )
