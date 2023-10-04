@@ -1,3 +1,57 @@
+# ageproR 0.4.0 2023-10-04
+
+* Added AGEPRO Keyword parameters for process error for population and 
+fishery processes. (#32)
+  - `natural_mortality` (`natmort`)
+  - `maturity_fraction` (`maturity`)
+  - `fishery_selectivity` (`fishery`)
+  - `discard_fraction` (`discard`)
+  - `jan_stock_weight_age` (`stock_weight`)
+  - `spawning_stock_weight_age` (`ssb_weight`)
+  - `mean_population_weight_age` (`mean_weight`)
+  - `landed_catch_weight_age` (`catch_weight`)
+  - `discard_weight_age` (`disc_weight`)
+* Implemented AGEPRO input file and experimental JSON input file support for 
+process error parameters. (#12),
+  - Ensure only "Weight of Age" Process Errors parameters return 
+  `input_option` and `time_varying`, if it is a valid weight of age option.
+  - Exclude `discards` and `disc_weight` if `agepro_model` doesn't have 
+  `discards_present`
+  - NOTE: Support for Import process data from auxiliary data file location 
+  (`input_option == 1`) is not supported right now.
+* Added `[NATMORT]`, `[MATURITY]`, `[FISHERY]`, `[STOCK_WEIGHT]`, 
+`[SSB_WEIGHT]`, `[MEAN_WEIGHT]`, and `[CATCH_WEIGHT]` to toy example AGEPRO 
+example input data file. Added keyword parameter data is based on AGEPRO GUI's 
+example input file _Uku Projection Base_.
+* `agepro_model` instantiates Process Error parameters (and `general_params`) as 
+active get/set fields
+* Added `projection_years`:
+  - Handles the ambiguous use of `projection_years`: interpreted as a single 
+  integer representing the count of projection years _or_ a vector of sequential 
+  values representing a vector of "years".
+* `assert_numeric_substrings`: fixed regex numeric string check to include 
+negatives.
+* `general_params`
+  - Renamed `discards` to `discards_present`
+  - `seed` defaults to pseudo random number generator
+* cli tweaks to print out bootstrap fields and variables (`keyword_name`, 
+`inp_keyword`)
+* Recruitment
+  - Raised default `num_obervations` of **Empirical CDF Recruitment** to `2`
+  - Raised default `low_recruits` and `high_recruits` of 
+  **Two Stage Empirical Recruitmet w/ SSB** to `2`
+* Experimental JSON input file. **Note: This is a developing file format, **
+**and it is unsupported with the AGEPRO calculation engine** (#9)
+  - If filepath wasn't passed to `write_json`, it will now use the file dialog 
+  window. (#11)
+  - Added `read_json`.
+  - Subset Empirical Recruitment table vector to format as a JSON list in a 
+  list object structure
+  - Added **Two Stage Empirical Recruitment w/ SSB** JSON list object
+  - Fixup formatting of recruit's `type` (recruitment model number) (#29)
+* Removed unused `output.R` and `read_input.R`
+  - This removes the **rprojroot** and **usethis** dependencies.
+
 # ageproR 0.3.2  2023-08-09
 
 * Fixed `ver_legacy_string` typo that affected the creation of the

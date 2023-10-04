@@ -1,8 +1,12 @@
 Package: ageproR
 Type: Package
 Title: Age Structured Projection Model (AGEPRO) data structure
-Version: 0.3.2
-Author: Eric Fletcher
+Version: 0.4.0
+Authors@R: c( 
+  person("Eric", "Fletcher", email = "eric.fletcher@noaa.gov", 
+    role = c("aut", "cre")),
+  person("Jon", "Brodziak", role = "aut")
+  )
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: Object-oriented data structures based on the input file format 
     defined by the Age Structured Projection Model Reference Manual. Includes 
