@@ -17,7 +17,15 @@
 #' @importFrom checkmate test_logical assert_number
 general_params <- R6Class(
   classname = "general_params",
-
+  private = list(
+    cli_general_rule = function() {
+      d <- cli_div(theme = list(rule = list(
+        color = "cyan",
+        "line-type" = "double")))
+      cli_rule("General")
+      cli_end(d)
+    }
+  ),
   public = list(
     #' @field yr_start First Year in Projection
     yr_start = NULL,
@@ -204,18 +212,6 @@ general_params <- R6Class(
       ))
     }
 
-
-
-
-
-  ), private = list(
-    cli_general_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-          color = "cyan",
-          "line-type" = "double")))
-      cli_rule("General")
-      cli_end(d)
-    }
   )
 
 )
