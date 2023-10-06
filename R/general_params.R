@@ -104,15 +104,13 @@ general_params <- R6Class(
     #' @description
     #' Reads General AGEPRO parameters from AGEPRO INP Input File
     read_inp_lines = function(inp_con, nline) {
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
-
-      nline <- nline + 1
+      nine <- nline + 1
       cli_alert("Line {nline} : Reading AGEPRO model GENERAL options ...")
 
-      inp_line <- assert_numeric_substrings(inp_line)
+      inp_line <- read_inp_numeric_line(inp_con)
 
       self$yr_start <- inp_line[1]
       self$yr_end <- inp_line[2]
