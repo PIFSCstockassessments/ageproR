@@ -13,6 +13,9 @@
 case_id <- R6Class(
   "case_id",
   private = list(
+
+    .keyword_name = "caseid",
+
     .case_id = NULL
   ),
   public = list(
@@ -48,7 +51,7 @@ case_id <- R6Class(
     #'
     inplines_case_id = function() {
       return(list(
-        "[CASEID]",
+        self$inp_keyword,
         self$case_id
       ))
     }
@@ -65,6 +68,18 @@ case_id <- R6Class(
       }else {
         private$.case_id <- val
       }
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
   )
 )

@@ -10,6 +10,10 @@ Input title identifying model attributes
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{case_id}}{case id}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 }
 \if{html}{\out{</div>}}
 }
