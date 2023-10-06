@@ -39,6 +39,10 @@ of the first and last age class.}
 \item{\code{seq_years}}{Returns a sequence of years from First year of
 projection}
 
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
+
 \item{\code{json_list_general}}{List of GENERAL keyword fields values, exportable to JSON.}
 }
 \if{html}{\out{</div>}}

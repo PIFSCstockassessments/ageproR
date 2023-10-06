@@ -29,14 +29,8 @@ general_params <- R6Class(
     .discards_present = NULL,
     .seed = NULL,
 
+    .keyword_name = "general"
 
-    cli_general_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("General")
-      cli_end(d)
-    }
   ),
   public = list(
 
@@ -63,7 +57,8 @@ general_params <- R6Class(
                           discards_present = FALSE,
                           seed = sample.int(1e8, 1)) {
 
-      private$cli_general_rule()
+
+      cli_keyword_heading(self$keyword_name)
       # Discards: Assert numeric format
       if (test_logical(discards_present)) {
         discards_present <- as.numeric(discards_present)
@@ -133,7 +128,7 @@ general_params <- R6Class(
     #'
     inplines_general = function(delimiter = "  ") {
       return(list(
-        "[GENERAL]",
+        self$inp_keyword,
         paste(self$yr_start,
               self$yr_end,
               self$age_begin,
@@ -276,6 +271,18 @@ general_params <- R6Class(
     #' projection
     seq_years = function() {
       seq(self$yr_start, self$yr_end)
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     },
 
     #' @field json_list_general
