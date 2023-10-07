@@ -207,7 +207,8 @@ agepro_model <- R6Class(
       }else {
         # Assert case_id R6class if value includes the "model_name"
         # (active binding) public field
-        checkmate::assert_r6(value, public = "model_name")
+        checkmate::assert_r6(value, public = "model_name",
+                             .var.name = "case_id")
         private$.case_id <- value
       }
     },
