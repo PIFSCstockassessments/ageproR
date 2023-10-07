@@ -29,7 +29,7 @@ case_id <- R6Class(
     #' Prints out Model case id
     #'
     print = function() {
-      cli::cli_text("{self$case_id}")
+      cli::cli_text("{symbol$info} case_id: {.val {self$case_id}}")
     },
 
     #' @description
@@ -55,8 +55,6 @@ case_id <- R6Class(
         self$case_id
       ))
     }
-
-    #TODO: CASE ID print function
 
   ),
   active = list(
