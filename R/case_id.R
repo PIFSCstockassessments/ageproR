@@ -16,20 +16,22 @@ case_id <- R6Class(
 
     .keyword_name = "caseid",
 
-    .case_id = NULL
+    .caseid = NULL
   ),
   public = list(
 
-    #' @description Initalize
+    #' @description
+    #' Initialize Class
+    #'
     initalize = function() {
-      self$case_id <- private$.case_id
+      self$caseid <- NULL
     },
 
     #' @description
     #' Prints out Model case id
     #'
     print = function() {
-      cli::cli_text("{symbol$info} case_id: {.val {self$case_id}}")
+      cli::cli_text("{symbol$info} case_id: {.val {self$caseid}}")
     },
 
     #' @description
@@ -40,7 +42,7 @@ case_id <- R6Class(
       nline <- nline + 1
       self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
       #message("Line ", nline, ": Case ID: ", self$case_id)
-      cli::cli_alert("Line {nline}: CASE ID: {self$case_id}")
+      cli::cli_alert("Line {nline}: CASE ID: {self$caseid}")
       return(nline)
     },
 
@@ -52,19 +54,19 @@ case_id <- R6Class(
     inplines_case_id = function() {
       return(list(
         self$inp_keyword,
-        self$case_id
+        self$caseid
       ))
     }
 
   ),
   active = list(
 
-    #' @field case_id case id
-    case_id = function(val) {
+    #' @field caseid case id
+    caseid = function(val) {
       if (missing(val)) {
-        return(private$.case_id)
+        return(private$.caseid)
       }else {
-        private$.case_id <- val
+        private$.caseid <- val
       }
     },
 
