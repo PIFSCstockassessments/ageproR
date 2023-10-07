@@ -9,7 +9,7 @@ Input title identifying model attributes
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{caseid}}{case id}
+\item{\code{model_name}}{String that describes the projection model run}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 

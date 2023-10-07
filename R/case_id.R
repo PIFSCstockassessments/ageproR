@@ -16,7 +16,7 @@ case_id <- R6Class(
 
     .keyword_name = "caseid",
 
-    .caseid = NULL
+    .model_name = NULL
   ),
   public = list(
 
@@ -24,14 +24,15 @@ case_id <- R6Class(
     #' Initialize Class
     #'
     initalize = function() {
-      self$caseid <- NULL
+      self$model_name <- NULL
     },
 
     #' @description
     #' Prints out Model case id
     #'
     print = function() {
-      cli::cli_text("{symbol$info} case_id: {.val {self$caseid}}")
+      cli_keyword_heading(self$keyword_name)
+      cli::cli_text("{symbol$info} model_name: {.val {self$model_name}}")
     },
 
     #' @description
@@ -40,9 +41,9 @@ case_id <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       nline <- nline + 1
-      self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
-      #message("Line ", nline, ": Case ID: ", self$case_id)
-      cli::cli_alert("Line {nline}: CASE ID: {self$caseid}")
+      self$model_name <- readLines(inp_con, n = 1, warn = FALSE)
+
+      cli::cli_alert("Line {nline}: CASE ID: {self$model_name}")
       return(nline)
     },
 
@@ -54,19 +55,20 @@ case_id <- R6Class(
     inplines_case_id = function() {
       return(list(
         self$inp_keyword,
-        self$caseid
+        self$model_name
       ))
     }
 
   ),
   active = list(
 
-    #' @field caseid case id
-    caseid = function(val) {
+    #' @field model_name
+    #' String that describes the projection model run
+    model_name = function(val) {
       if (missing(val)) {
-        return(private$.caseid)
+        return(private$.model_name)
       }else {
-        private$.caseid <- val
+        private$.model_name <- val
       }
     },
 
