@@ -22,6 +22,7 @@ agepro_model <- R6Class(
     .ver_numeric_string = NULL,
 
     # AGEPRO keyword parameters
+    .case_id = NULL,
     .general_options = NULL,
     .natural_mortality = NULL,
     .maturity_fraction = NULL,
@@ -48,9 +49,6 @@ agepro_model <- R6Class(
 
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
-
-    #' @field case_id Case id
-    case_id = NULL,
 
     #' @field bootstrap Bootstrapping
     bootstrap = NULL,
@@ -198,6 +196,19 @@ agepro_model <- R6Class(
         #use as.numeric_version to validate
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
         private$.ver_numeric_string <- value
+      }
+    },
+
+    #' @field case_id
+    #' Title identifying AGEPRO model attributes
+    case_id = function(value) {
+      if(missing(value)){
+        return(private$.case_id)
+      }else {
+        # Assert case_id R6class if value includes the "model_name"
+        # (active binding) public field
+        checkmate::assert_r6(value, public = "model_name")
+        private$.case_id <- value
       }
     },
 

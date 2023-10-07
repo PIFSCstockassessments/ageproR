@@ -16,8 +16,6 @@ determine age-structured population over a time period. Brodziak, 2022
 \describe{
 \item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
 
-\item{\code{case_id}}{Case id}
-
 \item{\code{bootstrap}}{Bootstrapping}
 }
 \if{html}{\out{</div>}}
@@ -29,6 +27,8 @@ determine age-structured population over a time period. Brodziak, 2022
 with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
+
+\item{\code{case_id}}{Title identifying AGEPRO model attributes}
 
 \item{\code{general}}{General Options}
 
