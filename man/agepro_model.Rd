@@ -15,8 +15,6 @@ determine age-structured population over a time period. Brodziak, 2022
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
-
-\item{\code{bootstrap}}{Bootstrapping}
 }
 \if{html}{\out{</div>}}
 }
@@ -31,6 +29,8 @@ with Jon Brodiak's AGEPRO calculation engine.}
 \item{\code{case_id}}{Title identifying AGEPRO model attributes}
 
 \item{\code{general}}{General Options}
+
+\item{\code{bootstrap}}{Bootstrapping}
 
 \item{\code{natmort}}{Natural Mortality}
 

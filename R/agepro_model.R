@@ -24,6 +24,7 @@ agepro_model <- R6Class(
     # AGEPRO keyword parameters
     .case_id = NULL,
     .general_options = NULL,
+    .bootstrap = NULL,
     .natural_mortality = NULL,
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
@@ -49,10 +50,6 @@ agepro_model <- R6Class(
 
     #' @field recruit AGEPRO Recruitmment Model(s)
     recruit = NULL,
-
-    #' @field bootstrap Bootstrapping
-    bootstrap = NULL,
-
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -221,6 +218,17 @@ agepro_model <- R6Class(
       }else {
         checkmate::assert_r6(value)
         private$.general_options <- value
+      }
+    },
+
+    #' @field bootstrap
+    #' Bootstrapping
+    bootstrap = function(value) {
+      if(missing(value)){
+        return(private$.bootstrap)
+      }else {
+        checkmate::assert_r6(value, .var.name = "bootstrap")
+        private$.bootstrap <- value
       }
     },
 
