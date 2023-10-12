@@ -99,8 +99,6 @@ agepro_model <- R6Class(
 
       private$.discards_present <- self$general$discards_present
 
-      private$cli_recruit_rule()
-      cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
         rep(0, self$general$num_rec_models), self$general$seq_years)
 

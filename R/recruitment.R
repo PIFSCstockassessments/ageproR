@@ -31,21 +31,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .sequence_projection_years = NULL,
     .max_rec_obs = 10000,
 
+    .keyword_name = "recruit",
+
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
 
     .recruit_probability = NULL,
     .recruit_model_num_list = NULL,
 
-
-
-    cli_recruit_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
-    },
 
     cli_recruit_probability = function() {
       #Module to printout Recruitment probability to Rconsole
@@ -162,7 +155,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.max_rec_obs <- max_rec_obs
       }
 
-
+      # 'recruit' cli messages at initialization
+      cli_keyword_heading(self$keyword_name)
+      cli_alert("Creating Default Recruitment Model")
       self$print(cat_verbose)
 
 
@@ -439,7 +434,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           how = "list")))
 
       return(c(list(
-        "[RECRUIT]",
+        self$inp_keyword,
         paste(
           self$recruit_scaling_factor,
           self$ssb_scaling_factor,
@@ -528,6 +523,18 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))
 
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
 
   )
