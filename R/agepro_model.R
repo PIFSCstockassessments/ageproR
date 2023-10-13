@@ -24,6 +24,7 @@ agepro_model <- R6Class(
     # AGEPRO keyword parameters
     .case_id = NULL,
     .general_options = NULL,
+    .recruitment = NULL,
     .bootstrap = NULL,
     .natural_mortality = NULL,
     .maturity_fraction = NULL,
@@ -47,9 +48,6 @@ agepro_model <- R6Class(
 
   ),
   public = list(
-
-    #' @field recruit AGEPRO Recruitmment Model(s)
-    recruit = NULL,
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -328,6 +326,21 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.discard_weight_age <- value
       }
+    },
+
+    #' @field recruit
+    #' AGEPRO Recruitment Model information
+    recruit = function(value) {
+     if(missing(value)) {
+       return(private$.recruitment)
+     }else {
+       #Check
+       checkmate::assert_r6(value, public = c("recruit_scaling_factor",
+                                              "ssb_scaling_factor",
+                                              "recruit_probability"),
+                            .var.name = "recruit")
+       private$.recruitment <- value
+     }
     }
 
   )

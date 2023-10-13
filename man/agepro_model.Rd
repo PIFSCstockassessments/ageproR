@@ -11,13 +11,6 @@ of fleets, recruitment, and uncertainties
 AGEPRO performs stochastic projections on exploited fisheries stock to
 determine age-structured population over a time period. Brodziak, 2022
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{recruit}}{AGEPRO Recruitmment Model(s)}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -51,6 +44,8 @@ Discard Fraction}
 \item{\code{catch_weight}}{Landed catch weight at age by fleet}
 
 \item{\code{disc_weight}}{Discard weight of age by fleet}
+
+\item{\code{recruit}}{AGEPRO Recruitment Model information}
 }
 \if{html}{\out{</div>}}
 }
