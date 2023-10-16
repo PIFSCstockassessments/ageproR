@@ -12,11 +12,6 @@ these models.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{recruit_model_num_list}}{Recruitment Type}
-
-\item{\code{model_collection_list}}{List of recruitment models. Use this field
-to access a specific recruitment models field.}
-
 \item{\code{observation_years}}{Sequence of projected years}
 }
 \if{html}{\out{</div>}}
@@ -28,6 +23,11 @@ to access a specific recruitment models field.}
 
 \item{\code{recruit_probability}}{The Recruitment Probabilities.}
 
+\item{\code{model_collection_list}}{List of recruitment models. Use this field
+to access a specific recruitment models field.}
+
+\item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
+
 \item{\code{num_recruit_models}}{Returns number of recruitment models}
 
 \item{\code{recruit_scaling_factor}}{The multiplier to convert recruitment submodel's recruitment units to
@@ -37,6 +37,10 @@ absolute numbers of fish}
 spawning weight of fish in kilograms (kg)}
 
 \item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 }
 \if{html}{\out{</div>}}
 }
@@ -48,7 +52,6 @@ spawning weight of fish in kilograms (kg)}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
-\item \href{#method-recruitment-view_recruit_data}{\code{recruitment$view_recruit_data()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
@@ -162,16 +165,6 @@ console. Default is TRUE}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-view_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-view_recruit_data}{}}}
-\subsection{Method \code{view_recruit_data()}}{
-Helper Function To View Recruitment Model Collection Data
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$view_recruit_data()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-recruitment-read_inp_lines"></a>}}

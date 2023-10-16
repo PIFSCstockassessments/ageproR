@@ -13,20 +13,26 @@
 case_id <- R6Class(
   "case_id",
   private = list(
-    .case_id = NULL
+
+    .keyword_name = "caseid",
+
+    .model_name = NULL
   ),
   public = list(
 
-    #' @description Initalize
+    #' @description
+    #' Initialize Class
+    #'
     initalize = function() {
-      self$case_id <- private$.case_id
+      self$model_name <- NULL
     },
 
     #' @description
     #' Prints out Model case id
     #'
     print = function() {
-      cli::cli_text("{self$case_id}")
+      cli_keyword_heading(self$keyword_name)
+      cli::cli_text("{symbol$info} model_name: {.val {self$model_name}}")
     },
 
     #' @description
@@ -35,9 +41,9 @@ case_id <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       nline <- nline + 1
-      self$case_id <- readLines(inp_con, n = 1, warn = FALSE)
-      #message("Line ", nline, ": Case ID: ", self$case_id)
-      cli::cli_alert("Line {nline}: CASE ID: {self$case_id}")
+      self$model_name <- readLines(inp_con, n = 1, warn = FALSE)
+
+      cli::cli_alert("Line {nline}: CASE ID: {self$model_name}")
       return(nline)
     },
 
@@ -48,23 +54,34 @@ case_id <- R6Class(
     #'
     inplines_case_id = function() {
       return(list(
-        "[CASEID]",
-        self$case_id
+        self$inp_keyword,
+        self$model_name
       ))
     }
-
-    #TODO: CASE ID print function
 
   ),
   active = list(
 
-    #' @field case_id case id
-    case_id = function(val) {
+    #' @field model_name
+    #' String that describes the projection model run
+    model_name = function(val) {
       if (missing(val)) {
-        return(private$.case_id)
+        return(private$.model_name)
       }else {
-        private$.case_id <- val
+        private$.model_name <- val
       }
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
   )
 )

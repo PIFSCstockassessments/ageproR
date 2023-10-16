@@ -9,8 +9,8 @@ the projection time horizon, the target model's age class range, the
 quantity of recruitment models used, and fishery processes that affect
 projections.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{yr_start}}{First Year in Projection}
 
@@ -28,15 +28,8 @@ projections.
 
 \item{\code{discards_present}}{Are discards present?}
 
-\item{\code{seed}}{Psuedorandom number seed}
+\item{\code{seed}}{Pseudo Random Number seed}
 
-\item{\code{inp_file}}{File name of opened/imported input file}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
 \item{\code{num_years}}{Determines the number of years in projection by the
 (absolute) difference of the last and first year of projection.}
 
@@ -45,6 +38,10 @@ of the first and last age class.}
 
 \item{\code{seq_years}}{Returns a sequence of years from First year of
 projection}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 
 \item{\code{json_list_general}}{List of GENERAL keyword fields values, exportable to JSON.}
 }

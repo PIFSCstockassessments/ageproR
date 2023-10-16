@@ -9,7 +9,11 @@ Input title identifying model attributes
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{case_id}}{case id}
+\item{\code{model_name}}{String that describes the projection model run}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 }
 \if{html}{\out{</div>}}
 }
@@ -27,7 +31,7 @@ Input title identifying model attributes
 \if{html}{\out{<a id="method-case_id-initalize"></a>}}
 \if{latex}{\out{\hypertarget{method-case_id-initalize}{}}}
 \subsection{Method \code{initalize()}}{
-Initalize
+Initialize Class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{case_id$initalize()}\if{html}{\out{</div>}}
 }

@@ -22,7 +22,10 @@ agepro_model <- R6Class(
     .ver_numeric_string = NULL,
 
     # AGEPRO keyword parameters
+    .case_id = NULL,
     .general_options = NULL,
+    .recruitment = NULL,
+    .bootstrap = NULL,
     .natural_mortality = NULL,
     .maturity_fraction = NULL,
     .fishery_selectivity = NULL,
@@ -45,16 +48,6 @@ agepro_model <- R6Class(
 
   ),
   public = list(
-
-    #' @field recruit AGEPRO Recruitmment Model(s)
-    recruit = NULL,
-
-    #' @field case_id Case id
-    case_id = NULL,
-
-    #' @field bootstrap Bootstrapping
-    bootstrap = NULL,
-
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -104,8 +97,6 @@ agepro_model <- R6Class(
 
       private$.discards_present <- self$general$discards_present
 
-      private$cli_recruit_rule()
-      cli_alert("Creating Default Recruitment Model")
       self$recruit <- recruitment$new(
         rep(0, self$general$num_rec_models), self$general$seq_years)
 
@@ -201,6 +192,20 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field case_id
+    #' Title identifying AGEPRO model attributes
+    case_id = function(value) {
+      if(missing(value)){
+        return(private$.case_id)
+      }else {
+        # Assert case_id R6class if value includes the "model_name"
+        # (active binding) public field
+        checkmate::assert_r6(value, public = "model_name",
+                             .var.name = "case_id")
+        private$.case_id <- value
+      }
+    },
+
     #' @field general
     #' General Options
     general = function(value) {
@@ -209,6 +214,17 @@ agepro_model <- R6Class(
       }else {
         checkmate::assert_r6(value)
         private$.general_options <- value
+      }
+    },
+
+    #' @field bootstrap
+    #' Bootstrapping
+    bootstrap = function(value) {
+      if(missing(value)){
+        return(private$.bootstrap)
+      }else {
+        checkmate::assert_r6(value, .var.name = "bootstrap")
+        private$.bootstrap <- value
       }
     },
 
@@ -310,6 +326,21 @@ agepro_model <- R6Class(
         checkmate::assert_r6(value, classes = "process_error")
         private$.discard_weight_age <- value
       }
+    },
+
+    #' @field recruit
+    #' AGEPRO Recruitment Model information
+    recruit = function(value) {
+     if(missing(value)) {
+       return(private$.recruitment)
+     }else {
+       #Check
+       checkmate::assert_r6(value, public = c("recruit_scaling_factor",
+                                              "ssb_scaling_factor",
+                                              "recruit_probability"),
+                            .var.name = "recruit")
+       private$.recruitment <- value
+     }
     }
 
   )

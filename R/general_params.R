@@ -17,37 +17,22 @@
 #' @importFrom checkmate test_logical assert_number
 general_params <- R6Class(
   classname = "general_params",
+  private = list(
 
+    .yr_start = NULL,
+    .yr_end = NULL,
+    .age_begin = NULL,
+    .age_end = NULL,
+    .num_fleets = NULL,
+    .num_rec_models = NULL,
+    .num_pop_sims = NULL,
+    .discards_present = NULL,
+    .seed = NULL,
+
+    .keyword_name = "general"
+
+  ),
   public = list(
-    #' @field yr_start First Year in Projection
-    yr_start = NULL,
-
-    #' @field yr_end Last Year in Projection
-    yr_end = NULL,
-
-    #' @field age_begin First Age Class
-    age_begin = NULL,
-
-    #' @field age_end Last Age Class
-    age_end = NULL,
-
-    #' @field num_fleets Number of Fleets
-    num_fleets = NULL,
-
-    #' @field num_rec_models Number of Recruitment Models
-    num_rec_models = NULL,
-
-    #' @field num_pop_sims Number of Population Simulations
-    num_pop_sims = NULL,
-
-    #' @field discards_present Are discards present?
-    discards_present = NULL,
-
-    #' @field seed Psuedorandom number seed
-    seed = NULL,
-
-    #' @field inp_file File name of opened/imported input file
-    inp_file = NULL,
 
     #' @description
     #' Starts an instances of the AGEPRO Model
@@ -72,22 +57,22 @@ general_params <- R6Class(
                           discards_present = FALSE,
                           seed = sample.int(1e8, 1)) {
 
-      private$cli_general_rule()
-      # Discards: Assert logical format
-      if (!test_logical(discards_present)) {
-        assert_number(discards_present, lower = 0, upper = 1)
-        discards_present <- as.logical(discards_present)
+
+      cli_keyword_heading(self$keyword_name)
+      # Discards: Assert numeric format
+      if (test_logical(discards_present)) {
+        discards_present <- as.numeric(discards_present)
       }
 
-      self$yr_start <- yr_start
-      self$yr_end <- yr_end
-      self$age_begin <- age_begin
-      self$age_end <- age_end
-      self$num_pop_sims <- num_pop_sims
-      self$num_fleets <- num_fleets
-      self$num_rec_models <- num_rec_models
+      self$yr_start <- as.numeric(yr_start)
+      self$yr_end <- as.numeric(yr_end)
+      self$age_begin <- as.numeric(age_begin)
+      self$age_end <- as.numeric(age_end)
+      self$num_pop_sims <- as.numeric(num_pop_sims)
+      self$num_fleets <- as.numeric(num_fleets)
+      self$num_rec_models <- as.numeric(num_rec_models)
       self$discards_present <- discards_present
-      self$seed <- seed
+      self$seed <- as.numeric(seed)
 
       self$print()
 
@@ -114,17 +99,14 @@ general_params <- R6Class(
     #' @description
     #' Reads General AGEPRO parameters from AGEPRO INP Input File
     read_inp_lines = function(inp_con, nline) {
+
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
-      inp_line <-
-        unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
-
-      nline <- nline + 1
+      nine <- nline + 1
       cli_alert("Line {nline} : Reading AGEPRO model GENERAL options ...")
 
-      inp_line <- assert_numeric_substrings(inp_line)
+      inp_line <- read_inp_numeric_line(inp_con)
 
-      #TODO: Refactor
       self$yr_start <- inp_line[1]
       self$yr_end <- inp_line[2]
       self$age_begin <- inp_line[3]
@@ -146,7 +128,7 @@ general_params <- R6Class(
     #'
     inplines_general = function(delimiter = "  ") {
       return(list(
-        "[GENERAL]",
+        self$inp_keyword,
         paste(self$yr_start,
               self$yr_end,
               self$age_begin,
@@ -162,6 +144,116 @@ general_params <- R6Class(
 
   ),
   active = list(
+
+    #' @field yr_start
+    #' First Year in Projection
+    yr_start = function(value) {
+      if(missing(value)){
+        private$.yr_start
+      }else {
+        checkmate::assert_numeric(value, lower = 0, len = 1,
+                                  .var.name = "yr_start")
+        private$.yr_start <- value
+      }
+    },
+
+    #' @field yr_end
+    #' Last Year in Projection
+    yr_end = function(value) {
+      if(missing(value)) {
+        private$.yr_end
+      }else {
+        checkmate::assert_numeric(value, lower = 1, len = 1,
+                                  .var.name = "yr_end")
+        private$.yr_end <- value
+      }
+    },
+
+    #' @field age_begin
+    #' First Age Class
+    age_begin = function(value){
+      if(missing(value)){
+        private$.age_begin
+      }else {
+        checkmate::assert_numeric(value, lower = 0, upper = 1, len = 1,
+                                  .var.name = "age_begin")
+        private$.age_begin <- value
+      }
+    },
+
+    #' @field age_end
+    #' Last Age Class
+    age_end = function(value){
+      if(missing(value)){
+        private$.age_end
+      }else {
+        checkmate::assert_numeric(value, len = 1,
+                                  .var.name = "age_end")
+        private$.age_end <- value
+      }
+    },
+
+    #' @field num_fleets
+    #' Number of Fleets
+    num_fleets = function(value){
+      if(missing(value)){
+        private$.num_fleets
+      }else {
+        checkmate::assert_numeric(value, lower = 1, len = 1,
+                                  .var.name = "num_fleets")
+        private$.num_fleets <- value
+      }
+    },
+
+    #' @field num_rec_models
+    #' Number of Recruitment Models
+    num_rec_models = function(value) {
+      if(missing(value)) {
+        private$.num_rec_models
+      }else {
+        checkmate::assert_numeric(value, lower = 1, len = 1,
+                                  .var.name = "num_rec_models")
+        private$.num_rec_models <- value
+      }
+    },
+
+    #' @field num_pop_sims
+    #' Number of Population Simulations
+    num_pop_sims = function(value){
+      if(missing(value)) {
+        private$.num_pop_sims
+      }else {
+        checkmate::assert_numeric(value, lower = 0, len = 1,
+                                  .var.name = "num_pop_sims")
+        private$.num_pop_sims <- value
+      }
+    },
+
+    #' @field discards_present
+    #' Are discards present?
+    discards_present = function(value) {
+      if(missing(value)) {
+        private$.discards_present
+      }else {
+        #set discard_present values as int/numeric. 0=FALSE 1=TRUE
+        checkmate::assert_numeric(value, lower = 0, upper = 1, len = 1,
+                                  .var.name = "discards_present")
+        private$.discards_present <- value
+      }
+    },
+
+    #' @field seed
+    #' Pseudo Random Number seed
+    seed = function(value){
+      if(missing(value)) {
+        private$.seed
+      }else {
+        checkmate::assert_numeric(value, len = 1,
+                                  .var.name = "seed")
+        private$.seed <- value
+      }
+    },
+
 
     #' @field num_years Determines the number of years in projection by the
     #' (absolute) difference of the last and first year of projection.
@@ -179,6 +271,18 @@ general_params <- R6Class(
     #' projection
     seq_years = function() {
       seq(self$yr_start, self$yr_end)
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     },
 
     #' @field json_list_general
@@ -204,18 +308,6 @@ general_params <- R6Class(
       ))
     }
 
-
-
-
-
-  ), private = list(
-    cli_general_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-          color = "cyan",
-          "line-type" = "double")))
-      cli_rule("General")
-      cli_end(d)
-    }
   )
 
 )

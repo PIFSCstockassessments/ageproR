@@ -31,24 +31,18 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .sequence_projection_years = NULL,
     .max_rec_obs = 10000,
 
+    .keyword_name = "recruit",
+
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
+    .model_collection_list = NULL,
 
     .recruit_probability = NULL,
     .recruit_model_num_list = NULL,
 
 
-
-    cli_recruit_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
-    },
-
+    #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
-      #Module to printout Recruitment probability to Rconsole
       cli_alert_info("Recruitment Probability:")
       assert_list(private$.recruit_probability) #verify recruit_prob list
       cat_print(private$.recruit_probability)
@@ -70,6 +64,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
+    # Helper function to help setup .number_recruit_models,
+    # recruit_model_num_list, & model_collection_list vectors
+    # based on `model_num`.
     setup_recruitment_list_vectors = function(model_num) {
 
       # Setup number of recruits based on the vector length of the recruitment
@@ -116,13 +113,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
   ), public = list(
 
-    #' @field recruit_model_num_list Recruitment Type
-    recruit_model_num_list = NULL,
-
-    #' @field model_collection_list List of recruitment models. Use this field
-    #' to access a specific recruitment models field.
-    model_collection_list = NULL,
-
     #' @field observation_years Sequence of projected years
     observation_years = NULL,
 
@@ -146,7 +136,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_observed_years(seq_years)
 
-      # Setup .number_recruit_models vectors
+      ## Sets up recruitment vectors:
+      # .number_recruit_models, recruit_model_num_list, model_collection_list
       private$setup_recruitment_list_vectors(model_num)
 
       # Setup Recruitment probability
@@ -162,7 +153,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.max_rec_obs <- max_rec_obs
       }
 
-
+      # 'recruit' cli messages at initialization
+      cli_keyword_heading(self$keyword_name)
+      cli_alert("Creating Default Recruitment Model")
       self$print(cat_verbose)
 
 
@@ -173,7 +166,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Creates Recruitment Model Data
     set_recruit_data = function(model_num) {
 
-      # Setup .number_recruit_models vectors
+      ## Sets up recruitment vectors:
+      # .number_recruit_models, recruit_model_num_list, model_collection_list
       private$setup_recruitment_list_vectors(model_num)
 
       #Set recruitment probability and model data for each recruitment model.
@@ -298,17 +292,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli_end()
     },
 
-    #TODO: Create a active field function for showing model_collection_list
-
-    #' @description
-    #' Helper Function To View Recruitment Model Collection Data
-    view_recruit_data = function() {
-
-      cli_alert_info(paste0("Recruitment Model{?s}: ",
-                            "{.field {self$recuit_model_num_list}} "))
-
-    },
-
     #' @description
     #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
     read_inp_lines = function(inp_con, nline) {
@@ -353,8 +336,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #?Validate length Recruitment's recruit_model_num_list matches
       #length of recruitment models field from the set_recruit_data function
 
-      ## Setup for .number_recruit_models and recruitment list vectors:
-      # recruit_model_mum_list, .recruit_probability, & model_collection_list
+      ## Setup for recruitment list vectors:
+      # .number_recruit_models, recruit_model_mum_list,.recruit_probability,
+      # model_collection_list
       private$setup_recruitment_list_vectors(inp_line)
 
       # Setup Default Recruitment probability
@@ -439,7 +423,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           how = "list")))
 
       return(c(list(
-        "[RECRUIT]",
+        self$inp_keyword,
         paste(
           self$recruit_scaling_factor,
           self$ssb_scaling_factor,
@@ -472,6 +456,33 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' The Recruitment Probabilities.
     recruit_probability = function() {
       return(private$.recruit_probability)
+    },
+
+
+    #TODO: Create a active field function for showing model_collection_list
+
+    #' @field model_collection_list
+    #' List of recruitment models. Use this field
+    #' to access a specific recruitment models field.
+    model_collection_list = function(value) {
+      if(missing(value)){
+        return(private$.model_collection_list)
+      } else{
+        checkmate::assert_list(value, .var.name = "model_collection_list")
+        private$.model_collection_list <- value
+      }
+    },
+
+    #' @field recruit_model_num_list
+    #' Helper Function To View Recruitment Model Collection Data
+    recruit_model_num_list = function(value) {
+      if(missing(value)){
+        return(private$.recruit_model_num_list)
+      } else{
+        checkmate::assert_list(value, types = c("numeric","null"),
+                               .var.name = "recruit_model_num_list")
+        private$.recruit_model_num_list <- value
+      }
     },
 
     #' @field num_recruit_models
@@ -528,6 +539,18 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))
 
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
 
   )
