@@ -39,40 +39,14 @@ with:
 # install.packages("devtools")
 devtools::install_github("PIFSCstockassessments/ageproR")
 ```
-## Create AGEPRO Model
+## TODO 
 
-TODO
+Create a new AGEPRO Model 
 
-## Reading AGEPRO input files 
+Import AGEPRO Model data from AGEPRO input file
 
-_Note: **ageproR** is currently incompatible with the supported AGEPRO input 
-file format_ (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`). _Included example 
-AGEPRO input file_ (`inst/test-example4.inp`) _is used to demonstrate it's 
-current implementation._
+Save to AGEPRO input file
 
-### Loading a AGEPRO Input File:
-
-```{r example}
-library(ageproR)
-## basic example code
-test <- agepro_inp_model$new()
-
-test$read_inp("inst/test-example4.inp")
-```
-
-### To set (or correct) bootstrap filename 
-
-```{r bootstrap}
-test$set_bootstrap_filename("inst/Example1.BSN")
-```
-
-
-## Save to AGEPRO input file
-
-```{r save-inp, eval=FALSE}
-# Opens file dialog window 
-test$write_inp()
-```
 
 
 
