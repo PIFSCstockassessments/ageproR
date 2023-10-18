@@ -5,7 +5,7 @@
 #'
 #' @keywords internal
 #'
-#' @param filtype filename extension
+#' @param filetype filename extension
 #'
 #' @importFrom checkmate assert_character
 #'
