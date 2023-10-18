@@ -3,3 +3,4 @@
 ^man-roxygen$
 ^LICENSE\.md$
 ^README\.Rmd$
+^vignettes/articles$
