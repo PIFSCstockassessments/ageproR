@@ -31,7 +31,7 @@ case_id <- R6Class(
     #' Prints out Model case id
     #'
     print = function() {
-      cli_keyword_heading(self$keyword_name)
+      div_keyword_header(self$keyword_name)
       cli::cli_text("{symbol$info} model_name: {.val {self$model_name}}")
     },
 
