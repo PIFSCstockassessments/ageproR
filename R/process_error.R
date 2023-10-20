@@ -139,7 +139,7 @@ process_error <- R6Class(
 
     # Function Wrapper to Print out Process Error Info at Initialization
     cli_initialize = function(enable_cat_print = TRUE, ...) {
-      cli_keyword_heading(private$.keyword_name)
+      div_keyword_header(private$.keyword_name)
       cli_alert("Setting up Default Values")
       self$print(enable_cat_print, ...)
     }
