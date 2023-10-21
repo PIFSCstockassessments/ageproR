@@ -58,7 +58,7 @@ general_params <- R6Class(
                           seed = sample.int(1e8, 1)) {
 
 
-      cli_keyword_heading(self$keyword_name)
+      div_keyword_header(self$keyword_name)
       # Discards: Assert numeric format
       if (test_logical(discards_present)) {
         discards_present <- as.numeric(discards_present)
