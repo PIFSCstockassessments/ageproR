@@ -67,7 +67,7 @@ bootstrap <- R6Class(
     #'
     initialize = function() {
 
-      cli_keyword_heading(self$keyword_name)
+      div_keyword_header(self$keyword_name)
       cli_alert("Setting up Default Values")
 
       self$num_bootstraps <- 0

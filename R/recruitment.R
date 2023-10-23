@@ -154,7 +154,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       }
 
       # 'recruit' cli messages at initialization
-      cli_keyword_heading(self$keyword_name)
+      div_keyword_header(self$keyword_name)
       cli_alert("Creating Default Recruitment Model")
       self$print(cat_verbose)
 
