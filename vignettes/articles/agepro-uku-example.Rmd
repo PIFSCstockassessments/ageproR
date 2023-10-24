@@ -73,7 +73,7 @@ TODO
 ```{r setup}
 library(ageproR)
 test <- agepro_inp_model$new()
-```
+``` 
 
 ### Loading a AGEPRO Input File:
 
@@ -83,6 +83,11 @@ test$read_inp(inp_file)
 ```
 
 ### To set (or correct) bootstrap filename
+
+**ageproR** will trigger a warning if the bootstrap filepath does not exist in the system, When loading a AGEPRO input file. Use the agepro model's helper function `set_bootstrap_filename` to set the bootstrap filepath. 
+
+The following demonstrates bootstrap filepath assignment to the **ageproR** example bootstrap file.
+
 
 ```{r bootstrap}
 bsn_file <- file.path( here::here(), "inst/Example1.BSN" )
