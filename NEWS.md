@@ -1,3 +1,32 @@
+# ageproR 0.4.1 2023-10-25
+
+* Code refactoring of `general_params`, `case_id`, and `recruitment`
+  * general_params
+    - format private members to top of class
+    - actively bind `general_param` fields that was previously only public 
+    - Added `keyword_name` and `inp_keyword` active binding
+    - Removed `cli_general_rule` for generalized `cli_header_keyword` instead
+    - Fix handling of `discard_present` logicals: convert to numeric.
+    - Ensure binded fields are numeric during initialization.
+    - `read_inp_lines` use `read_inp_numeric_line`
+  * case_id
+    - Rename `case_id` field to `model_name` to prevent class name-field 
+    ambiguity
+    - cli tweaks
+  * recruitment
+    - Added `keyword_name` and `inp_keyword` active binding
+    - Removed `cli_recruit_rule` for generalized `cli_header_keyword` instead
+    - Actively binded `model_collection_list` and `recruit_model_number_list` 
+    to recruitment R6class
+* Actively binded `recruit`, `bootstrap`, and `case_id` to `agepro_model` 
+R6class
+* Renamed `dialog.R` to `file.R`
+  - moved `assert_numeric_substrings` & `read_inp_numeric_line` from `utils.R` 
+  to `file.R`
+* renamed `cli_keyword_heading` -> `div_keyword_header`
+* minor code documentation fixes
+  
+
 # ageproR 0.4.0 2023-10-04
 
 * Added AGEPRO Keyword parameters for process error for population and 
