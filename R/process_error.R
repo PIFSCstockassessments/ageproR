@@ -89,16 +89,21 @@ process_error <- R6Class(
 
     },
 
-    #Handles potential proj_years "Factor" types, and returns its
-    #"levels", the intended values assigned to this value.
-    handle_factors_proj_years = function(proj_years){
+    # Helper method to setup the proj_years parameters at initialization
+    setup_projection_years_class = function(proj_years) {
 
-      #Check proj_years
+      #Handles potential proj_years "Factor" types, and returns its
+      #"levels", the intended values assigned to this value.
       if(is.factor(proj_years)) {
         proj_years <- levels(proj_years)
       }
 
-      return(proj_years)
+      # Handle num_projection_years that may be a single int
+      # or vector of sequential values
+      projection_years_class <-
+        ageproR::projection_years$new(as.numeric(proj_years))
+
+      return(projection_years_class)
     },
 
     #Change in time_varying will reset parameter and CV table
@@ -163,14 +168,12 @@ process_error <- R6Class(
       #Time Varying
       self$time_varying <- time_varying
 
-      proj_years <- private$handle_factors_proj_years(proj_years)
-
-      # Handle num_projection_years that may be a single int
-      # or vector of sequential values
-      proj_years_class <- ageproR::projection_years$new(as.numeric(proj_years))
+      #Handle proj_years
+      projection_years_class <-
+        private$setup_projection_years_class(proj_years)
 
       #Initialize parameter and CV tables
-      self$setup_parameter_tables(proj_years_class,
+      self$setup_parameter_tables(projection_years_class,
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
