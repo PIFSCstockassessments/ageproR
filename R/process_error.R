@@ -89,23 +89,6 @@ process_error <- R6Class(
 
     },
 
-    # Helper method to setup the proj_years parameters at initialization
-    setup_projection_years_class = function(proj_years) {
-
-      #Handles potential proj_years "Factor" types, and returns its
-      #"levels", the intended values assigned to this value.
-      if(is.factor(proj_years)) {
-        proj_years <- levels(proj_years)
-      }
-
-      # Handle num_projection_years that may be a single int
-      # or vector of sequential values
-      projection_years_class <-
-        ageproR::projection_years$new(as.numeric(proj_years))
-
-      return(projection_years_class)
-    },
-
     #Change in time_varying will reset parameter and CV table
     time_varying_toggle_resets_parameter_table = function(time_flag) {
 
@@ -162,15 +145,19 @@ process_error <- R6Class(
                           time_varying = TRUE,
                           ...){
 
-      #set and validate input_option value
-      self$input_option <- input_option
 
-      #Time Varying
+      # set and validate value
+      self$input_option <- input_option
       self$time_varying <- time_varying
 
-      #Handle proj_years
+      # Handles potential proj_years "Factor" types
+      if(is.factor(proj_years)) {
+        proj_years <- levels(proj_years)
+      }
+
+      # Handle proj_years that may be a single int or sequential numeric vector
       projection_years_class <-
-        private$setup_projection_years_class(proj_years)
+        ageproR::projection_years$new(as.numeric(proj_years))
 
       #Initialize parameter and CV tables
       self$setup_parameter_tables(projection_years_class,
