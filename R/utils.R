@@ -17,3 +17,34 @@ div_keyword_header <- function(keyword, heading_color = "cyan") {
   cli_rule(keyword)
   cli_end(d)
 }
+
+
+#' Print AGEPRO table-like values to the console
+#'
+#' Helper function to print out AGEPRO keyword parameter's table-like matrix or
+#' vector variables to console. Includes an option to show the first few rows
+#' to the console.
+#'
+#' @param tbl AGEPRO Keyword Parameter matrix/vector variable
+#' @param omit_rows Logical flag, if `TRUE`, will print the first six rows,
+#' via [`head()`][utils::head], to R console. In addition, the total number
+#' of rows and rows omitted will be displayed. If `FALSE`, by default,
+#' the matrix or vector prints normally.
+#'
+#' @importFrom utils head
+#'
+print_parameter_table = function (tbl, omit_rows=FALSE) {
+
+  if(omit_rows) {
+
+    omitted_num_rows <- pmax(0, nrow(tbl)-6)
+
+    cli::cat_print(head(tbl)) #first 6 rows
+    cli::cli_text(
+      paste0("{symbol$info} ","Total of {nrow(tbl)} row{?s}; ",
+             "{no(omitted_num_rows)} row{?s} omitted"))
+  }else{
+    cli::cat_print(tbl)
+  }
+
+}
