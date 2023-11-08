@@ -25,9 +25,10 @@ harvest_scenario <- R6Class(
 
     .harvest_specification = NULL,
     .harvest_value = NULL,
+    .harvest_scenario_table = NULL,
 
     #setup variables at initialization
-    .count_projection_years = NULL,
+    .projection_years = NULL,
     .num_fleets = NULL
 
   ),
@@ -36,30 +37,49 @@ harvest_scenario <- R6Class(
     #' @description
     #' Initializes Class
     #'
-    #' @param count_projection_years Count or length of
-    #' [Projection years][ageproR::projection_years]
-    #' @param num_fleets Number of Fleets. Defaults to 1
+    #' @param projection_years [Projection years][ageproR::projection_years]:
+    #' Input can be Sequence of years in from first to last year of
+    #' projection or the number of years in the time projection.
+    #' @param num_fleets Number of Fleets. Default is 1
     #'
-    initialize = function(count_projection_years,
+    #'
+    initialize = function(projection_years,
                           num_fleets = 1) {
 
       #Validate count_projection_years
 
       #Initialize private variables
-      private$.count_projection_years <- count_projection_years
+      private$.projection_years <- projection_years
       private$.num_fleets <- num_fleets
 
       #harvest_specification
+      self$harvest_specification <-
+        matrix(rep(1, (private$.projection_years$count)),
+               nrow = private$.projection_years$count,
+               ncol = 1,
+               dimnames = list(private$.projection_years$sequence,
+                               "harvest_specificaton"))
 
-      if(private$.num_fleets == 1) {
-        #harvest_value ("Harvest Value")
 
-      }else{
-        #harvest_value (Multi-fleet "FLEET-")
-
+      #Harvest Value
+      #Check if Single or Multi Fleet
+      if(isTRUE(identical(private$.num_fleets, 1))){
+        harvest_value_colnames <- "harvest_value"
+      }else {
+        harvest_value_colnames <- paste0("FLEET-", 1:private$.num_fleets)
       }
-      #cbind harvest_specification and harvest_value
 
+      self$harvest_value <-
+        matrix(rep(NA, (private$.projection_years$count)),
+               nrow = private$.projection_years$count,
+               ncol = private$.num_fleets,
+               dimnames = list(private$.projection_years$sequence,
+                               harvest_value_colnames))
+
+
+      #cbind harvest_specification and harvest_value
+      self$harvest_scenario_table <- cbind(self$harvest_specification,
+                                   self$harvest_value)
 
     }
 
@@ -92,9 +112,23 @@ harvest_scenario <- R6Class(
       if(missing(value)){
         private$.harvest_value
       }else{
-        checkmate::assert_matrix(value, min.cols = 1, min.rows = 1,
-                                 .var.name = "harvest_val")
+        checkmate::assert_matrix(value, mode = "numeric",
+                                 min.cols = 1, min.rows = 1,
+                                 .var.name = "harvest_value")
         private$.harvest_value <- value
+      }
+    },
+
+    #' @field harvest_scenario_table
+    #' Combines the Harvest specification and (fleet) harvest amount per
+    #' projection year.
+    harvest_scenario_table = function(value) {
+      if(missing(value)){
+        private$.harvest_scenario_table
+      }else{
+        checkmate::assert_matrix(value, min.cols = 2, min.rows = 1,
+                                 .var.name = "harvest_scenario_table")
+        private$.harvest_scenario_table <- value
       }
     },
 

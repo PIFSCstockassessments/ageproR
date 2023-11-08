@@ -19,6 +19,9 @@ Class Structure containing the Harvest values and Harvest Specifications
 \item{\code{harvest_value}}{Contains the harvest Amount per projection year. Can be fleet specific
 if more than 2 fleets are specified.}
 
+\item{\code{harvest_scenario_table}}{Combines the Harvest specification and (fleet) harvest amount per
+projection year.}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
@@ -38,16 +41,17 @@ if more than 2 fleets are specified.}
 \subsection{Method \code{new()}}{
 Initializes Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$new(count_projection_years, num_fleets = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$new(projection_years, num_fleets = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{count_projection_years}}{Count or length of
-\link[=projection_years]{Projection years}}
+\item{\code{projection_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
 
-\item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
+\item{\code{num_fleets}}{Number of Fleets. Default is 1}
 }
 \if{html}{\out{</div>}}
 }
