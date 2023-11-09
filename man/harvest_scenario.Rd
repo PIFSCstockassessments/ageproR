@@ -32,6 +32,7 @@ projection year.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-harvest_scenario-new}{\code{harvest_scenario$new()}}
+\item \href{#method-harvest_scenario-print}{\code{harvest_scenario$print()}}
 \item \href{#method-harvest_scenario-clone}{\code{harvest_scenario$clone()}}
 }
 }
@@ -52,6 +53,26 @@ Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
 
 \item{\code{num_fleets}}{Number of Fleets. Default is 1}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-harvest_scenario-print"></a>}}
+\if{latex}{\out{\hypertarget{method-harvest_scenario-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out the Harvest Scenario Table
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console. Default is TRUE.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

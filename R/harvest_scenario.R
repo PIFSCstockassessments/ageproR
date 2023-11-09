@@ -5,6 +5,8 @@
 #' @description
 #' Class Structure containing the Harvest values and Harvest Specifications
 #'
+#' @template elipses
+#' @template enable_cat_print
 #'
 #' @param proj_years [Projection years][ageproR::projection_years]:
 #' Input can be Sequence of years in from first to last year of
@@ -27,9 +29,38 @@ harvest_scenario <- R6Class(
     .harvest_value = NULL,
     .harvest_scenario_table = NULL,
 
+    .names_specification = list(
+      "0" = "F-MULT",
+      "1" = "LANDINGS",
+      "2" = "REMOVALS"
+    ),
+
     #setup variables at initialization
     .projection_years = NULL,
-    .num_fleets = NULL
+    .num_fleets = NULL,
+
+    #Checks the harvest specification values matches valid specifications types
+    assert_specification_type  = function(x){
+      checkmate::assert_matrix(x, ncols = 1,
+                               .var.name = "harvest_specification")
+
+      specification_types <- names(private$.names_specification)
+      result_spec_match <- as.numeric(x[,1]) %in% specification_types
+
+      # Throw error message if any numeric is outside the specification type
+      # range: {0, 1, 2}
+      spec_match_error_msg <-
+        paste0("Invalid harvest specfication found: ",
+               cli::ansi_collapse(
+                 x[!(result_spec_match)], trunc = 5, style = "head"),
+               ". Must be within {",
+               paste0(specification_types, collapse = ", "), "}")
+
+
+      if(isFALSE(all(result_spec_match))){
+        stop(spec_match_error_msg)
+      }
+    }
 
   ),
   public = list(
@@ -58,7 +89,7 @@ harvest_scenario <- R6Class(
                nrow = private$.projection_years$count,
                ncol = 1,
                dimnames = list(private$.projection_years$sequence,
-                               "harvest_specificaton"))
+                               "specification"))
 
 
       #Harvest Value
@@ -117,7 +148,8 @@ harvest_scenario <- R6Class(
       }else{
         checkmate::assert_matrix(value, ncols = 1, min.rows = 1,
                                  .var.name = "harvest_specification")
-        #TODO: Validation
+        # Validate harvest specification values
+        private$assert_specification_type(value)
         private$.harvest_specification <- value
       }
     },
