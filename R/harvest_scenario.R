@@ -78,9 +78,26 @@ harvest_scenario <- R6Class(
 
 
       #cbind harvest_specification and harvest_value
-      self$harvest_scenario_table <- cbind(self$harvest_specification,
+      private$.harvest_scenario_table <- cbind(self$harvest_specification,
                                    self$harvest_value)
 
+    },
+
+
+    #' @description
+    #' Formatted to print out the Harvest Scenario Table
+    #'
+    print = function(enable_cat_print = TRUE, ...){
+      cli::cli_alert_info("Harvest Scenario")
+      #Verbose flag check
+      if(enable_cat_print){
+        #Allow `cli::cat_print` message
+        print_parameter_table(self$harvest_scenario_table, ...)
+      }else {
+        #Suppress `cli::cat_print` message
+        capture.output(
+          x <- print_parameter_table(self$harvest_scenario_table, ...))
+      }
     }
 
   ),
@@ -123,13 +140,11 @@ harvest_scenario <- R6Class(
     #' Combines the Harvest specification and (fleet) harvest amount per
     #' projection year.
     harvest_scenario_table = function(value) {
-      if(missing(value)){
+      #TODO: Show Print harvest_specification column as
+      #F-MULT, LANDINGS, REMOVALS
+
         private$.harvest_scenario_table
-      }else{
-        checkmate::assert_matrix(value, min.cols = 2, min.rows = 1,
-                                 .var.name = "harvest_scenario_table")
-        private$.harvest_scenario_table <- value
-      }
+
     },
 
 
