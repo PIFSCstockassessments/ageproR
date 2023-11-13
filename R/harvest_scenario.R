@@ -120,6 +120,8 @@ harvest_scenario <- R6Class(
     #'
     print = function(enable_cat_print = TRUE, ...){
       cli::cli_alert_info("Harvest Scenario")
+      cli::cli_text(paste0("{symbol$bullet} Returning ",
+                           "{.val harvest_scenario_table} ..."))
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
