@@ -48,3 +48,22 @@ print_parameter_table = function (tbl, omit_rows=FALSE) {
   }
 
 }
+
+
+#' @description
+#' Creates a table-like matrix with `NA` values
+#'
+#' @param num_rows the desired number of rows
+#' @param num_cols the desired number of columns
+#' @param dimnames Matrix `dimnames`. See [`Matrix`][base::matrix] argument
+#' for more detail.
+#'
+create_blank_parameter_table = function(num_rows, num_cols,
+                                        dimnames = NULL) {
+
+  return(matrix(rep(NA, (num_rows * num_cols) ) ,
+                nrow = num_rows,
+                ncol = num_cols,
+                dimnames = dimnames))
+
+}
