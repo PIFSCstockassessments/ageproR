@@ -50,8 +50,11 @@ print_parameter_table = function (tbl, omit_rows=FALSE) {
 }
 
 
-#' @description
 #' Creates a table-like matrix with `NA` values
+#'
+#' Wrapper to [`Matrix`][base::matrix] function, that returns the object with
+#' `NA` values. Uses the matrix dimnames argument to set row and column names.
+#' See [`Matrix`][base::matrix] for more information.
 #'
 #' @param num_rows the desired number of rows
 #' @param num_cols the desired number of columns
