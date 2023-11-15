@@ -65,7 +65,28 @@ harvest_scenario <- R6Class(
       if(isFALSE(all(result_spec_match))){
         stop(spec_match_error_msg)
       }
+    },
+
+    # setup_harvest_value_colnames
+    #
+    # Helper function that returns the column names of the Harvest Value
+    # table-like matrix determined by single or multiple fleets
+    setup_harvest_value_colnames = function(num_fleets = 1){
+
+      #Validate
+      checkmate::assert_numeric(num_fleets, low = 1,
+                                .var.name = "num_fleets")
+
+      #Check if Single or Multi Fleet
+      if(isTRUE(identical(private$.num_fleets, 1))){
+        harvest_value_colnames <- "harvest_value"
+      }else {
+        harvest_value_colnames <- paste0("FLEET-", 1:private$.num_fleets)
+      }
+
+      return(harvest_value_colnames)
     }
+
 
   ),
   public = list(
@@ -88,6 +109,8 @@ harvest_scenario <- R6Class(
       private$.projection_years <- projection_years
       private$.num_fleets <- num_fleets
 
+
+
       #harvest_specification
       self$harvest_specification <-
         matrix(rep(1, (private$.projection_years$count)),
@@ -96,14 +119,8 @@ harvest_scenario <- R6Class(
                dimnames = list(private$.projection_years$sequence,
                                "specification"))
 
-
-      #Harvest Value
-      #Check if Single or Multi Fleet
-      if(isTRUE(identical(private$.num_fleets, 1))){
-        harvest_value_colnames <- "harvest_value"
-      }else {
-        harvest_value_colnames <- paste0("FLEET-", 1:private$.num_fleets)
-      }
+      harvest_value_colnames <-
+        private$setup_harvest_value_colnames(private$.num_fleets)
 
       self$harvest_value <-
         matrix(rep(NA, (private$.projection_years$count)),
@@ -146,13 +163,18 @@ harvest_scenario <- R6Class(
     #'
     setup_harvest_scenario_variables = function(proj_years,
                                                 num_fleets = 1){
+
       #Validate parameters
-      checkmate::assert_r6(proj_years, public = c("count","sequence") )
-      checkmate::assert_numeric(proj_years$count, lower = 1)
+      if (checkmate::test_r6(proj_years, public = c("count","sequence") )) {
+        proj_years_class <- proj_years
+      } else {
+        proj_years_class <- ageproR::projection_years$new(proj_years)
+      }
+      checkmate::assert_numeric(proj_years_class$count, lower = 1)
       checkmate::assert_integerish(num_fleets, lower = 1)
 
       #Initialize private values
-      private$.projection_years <- proj_years
+      private$.projection_years <- proj_years_class
       private$.num_fleets <- num_fleets
 
       #initialize tables
@@ -161,10 +183,19 @@ harvest_scenario <- R6Class(
       private$.harvest_scenario_table <- vector("list", 1)
 
       private$.harvest_specifications <-
-        create_blank_parameter_table(1, proj_years$count)
+        create_blank_parameter_table(1, proj_years_class$count,
+                                     dimnames = list(
+                                       private$.projection_years$sequence,
+                                       "specification"))
+
+      harvest_value_colnames <-
+        private$setup_harvest_value_colnames(private$.num_fleets)
 
       private$.harvest_value <-
-        create_blank_parameter_table(num_fleets, proj_years$count)
+        create_blank_parameter_table(num_fleets, proj_years_class$count,
+                                     dimnames = list(
+                                       private$.projection_years$sequence,
+                                       harvest_value_colnames))
 
       private$.harvest_scenario_table <-
         cbind(self$harvest_specification, self$harvest_value)
@@ -182,9 +213,7 @@ harvest_scenario <- R6Class(
                                num_fleets = 1) {
 
       #Create
-      self$harvest_specfication <-
-        vector("list", private$.number_recruit_models)
-
+      self$setup_harvest_scenario_variables(proj_years, num_fleets)
 
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
@@ -199,13 +228,18 @@ harvest_scenario <- R6Class(
 
       cli::cli_text(self$harvest_specification)
 
+
       for(i in 1:num_fleets){
         nline <- nline + 1
         cli::cli_alert("Line {nline}:")
 
         inp_line <- read_inp_numeric_line(inp_con)
 
+
+
       }
+
+
 
     }
 
