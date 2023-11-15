@@ -6,6 +6,8 @@
 #' Class Structure containing the Harvest values and Harvest Specifications
 #'
 #' @template elipses
+#' @template inp_con
+#' @template nline
 #' @template enable_cat_print
 #'
 #' @param proj_years [Projection years][ageproR::projection_years]:
@@ -39,7 +41,10 @@ harvest_scenario <- R6Class(
     .projection_years = NULL,
     .num_fleets = NULL,
 
-    #Checks the harvest specification values matches valid specifications types
+    # assert_specification_type
+    #
+    # Checks the harvest specification values matches valid specification
+    # types
     assert_specification_type  = function(x){
       checkmate::assert_matrix(x, ncols = 1,
                                .var.name = "harvest_specification")
@@ -129,6 +134,79 @@ harvest_scenario <- R6Class(
         capture.output(
           x <- print_parameter_table(self$harvest_scenario_table, ...))
       }
+    },
+
+    #' @description
+    #' Helper function to setup harvest_scenario's variables
+    #' harvest_specification, harvest_value, harvest_scenario_table
+    #'
+    #' @param proj_years [Projection years][ageproR::projection_years] object
+    #'
+    #' @param num_fleets Number of Fleets. Defaults to 1
+    #'
+    setup_harvest_scenario_variables = function(proj_years,
+                                                num_fleets = 1){
+      #Validate parameters
+      checkmate::assert_r6(proj_years, public = c("count","sequence") )
+      checkmate::assert_numeric(proj_years$count, lower = 1)
+      checkmate::assert_integerish(num_fleets, lower = 1)
+
+      #Initialize private values
+      private$.projection_years <- proj_years
+      private$.num_fleets <- num_fleets
+
+      #initialize tables
+      private$.harvest_specifications <- vector("list", 1)
+      private$.harvest_value <- vector("list", 1)
+      private$.harvest_scenario_table <- vector("list", 1)
+
+      private$.harvest_specifications <-
+        create_blank_parameter_table(1, proj_years$count)
+
+      private$.harvest_value <-
+        create_blank_parameter_table(num_fleets, proj_years$count)
+
+      private$.harvest_scenario_table <-
+        cbind(self$harvest_specification, self$harvest_value)
+
+    },
+
+
+    #' @description
+    #' Reads in Harvest Scenario keyword parameter's values from the
+    #' AGEPRO Input file
+    #'
+    read_inp_lines = function (inp_con,
+                               nline,
+                               proj_years,
+                               num_fleets = 1) {
+
+      #Create
+      self$harvest_specfication <-
+        vector("list", private$.number_recruit_models)
+
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      cli::cli_alert("Line {nline}:")
+
+      # Read an additional line from the file connection and delimit into
+      # substring and assign to harvest_specification
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$harvest_specification <- inp_line
+
+      cli::cli_text(self$harvest_specification)
+
+      for(i in 1:num_fleets){
+        nline <- nline + 1
+        cli::cli_alert("Line {nline}:")
+
+        inp_line <- read_inp_numeric_line(inp_con)
+
+      }
+
     }
 
   ),

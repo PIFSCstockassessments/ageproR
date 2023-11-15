@@ -33,6 +33,8 @@ projection year.}
 \itemize{
 \item \href{#method-harvest_scenario-new}{\code{harvest_scenario$new()}}
 \item \href{#method-harvest_scenario-print}{\code{harvest_scenario$print()}}
+\item \href{#method-harvest_scenario-setup_harvest_scenario_variables}{\code{harvest_scenario$setup_harvest_scenario_variables()}}
+\item \href{#method-harvest_scenario-read_inp_lines}{\code{harvest_scenario$read_inp_lines()}}
 \item \href{#method-harvest_scenario-clone}{\code{harvest_scenario$clone()}}
 }
 }
@@ -73,6 +75,54 @@ Formatted to print out the Harvest Scenario Table
 messages to be seen on console. Default is TRUE.}
 
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-harvest_scenario-setup_harvest_scenario_variables"></a>}}
+\if{latex}{\out{\hypertarget{method-harvest_scenario-setup_harvest_scenario_variables}{}}}
+\subsection{Method \code{setup_harvest_scenario_variables()}}{
+Helper function to setup harvest_scenario's variables
+harvest_specification, harvest_value, harvest_scenario_table
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$setup_harvest_scenario_variables(proj_years, num_fleets = 1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{proj_years}}{\link[=projection_years]{Projection years} object}
+
+\item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-harvest_scenario-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-harvest_scenario-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in Harvest Scenario keyword parameter's values from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$read_inp_lines(inp_con, nline, proj_years, num_fleets = 1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+
+\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
+
+\item{\code{num_fleets}}{Number of Fleets. Default is 1}
 }
 \if{html}{\out{</div>}}
 }
