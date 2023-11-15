@@ -156,6 +156,7 @@ process_error <- R6Class(
       }
 
       # Handle proj_years that may be a single int or sequential numeric vector
+      # TODO: Handle instances where proj_years is passed as projection_years class
       projection_years_class <-
         ageproR::projection_years$new(as.numeric(proj_years))
 
@@ -357,6 +358,7 @@ process_error <- R6Class(
       cli::cli_end()
 
 
+      # TODO: Setup instances where proj_years is passed as a projection_year class
       # Setup new instance of Parameter and CV tables. time_varying
       # value read from the AGEPRO input file. Including values for
       # projection_years. num_ages, and num_fleets.
