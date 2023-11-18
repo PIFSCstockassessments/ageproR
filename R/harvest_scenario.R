@@ -234,8 +234,18 @@ harvest_scenario <- R6Class(
         cli::cli_alert("Line {nline}:")
 
         inp_line <- read_inp_numeric_line(inp_con)
+        #Ensure inp_line substrings matches number of projection years
+        checkmate::assert_numeric(inp_line,
+                                  len = private$.projection_years$count,
+                                  .var.name = "inp_line")
 
+        cli::cli_text(c("harvest_value (",
+                        "{i} of {private.$.num_fleets} fleet{?s}): ",
+                        "{.val {inp_line}} ",
+                        paste0("{.emph ({private$.projection_years$count} ",
+                               "Projection Year{?s})}")))
 
+        self$harvest_value[i,] <- inp_line
 
       }
 
