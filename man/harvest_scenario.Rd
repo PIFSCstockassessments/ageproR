@@ -9,7 +9,7 @@ Class Structure containing the Harvest values and Harvest Specifications
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{harvest_specification}}{Contains values the Harvest Specification per projection year
+\item{\code{harvest_specifications}}{Contains values the Harvest Specification per projection year
 \itemize{
 \item{"0"}{F-MULT}
 \item{"1"}{LANDINGS}
@@ -84,7 +84,7 @@ messages to be seen on console. Default is TRUE.}
 \if{latex}{\out{\hypertarget{method-harvest_scenario-setup_harvest_scenario_variables}{}}}
 \subsection{Method \code{setup_harvest_scenario_variables()}}{
 Helper function to setup harvest_scenario's variables
-harvest_specification, harvest_value, harvest_scenario_table
+harvest_specifications, harvest_value, harvest_scenario_table
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$setup_harvest_scenario_variables(proj_years, num_fleets = 1)}\if{html}{\out{</div>}}
 }

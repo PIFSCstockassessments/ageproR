@@ -27,7 +27,7 @@ harvest_scenario <- R6Class(
 
     .keyword_name = "harvest",
 
-    .harvest_specification = NULL,
+    .harvest_specifications = NULL,
     .harvest_value = NULL,
     .harvest_scenario_table = NULL,
 
@@ -47,7 +47,7 @@ harvest_scenario <- R6Class(
     # types
     assert_specification_type  = function(x){
       checkmate::assert_matrix(x, ncols = 1,
-                               .var.name = "harvest_specification")
+                               .var.name = "harvest_specifications")
 
       specification_types <- names(private$.names_specification)
       result_spec_match <- as.numeric(x[,1]) %in% specification_types
@@ -103,36 +103,8 @@ harvest_scenario <- R6Class(
     initialize = function(projection_years,
                           num_fleets = 1) {
 
-      #Validate count_projection_years
 
-      #Initialize private variables
-      private$.projection_years <- projection_years
-      private$.num_fleets <- num_fleets
-
-
-
-      #harvest_specification
-      self$harvest_specification <-
-        matrix(rep(1, (private$.projection_years$count)),
-               nrow = private$.projection_years$count,
-               ncol = 1,
-               dimnames = list(private$.projection_years$sequence,
-                               "specification"))
-
-      harvest_value_colnames <-
-        private$setup_harvest_value_colnames(private$.num_fleets)
-
-      self$harvest_value <-
-        matrix(rep(NA, (private$.projection_years$count)),
-               nrow = private$.projection_years$count,
-               ncol = private$.num_fleets,
-               dimnames = list(private$.projection_years$sequence,
-                               harvest_value_colnames))
-
-
-      #cbind harvest_specification and harvest_value
-      private$.harvest_scenario_table <- cbind(self$harvest_specification,
-                                   self$harvest_value)
+      self$setup_harvest_scenario_variables(projection_years, num_fleets)
 
     },
 
@@ -155,7 +127,7 @@ harvest_scenario <- R6Class(
 
     #' @description
     #' Helper function to setup harvest_scenario's variables
-    #' harvest_specification, harvest_value, harvest_scenario_table
+    #' harvest_specifications, harvest_value, harvest_scenario_table
     #'
     #' @param proj_years [Projection years][ageproR::projection_years] object
     #'
@@ -183,7 +155,8 @@ harvest_scenario <- R6Class(
       private$.harvest_scenario_table <- vector("list", 1)
 
       private$.harvest_specifications <-
-        create_blank_parameter_table(1, proj_years_class$count,
+        create_blank_parameter_table(num_rows = proj_years_class$count,
+                                     num_cols = 1,
                                      dimnames = list(
                                        private$.projection_years$sequence,
                                        "specification"))
@@ -192,13 +165,14 @@ harvest_scenario <- R6Class(
         private$setup_harvest_value_colnames(private$.num_fleets)
 
       private$.harvest_value <-
-        create_blank_parameter_table(num_fleets, proj_years_class$count,
+        create_blank_parameter_table(num_rows = proj_years_class$count,
+                                     num_cols = num_fleets,
                                      dimnames = list(
                                        private$.projection_years$sequence,
                                        harvest_value_colnames))
 
       private$.harvest_scenario_table <-
-        cbind(self$harvest_specification, self$harvest_value)
+        cbind(self$harvest_specifications, self$harvest_value)
 
     },
 
@@ -221,12 +195,12 @@ harvest_scenario <- R6Class(
       cli::cli_alert("Line {nline}:")
 
       # Read an additional line from the file connection and delimit into
-      # substring and assign to harvest_specification
+      # substring and assign to harvest_specifications
       inp_line <- read_inp_numeric_line(inp_con)
 
       self$harvest_specification <- inp_line
 
-      cli::cli_text(self$harvest_specification)
+      cli::cli_text(self$harvest_specifications)
 
 
       for(i in 1:num_fleets){
@@ -250,16 +224,16 @@ harvest_scenario <- R6Class(
       }
 
       private$.harvest_scenario_table <-
-        cbind(self$harvest_specification, self$harvest_value)
+        cbind(self$harvest_specifications, self$harvest_value)
       cli::cli_alert(paste0("Created harvest_scenario_table with ",
-                            "harvest_specification and harvest_value values"))
+                            "harvest_specifications and harvest_value values"))
 
     }
 
   ),
   active = list(
 
-    #' @field harvest_specification
+    #' @field harvest_specifications
     #' Contains values the Harvest Specification per projection year
     #' \itemize{
     #'  \item{"0"}{F-MULT}
@@ -267,15 +241,15 @@ harvest_scenario <- R6Class(
     #'  \item{"2"}{REMOVALS}
     #' }
     #'
-    harvest_specification = function(value){
+    harvest_specifications = function(value){
       if(missing(value)){
-        private$.harvest_specification
+        private$.harvest_specifications
       }else{
         checkmate::assert_matrix(value, ncols = 1, min.rows = 1,
-                                 .var.name = "harvest_specification")
+                                 .var.name = "harvest_specifications")
         # Validate harvest specification values
         private$assert_specification_type(value)
-        private$.harvest_specification <- value
+        private$.harvest_specifications <- value
       }
     },
 
@@ -297,7 +271,7 @@ harvest_scenario <- R6Class(
     #' Combines the Harvest specification and (fleet) harvest amount per
     #' projection year.
     harvest_scenario_table = function(value) {
-      #TODO: Show Print harvest_specification column as
+      #TODO: Show Print harvest_specifications column as
       #F-MULT, LANDINGS, REMOVALS
 
         private$.harvest_scenario_table
