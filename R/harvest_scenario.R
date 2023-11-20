@@ -212,7 +212,7 @@ harvest_scenario <- R6Class(
                                proj_years,
                                num_fleets = 1) {
 
-      #Create
+      #Setup new instances of harvest_scenario values
       self$setup_harvest_scenario_variables(proj_years, num_fleets)
 
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
@@ -249,7 +249,10 @@ harvest_scenario <- R6Class(
 
       }
 
-
+      private$.harvest_scenario_table <-
+        cbind(self$harvest_specification, self$harvest_value)
+      cli::cli_alert(paste0("Created harvest_scenario_table with ",
+                            "harvest_specification and harvest_value values"))
 
     }
 
