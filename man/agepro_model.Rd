@@ -45,6 +45,8 @@ Discard Fraction}
 
 \item{\code{disc_weight}}{Discard weight of age by fleet}
 
+\item{\code{harvest}}{Harvest intensity (of fishing mortality or landings quota) by fleet}
+
 \item{\code{recruit}}{AGEPRO Recruitment Model information}
 }
 \if{html}{\out{</div>}}

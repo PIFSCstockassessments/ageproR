@@ -35,6 +35,7 @@ agepro_model <- R6Class(
     .mean_population_weight_age = NULL,
     .landed_catch_weight_age = NULL,
     .discard_weight_age = NULL,
+    .harvest_scenario = NULL,
 
     .discards_present = NULL,
 
@@ -97,6 +98,16 @@ agepro_model <- R6Class(
 
       private$.discards_present <- self$general$discards_present
 
+      if(self$general$discards_present) {
+        self$discard <- discard_fraction$new(self$general$seq_years,
+                                             self$general$num_ages,
+                                             self$general$num_fleets)
+
+        self$disc_weight <- discard_weight_age$new(self$general$seq_years,
+                                                   self$general$num_ages,
+                                                   self$general$num_fleets)
+      }
+
       self$recruit <- recruitment$new(
         rep(0, self$general$num_rec_models), self$general$seq_years)
 
@@ -129,16 +140,9 @@ agepro_model <- R6Class(
                                 self$general$num_ages,
                                 self$general$num_fleets)
 
-
-      if(self$general$discards_present) {
-        self$discard <- discard_fraction$new(self$general$seq_years,
-                                             self$general$num_ages,
-                                             self$general$num_fleets)
-
-        self$disc_weight <- discard_weight_age$new(self$general$seq_years,
-                                               self$general$num_ages,
-                                               self$general$num_fleets)
-      }
+      self$harvest <-
+        harvest_scenario$new(self$general$seq_years,
+                             self$general$num_fleets)
 
     },
 
@@ -328,6 +332,20 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field harvest
+    #' Harvest intensity (of fishing mortality or landings quota) by fleet
+    harvest = function(value) {
+      if(missing(value)){
+        return(private$.harvest_scenario)
+      }else{
+        checkmate::assert_r6(value,
+                             public = c("harvest_specifications",
+                                        "harvest_value"),
+                             .var.name = "harvest")
+      }
+    },
+
+
     #' @field recruit
     #' AGEPRO Recruitment Model information
     recruit = function(value) {
@@ -494,6 +512,23 @@ agepro_inp_model <- R6Class(
       self$general <- suppressMessages(general_params$new())
       private$.discards_present <- self$general$discards_present
 
+      if(self$general$discards_present){
+        self$discard <-
+          suppressMessages(
+            discard_fraction$new(self$general$seq_years,
+                                 self$general$num_ages,
+                                 self$general$num_fleets,
+                                 enable_cat_print = FALSE))
+
+        self$disc_weight <-
+          suppressMessages(
+            discard_weight$new(self$general$seq_years,
+                               self$general$num_ages,
+                               self$general$num_fleets,
+                               enable_cat_print = FALSE))
+
+      }
+
       self$recruit <-
         suppressMessages(recruitment$new(0, self$general$seq_years,
                                          cat_verbose = FALSE))
@@ -513,23 +548,6 @@ agepro_inp_model <- R6Class(
                                               self$general$num_ages,
                                               self$general$num_fleets,
                                               enable_cat_print = FALSE))
-
-      if(self$general$discards_present){
-        self$discard <-
-          suppressMessages(
-            discard_fraction$new(self$general$seq_years,
-                                 self$general$num_ages,
-                                 self$general$num_fleets,
-                                 enable_cat_print = FALSE))
-
-        self$disc_weight <-
-          suppressMessages(
-            discard_weight$new(self$general$seq_years,
-                               self$general$num_ages,
-                               self$general$num_fleets,
-                               enable_cat_print = FALSE))
-
-      }
 
       self$stock_weight <-
         suppressMessages(
@@ -552,6 +570,12 @@ agepro_inp_model <- R6Class(
                                       self$general$num_ages,
                                       self$general$num_fleets,
                                       enable_cat_print = FALSE))
+
+      self$harvest <-
+          harvest_scenario$new(self$general$seq_years,
+                               self$general$num_fleets,
+                               enable_cat_print = TRUE)
+
 
       cli::cli_text("Done")
     },
