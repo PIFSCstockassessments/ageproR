@@ -44,7 +44,7 @@ projection year.}
 \subsection{Method \code{new()}}{
 Initializes Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$new(projection_years, num_fleets = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$new(projection_years, num_fleets = 1, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -55,6 +55,8 @@ Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
 
 \item{\code{num_fleets}}{Number of Fleets. Default is 1}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

@@ -101,10 +101,15 @@ harvest_scenario <- R6Class(
     #'
     #'
     initialize = function(projection_years,
-                          num_fleets = 1) {
+                          num_fleets = 1, ...) {
 
+
+      # 'recruit' cli messages at initialization
+      div_keyword_header(self$keyword_name)
+      cli_alert("Creating Default Harvest Scenario Values ,,,")
 
       self$setup_harvest_scenario_variables(projection_years, num_fleets)
+      self$print(...)
 
     },
 
