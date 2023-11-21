@@ -574,9 +574,10 @@ agepro_inp_model <- R6Class(
                                       enable_cat_print = FALSE))
 
       self$harvest <-
+        suppressMessages(
           harvest_scenario$new(self$general$seq_years,
                                self$general$num_fleets,
-                               enable_cat_print = TRUE)
+                               enable_cat_print = TRUE))
 
 
       cli::cli_text("Done")
