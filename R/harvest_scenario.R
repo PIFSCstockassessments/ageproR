@@ -159,17 +159,18 @@ harvest_scenario <- R6Class(
       private$.harvest_value <- vector("list", 1)
       private$.harvest_scenario_table <- vector("list", 1)
 
-      private$.harvest_specifications <-
-        create_blank_parameter_table(num_rows = proj_years_class$count,
-                                     num_cols = 1,
-                                     dimnames = list(
-                                       private$.projection_years$sequence,
-                                       "specification"))
+      # Create harvest_specifications w/ default value
+      self$harvest_specifications <-
+        matrix(rep(0, proj_years_class$count),
+               nrow = proj_years_class$count,
+               ncol = 1,
+               dimnames = list(private$.projection_years$sequence,
+                               "specification"))
 
       harvest_value_colnames <-
         private$setup_harvest_value_colnames(private$.num_fleets)
 
-      private$.harvest_value <-
+      self$harvest_value <-
         create_blank_parameter_table(num_rows = proj_years_class$count,
                                      num_cols = num_fleets,
                                      dimnames = list(
