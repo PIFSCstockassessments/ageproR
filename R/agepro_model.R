@@ -342,6 +342,8 @@ agepro_model <- R6Class(
                              public = c("harvest_specifications",
                                         "harvest_value"),
                              .var.name = "harvest")
+
+        private$.harvest_scenario <- value
       }
     },
 
