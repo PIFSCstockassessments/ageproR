@@ -125,8 +125,8 @@ harvest_scenario <- R6Class(
         print_parameter_table(self$harvest_scenario_table, ...)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output(
-          x <- print_parameter_table(self$harvest_scenario_table, ...))
+        capture.output( x <- print_parameter_table(
+          self$harvest_scenario_table, ...))
       }
     },
 
@@ -204,9 +204,12 @@ harvest_scenario <- R6Class(
       # substring and assign to harvest_specifications
       inp_line <- read_inp_numeric_line(inp_con)
 
-      self$harvest_specification <- inp_line
+      self$harvest_specifications[,1] <- inp_line
 
-      cli::cli_text(self$harvest_specifications)
+      cli::cli_text(c("harvest_specifications: ",
+                      "{.val {self$harvest_specifications}} ",
+                      paste0("{.emph ({private$.projection_years$count} ",
+                             "projection years)}")))
 
 
       for(i in 1:num_fleets){
@@ -220,19 +223,20 @@ harvest_scenario <- R6Class(
                                   .var.name = "inp_line")
 
         cli::cli_text(c("harvest_value (",
-                        "{i} of {private.$.num_fleets} fleet{?s}): ",
+                        "{i} of {private$.num_fleets} fleet{?s}): ",
                         "{.val {inp_line}} ",
                         paste0("{.emph ({private$.projection_years$count} ",
                                "Projection Year{?s})}")))
 
-        self$harvest_value[i,] <- inp_line
+        self$harvest_value[,i] <- inp_line
 
       }
 
       private$.harvest_scenario_table <-
         cbind(self$harvest_specifications, self$harvest_value)
-      cli::cli_alert(paste0("Created harvest_scenario_table with ",
-                            "harvest_specifications and harvest_value values"))
+      cli::cli_alert_info(paste0("Created {.strong harvest_scenario_table} ",
+                                 "with {.strong harvest_specifications} ",
+                                 "and {.strong harvest_value} values"))
 
     }
 
