@@ -488,9 +488,18 @@ agepro_inp_model <- R6Class(
       }
       self$nline <- self$disc_weight$read_inp_lines(con,
                                                     nline,
-                                                    self$general$seq_yeaqrs,
+                                                    self$general$seq_years,
                                                     self$general$num_ages,
                                                     self$general$num_fleets)
+
+    },
+
+    read_harvest_scenario = function(con,nline) {
+
+      self$nline <- self$harvest$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_fleets)
 
     }
 
@@ -577,7 +586,7 @@ agepro_inp_model <- R6Class(
         suppressMessages(
           harvest_scenario$new(self$general$seq_years,
                                self$general$num_fleets,
-                               enable_cat_print = TRUE))
+                               enable_cat_print = FALSE))
 
 
       cli::cli_text("Done")
@@ -671,51 +680,55 @@ agepro_inp_model <- R6Class(
     match_keyword = function(inp_line, inp_con) {
 
       #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-      #' ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, DISC_WEIGHT,
+      #' ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
       #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-      #' ~~BOOTSTRAP~~, HARVEST, REBUILD
+      #' ~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
         "[CASEID]" = {
-            rlang::expr(private$read_case_id(inp_con, self$nline))
-          },
+          rlang::expr(private$read_case_id(inp_con, self$nline))
+        },
         "[GENERAL]" = {
             rlang::expr(private$read_general_params(inp_con, self$nline))
-          },
+        },
         "[RECRUIT]" = {
             rlang::expr(private$read_recruit(inp_con, self$nline))
-          },
+        },
         "[BOOTSTRAP]" = {
-            rlang::expr(private$read_bootstrap(inp_con, self$nline))
-          },
+          rlang::expr(private$read_bootstrap(inp_con, self$nline))
+        },
         "[NATMORT]" = {
             rlang::expr(private$read_natural_mortality(inp_con, self$nline))
-         },
+        },
         "[MATURITY]" = {
-            rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
-         },
+          rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
+        },
         "[FISHERY]" = {
-            rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
+          rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
         },
         "[DISCARD]" = {
-            rlang::expr(private$read_discard_fraction(inp_con, self$nline))
+          rlang::expr(private$read_discard_fraction(inp_con, self$nline))
         },
         "[STOCK_WEIGHT]" = {
-            rlang::expr(private$read_jan_stock_weight_age(inp_con, self$nline))
+          rlang::expr(private$read_jan_stock_weight_age(inp_con, self$nline))
         },
         "[SSB_WEIGHT]" = {
-            rlang::expr(private$read_spawning_stock_weight_age(inp_con, self$nline))
+          rlang::expr(private$read_spawning_stock_weight_age(inp_con,
+                                                               self$nline))
         },
         "[MEAN_WEIGHT]" = {
-            rlang::expr(private$read_mean_population_weight_age(inp_con,
-                                                            self$nline))
+          rlang::expr(private$read_mean_population_weight_age(inp_con,
+                                                              self$nline))
         },
         "[CATCH_WEIGHT]" = {
-            rlang::expr(private$read_landed_catch_weight_age(inp_con, self$nline))
+          rlang::expr(private$read_landed_catch_weight_age(inp_con, self$nline))
         },
         "[DISC_WEIGHT]" = {
-            rlang::expr(private$read_discard_weight_age(inp_con, self$nline))
+          rlang::expr(private$read_discard_weight_age(inp_con, self$nline))
+        },
+        "[HARVEST]" = {
+          rlang::expr(private$read_harvest_scenario(inp_con, self$nline))
         }
       ))
 

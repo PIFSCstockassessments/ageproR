@@ -93,9 +93,9 @@ Read Input file Values
 Match Keyword
 
 TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, DISC_WEIGHT,
+~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
 ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-~~BOOTSTRAP~~, HARVEST, REBUILD
+~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$match_keyword(inp_line, inp_con)}\if{html}{\out{</div>}}
 }
