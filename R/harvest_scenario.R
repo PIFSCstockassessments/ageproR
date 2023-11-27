@@ -198,7 +198,7 @@ harvest_scenario <- R6Class(
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
-      cli::cli_alert("Line {nline}:")
+      #cli::cli_alert("Line {nline}:")
 
       # Read an additional line from the file connection and delimit into
       # substring and assign to harvest_specifications
@@ -206,15 +206,16 @@ harvest_scenario <- R6Class(
 
       self$harvest_specifications[,1] <- inp_line
 
-      cli::cli_text(c("harvest_specifications: ",
-                      "{.val {self$harvest_specifications}} ",
-                      paste0("{.emph ({private$.projection_years$count} ",
-                             "projection years)}")))
+      cli::cli_alert(c("Line {nline}: ",
+                       "harvest_specifications: ",
+                       "{.val {self$harvest_specifications}} ",
+                       paste0("{.emph ({private$.projection_years$count} ",
+                              "projection years)}")))
 
 
       for(i in 1:num_fleets){
         nline <- nline + 1
-        cli::cli_alert("Line {nline}:")
+        #cli::cli_alert("Line {nline}:")
 
         inp_line <- read_inp_numeric_line(inp_con)
         #Ensure inp_line substrings matches number of projection years
@@ -222,11 +223,12 @@ harvest_scenario <- R6Class(
                                   len = private$.projection_years$count,
                                   .var.name = "inp_line")
 
-        cli::cli_text(c("harvest_value (",
-                        "{i} of {private$.num_fleets} fleet{?s}): ",
-                        "{.val {inp_line}} ",
-                        paste0("{.emph ({private$.projection_years$count} ",
-                               "Projection Year{?s})}")))
+        cli::cli_alert(c("Line {nline}: ",
+                         "harvest_value (",
+                         "{i} of {private$.num_fleets} fleet{?s}): ",
+                         "{.val {inp_line}} ",
+                         paste0("{.emph ({private$.projection_years$count} ",
+                                "Projection Year{?s})}")))
 
         self$harvest_value[,i] <- inp_line
 
@@ -234,7 +236,7 @@ harvest_scenario <- R6Class(
 
       private$.harvest_scenario_table <-
         cbind(self$harvest_specifications, self$harvest_value)
-      cli::cli_alert_info(paste0("Created {.strong harvest_scenario_table} ",
+      cli::cli_alert(paste0("Created {.strong harvest_scenario_table} ",
                                  "with {.strong harvest_specifications} ",
                                  "and {.strong harvest_value} values"))
 
