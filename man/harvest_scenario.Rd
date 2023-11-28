@@ -35,6 +35,7 @@ projection year.}
 \item \href{#method-harvest_scenario-print}{\code{harvest_scenario$print()}}
 \item \href{#method-harvest_scenario-setup_harvest_scenario_variables}{\code{harvest_scenario$setup_harvest_scenario_variables()}}
 \item \href{#method-harvest_scenario-read_inp_lines}{\code{harvest_scenario$read_inp_lines()}}
+\item \href{#method-harvest_scenario-get_inplines}{\code{harvest_scenario$get_inplines()}}
 \item \href{#method-harvest_scenario-clone}{\code{harvest_scenario$clone()}}
 }
 }
@@ -125,6 +126,24 @@ Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
 
 \item{\code{num_fleets}}{Number of Fleets. Default is 1}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-harvest_scenario-get_inplines"></a>}}
+\if{latex}{\out{\hypertarget{method-harvest_scenario-get_inplines}{}}}
+\subsection{Method \code{get_inplines()}}{
+Returns Harvest Specification and Harvest Values from the Harvest
+Scenario parameter formatted to the AGEPRO input file format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$get_inplines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

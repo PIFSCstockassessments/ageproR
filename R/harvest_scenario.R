@@ -240,6 +240,29 @@ harvest_scenario <- R6Class(
                                  "with {.strong harvest_specifications} ",
                                  "and {.strong harvest_value} values"))
 
+    },
+
+
+    #' @description
+    #' Returns Harvest Specification and Harvest Values from the Harvest
+    #' Scenario parameter formatted to the AGEPRO input file format.
+    #'
+    #' @template delimiter
+    #'
+    get_inplines = function (delimiter = " ") {
+
+      # Check harvest_scenario_table is not NULL
+      checkmate::assert_numeric(self$harvest_specifications,
+                                .var.name = "harvest_specifications")
+      checkmate::assert_numeric(self$harvest_value,
+                                .var.name = "harvest_value")
+
+      return(c(
+        self$inp_keyword,
+        list(as.vector(self$harvest_specifications)),
+        unname(apply(self$harvest_value, 2, as.vector, simplify = FALSE))
+      ))
+
     }
 
   ),
