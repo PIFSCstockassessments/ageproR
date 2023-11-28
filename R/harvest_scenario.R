@@ -251,16 +251,18 @@ harvest_scenario <- R6Class(
     #'
     get_inplines = function (delimiter = " ") {
 
-      # Check harvest_scenario_table is not NULL
-      checkmate::assert_numeric(self$harvest_specifications,
+      # Check harvest_specifications and harvest_value is not NULL
+      checkmate::assert_vector(self$harvest_specifications,
                                 .var.name = "harvest_specifications")
-      checkmate::assert_numeric(self$harvest_value,
+      checkmate::assert_vector(self$harvest_value,
                                 .var.name = "harvest_value")
 
       return(c(
         self$inp_keyword,
-        list(as.vector(self$harvest_specifications)),
-        unname(apply(self$harvest_value, 2, as.vector, simplify = FALSE))
+        unname(apply(self$harvest_specifications,
+                     2, as.character, simplify = FALSE)),
+        unname(apply(self$harvest_value,
+                     2, as.character, simplify = FALSE))
       ))
 
     }
@@ -320,7 +322,7 @@ harvest_scenario <- R6Class(
       #TODO: Validate harvest_specification and harvest_value are matrices
 
       return(list(
-        spec = list(c(self$harvest_specifications)),
+        spec = c(self$harvest_specifications),
         value =
           unname(apply(self$harvest_value, 2, as.vector, simplify = FALSE))
       ))
