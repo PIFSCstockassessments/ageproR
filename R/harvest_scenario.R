@@ -313,6 +313,18 @@ harvest_scenario <- R6Class(
 
     },
 
+    #' @field json_list_object
+    #' Returns JSON list object with Harvest Specification and Harvest Values
+    json_list_object = function() {
+
+      #TODO: Validate harvest_specification and harvest_value are matrices
+
+      return(list(
+        spec = list(c(self$harvest_specifications)),
+        value =
+          unname(apply(self$harvest_value, 2, as.vector, simplify = FALSE))
+      ))
+    },
 
     #' @field keyword_name
     #' AGEPRO keyword parameter name

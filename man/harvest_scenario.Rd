@@ -22,6 +22,8 @@ if more than 2 fleets are specified.}
 \item{\code{harvest_scenario_table}}{Combines the Harvest specification and (fleet) harvest amount per
 projection year.}
 
+\item{\code{json_list_object}}{Returns JSON list object with Harvest Specification and Harvest Values}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
