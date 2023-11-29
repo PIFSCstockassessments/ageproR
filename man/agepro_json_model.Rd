@@ -12,6 +12,7 @@ File Functionality on experimental JSON input file
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-agepro_json_model-new}{\code{agepro_json_model$new()}}
 \item \href{#method-agepro_json_model-get_json}{\code{agepro_json_model$get_json()}}
 \item \href{#method-agepro_json_model-write_json}{\code{agepro_json_model$write_json()}}
 \item \href{#method-agepro_json_model-read_json}{\code{agepro_json_model$read_json()}}
@@ -21,12 +22,29 @@ File Functionality on experimental JSON input file
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="initialize"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-initialize'><code>ageproR::agepro_model$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_bootstrap_filename"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_bootstrap_filename'><code>ageproR::agepro_model$set_bootstrap_filename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproR::agepro_model$set_recruit_model()</code></a></span></li>
 </ul>
 </details>
 }}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_json_model-new"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_json_model-new}{}}}
+\subsection{Method \code{new()}}{
+Initializes the instances of the AGEPRO Model
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_json_model$new(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Parameters to initialize the parent
+\code{\link[=agepro_model]{agepro_model}} class}
+}
+\if{html}{\out{</div>}}
+}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_json_model-get_json"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_json_model-get_json}{}}}

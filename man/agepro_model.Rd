@@ -64,7 +64,7 @@ Discard Fraction}
 \if{html}{\out{<a id="method-agepro_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_model-new}{}}}
 \subsection{Method \code{new()}}{
-Starts an instances of the AGEPRO Model
+Initializes the instance of the AGEPRO Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_model$new(
   yr_start,

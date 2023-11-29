@@ -51,7 +51,7 @@ agepro_model <- R6Class(
   public = list(
 
     #' @description
-    #' Starts an instances of the AGEPRO Model
+    #' Initializes the instance of the AGEPRO Model
     #'
     #' @param yr_start First Year of Projection
     #' @param yr_end Last Year of Projection
@@ -508,7 +508,7 @@ agepro_inp_model <- R6Class(
   public = list(
 
     #' @description
-    #' Initializes the input file
+    #' Initializes the instance of the AGEPRO model with default values
     #'
     initialize = function() {
 
@@ -871,6 +871,17 @@ agepro_json_model <- R6Class(
   "agepro_json_model",
   inherit = agepro_model,
   public = list(
+
+    #' @description
+    #' Initializes the instances of the AGEPRO Model
+    #'
+    #' @param ... Parameters to initialize the parent
+    #' [`agepro_model`][ageproR::agepro_model] class
+    #'
+    initialize = function(...) {
+      super$initialize(...)
+    },
+
 
     #' @description
     #' Return a json formatted object.

@@ -46,7 +46,7 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{<a id="method-agepro_inp_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-new}{}}}
 \subsection{Method \code{new()}}{
-Initializes the input file
+Initializes the instance of the AGEPRO model with default values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$new()}\if{html}{\out{</div>}}
 }
