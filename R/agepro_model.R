@@ -821,7 +821,8 @@ agepro_inp_model <- R6Class(
             if(self$general$discards_present){
               self$discard$inplines_process_error(delimiter)
             },
-            self$recruit$inplines_recruit(delimiter)
+            self$recruit$inplines_recruit(delimiter),
+            self$harvest$get_inplines(delimiter)
           )
 
         }
@@ -908,7 +909,8 @@ agepro_json_model <- R6Class(
                ifelse(!is.null(self$disc_weight),
                       self$disc_weight$json_list_process_error,
                       NA),
-             "recruit" = self$recruit$json_list_recruit
+             "recruit" = self$recruit$json_list_recruit,
+             "harvest" = self$harvest$json_list_object
              )
 
 
