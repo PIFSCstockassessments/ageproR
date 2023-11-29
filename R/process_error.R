@@ -780,15 +780,15 @@ discard_fraction <- R6Class(
                           time_varying = TRUE,
                           enable_cat_print = TRUE) {
 
-      super$initalize(proj_years,
+      super$initialize(proj_years,
                       num_ages,
                       num_fleets,
                       input_option,
-                      time_varying)
+                      time_varying,
+                      enable_cat_print)
 
       self$parameter_title <- "Discards Fraction of Numbers at Age"
       private$.keyword_name <- "discard"
-      private$.discards_parameter <- TRUE
 
       private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 

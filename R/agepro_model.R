@@ -98,7 +98,8 @@ agepro_model <- R6Class(
 
       private$.discards_present <- self$general$discards_present
 
-      if(self$general$discards_present) {
+      if(as.logical(self$general$discards_present)) {
+
         self$discard <- discard_fraction$new(self$general$seq_years,
                                              self$general$num_ages,
                                              self$general$num_fleets)
@@ -439,7 +440,7 @@ agepro_inp_model <- R6Class(
 
     read_discard_fraction = function(con, nline) {
 
-      if(!self$general$discards_present){
+      if(!(as.logical(self$general$discards_present))){
         stop(paste0("Reading Discard Fraction data but ",
                     "'Discards are present' option is FALSE"))
       }
@@ -482,7 +483,7 @@ agepro_inp_model <- R6Class(
 
     read_discard_weight_age = function(con, nline) {
 
-      if(!self$general$discards_present){
+      if(!as.logical(self$general$discards_present)){
         stop(paste0("Reading Discard Fraction data but ",
                     "'Discards are present' option is FALSE"))
       }
@@ -523,7 +524,7 @@ agepro_inp_model <- R6Class(
       self$general <- suppressMessages(general_params$new())
       private$.discards_present <- self$general$discards_present
 
-      if(self$general$discards_present){
+      if(as.logical(self$general$discards_present)){
         self$discard <-
           suppressMessages(
             discard_fraction$new(self$general$seq_years,
@@ -812,13 +813,13 @@ agepro_inp_model <- R6Class(
             self$ssb_weight$inplines_process_error(delimiter),
             self$mean_weight$inplines_process_error(delimiter),
             self$catch_weight$inplines_process_error(delimiter),
-            if(self$general$discards_present){
+            if(as.logical(self$general$discards_present)){
               self$disc_weight$inplines_process_error(delimiter)
             },
             self$natmort$inplines_process_error(delimiter),
             self$maturity$inplines_process_error(delimiter),
             self$fishery$inplines_process_error(delimiter),
-            if(self$general$discards_present){
+            if(as.logical(self$general$discards_present)){
               self$discard$inplines_process_error(delimiter)
             },
             self$recruit$inplines_recruit(delimiter),
