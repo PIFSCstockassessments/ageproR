@@ -273,7 +273,11 @@ agepro_model <- R6Class(
       if(missing(value)) {
         return(private$.discard_fraction)
       }else {
-        checkmate::assert_r6(value, classes = "process_error")
+        checkmate::assert_r6(value,
+                             classes = c("process_error",
+                                         "discard_fraction"),
+                             null.ok = TRUE,
+                             .var.name = "discard")
         private$.discard_fraction <- value
       }
     },
@@ -328,7 +332,11 @@ agepro_model <- R6Class(
       if(missing(value)) {
         return(private$.discard_weight_age)
       } else {
-        checkmate::assert_r6(value, classes = "process_error")
+        checkmate::assert_r6(value,
+                             classes = c("process_error",
+                                         "discard_weight_age"),
+                             null.ok = TRUE,
+                             .var.name = "disc_weight")
         private$.discard_weight_age <- value
       }
     },
