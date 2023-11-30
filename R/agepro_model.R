@@ -990,6 +990,7 @@ agepro_json_model <- R6Class(
                                       "discard",
                                       "stock_weight",
                                       "ssb_weight",
+                                      "mean_weight",
                                       "catch_weight",
                                       "disc_weight",
                                       "recruit",
@@ -1006,11 +1007,13 @@ agepro_json_model <- R6Class(
 
       self$case_id <- inp_model$case_id
       self$general <- inp_model$general
-      self$bootstrap <- inp_model$natmort
+      self$bootstrap <- inp_model$bootstrap
+      self$natmort <- inp_model$natmort
       self$maturity <- inp_model$maturity
       self$fishery <- inp_model$fishery
       self$stock_weight <- inp_model$stock_weight
       self$ssb_weight <- inp_model$ssb_weight
+      self$mean_weight <- inp_model$mean_weight
       self$catch_weight <- inp_model$catch_weight
       self$recruit <- inp_model$recruit
       self$harvest <- inp_model$harvest
