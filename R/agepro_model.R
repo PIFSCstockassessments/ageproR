@@ -37,15 +37,7 @@ agepro_model <- R6Class(
     .discard_weight_age = NULL,
     .harvest_scenario = NULL,
 
-    .discards_present = NULL,
-
-    cli_recruit_rule = function() {
-      d <- cli_div(theme = list(rule = list(
-        color = "cyan",
-        "line-type" = "double")))
-      cli_rule("Recruitment")
-      cli_end(d)
-    }
+    .discards_present = NULL
 
   ),
   public = list(
@@ -151,7 +143,7 @@ agepro_model <- R6Class(
     #' Set model's Recruitment model
     set_recruit_model = function(model_num) {
 
-      private$cli_recruit_rule()
+      div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
       cli_alert("Using Model Number {.field {model_num}}")
 
@@ -629,10 +621,7 @@ agepro_inp_model <- R6Class(
 
           #Cleanup and close file connections
           cli::cli_alert_info("Input File Read")
-        #},
-        #warning = function(cond) {
-          #warning(cond)
-          #invisible()
+
         },
         error = function(cond) {
           message("There was an error reading this file.")
