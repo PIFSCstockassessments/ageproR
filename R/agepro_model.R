@@ -969,7 +969,55 @@ agepro_json_model <- R6Class(
     read_json = function(file) {
       warning("AGEPRO JSON input is in development, and format may change.")
       return(jsonlite::read_json(file, simplifyVector = TRUE))
+    },
+
+    #' @description
+    #' Imports AGEPRO model data formatted for AGEPRO input files
+    #' (`agepro_inp_model`).
+    #'
+    #' @param inp_model AGEPRO model with AGEPRO Input File (*.INP) functions
+    import_agepro_inp_model = function(inp_model){
+
+      #Validate agepro_inp_model
+      checkmate::assert_r6(inp_model,
+                           classes = c("agepro_inp_model","agepro_model"),
+                           public = c("case_id",
+                                      "general",
+                                      "bootstrap",
+                                      "natmort",
+                                      "maturity",
+                                      "fishery",
+                                      "discard",
+                                      "stock_weight",
+                                      "ssb_weight",
+                                      "catch_weight",
+                                      "disc_weight",
+                                      "recruit",
+                                      "harvest"))
+
+
+      if(as.logical(inp_model$general$discards_present)){
+        self$discard <- inp_mode$discard
+        self$disc_weight <- inp_model$disc_weight
+      }else {
+        self$discard <- NULL
+        self$disc_weight <- NULL
+      }
+
+      self$case_id <- inp_model$case_id
+      self$general <- inp_model$general
+      self$bootstrap <- inp_model$natmort
+      self$maturity <- inp_model$maturity
+      self$fishery <- inp_model$fishery
+      self$stock_weight <- inp_model$stock_weight
+      self$ssb_weight <- inp_model$ssb_weight
+      self$catch_weight <- inp_model$catch_weight
+      self$recruit <- inp_model$recruit
+      self$harvest <- inp_model$harvest
+
     }
+
+
 
   )
 )
