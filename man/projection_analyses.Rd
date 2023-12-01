@@ -31,7 +31,7 @@ Rebuilding, and PStar projection analyses based AGEPRO Keyword parameters.
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{projection_analyses$new(proj_years, num_fleets = 1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{projection_analyses$new(proj_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -40,8 +40,6 @@ Initializes class
 \item{\code{proj_years}}{\link[=projection_years]{Projection years}:
 Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
-
-\item{\code{num_fleets}}{Number of Fleets. Default is 1}
 }
 \if{html}{\out{</div>}}
 }

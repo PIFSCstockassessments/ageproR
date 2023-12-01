@@ -27,8 +27,6 @@ projection_analyses <- R6Class(
 
     #setup variables at initialization
     .projection_years = NULL,
-    .num_fleets = NULL,
-    .num_ages = NULL,
 
     setup_projection_years_class = function(proj_years) {
 
@@ -56,13 +54,8 @@ projection_analyses <- R6Class(
     #' @param proj_years [Projection years][ageproR::projection_years]:
     #' Input can be Sequence of years in from first to last year of
     #' projection or the number of years in the time projection.
-    #' @param num_fleets Number of Fleets. Default is 1
     #'
-    initialize = function(proj_years,
-                          num_fleets = 1) {
-
-      #Setup/Validate
-      checkmate::assert_numeric(num_fleets, lower = 0)
+    initialize = function(proj_years) {
 
       #Private Helper method to handle proj_years parameter value
       projection_years_class <-
@@ -106,8 +99,8 @@ projection_analyses <- R6Class(
 #'
 #' @importFrom R6 R6Class
 #'
-standard_projection_analyses <- R6Class(
-  "standard_projection_analyses",
+standard_projection <- R6Class(
+  "standard_projection",
   inherit = projection_analyses,
   private = list(
 
@@ -122,12 +115,10 @@ standard_projection_analyses <- R6Class(
     #' @param proj_years [Projection years][ageproR::projection_years]:
     #' Input can be Sequence of years in from first to last year of
     #' projection or the number of years in the time projection.
-    #' @param num_fleets Number of Fleets. Default is 1
     #'
-    initialize = function(proj_years,
-                          num_fleets = 1) {
+    initialize = function(proj_years) {
 
-      super$initalize(proj_years, num_fleets)
+      super$initalize(proj_years)
     }
   )
 
