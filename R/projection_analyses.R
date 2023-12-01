@@ -123,3 +123,27 @@ standard_projection <- R6Class(
   )
 
 )
+
+pstar_projection <- R6Class(
+  "pstar_projection",
+  inherit = projection_analyses,
+  private = list(
+
+    .projection_analyses = "pstar"
+
+  ),
+  public = list(
+
+    #' @description
+    #' Initializes class
+    #'
+    #' @param proj_years [Projection years][ageproR::projection_years]:
+    #' Input can be Sequence of years in from first to last year of
+    #' projection or the number of years in the time projection.
+    #'
+    initialize = function(proj_years) {
+
+      super$initalize(proj_years)
+    }
+  )
+)
