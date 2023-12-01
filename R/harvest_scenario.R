@@ -260,9 +260,9 @@ harvest_scenario <- R6Class(
       return(c(
         self$inp_keyword,
         unname(apply(self$harvest_specifications,
-                     2, as.character, simplify = FALSE)),
+                     2, paste, collapse = delimiter, simplify = FALSE)),
         unname(apply(self$harvest_value,
-                     2, as.character, simplify = FALSE))
+                     2, paste, collapse = delimiter, simplify = FALSE))
       ))
 
     }
