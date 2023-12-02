@@ -129,7 +129,11 @@ pstar_projection <- R6Class(
   inherit = projection_analyses,
   private = list(
 
-    .projection_analyses = "pstar"
+    .projection_analyses = "pstar",
+
+    .num_star_values = NULL,
+    .pstar_values = NULL,
+    .f_overfishing = NULL
 
   ),
   public = list(
@@ -145,5 +149,57 @@ pstar_projection <- R6Class(
 
       super$initalize(proj_years)
     }
+  ),
+  active = list(
+
+    #' @field num_pstar_values
+    #' Number of pstar values to be evaluated
+    #'
+    num_pstar_values = function(value) {
+      if(missing(value)){
+        private$.num_pstar_values
+      }else{
+        checkmate::assert_numeric(value, len = 1, lower = 1,
+                                  .var.name = "num_pstar_values")
+
+        private$.num_pstar_values <- value
+
+      }
+    },
+
+    #' @field pstar_levels
+    #' The vector of probabilities of overfishing or PStar values to be used
+    #'
+    pstar_levels = function(value) {
+      if(missing(value)){
+        private$.pstar_levels
+      }else{
+        checkmate::assert_numeric(value, lower = 0,
+                                  .var.name = "pstar_levels")
+
+        private$.pstar_levels <- value
+      }
+    },
+
+
+    #' @field f_overfishing
+    #' Fishing mortality rate that defines the overfishing level
+    f_overfishing = function(value) {
+      if(missing(value)){
+        private$.f_overfishing
+      }else{
+        checkmate::assert_numeric(value, len = 1, lower = 0,
+                                  .var.name = "f_overfishing")
+
+        private$.f_overfishing <- value
+      }
+    }
   )
+
+
+
+
+
+
+
 )
