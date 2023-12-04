@@ -58,8 +58,10 @@ projection_analyses <- R6Class(
     initialize = function(proj_years) {
 
       #Private Helper method to handle proj_years parameter value
-      projection_years_class <-
+      private$.projection_years <-
         private$setup_projection_years_class(proj_years)
+
+      self$target_year <- 0
 
     }
 
