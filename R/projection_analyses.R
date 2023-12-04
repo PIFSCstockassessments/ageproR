@@ -16,6 +16,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @keywords projection_analyses
+#'
 projection_analyses <- R6Class(
   "projection_analyses",
   private = list(
@@ -101,6 +103,8 @@ projection_analyses <- R6Class(
 #'
 #' @importFrom R6 R6Class
 #'
+#' @keywords projection_analyses
+#'
 standard_projection <- R6Class(
   "standard_projection",
   inherit = projection_analyses,
@@ -136,6 +140,8 @@ standard_projection <- R6Class(
 #' projection year
 #'
 #' @importFrom R6 R6Class
+#'
+#' @keywords projection_analyses
 #'
 pstar_projection <- R6Class(
   "pstar_projection",

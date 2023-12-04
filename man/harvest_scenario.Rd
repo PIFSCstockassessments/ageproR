@@ -6,6 +6,7 @@
 \description{
 Class Structure containing the Harvest values and Harvest Specifications
 }
+\keyword{projection_analyses}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

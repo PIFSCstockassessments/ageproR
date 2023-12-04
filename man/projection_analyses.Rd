@@ -7,6 +7,7 @@
 Generalized or common data structure for Standard (Harvest Table only),
 Rebuilding, and PStar projection analyses based AGEPRO Keyword parameters.
 }
+\keyword{projection_analyses}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

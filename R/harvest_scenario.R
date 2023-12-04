@@ -19,6 +19,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @keywords projection_analyses
+#'
 #' @export
 #'
 harvest_scenario <- R6Class(

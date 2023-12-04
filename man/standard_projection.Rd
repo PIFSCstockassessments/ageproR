@@ -6,6 +6,7 @@
 \description{
 Class Structure containing Standard Projection Analyses
 }
+\keyword{projection_analyses}
 \section{Super class}{
 \code{\link[ageproR:projection_analyses]{ageproR::projection_analyses}} -> \code{standard_projection}
 }
