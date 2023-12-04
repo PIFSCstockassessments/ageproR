@@ -200,7 +200,6 @@ harvest_scenario <- R6Class(
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
-      #cli::cli_alert("Line {nline}:")
 
       # Read an additional line from the file connection and delimit into
       # substring and assign to harvest_specifications
@@ -217,7 +216,6 @@ harvest_scenario <- R6Class(
 
       for(i in 1:num_fleets){
         nline <- nline + 1
-        #cli::cli_alert("Line {nline}:")
 
         inp_line <- read_inp_numeric_line(inp_con)
         #Ensure inp_line substrings matches number of projection years
@@ -320,8 +318,6 @@ harvest_scenario <- R6Class(
     #' @field json_list_object
     #' Returns JSON list object with Harvest Specification and Harvest Values
     json_list_object = function() {
-
-      #TODO: Validate harvest_specification and harvest_value are matrices
 
       return(list(
         spec = c(self$harvest_specifications),
