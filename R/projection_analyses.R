@@ -126,6 +126,17 @@ standard_projection <- R6Class(
 
 )
 
+#' @title
+#' Projection analyses that shows the probability of exceeding overfishing
+#' threshold of the target year
+#'
+#' @description
+#' Input information for calculating Total Allowable Catch (\eqn{TAC_pstar})
+#' to produce \eqn{P*}, which is the probability of overfishing in the target
+#' projection year
+#'
+#' @importFrom R6 R6Class
+#'
 pstar_projection <- R6Class(
   "pstar_projection",
   inherit = projection_analyses,
@@ -135,7 +146,7 @@ pstar_projection <- R6Class(
 
     .num_star_values = NULL,
     .pstar_values = NULL,
-    .f_overfishing = NULL
+    .pstar_overfishing_f = NULL
 
   ),
   public = list(
@@ -150,6 +161,11 @@ pstar_projection <- R6Class(
     initialize = function(proj_years) {
 
       super$initalize(proj_years)
+
+      self$num_pstar_values <- 1
+      self$pstar_overfishing_f <- 0.0
+
+
     }
   ),
   active = list(
@@ -184,16 +200,16 @@ pstar_projection <- R6Class(
     },
 
 
-    #' @field f_overfishing
+    #' @field pstar_overfishing_f
     #' Fishing mortality rate that defines the overfishing level
-    f_overfishing = function(value) {
+    pstar_overfishing_f = function(value) {
       if(missing(value)){
-        private$.f_overfishing
+        private$.pstar_overfishing_f
       }else{
         checkmate::assert_numeric(value, len = 1, lower = 0,
-                                  .var.name = "f_overfishing")
+                                  .var.name = "pstar_overfishing_f")
 
-        private$.f_overfishing <- value
+        private$.pstar_overfishing_f <- value
       }
     }
   )
