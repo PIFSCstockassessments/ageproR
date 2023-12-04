@@ -72,7 +72,8 @@ projection_years <- R6Class(
         checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
                                   .var.name = "projection_years sequence")
         if(all(diff(value) != 1)){
-          stop("Invalid projection_years Sequence", call. = FALSE)
+          stop(paste0("Invalid projection_years Sequence: ",
+                      "Sequence does not increment by 1"), call. = FALSE)
         }
         private$.sequence <- value
       }
