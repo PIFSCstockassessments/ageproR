@@ -160,7 +160,7 @@ pstar_projection <- R6Class(
     #' Input can be Sequence of years in from first to last year of
     #' projection or the number of years in the time projection.
     #' @param num_pstar_levels Number of Pstar levels. Default is `1`
-    #' @param pstar_f Overfishing mortality rate f. Default is `0.0`
+    #' @param pstar_f Fishing mortality rate \eqn{f}. Default is `0.0`
     #'
     initialize = function(proj_years,
                           num_pstar_levels = 1,

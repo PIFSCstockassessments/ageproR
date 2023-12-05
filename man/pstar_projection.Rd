@@ -49,7 +49,7 @@ projection or the number of years in the time projection.}
 
 \item{\code{num_pstar_levels}}{Number of Pstar levels. Default is \code{1}}
 
-\item{\code{pstar_f}}{Overfishing mortality rate f. Default is \code{0.0}}
+\item{\code{pstar_f}}{Fishing mortality rate \eqn{f}. Default is \code{0.0}}
 }
 \if{html}{\out{</div>}}
 }
