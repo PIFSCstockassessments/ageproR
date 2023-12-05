@@ -149,7 +149,7 @@ pstar_projection <- R6Class(
 
     .projection_analyses = "pstar",
 
-    .num_pstar_values = NULL,
+    .num_pstar_levels = NULL,
     .pstar_levels_table = NULL,
     .pstar_overfishing_f = NULL
 
@@ -162,20 +162,24 @@ pstar_projection <- R6Class(
     #' @param proj_years [Projection years][ageproR::projection_years]:
     #' Input can be Sequence of years in from first to last year of
     #' projection or the number of years in the time projection.
+    #' @param num_pstar_levels Number of Pstar levels. Default is `1`
+    #' @param pstar_f Overfishing mortality rate f. Default is `0.0`
     #'
-    initialize = function(proj_years) {
+    initialize = function(proj_years,
+                          num_pstar_levels = 1,
+                          pstar_f = 0.0) {
 
       super$initialize(proj_years)
 
-      self$num_pstar_values <- 1
-      self$pstar_overfishing_f <- 0.0
+      self$num_pstar_levels <- num_pstar_levels
+      self$pstar_overfishing_f <- pstar_f
 
       dimnames_pstar_levels_table <-
-        list(NULL, paste("Level", 1:self$num_pstar_values))
+        list(NULL, paste("Level", 1:self$num_pstar_levels))
 
       self$pstar_levels_table <-
         create_blank_parameter_table(num_rows = 1,
-                                     num_cols = self$num_pstar_values,
+                                     num_cols = self$num_pstar_levels,
                                      dimnames = dimnames_pstar_levels_table)
 
     }
@@ -183,17 +187,17 @@ pstar_projection <- R6Class(
   ),
   active = list(
 
-    #' @field num_pstar_values
+    #' @field num_pstar_levels
     #' Number of pstar values to be evaluated
     #'
-    num_pstar_values = function(value) {
+    num_pstar_levels = function(value) {
       if(missing(value)){
-        private$.num_pstar_values
+        private$.num_pstar_levels
       }else{
         checkmate::assert_numeric(value, len = 1, lower = 1,
-                                  .var.name = "num_pstar_values")
+                                  .var.name = "num_pstar_levels")
 
-        private$.num_pstar_values <- value
+        private$.num_pstar_levels <- value
 
       }
     },

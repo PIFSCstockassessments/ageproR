@@ -16,7 +16,7 @@ projection year
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{num_pstar_values}}{Number of pstar values to be evaluated}
+\item{\code{num_pstar_levels}}{Number of pstar values to be evaluated}
 
 \item{\code{pstar_levels_table}}{The vector of probabilities of overfishing or PStar values to be used}
 
@@ -37,7 +37,7 @@ projection year
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$new(proj_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$new(proj_years, num_pstar_levels = 1, pstar_f = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -46,6 +46,10 @@ Initializes class
 \item{\code{proj_years}}{\link[=projection_years]{Projection years}:
 Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
+
+\item{\code{num_pstar_levels}}{Number of Pstar levels. Default is \code{1}}
+
+\item{\code{pstar_f}}{Overfishing mortality rate f. Default is \code{0.0}}
 }
 \if{html}{\out{</div>}}
 }
