@@ -28,6 +28,7 @@ projection year
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-pstar_projection-new}{\code{pstar_projection$new()}}
+\item \href{#method-pstar_projection-create_blank_pstar_levels_table}{\code{pstar_projection$create_blank_pstar_levels_table()}}
 \item \href{#method-pstar_projection-clone}{\code{pstar_projection$clone()}}
 }
 }
@@ -46,6 +47,24 @@ Initializes class
 \item{\code{proj_years}}{\link[=projection_years]{Projection years}:
 Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-pstar_projection-create_blank_pstar_levels_table"></a>}}
+\if{latex}{\out{\hypertarget{method-pstar_projection-create_blank_pstar_levels_table}{}}}
+\subsection{Method \code{create_blank_pstar_levels_table()}}{
+Creates a blank table-like matrix of probabilities of overfishing,
+or PStar values, to be used.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$create_blank_pstar_levels_table(num_pstar_values = 1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{num_pstar_values}}{Number of pstar values}
 }
 \if{html}{\out{</div>}}
 }
