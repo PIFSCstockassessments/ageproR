@@ -124,7 +124,7 @@ standard_projection <- R6Class(
     #'
     initialize = function(proj_years) {
 
-      super$initalize(proj_years)
+      super$initialize(proj_years)
     }
   )
 
@@ -168,7 +168,7 @@ pstar_projection <- R6Class(
     #'
     initialize = function(proj_years) {
 
-      super$initalize(proj_years)
+      super$initialize(proj_years)
 
       self$num_pstar_values <- 1
       self$pstar_overfishing_f <- 0.0
