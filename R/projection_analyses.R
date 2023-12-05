@@ -32,11 +32,8 @@ projection_analyses <- R6Class(
 
     setup_projection_years_class = function(proj_years) {
 
-      #Handles potential proj_years "Factor" types, and returns its
-      #"levels", the intended values assigned to this value.
-      if(is.factor(proj_years)) {
-        proj_years <- levels(proj_years)
-      }
+      # Handle numeric vector or an instance of ageproR::projection_years
+      proj_years <- check_proj_years_parameter(proj_years)
 
       # Handle num_projection_years that may be a single int
       # or vector of sequential values
