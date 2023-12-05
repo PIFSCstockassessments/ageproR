@@ -29,7 +29,7 @@ projection_years <- R6Class(
       # Handle potential "Factor" types, and return its levels: the intended
       # values assigned to this field.
       if(is.factor(x)) {
-        x <- levels(x)
+        x <- as.numeric(levels(x))[x]
       }
 
       #Handle as single int or a vector of sequential values
