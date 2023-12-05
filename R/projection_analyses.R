@@ -129,7 +129,7 @@ standard_projection <- R6Class(
 #' threshold of the target year
 #'
 #' @description
-#' Input information for calculating Total Allowable Catch (\eqn{TAC_pstar})
+#' Input information for calculating Total Allowable Catch (\eqn{TAC_{pstar}})
 #' to produce \eqn{P*}, which is the probability of overfishing in the target
 #' projection year
 #'
