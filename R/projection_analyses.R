@@ -152,8 +152,8 @@ pstar_projection <- R6Class(
 
     .projection_analyses = "pstar",
 
-    .num_star_values = NULL,
-    .pstar_values = NULL,
+    .num_pstar_values = NULL,
+    .pstar_levels_table = NULL,
     .pstar_overfishing_f = NULL
 
   ),
@@ -172,24 +172,15 @@ pstar_projection <- R6Class(
 
       self$num_pstar_values <- 1
       self$pstar_overfishing_f <- 0.0
-      self$pstar_levels <-
-        self$create_blank_pstar_levels_table(self$num_pstar_values)
 
+      dimnames_pstar_levels_table <-
+        list(NULL, paste("Level", 1:self$num_pstar_values))
 
-    },
+      self$pstar_levels_table <-
+        create_blank_parameter_table(num_rows = 1,
+                                     num_cols = self$num_pstar_values,
+                                     dimnames = dimnames_pstar_levels_table)
 
-    #' @description
-    #' Creates a blank table-like matrix of probabilities of overfishing,
-    #' or PStar values, to be used.
-    #'
-    #' @param num_pstar_values Number of pstar values
-    #'
-    create_blank_pstar_levels_table = function (num_pstar_values = 1){
-      matrix(rep(NA, num_pstar_values),
-             nrow = 1,
-             ncol = num_pstar_values,
-             dimnames = list(NULL,
-                             paste("Level",1:num_pstar_values)))
     }
 
   ),
@@ -210,17 +201,18 @@ pstar_projection <- R6Class(
       }
     },
 
-    #' @field pstar_levels
+    #' @field pstar_levels_table
     #' The vector of probabilities of overfishing or PStar values to be used
     #'
-    pstar_levels = function(value) {
+    pstar_levels_table = function(value) {
       if(missing(value)){
-        private$.pstar_levels
+        private$.pstar_levels_table
       }else{
-        checkmate::assert_numeric(value, lower = 0,
-                                  .var.name = "pstar_levels")
+        checkmate::assert_matrix(value, mode = "numeric",
+                                 nrows = 1, min.cols = 1,
+                                  .var.name = "pstar_levels_table")
 
-        private$.pstar_levels <- value
+        private$.pstar_levels_table <- value
       }
     },
 
