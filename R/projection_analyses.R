@@ -32,12 +32,9 @@ projection_analyses <- R6Class(
 
     setup_projection_years_class = function(proj_years) {
 
-      # Handle numeric vector or an instance of ageproR::projection_years
-      proj_years <- check_proj_years_parameter(proj_years)
-
-      # Handle num_projection_years that may be a single int
-      # or vector of sequential values
-      projection_years_class <- ageproR::projection_years$new(as.numeric(proj_years))
+      # Handle `proj_years` that may be a single int or vector of sequential
+      # values or an instance of ageproR::projection_years
+      projection_years_class <- check_proj_years_parameter(proj_years)
 
       return(projection_years_class)
     }
