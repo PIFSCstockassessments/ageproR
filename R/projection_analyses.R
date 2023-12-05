@@ -143,6 +143,8 @@ standard_projection <- R6Class(
 #'
 #' @keywords projection_analyses
 #'
+#' @export
+#'
 pstar_projection <- R6Class(
   "pstar_projection",
   inherit = projection_analyses,
