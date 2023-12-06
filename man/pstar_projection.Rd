@@ -28,6 +28,7 @@ projection year
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-pstar_projection-new}{\code{pstar_projection$new()}}
+\item \href{#method-pstar_projection-read_inplines}{\code{pstar_projection$read_inplines()}}
 \item \href{#method-pstar_projection-clone}{\code{pstar_projection$clone()}}
 }
 }
@@ -50,6 +51,32 @@ projection or the number of years in the time projection.}
 \item{\code{num_pstar_levels}}{Number of Pstar levels. Default is \code{1}}
 
 \item{\code{pstar_f}}{Fishing mortality rate \eqn{f}. Default is \code{0.0}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-pstar_projection-read_inplines"></a>}}
+\if{latex}{\out{\hypertarget{method-pstar_projection-read_inplines}{}}}
+\subsection{Method \code{read_inplines()}}{
+Reads in the values from the keyword parameter PSTAR from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$read_inplines(inp_con, nline, proj_years)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+
+\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
+Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
 }
 \if{html}{\out{</div>}}
 }

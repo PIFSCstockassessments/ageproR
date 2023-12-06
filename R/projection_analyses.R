@@ -98,6 +98,10 @@ projection_analyses <- R6Class(
 #' @description
 #' Class Structure containing Standard Projection Analyses
 #'
+#' @param proj_years [Projection years][ageproR::projection_years]:
+#' Input can be Sequence of years in from first to last year of
+#' projection or the number of years in the time projection.
+#'
 #' @importFrom R6 R6Class
 #'
 #' @keywords projection_analyses
@@ -109,10 +113,6 @@ standard_projection <- R6Class(
 
     #' @description
     #' Initializes class
-    #'
-    #' @param proj_years [Projection years][ageproR::projection_years]:
-    #' Input can be Sequence of years in from first to last year of
-    #' projection or the number of years in the time projection.
     #'
     initialize = function(proj_years) {
 
@@ -132,6 +132,13 @@ standard_projection <- R6Class(
 #' Input information for calculating Total Allowable Catch (\eqn{TAC_{pstar}})
 #' to produce \eqn{P*}, which is the probability of overfishing in the target
 #' projection year
+#'
+#' @template inp_con
+#' @template nline
+#'
+#' @param proj_years [Projection years][ageproR::projection_years]:
+#' Input can be Sequence of years in from first to last year of
+#' projection or the number of years in the time projection.
 #'
 #' @importFrom R6 R6Class
 #'
@@ -154,9 +161,6 @@ pstar_projection <- R6Class(
     #' @description
     #' Initializes class
     #'
-    #' @param proj_years [Projection years][ageproR::projection_years]:
-    #' Input can be Sequence of years in from first to last year of
-    #' projection or the number of years in the time projection.
     #' @param num_pstar_levels Number of Pstar levels. Default is `1`
     #' @param pstar_f Fishing mortality rate \eqn{f}. Default is `0.0`
     #'
@@ -178,6 +182,22 @@ pstar_projection <- R6Class(
         create_blank_parameter_table(num_rows = 1,
                                      num_cols = self$num_pstar_levels,
                                      dimnames = dimnames_pstar_levels_table)
+
+    },
+
+
+    #' @description
+    #' Reads in the values from the keyword parameter PSTAR from the
+    #' AGEPRO Input file
+    #'
+    read_inplines = function (inp_con,
+                              nline,
+                              proj_years) {
+
+      #TODO: Verify pstar_projections class
+
+      #Re-initialize pstar_specfications
+      self$initialize(proj_years)
 
     }
 
