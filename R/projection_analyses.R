@@ -70,7 +70,10 @@ projection_analyses <- R6Class(
       if(missing(value)){
         private$.target_year
       }else{
-        checkmate::assert_numeric(value, lower = 0, .var.name = "target_year" )
+        checkmate::assert_numeric(value, len = 1,
+                                  lower = 0,
+                                  .var.name = "target_year")
+        private$.target_year <- value
       }
     },
 
