@@ -175,13 +175,25 @@ pstar_projection <- R6Class(
       self$num_pstar_levels <- num_pstar_levels
       self$pstar_overfishing_f <- pstar_f
 
-      dimnames_pstar_levels_table <-
-        list(NULL, paste("Level", 1:self$num_pstar_levels))
-
       self$pstar_levels_table <-
-        create_blank_parameter_table(num_rows = 1,
-                                     num_cols = self$num_pstar_levels,
-                                     dimnames = dimnames_pstar_levels_table)
+        self$create_blank_pstar_levels_table(self$num_pstar_levels)
+
+    },
+
+    #' @description
+    #' Creates a blank table-like matrix of probabilities of overfishing,
+    #' or PStar values, to be used.
+    #'
+    #' @param num_pstar_levels Number of pstar values
+    #'
+    create_blank_pstar_levels_table = function(num_pstar_levels = 1){
+
+      dimnames_pstar_levels_table <-
+        list(NULL, paste("Level", 1:num_pstar_levels))
+
+      return(create_blank_parameter_table(num_rows = 1,
+                                     num_cols = num_pstar_levels,
+                                     dimnames = dimnames_pstar_levels_table))
 
     },
 
