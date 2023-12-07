@@ -208,8 +208,38 @@ pstar_projection <- R6Class(
 
       #TODO: Verify pstar_projections class
 
-      #Re-initialize pstar_specfications
-      self$initialize(proj_years)
+      #Re-initialize pstar_projection
+      #self$initialize(proj_years)
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+
+      #Read an additional line from the file connection, and assign it to
+      #num_pstar_levels
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$num_pstar_levels <- inp_line
+
+      cli::cli_alert(paste0("Line {nline}:",
+                            "Number of Pstar Levels ({.emph KPstar}): ",
+                            "{.val {self$num_pstar_levels}}"))
+
+      # Create new pstar_level_table matrix based on num_pstar_levels
+      self$pstar_levels_table <-
+        self$create_blank_pstar_levels_table(self$num_pstar_levels)
+
+      # Read an additional line from the file connection, delimit the line
+      # by whitespace, and assign as pstar_levels_table
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$pstar_levels_table[1,] <- inp_line
+
+      cli::cli_alert(c("Line {nline}: ",
+                       "Pstar Levels : ",
+                       "{.val {self$pstar_levels_table[1,]}} "))
+
 
     }
 
