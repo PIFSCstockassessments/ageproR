@@ -208,8 +208,6 @@ pstar_projection <- R6Class(
 
       #TODO: Verify pstar_projections class
 
-      #Re-initialize pstar_projection
-      #self$initialize(proj_years)
 
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
@@ -240,6 +238,24 @@ pstar_projection <- R6Class(
                        "Pstar Levels : ",
                        "{.val {self$pstar_levels_table[1,]}} "))
 
+      # Read an additional line from the file connection, and assign it to
+      # pstar_overfishing_f(PStarF)
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$pstar_overfishing_f <- inp_line
+      cli::cli_alert(paste0("Line {nline}:",
+                            "Overfishing Rate ({.emph PstarF}): ",
+                            "{.val {self$pstar_overfishing_f}}"))
+
+      # Read an additional line from the file connection, and assign it to
+      # target_year(TargetYear)
+      nline <- nline + 1
+      cli::cli_alert(paste0("Line {nline}",
+                            "Target Year: ",
+                            "{.val {self$target_year}}"))
+
+      return(nline)
 
     }
 
