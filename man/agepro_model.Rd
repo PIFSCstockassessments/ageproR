@@ -19,6 +19,8 @@ with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
 
+\item{\code{projection_analyses_type}}{Type of projection analyses: standard, rebuilding, pstar.}
+
 \item{\code{case_id}}{Title identifying AGEPRO model attributes}
 
 \item{\code{general}}{General Options}

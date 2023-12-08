@@ -38,7 +38,8 @@ agepro_model <- R6Class(
     .harvest_scenario = NULL,
     .pstar_projection = NULL,
 
-    .discards_present = NULL
+    .discards_present = NULL,
+    .projection_analyses_type = NULL
 
 
   ),
@@ -78,6 +79,7 @@ agepro_model <- R6Class(
       assert_number(num_rec_models, lower = 1)
       assert_number(num_pop_sims, lower = 1)
 
+      self$projection_analyses_type <- "standard"
       self$case_id <- case_id$new()
 
       self$general <- general_params$new(yr_start,
@@ -139,8 +141,6 @@ agepro_model <- R6Class(
         harvest_scenario$new(self$general$seq_years,
                              self$general$num_fleets)
 
-
-
     },
 
     #' @description
@@ -190,6 +190,19 @@ agepro_model <- R6Class(
         #use as.numeric_version to validate
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
         private$.ver_numeric_string <- value
+      }
+    },
+
+    #' @field projection_analyses_type
+    #' Type of projection analyses: standard, rebuilding, pstar.
+    projection_analyses_type = function(value) {
+      if(missing(value)){
+        return(private$.projection_analyses_type)
+      } else{
+        checkmate::assert_choice(value,
+                                 choices = c("standard","rebuild", "pstar"),
+                                 .var.name = "projection_analyses_type")
+        private$.projection_analyses_type <- value
       }
     },
 
