@@ -48,6 +48,9 @@ Discard Fraction}
 \item{\code{harvest}}{Harvest intensity (of fishing mortality or landings quota) by fleet}
 
 \item{\code{recruit}}{AGEPRO Recruitment Model information}
+
+\item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
+probability of overfishing in the target year.}
 }
 \if{html}{\out{</div>}}
 }

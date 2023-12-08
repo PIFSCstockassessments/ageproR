@@ -36,8 +36,10 @@ agepro_model <- R6Class(
     .landed_catch_weight_age = NULL,
     .discard_weight_age = NULL,
     .harvest_scenario = NULL,
+    .pstar_projection = NULL,
 
     .discards_present = NULL
+
 
   ),
   public = list(
@@ -136,6 +138,8 @@ agepro_model <- R6Class(
       self$harvest <-
         harvest_scenario$new(self$general$seq_years,
                              self$general$num_fleets)
+
+
 
     },
 
@@ -362,6 +366,22 @@ agepro_model <- R6Class(
                             .var.name = "recruit")
        private$.recruitment <- value
      }
+    },
+
+    #' @field pstar
+    #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
+    #' probability of overfishing in the target year.
+    pstar = function(value) {
+      if(missing(value)){
+        return(private$.pstar_projection)
+      }else {
+        checkmate::assert_r6(value, public = c("target_year",
+                                               "num_pstar_levels",
+                                               "pstar_levels_table",
+                                               "pstar_overfishing_f"),
+                             .var.name = "pstar")
+        private$.pstar_projection
+      }
     }
 
   )
