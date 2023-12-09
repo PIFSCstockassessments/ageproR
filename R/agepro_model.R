@@ -68,9 +68,6 @@ agepro_model <- R6Class(
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
-      ## TODO TODO: Consider a helper function to create a new instance of
-      ## AgeproModel
-
       private$.ver_legacy_string = "AGEPRO VERSION 4.0"
       private$.ver_numeric_string = "4.0.0.0"
 
@@ -79,9 +76,7 @@ agepro_model <- R6Class(
       assert_number(num_rec_models, lower = 1)
       assert_number(num_pop_sims, lower = 1)
 
-      self$projection_analyses_type <- "standard"
-      self$case_id <- case_id$new()
-
+      #Set GENERAL
       self$general <- general_params$new(yr_start,
                                         yr_end,
                                         age_begin,
@@ -92,54 +87,109 @@ agepro_model <- R6Class(
                                         discards_present,
                                         seed)
 
-      private$.discards_present <- self$general$discards_present
+      ## Helper function to create a new instance of agepro_model
+      self$default_agepro_keyword_params(self$general)
 
-      if(as.logical(self$general$discards_present)) {
+    },
 
-        self$discard <- discard_fraction$new(self$general$seq_years,
-                                             self$general$num_ages,
-                                             self$general$num_fleets)
+    #' @description
+    #' This will create default values for each primary AGEPRO keyword
+    #' parameter based on the values passed by the `general_params` class.
+    #' Optional keyowrd parameters, such as as discard fraction or discard
+    #' weight may be created, if enabled.
+    #'
+    #' @param x [General Params][ageproR::general_params] class object.
+    #' @param projection_analyses_type Type of projection analyses type.
+    #' Default is `"standard"`.
+    #'
+    #' @template enable_cat_print
+    #'
+    default_agepro_keyword_params = function (x, projection_analyses_type =
+                                                "standard",
+                                              enable_cat_print = TRUE) {
 
-        self$disc_weight <- discard_weight_age$new(self$general$seq_years,
-                                                   self$general$num_ages,
-                                                   self$general$num_fleets)
-      }
+      #Verify general param
+      checkmate::assert_r6(x, public = c("yr_start",
+                                         "yr_end",
+                                         "age_begin",
+                                         "age_end",
+                                         "num_pop_sims",
+                                         "num_fleets",
+                                         "num_rec_models",
+                                         "discards_present",
+                                         "seed"),
+                           .var.name = "general")
 
-      self$recruit <- recruitment$new(
-        rep(0, self$general$num_rec_models), self$general$seq_years)
+      #Assign and verify projection_analyses_type
+      self$projection_analyses_type <- projection_analyses_type
+
+      private$.discards_present <- x$discards_present
+
+      self$case_id <- case_id$new()
+
+       #TODO: rename cat_verbose to enable_cat_print
+      self$recruit <- recruitment$new(rep(0, x$num_rec_models),
+                                      x$seq_years,
+                                      cat_verbose = enable_cat_print)
 
       self$bootstrap <- bootstrap$new()
 
-      self$natmort <- natural_mortality$new(self$general$seq_years,
-                                            self$general$num_ages)
+      self$natmort <-
+        natural_mortality$new(x$seq_years,
+                              x$num_ages,
+                              enable_cat_print = enable_cat_print)
 
-      self$maturity <- maturity_fraction$new(self$general$seq_years,
-                                             self$general$num_ages)
+      self$maturity <-
+        maturity_fraction$new(x$seq_years,
+                              x$num_ages,
+                              enable_cat_print = enable_cat_print)
 
-      self$fishery <- fishery_selectivity$new(self$general$seq_years,
-                                              self$general$num_ages,
-                                              self$general$num_fleets)
+      self$fishery <-
+        fishery_selectivity$new(x$seq_years,
+                                x$num_ages,
+                                x$num_fleets,
+                                enable_cat_print = enable_cat_print)
 
       self$stock_weight <-
-        jan_stock_weight_age$new(self$general$seq_years,
-                             self$general$num_ages)
+        jan_stock_weight_age$new(x$seq_years,
+                                 x$num_ages,
+                                 enable_cat_print = enable_cat_print)
 
       self$ssb_weight <-
-        spawning_stock_weight_age$new(self$general$seq_years,
-                                  self$general$num_ages)
+        spawning_stock_weight_age$new(x$seq_years,
+                                      x$num_ages,
+                                      enable_cat_print = enable_cat_print)
 
       self$mean_weight <-
-        mean_population_weight_age$new(self$general$seq_years,
-                                   self$general$num_ages)
+        mean_population_weight_age$new(x$seq_years,
+                                       x$num_ages,
+                                       enable_cat_print = enable_cat_print)
 
       self$catch_weight <-
-        landed_catch_weight_age$new(self$general$seq_years,
-                                self$general$num_ages,
-                                self$general$num_fleets)
+        landed_catch_weight_age$new(x$seq_years,
+                                    x$num_ages,
+                                    x$num_fleets,
+                                    enable_cat_print = enable_cat_print)
+
+      if(as.logical(x$discards_present)) {
+
+        self$discard <-
+          discard_fraction$new(x$seq_years,
+                               x$num_ages,
+                               x$num_fleets,
+                               enable_cat_print = enable_cat_print)
+
+        self$disc_weight <-
+          discard_weight_age$new(x$seq_years,
+                                 x$num_ages,
+                                 x$num_fleets,
+                                 enable_cat_print = enable_cat_print)
+      }
 
       self$harvest <-
-        harvest_scenario$new(self$general$seq_years,
-                             self$general$num_fleets)
+        harvest_scenario$new(x$seq_years,
+                             x$num_fleets,
+                             enable_cat_print = enable_cat_print)
 
     },
 
@@ -541,86 +591,48 @@ agepro_inp_model <- R6Class(
   public = list(
 
     #' @description
-    #' Initializes the instance of the AGEPRO model with default values
+    #' Initializes an instance of the AGEPRO model with default blank keyword
+    #' parameter values, by using the default
+    #' [general_params][ageproR::general_params] values:
+    #' \itemize{
+    #'  \item Projection years: From `yr_start` 0 to `yr_end` 2
+    #'  \item Ages: From `age_begin` 1 to `age_end` 6
+    #'  \item 1000 Population Simulations (`num_pop_sims`)
+    #'  \item 1 Fleet (`num_fleets`)
+    #'  \item 1 Recruit Model (`num_rec_models`)
+    #'  \item Discards Present (`discards_present`): `FALSE` (or 0)
+    #'  \item Pseudo-Randomly generated `seed`
+    #' }
     #'
-    initialize = function() {
+    #' @param enable_cat_print
+    #' Logical flag to show target function's **cli** [`cat_print`][cli::cat_print]
+    #' messages to be seen on console. In this instance, this is set to FALSE.
+    #'
+    #'
+    initialize = function(enable_cat_print = FALSE) {
 
       private$.pre_v4 <- FALSE
       private$.nline <- 0
 
-      #TODO: Initialize AGEPRO keyword params
 
       cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
 
-      self$case_id <- case_id$new()
 
-      self$general <- suppressMessages(general_params$new())
-      private$.discards_present <- self$general$discards_present
+      if(isFALSE(enable_cat_print)) {
+        self$general <- suppressMessages(general_params$new())
 
-      if(as.logical(self$general$discards_present)){
-        self$discard <-
-          suppressMessages(
-            discard_fraction$new(self$general$seq_years,
-                                 self$general$num_ages,
-                                 self$general$num_fleets,
-                                 enable_cat_print = FALSE))
-
-        self$disc_weight <-
-          suppressMessages(
-            discard_weight$new(self$general$seq_years,
-                               self$general$num_ages,
-                               self$general$num_fleets,
-                               enable_cat_print = FALSE))
-
+        suppressMessages(
+          self$default_agepro_keyword_params(self$general,
+                                             enable_cat_print =
+                                               enable_cat_print))
+      } else {
+        self$general <- general_params$new()
+        self$default_agepro_keyword_params(self$general,
+                                           enable_cat_print = TRUE)
       }
 
-      self$recruit <-
-        suppressMessages(recruitment$new(0, self$general$seq_years,
-                                         cat_verbose = FALSE))
-      self$bootstrap <- suppressMessages(bootstrap$new())
 
-      self$natmort <-
-        suppressMessages(natural_mortality$new(self$general$seq_years,
-                                            self$general$num_ages,
-                                            enable_cat_print = FALSE))
-      self$maturity <-
-        suppressMessages(maturity_fraction$new(self$general$seq_years,
-                                               self$general$num_ages,
-                                               enable_cat_print = FALSE))
 
-      self$fishery <-
-        suppressMessages(fishery_selectivity$new(self$general$seq_years,
-                                              self$general$num_ages,
-                                              self$general$num_fleets,
-                                              enable_cat_print = FALSE))
-
-      self$stock_weight <-
-        suppressMessages(
-          jan_stock_weight_age$new(self$general$seq_years,
-                                   self$general$num_ages,
-                                   enable_cat_print = FALSE))
-      self$ssb_weight <-
-        suppressMessages(
-          spawning_stock_weight_age$new(self$general$seq_years,
-                                        self$general$num_ages,
-                                        enable_cat_print = FALSE))
-      self$mean_weight <-
-        suppressMessages(
-          mean_population_weight_age$new(self$general$seq_years,
-                                         self$general$num_ages,
-                                         enable_cat_print = FALSE))
-      self$catch_weight <-
-        suppressMessages(
-          landed_catch_weight_age$new(self$general$seq_years,
-                                      self$general$num_ages,
-                                      self$general$num_fleets,
-                                      enable_cat_print = FALSE))
-
-      self$harvest <-
-        suppressMessages(
-          harvest_scenario$new(self$general$seq_years,
-                               self$general$num_fleets,
-                               enable_cat_print = FALSE))
 
 
       cli::cli_text("Done")
@@ -710,10 +722,10 @@ agepro_inp_model <- R6Class(
     #'
     match_keyword = function(inp_line, inp_con) {
 
-      #' TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-      #' ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
-      #' ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-      #' ~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
+      # TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
+      # ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
+      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
+      # ~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(

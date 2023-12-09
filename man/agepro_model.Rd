@@ -60,6 +60,7 @@ probability of overfishing in the target year.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-agepro_model-new}{\code{agepro_model$new()}}
+\item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
@@ -104,6 +105,36 @@ Initializes the instance of the AGEPRO Model
 \item{\code{discards_present}}{Are Discards present? FALSE by default}
 
 \item{\code{seed}}{Random Number seed. A pesdorandom number is set as default.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-default_agepro_keyword_params"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-default_agepro_keyword_params}{}}}
+\subsection{Method \code{default_agepro_keyword_params()}}{
+This will create default values for each primary AGEPRO keyword
+parameter based on the values passed by the \code{general_params} class.
+Optional keyowrd parameters, such as as discard fraction or discard
+weight may be created, if enabled.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$default_agepro_keyword_params(
+  x,
+  projection_analyses_type = "standard",
+  enable_cat_print = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{\link[=general_params]{General Params} class object.}
+
+\item{\code{projection_analyses_type}}{Type of projection analyses type.
+Default is \code{"standard"}.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }

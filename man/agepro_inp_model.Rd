@@ -37,6 +37,7 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="default_agepro_keyword_params"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-default_agepro_keyword_params'><code>ageproR::agepro_model$default_agepro_keyword_params()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_bootstrap_filename"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_bootstrap_filename'><code>ageproR::agepro_model$set_bootstrap_filename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproR::agepro_model$set_recruit_model()</code></a></span></li>
 </ul>
@@ -46,11 +47,30 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{<a id="method-agepro_inp_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-new}{}}}
 \subsection{Method \code{new()}}{
-Initializes the instance of the AGEPRO model with default values
+Initializes an instance of the AGEPRO model with default blank keyword
+parameter values, by using the default
+\link[=general_params]{general_params} values:
+\itemize{
+\item Projection years: From \code{yr_start} 0 to \code{yr_end} 2
+\item Ages: From \code{age_begin} 1 to \code{age_end} 6
+\item 1000 Population Simulations (\code{num_pop_sims})
+\item 1 Fleet (\code{num_fleets})
+\item 1 Recruit Model (\code{num_rec_models})
+\item Discards Present (\code{discards_present}): \code{FALSE} (or 0)
+\item Pseudo-Randomly generated \code{seed}
+}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$new(enable_cat_print = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console. In this instance, this is set to FALSE.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_inp_model-read_inp"></a>}}
@@ -91,11 +111,6 @@ Read Input file Values
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-match_keyword}{}}}
 \subsection{Method \code{match_keyword()}}{
 Match Keyword
-
-TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
-~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$match_keyword(inp_line, inp_con)}\if{html}{\out{</div>}}
 }
