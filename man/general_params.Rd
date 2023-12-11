@@ -20,11 +20,11 @@ projections.
 
 \item{\code{age_end}}{Last Age Class}
 
+\item{\code{num_pop_sims}}{Number of Population Simulations}
+
 \item{\code{num_fleets}}{Number of Fleets}
 
 \item{\code{num_rec_models}}{Number of Recruitment Models}
-
-\item{\code{num_pop_sims}}{Number of Population Simulations}
 
 \item{\code{discards_present}}{Are discards present?}
 

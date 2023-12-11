@@ -195,6 +195,18 @@ general_params <- R6Class(
       }
     },
 
+    #' @field num_pop_sims
+    #' Number of Population Simulations
+    num_pop_sims = function(value){
+      if(missing(value)) {
+        private$.num_pop_sims
+      }else {
+        checkmate::assert_numeric(value, lower = 0, len = 1,
+                                  .var.name = "num_pop_sims")
+        private$.num_pop_sims <- value
+      }
+    },
+
     #' @field num_fleets
     #' Number of Fleets
     num_fleets = function(value){
@@ -216,18 +228,6 @@ general_params <- R6Class(
         checkmate::assert_numeric(value, lower = 1, len = 1,
                                   .var.name = "num_rec_models")
         private$.num_rec_models <- value
-      }
-    },
-
-    #' @field num_pop_sims
-    #' Number of Population Simulations
-    num_pop_sims = function(value){
-      if(missing(value)) {
-        private$.num_pop_sims
-      }else {
-        checkmate::assert_numeric(value, lower = 0, len = 1,
-                                  .var.name = "num_pop_sims")
-        private$.num_pop_sims <- value
       }
     },
 
