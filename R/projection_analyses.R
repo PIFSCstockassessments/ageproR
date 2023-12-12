@@ -160,7 +160,8 @@ pstar_projection <- R6Class(
     #'
     initialize = function(proj_years,
                           num_pstar_levels = 1,
-                          pstar_f = 0.0) {
+                          pstar_f = 0.0,
+                          ...) {
 
       super$initialize(proj_years)
 
