@@ -639,7 +639,7 @@ agepro_inp_model <- R6Class(
 
     },
 
-    read_pstar_projection_analyses = function(con, nline) {
+    read_pstar_projection = function(con, nline) {
 
       if(self$projection_analyses_type == "rebuild"){
         stop(paste0("Reading PSTAR projection analyses data but ",
@@ -839,7 +839,11 @@ agepro_inp_model <- R6Class(
         },
         "[HARVEST]" = {
           rlang::expr(private$read_harvest_scenario(inp_con, self$nline))
+        },
+        "[PSTAR]" = {
+          rlang::expr(private$read_pstar_projection(inp_con, self$nline))
         }
+
       ))
 
       div_keyword_line_alert <- function() {
