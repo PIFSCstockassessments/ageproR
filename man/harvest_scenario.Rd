@@ -78,7 +78,7 @@ Formatted to print out the Harvest Scenario Table
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console. Default is TRUE.}
+messages to be seen on console.}
 
 \item{\code{...}}{further arguments passed to or from other methods}
 }
