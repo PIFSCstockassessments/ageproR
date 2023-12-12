@@ -39,19 +39,22 @@ projection year
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$new(proj_years, num_pstar_levels = 1, pstar_f = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$new(proj_years, num_pstar_levels = 1, pstar_f = 0, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
-Input can be Sequence of years in from first to last year of
-projection or the number of years in the time projection.}
+\item{\code{proj_years}}{May be a single numeric value: the number of years in the
+time projection; a vector of sequential values: Sequence of years in from
+first to last year of the time projection; or an instance of
+\link[=projection_years]{Projection years}}
 
 \item{\code{num_pstar_levels}}{Number of Pstar levels. Default is \code{1}}
 
 \item{\code{pstar_f}}{Fishing mortality rate \eqn{f}. Default is \code{0.0}}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
@@ -93,9 +96,10 @@ AGEPRO Input file
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
 
-\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
-Input can be Sequence of years in from first to last year of
-projection or the number of years in the time projection.}
+\item{\code{proj_years}}{May be a single numeric value: the number of years in the
+time projection; a vector of sequential values: Sequence of years in from
+first to last year of the time projection; or an instance of
+\link[=projection_years]{Projection years}}
 }
 \if{html}{\out{</div>}}
 }

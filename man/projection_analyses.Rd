@@ -38,9 +38,10 @@ Initializes class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{proj_years}}{\link[=projection_years]{Projection years}:
-Input can be Sequence of years in from first to last year of
-projection or the number of years in the time projection.}
+\item{\code{proj_years}}{May be a single numeric value: the number of years in
+the time projection; a vector of sequential values: Sequence of years
+in from first to last year of the time projection; or an instance of
+\link[=projection_years]{Projection years}:}
 }
 \if{html}{\out{</div>}}
 }

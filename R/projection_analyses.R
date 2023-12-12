@@ -28,17 +28,7 @@ projection_analyses <- R6Class(
     .keyword_name = NULL,
 
     #setup variables at initialization
-    .projection_years = NULL,
-
-    setup_projection_years_class = function(proj_years) {
-
-      # Handle `proj_years` that may be a single int or vector of sequential
-      # values or an instance of ageproR::projection_years
-      projection_years_class <- check_proj_years_parameter(proj_years)
-
-      return(projection_years_class)
-    }
-
+    .projection_years = NULL
 
 
   ),
@@ -47,15 +37,16 @@ projection_analyses <- R6Class(
     #' @description
     #' Initializes class
     #'
-    #' @param proj_years [Projection years][ageproR::projection_years]:
-    #' Input can be Sequence of years in from first to last year of
-    #' projection or the number of years in the time projection.
+    #' @param proj_years May be a single numeric value: the number of years in
+    #' the time projection; a vector of sequential values: Sequence of years
+    #' in from first to last year of the time projection; or an instance of
+    #' [Projection years][ageproR::projection_years]:
     #'
     initialize = function(proj_years) {
 
-      #Private Helper method to handle proj_years parameter value
-      private$.projection_years <-
-        private$setup_projection_years_class(proj_years)
+      # Handle `proj_years` that may be a single int or vector of sequential
+      # values or an instance of ageproR::projection_years
+      private$.projection_years <- check_proj_years_parameter(proj_years)
 
       self$target_year <- 0
 
@@ -98,9 +89,10 @@ projection_analyses <- R6Class(
 #' @description
 #' Class Structure containing Standard Projection Analyses
 #'
-#' @param proj_years [Projection years][ageproR::projection_years]:
-#' Input can be Sequence of years in from first to last year of
-#' projection or the number of years in the time projection.
+#' @param proj_years May be a single numeric value: the number of years in the
+#' time projection; a vector of sequential values: Sequence of years in from
+#' first to last year of the time projection; or an instance of
+#' [Projection years][ageproR::projection_years]
 #'
 #' @importFrom R6 R6Class
 #'
@@ -135,10 +127,12 @@ standard_projection <- R6Class(
 #'
 #' @template inp_con
 #' @template nline
+#' @template elipses
 #'
-#' @param proj_years [Projection years][ageproR::projection_years]:
-#' Input can be Sequence of years in from first to last year of
-#' projection or the number of years in the time projection.
+#' @param proj_years May be a single numeric value: the number of years in the
+#' time projection; a vector of sequential values: Sequence of years in from
+#' first to last year of the time projection; or an instance of
+#' [Projection years][ageproR::projection_years]
 #'
 #' @importFrom R6 R6Class
 #'
