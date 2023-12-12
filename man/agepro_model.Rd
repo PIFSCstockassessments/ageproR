@@ -63,6 +63,7 @@ probability of overfishing in the target year.}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
+\item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -134,7 +135,10 @@ weight may be created, if enabled.
 Default is \code{"standard"}.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console. Default is TRUE.}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
@@ -170,6 +174,36 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{bsnfile}}{bootstrap filename}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-set_projection_analyses_type"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-set_projection_analyses_type}{}}}
+\subsection{Method \code{set_projection_analyses_type()}}{
+Helper Function to setup agepro model's projection analyses type. agepro
+models use standard projection analyses by default, and do not require
+additional keyword parameter setup. "pstar" and  "rebuider" projection
+analyses types require their own keyword parameter classes to setup.
+However, they are not created during model initialization.
+
+AGEPRO models must can not have both pstar and rebuilder projection
+analyses,
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_projection_analyses_type(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{projection_analyses_type}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }

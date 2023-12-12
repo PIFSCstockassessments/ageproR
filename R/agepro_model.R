@@ -191,6 +191,12 @@ agepro_model <- R6Class(
                              x$num_fleets,
                              enable_cat_print = enable_cat_print)
 
+      if(self$projection_analyses_type == "pstar") {
+        self$pstar <-
+          pstar_projection$new(x$seq_years,
+                               enable_cat_print = enable_cat_print)
+      }
+
     },
 
     #' @description
@@ -214,7 +220,52 @@ agepro_model <- R6Class(
     set_bootstrap_filename = function(bsnfile) {
 
       self$bootstrap$set_bootstrap_filename(bsnfile)
+    },
+
+    #' @description
+    #' Helper Function to setup agepro model's projection analyses type. agepro
+    #' models use standard projection analyses by default, and do not require
+    #' additional keyword parameter setup. "pstar" and  "rebuider" projection
+    #' analyses types require their own keyword parameter classes to setup.
+    #' However, they are not created during model initialization.
+    #'
+    #' AGEPRO models must can not have both pstar and rebuilder projection
+    #' analyses,
+    #'
+    #' @param type projection_analyses_type
+    #'
+    #' @template enable_cat_print
+    #'
+    set_projection_analyses_type = function(type,
+                                            enable_cat_print = FALSE) {
+
+      # Check `type` is "standard", "pstar", or "rebuild" and assign to
+      # projection_analyses_type
+      self$projection_analyses_type <- type
+
+      #Clean PSTAR and REBULD
+      if(isFALSE(is.null(self$pstar)))  self$pstar <- NULL
+
+
+      if(self$projection_analyses_type == "pstar") {
+
+        self$pstar <-
+          pstar_projection$new(x$seq_years,
+                               enable_cat_print = enable_cat_print)
+
+      }else if(self$projection_analyses_type == "rebuild") {
+
+        #TODO: create REBUILD object
+
+      }
+
+
+
+
+
     }
+
+
 
   ), active = list(
 
@@ -438,6 +489,7 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.pstar_projection)
       }else {
+        #TODO: Check if projection_analyses_type is not REBUILD
         checkmate::assert_r6(value, public = c("target_year",
                                                "num_pstar_levels",
                                                "pstar_levels_table",
@@ -585,7 +637,22 @@ agepro_inp_model <- R6Class(
                                                 self$general$seq_years,
                                                 self$general$num_fleets)
 
+    },
+
+    read_pstar_projection_analyses = function(con, nline) {
+
+      if(self$projection_analyses_type == "rebuild"){
+        stop(paste0("Reading PSTAR projection analyses data but ",
+                    "Projection Analyses Type set to REBUILD"))
+      }
+
+      self$set_projection_analyses_type("pstar")
+
+      self$nline <- self$pstar$read_inplines(con,
+                                             nline,
+                                             self$general$seq_years)
     }
+
 
   ),
   public = list(
