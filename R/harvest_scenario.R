@@ -240,6 +240,8 @@ harvest_scenario <- R6Class(
                                  "with {.strong harvest_specifications} ",
                                  "and {.strong harvest_value} values"))
 
+      return(nline)
+
     },
 
 
