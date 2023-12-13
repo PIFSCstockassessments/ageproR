@@ -23,7 +23,6 @@ projection_analyses <- R6Class(
   private = list(
 
     .target_year = NULL,
-    .projection_analyses_type = NULL,
 
     .keyword_name = NULL,
 
@@ -109,7 +108,6 @@ standard_projection <- R6Class(
     initialize = function(proj_years) {
 
       super$initialize(proj_years)
-      private$.projection_analyses_type <- "standard"
 
     }
   )
@@ -164,8 +162,6 @@ pstar_projection <- R6Class(
                           ...) {
 
       super$initialize(proj_years)
-
-      private$.projection_analyses_type <- "pstar"
 
       self$num_pstar_levels <- num_pstar_levels
       self$pstar_overfishing_f <- pstar_f
