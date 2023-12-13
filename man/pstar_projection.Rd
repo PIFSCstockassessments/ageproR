@@ -84,7 +84,7 @@ or PStar values, to be used.
 Reads in the values from the keyword parameter PSTAR from the
 AGEPRO Input file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$read_inp_lines(inp_con, nline, proj_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -95,11 +95,6 @@ AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
-
-\item{\code{proj_years}}{May be a single numeric value: the number of years in the
-time projection; a vector of sequential values: Sequence of years in from
-first to last year of the time projection; or an instance of
-\link[=projection_years]{Projection years}}
 }
 \if{html}{\out{</div>}}
 }

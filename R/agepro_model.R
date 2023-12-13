@@ -641,9 +641,7 @@ agepro_inp_model <- R6Class(
 
       self$set_projection_analyses_type("pstar")
 
-      self$nline <- self$pstar$read_inp_lines(con,
-                                              nline,
-                                              dself$general$seq_years)
+      self$nline <- self$pstar$read_inp_lines(con, nline)
     }
 
 

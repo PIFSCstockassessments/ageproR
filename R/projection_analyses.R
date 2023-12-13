@@ -195,12 +195,7 @@ pstar_projection <- R6Class(
     #' Reads in the values from the keyword parameter PSTAR from the
     #' AGEPRO Input file
     #'
-    read_inp_lines = function (inp_con,
-                              nline,
-                              proj_years) {
-
-      #TODO: Verify pstar_projections class
-
+    read_inp_lines = function (inp_con, nline) {
 
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
