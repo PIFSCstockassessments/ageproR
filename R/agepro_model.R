@@ -246,22 +246,15 @@ agepro_model <- R6Class(
       #Clean PSTAR and REBULD
       if(isFALSE(is.null(self$pstar)))  self$pstar <- NULL
 
-
       if(self$projection_analyses_type == "pstar") {
 
-        self$pstar <-
-          pstar_projection$new(x$seq_years,
-                               enable_cat_print = enable_cat_print)
+        self$pstar <- pstar_projection$new(self$general$seq_years)
 
       }else if(self$projection_analyses_type == "rebuild") {
 
         #TODO: create REBUILD object
 
       }
-
-
-
-
 
     }
 
@@ -495,7 +488,7 @@ agepro_model <- R6Class(
                                                "pstar_levels_table",
                                                "pstar_overfishing_f"),
                              .var.name = "pstar")
-        private$.pstar_projection
+        private$.pstar_projection <- value
       }
     }
 
