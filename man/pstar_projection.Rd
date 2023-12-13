@@ -29,7 +29,7 @@ projection year
 \itemize{
 \item \href{#method-pstar_projection-new}{\code{pstar_projection$new()}}
 \item \href{#method-pstar_projection-create_blank_pstar_levels_table}{\code{pstar_projection$create_blank_pstar_levels_table()}}
-\item \href{#method-pstar_projection-read_inplines}{\code{pstar_projection$read_inplines()}}
+\item \href{#method-pstar_projection-read_inp_lines}{\code{pstar_projection$read_inp_lines()}}
 \item \href{#method-pstar_projection-clone}{\code{pstar_projection$clone()}}
 }
 }
@@ -78,13 +78,13 @@ or PStar values, to be used.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-pstar_projection-read_inplines"></a>}}
-\if{latex}{\out{\hypertarget{method-pstar_projection-read_inplines}{}}}
-\subsection{Method \code{read_inplines()}}{
+\if{html}{\out{<a id="method-pstar_projection-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-pstar_projection-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
 Reads in the values from the keyword parameter PSTAR from the
 AGEPRO Input file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$read_inplines(inp_con, nline, proj_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$read_inp_lines(inp_con, nline, proj_years)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
