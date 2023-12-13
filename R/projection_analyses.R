@@ -213,7 +213,8 @@ pstar_projection <- R6Class(
       self$num_pstar_levels <- inp_line
 
       cli::cli_alert(paste0("Line {nline}: ",
-                            "Number of Pstar Levels ({.emph KPstar}): ",
+                            "num_pstar_levels ",
+                            "(Number of Pstar Levels, {.emph KPStar}): ",
                             "{.val {self$num_pstar_levels}}"))
 
       # Create new pstar_level_table matrix based on num_pstar_levels
@@ -228,7 +229,8 @@ pstar_projection <- R6Class(
       self$pstar_levels_table[1,] <- inp_line
 
       cli::cli_alert(c("Line {nline}: ",
-                       "Pstar Levels : ",
+                       "pstar_levels_table ",
+                       "({.emph PStar}): ",
                        "{.val {self$pstar_levels_table[1,]}} "))
 
       # Read an additional line from the file connection, and assign it to
@@ -238,7 +240,8 @@ pstar_projection <- R6Class(
 
       self$pstar_overfishing_f <- inp_line
       cli::cli_alert(paste0("Line {nline}: ",
-                            "Overfishing Rate ({.emph PstarF}): ",
+                            "pstar_overfsihing_f ",
+                            "(Overfishing Rate, {.emph PStarF}): ",
                             "{.val {self$pstar_overfishing_f}}"))
 
       # Read an additional line from the file connection, and assign it to
@@ -248,7 +251,7 @@ pstar_projection <- R6Class(
 
       self$target_year <- inp_line
       cli::cli_alert(paste0("Line {nline}: ",
-                            "Target Year: ",
+                            "target_year: ",
                             "{.val {self$target_year}}"))
 
       return(nline)
