@@ -30,6 +30,7 @@ projection year
 \item \href{#method-pstar_projection-new}{\code{pstar_projection$new()}}
 \item \href{#method-pstar_projection-create_blank_pstar_levels_table}{\code{pstar_projection$create_blank_pstar_levels_table()}}
 \item \href{#method-pstar_projection-read_inp_lines}{\code{pstar_projection$read_inp_lines()}}
+\item \href{#method-pstar_projection-print}{\code{pstar_projection$print()}}
 \item \href{#method-pstar_projection-clone}{\code{pstar_projection$clone()}}
 }
 }
@@ -95,6 +96,24 @@ AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-pstar_projection-print"></a>}}
+\if{latex}{\out{\hypertarget{method-pstar_projection-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out PStar values on Rconsole
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$print(enable_cat_print = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }

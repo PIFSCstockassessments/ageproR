@@ -147,7 +147,14 @@ pstar_projection <- R6Class(
 
     .num_pstar_levels = NULL,
     .pstar_levels_table = NULL,
-    .pstar_overfishing_f = NULL
+    .pstar_overfishing_f = NULL,
+
+    #Helper Function to printout num_pstar_levels to Rconsole
+    cat_print_pstar_levels_table = function (){
+      cli::cli_text("{symbol$bullet} pstar_levels_table ({.emph PStar}):")
+      checkmate::assert_matrix(self$pstar_levels_table)
+      cli::cat_print(self$pstar_levels_table)
+    }
 
   ),
   public = list(
@@ -250,6 +257,29 @@ pstar_projection <- R6Class(
                             "{.val {self$target_year}}"))
 
       return(nline)
+
+    },
+
+
+    #' @description
+    #' Formatted to print out PStar values on Rconsole
+    #'
+    #' @template enable_cat_print
+    #'
+    print = function(enable_cat_print = TRUE) {
+      cli::cli_ul()
+      cli::cli_li(paste0("num_pstar_levels ({.emph KPStar}): ",
+                         "{.val {self$num_pstar_levels}}"))
+      cli::cli_li(paste0("pstar_overfsihing_f ({.emph PStarF}): ",
+                         "{.val {self$pstar_overfishing_f}}"))
+      cli::cli_li("target_year: {.val {self$target_year}}")
+
+
+      ifelse(enable_cat_print,
+             private$cat_print_pstar_levels_table(),
+             #suppresses cli::cat_print
+             capture.output(x <- private$cat_print_pstar_levels_table()))
+      cli::cli_end()
 
     }
 
