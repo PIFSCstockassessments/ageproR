@@ -242,12 +242,15 @@ agepro_model <- R6Class(
       # Check `type` is "standard", "pstar", or "rebuild" and assign to
       # projection_analyses_type
       self$projection_analyses_type <- type
+      cli::cli_alert_info(paste0("AGEPRO Model Projection analyses type set ",
+                                 "to {.field {self$projection_analyses_type}}"))
 
       #Clean PSTAR and REBULD
       if(isFALSE(is.null(self$pstar)))  self$pstar <- NULL
 
       if(self$projection_analyses_type == "pstar") {
 
+        cli::cli_alert_info("Creating default PStar projection analyses ...")
         self$pstar <- pstar_projection$new(self$general$seq_years)
 
       }else if(self$projection_analyses_type == "rebuild") {
@@ -255,10 +258,8 @@ agepro_model <- R6Class(
         #TODO: create REBUILD object
 
       }
-
+      cli::cli_text("Done")
     }
-
-
 
   ), active = list(
 
