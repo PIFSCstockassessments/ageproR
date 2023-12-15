@@ -260,6 +260,20 @@ pstar_projection <- R6Class(
 
     },
 
+    #' @description
+    #' Returns PStar projection Values formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " "){
+
+      return(c(
+        self$inp_keyword,
+        self$num_pstar_levels,
+        paste(self$pstar_levels_table, collapse = delimiter),
+        self$pstar_overfishing_f,
+        self$target_year))
+    },
 
     #' @description
     #' Formatted to print out PStar values on Rconsole

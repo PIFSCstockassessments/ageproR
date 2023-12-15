@@ -30,6 +30,7 @@ projection year
 \item \href{#method-pstar_projection-new}{\code{pstar_projection$new()}}
 \item \href{#method-pstar_projection-create_blank_pstar_levels_table}{\code{pstar_projection$create_blank_pstar_levels_table()}}
 \item \href{#method-pstar_projection-read_inp_lines}{\code{pstar_projection$read_inp_lines()}}
+\item \href{#method-pstar_projection-get_inp_lines}{\code{pstar_projection$get_inp_lines()}}
 \item \href{#method-pstar_projection-print}{\code{pstar_projection$print()}}
 \item \href{#method-pstar_projection-clone}{\code{pstar_projection$clone()}}
 }
@@ -96,6 +97,23 @@ AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-pstar_projection-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-pstar_projection-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns PStar projection Values formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{pstar_projection$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
