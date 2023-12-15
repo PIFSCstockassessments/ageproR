@@ -483,7 +483,11 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.pstar_projection)
       }else {
-        #TODO: Check if projection_analyses_type is not REBUILD
+        #Check if projection_analyses_type is not REBUILD
+        if(self$projection_analyses_type == "rebuild"){
+          stop(paste0("Reading PSTAR projection analyses data but ",
+                    "Projection Analyses Type set to REBUILD"))
+        }
         checkmate::assert_r6(value, public = c("target_year",
                                                "num_pstar_levels",
                                                "pstar_levels_table",
