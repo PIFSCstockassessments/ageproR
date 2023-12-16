@@ -1035,11 +1035,10 @@ agepro_json_model <- R6Class(
                       self$disc_weight$json_list_process_error,
                       NA),
              "recruit" = self$recruit$json_list_recruit,
-             "harvest" = self$harvest$json_list_object
-             )
+             "harvest" = self$harvest$json_list_object,
+             "pstar" = self$pstar$json_list_object
+        )
 
-
-      # TODO: use the write() function to write JSON files
 
       toJSON(agepro_json,
              pretty = TRUE,

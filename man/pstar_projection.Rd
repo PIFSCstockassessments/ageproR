@@ -21,6 +21,8 @@ projection year
 \item{\code{pstar_levels_table}}{The vector of probabilities of overfishing or PStar values to be used}
 
 \item{\code{pstar_overfishing_f}}{Fishing mortality rate that defines the overfishing level}
+
+\item{\code{json_list_object}}{Returns JSON list object of PStar Projection values}
 }
 \if{html}{\out{</div>}}
 }

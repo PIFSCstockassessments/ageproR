@@ -342,6 +342,18 @@ pstar_projection <- R6Class(
 
         private$.pstar_overfishing_f <- value
       }
+    },
+
+    #' @field json_list_object
+    #' Returns JSON list object of PStar Projection values
+    json_list_object = function() {
+
+      return(list(
+        k_pstar = self$num_pstar_levels,
+        pstar_values = self$pstar_levels_table,
+        pstar_f = self$pstar_overfishing_f,
+        target_year = self$target_year
+      ))
     }
   )
 
