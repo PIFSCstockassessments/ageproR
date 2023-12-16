@@ -1106,7 +1106,8 @@ agepro_json_model <- R6Class(
                                       "catch_weight",
                                       "disc_weight",
                                       "recruit",
-                                      "harvest"))
+                                      "harvest",
+                                      "pstar"))
 
 
       if(as.logical(inp_model$general$discards_present)){
@@ -1129,6 +1130,12 @@ agepro_json_model <- R6Class(
       self$catch_weight <- inp_model$catch_weight
       self$recruit <- inp_model$recruit
       self$harvest <- inp_model$harvest
+      if(self$projection_analyses_type == "pstar"){
+
+        supressMessages(self$set_projection_analyses_type("pstar"))
+        self$pstar <- inp_model$pstar
+
+      }
 
     }
 
