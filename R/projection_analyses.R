@@ -357,10 +357,104 @@ pstar_projection <- R6Class(
     }
   )
 
+)
 
 
+#' @title
+#' Input information for calculating F to rebuild spawning biomass
+#'
+#' @description
+#' Rebuilding projection analysis is focused on the calculation of the constant
+#' total fishing mortality calculated across all fleets that will rebuild the
+#' population, denoted as \eqn{F_{REBUILD}}.
+#'
+#' @template inp_con
+#' @template nline
+#' @template elipses
+#'
+#' @param proj_years May be a single numeric value: the number of years in the
+#' time projection; a vector of sequential values: Sequence of years in from
+#' first to last year of the time projection; or an instance of
+#' [Projection years][ageproR::projection_years]
+#'
+#' @importFrom R6 R6Class
+#'
+#' @keywords projection_analyses
+#'
+#' @export
+rebuild_projection <- R6Class(
+    "rebuild_projection",
+    inherit = projection_analyses,
+    private = list(
 
+      .keyword_name = "rebuild",
 
+      .target_biomass_value = NULL,
+      .target_biomass_type = NULL,
+      .target_percent = NULL
 
+    ),
+    public = list(
 
+      #' @description
+      #' Initializes class
+      #'
+      initialize = function (proj_years) {
+
+        super$initialize(proj_years)
+
+      }
+
+    ),
+    active = list(
+      #' @field target_biomass_value
+      #' Rebuilding projection's target biomass value in units of thousands
+      #' of metric tons (MT)
+      target_biomass_value = function (value) {
+        if(missing(value)){
+          private$.target_biomass_value
+        }else{
+          checkmate::assert_numeric(value, lower = 0, len = 1,
+                                    .var.name = "target_biomass_value")
+
+          private$.target_biomass_value <- value
+        }
+      },
+
+      #' @field target_biomass_type
+      #' Index for the type of population biomass as the target:
+      #' \itemize{
+      #'   \item{0}{Spawning Stock Biomass}
+      #'   \item{1}{January 1st Stock Biomass}
+      #'   \item{2}{Mid-Year (Mean) Biomass}
+      #' }
+      target_biomass_type = function(value) {
+        if(missing(value)){
+          private$.target_biomass_type
+        }else{
+          checkmate::assert_numeric(value, len = 1,
+                                    .var.name = "target_biomass_type")
+          checkmate::assert_choice(value, choices = c(0,1,2),
+                                   .var.name = "target_biomass_type")
+          private$.target_biomass_type <- value
+        }
+      },
+
+      #' @field target_percent
+      #' The percent frequency of achieving the target value by the target
+      #' year. The percent frequency is a value between 0 (a zero
+      #' chance of achieving target) and 100 (indicating a 100 percent chance
+      #' of achieving target).
+      target_percent = function(value) {
+        if(missing(value)){
+          private$.target_percent
+        }else{
+          checkmate::assert_numeric(value, len = 1,
+                                    lower = 0, upper = 100,
+                                    .var.name = "target_percent")
+
+          private$.target_percent <- value
+        }
+      }
+    )
 )
