@@ -40,14 +40,24 @@ projection_analyses <- R6Class(
     #' the time projection; a vector of sequential values: Sequence of years
     #' in from first to last year of the time projection; or an instance of
     #' [Projection years][ageproR::projection_years]:
+    #' @param target_year Harvest Scenario Target Year for Pstar or
+    #' Rebuild projections. The NULL default triggers the default to be
+    #' assigned to the last projection year from `proj_years`
     #'
-    initialize = function(proj_years) {
+    initialize = function(proj_years, target_year = NULL) {
 
       # Handle `proj_years` that may be a single int or vector of sequential
       # values or an instance of ageproR::projection_years
       private$.projection_years <- check_proj_years_parameter(proj_years)
 
-      self$target_year <- 0
+      if(is.null(target_year)){
+        # Set default target_year to last projection year
+        self$target_year <-
+          private$.projection_years$sequence[private$.projection_years$count]
+      }else{
+        self$target_year <- target_year
+      }
+
 
     }
 
@@ -60,9 +70,17 @@ projection_analyses <- R6Class(
       if(missing(value)){
         private$.target_year
       }else{
-        checkmate::assert_numeric(value, len = 1,
-                                  lower = 0,
+        #Check target_year is within projection years
+        first_projection_year <- private$.projection_years$sequence[1]
+        last_projection_year <-
+          private$.projection_years$sequence[private$.projection_years$count]
+
+        checkmate::assert_numeric(value,
+                                  len = 1,
+                                  lower = first_projection_year,
+                                  upper = last_projection_year,
                                   .var.name = "target_year")
+
         private$.target_year <- value
       }
     },
@@ -164,6 +182,8 @@ pstar_projection <- R6Class(
     #'
     #' @param num_pstar_levels Number of Pstar levels. Default is `1`
     #' @param pstar_f Fishing mortality rate \eqn{f}. Default is `0.0`
+    #' @param ... Other parameters to pass to
+    #' [`projection_analyses`][ageproR::projection_analyses]
     #'
     initialize = function(proj_years,
                           num_pstar_levels = 1,
@@ -372,11 +392,6 @@ pstar_projection <- R6Class(
 #' @template nline
 #' @template elipses
 #'
-#' @param proj_years May be a single numeric value: the number of years in the
-#' time projection; a vector of sequential values: Sequence of years in from
-#' first to last year of the time projection; or an instance of
-#' [Projection years][ageproR::projection_years]
-#'
 #' @importFrom R6 R6Class
 #'
 #' @keywords projection_analyses
@@ -399,9 +414,16 @@ rebuild_projection <- R6Class(
       #' @description
       #' Initializes class
       #'
-      initialize = function (proj_years) {
+      #' @param proj_years May be a single numeric value: the number of years in the
+      #' time projection; a vector of sequential values: Sequence of years in from
+      #' first to last year of the time projection; or an instance of
+      #' [Projection years][ageproR::projection_years]
+      #' @param ... Other parameters to pass to
+      #' [`projection_analyses`][ageproR::projection_analyses]
+      #'
+      initialize = function (proj_years, ...) {
 
-        super$initialize(proj_years)
+        super$initialize(proj_years, ...)
 
       }
 

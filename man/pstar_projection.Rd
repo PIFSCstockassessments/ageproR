@@ -58,7 +58,8 @@ first to last year of the time projection; or an instance of
 
 \item{\code{pstar_f}}{Fishing mortality rate \eqn{f}. Default is \code{0.0}}
 
-\item{\code{...}}{further arguments passed to or from other methods}
+\item{\code{...}}{Other parameters to pass to
+\code{\link[=projection_analyses]{projection_analyses}}}
 }
 \if{html}{\out{</div>}}
 }

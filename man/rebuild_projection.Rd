@@ -45,7 +45,7 @@ of achieving target).}
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$new(proj_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$new(proj_years, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -55,6 +55,9 @@ Initializes class
 time projection; a vector of sequential values: Sequence of years in from
 first to last year of the time projection; or an instance of
 \link[=projection_years]{Projection years}}
+
+\item{\code{...}}{Other parameters to pass to
+\code{\link[=projection_analyses]{projection_analyses}}}
 }
 \if{html}{\out{</div>}}
 }

@@ -32,7 +32,7 @@ Rebuilding, and PStar projection analyses based AGEPRO Keyword parameters.
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{projection_analyses$new(proj_years)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{projection_analyses$new(proj_years, target_year = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -42,6 +42,10 @@ Initializes class
 the time projection; a vector of sequential values: Sequence of years
 in from first to last year of the time projection; or an instance of
 \link[=projection_years]{Projection years}:}
+
+\item{\code{target_year}}{Harvest Scenario Target Year for Pstar or
+Rebuild projections. The NULL default triggers the default to be
+assigned to the last projection year from \code{proj_years}}
 }
 \if{html}{\out{</div>}}
 }
