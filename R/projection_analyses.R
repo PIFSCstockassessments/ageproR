@@ -451,6 +451,45 @@ rebuild_projection <- R6Class(
         self$target_biomass_type <- target_type
         self$target_percent <- target_percent
 
+      },
+
+      #' @description
+      #' Reads in the values from the keyword parameter REBUILD from the
+      #' AGEPRO Input file
+      #'
+      read_inp_lines = function(inp_con, nline) {
+
+        cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+        nline <- nline + 1
+
+        #Read an additional line from the file connection, and split into
+        #substrings by whitespace
+        inp_line <- read_inp_numeric_line(inp_con)
+        cli::cli_alert("Line {nline} : Reading Rebuilding Projection fields : ")
+
+        self$target_year <- inp_line[1]
+        self$target_biomass_value <- inp_line[2]
+        self$target_biomass_type <- inp_line[3]
+        self$target_percent <- inp_line[4]
+
+        self$print()
+
+        return(nline)
+      },
+
+      #' @description
+      #' Prints out the rebuild projections fields to console
+      #'
+      print = function (...) {
+        cli::cli_ul()
+        cli::cli_li("target_year: {.val {self$target_year}}")
+        cli::cli_li(paste0("target_biomass_value: ",
+                           "{.val {self$target_biomass_value}} MT"))
+        cli::cli_li(paste0("target_biomass_type: ",
+                           "{.val {self$target_biomass_type}}"))
+        cli::cli_li("target_percent: {.val {self$target_percent}} %")
+        cli::cli_end()
       }
 
     ),

@@ -40,6 +40,8 @@ of achieving target).}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-rebuild_projection-new}{\code{rebuild_projection$new()}}
+\item \href{#method-rebuild_projection-read_inp_lines}{\code{rebuild_projection$read_inp_lines()}}
+\item \href{#method-rebuild_projection-print}{\code{rebuild_projection$print()}}
 \item \href{#method-rebuild_projection-clone}{\code{rebuild_projection$clone()}}
 }
 }
@@ -81,6 +83,45 @@ of metric tons (MT). Default set to 0.}
 
 \item{\code{...}}{Other parameters to pass to
 \code{\link[=projection_analyses]{projection_analyses}}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rebuild_projection-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-rebuild_projection-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter REBUILD from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rebuild_projection-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rebuild_projection-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out the rebuild projections fields to console
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
