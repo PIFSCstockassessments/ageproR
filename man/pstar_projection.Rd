@@ -9,6 +9,10 @@ Input information for calculating Total Allowable Catch (\eqn{TAC_{pstar}})
 to produce \eqn{P*}, which is the probability of overfishing in the target
 projection year
 }
+\details{
+Creating or importing \code{pstar_projection} object will overwrite the
+any existing rebuild and pstar projection objects.
+}
 \keyword{projection_analyses}
 \section{Super class}{
 \code{\link[ageproR:projection_analyses]{ageproR::projection_analyses}} -> \code{pstar_projection}

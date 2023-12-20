@@ -141,6 +141,10 @@ standard_projection <- R6Class(
 #' to produce \eqn{P*}, which is the probability of overfishing in the target
 #' projection year
 #'
+#' @details
+#' Creating or importing `pstar_projection` object will overwrite the
+#' any existing rebuild and pstar projection objects.
+#'
 #' @template inp_con
 #' @template nline
 #' @template elipses
@@ -384,9 +388,13 @@ pstar_projection <- R6Class(
 #' Input information for calculating F to rebuild spawning biomass
 #'
 #' @description
-#' Rebuilding projection analysis is focused on the calculation of the constant
+#' Rebuilding projections is focused on the calculation of the constant
 #' total fishing mortality calculated across all fleets that will rebuild the
 #' population, denoted as \eqn{F_{REBUILD}}.
+#'
+#' @details
+#' Creating or importing `rebuild_projection` object will overwrite the
+#' any existing rebuild and pstar projection objects.
 #'
 #' @template inp_con
 #' @template nline
@@ -418,12 +426,30 @@ rebuild_projection <- R6Class(
       #' time projection; a vector of sequential values: Sequence of years in from
       #' first to last year of the time projection; or an instance of
       #' [Projection years][ageproR::projection_years]
+      #' @param target_biomass Target biomass value in units of thousands
+      #' of metric tons (MT). Default set to 0.
+      #' @param target_type Target population biomass:
+      #' \itemize{
+      #'   \item{0}{Spawning Stock Biomass. Set as Default}
+      #'   \item{1}{January 1st Stock Biomass}
+      #'   \item{2}{Mid-Year (Mean) Biomass}
+      #' }
+      #' @param target_percent The percent frequency that `target_year` reaches
+      #' `target_biomass` from 0 to 100. Default set to 0.
       #' @param ... Other parameters to pass to
       #' [`projection_analyses`][ageproR::projection_analyses]
       #'
-      initialize = function (proj_years, ...) {
+      initialize = function (proj_years,
+                             target_biomass = 0,
+                             target_type = 0,
+                             target_percent = 0,
+                             ...) {
 
         super$initialize(proj_years, ...)
+
+        self$target_biomass_value <- target_biomass
+        self$target_biomass_type <- target_type
+        self$target_percent <- target_percent
 
       }
 

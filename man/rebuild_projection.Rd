@@ -4,9 +4,13 @@
 \alias{rebuild_projection}
 \title{Input information for calculating F to rebuild spawning biomass}
 \description{
-Rebuilding projection analysis is focused on the calculation of the constant
+Rebuilding projections is focused on the calculation of the constant
 total fishing mortality calculated across all fleets that will rebuild the
 population, denoted as \eqn{F_{REBUILD}}.
+}
+\details{
+Creating or importing \code{rebuild_projection} object will overwrite the
+any existing rebuild and pstar projection objects.
 }
 \keyword{projection_analyses}
 \section{Super class}{
@@ -45,7 +49,13 @@ of achieving target).}
 \subsection{Method \code{new()}}{
 Initializes class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$new(proj_years, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$new(
+  proj_years,
+  target_biomass = 0,
+  target_type = 0,
+  target_percent = 0,
+  ...
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -55,6 +65,19 @@ Initializes class
 time projection; a vector of sequential values: Sequence of years in from
 first to last year of the time projection; or an instance of
 \link[=projection_years]{Projection years}}
+
+\item{\code{target_biomass}}{Target biomass value in units of thousands
+of metric tons (MT). Default set to 0.}
+
+\item{\code{target_type}}{Target population biomass:
+\itemize{
+\item{0}{Spawning Stock Biomass. Set as Default}
+\item{1}{January 1st Stock Biomass}
+\item{2}{Mid-Year (Mean) Biomass}
+}}
+
+\item{\code{target_percent}}{The percent frequency that \code{target_year} reaches
+\code{target_biomass} from 0 to 100. Default set to 0.}
 
 \item{\code{...}}{Other parameters to pass to
 \code{\link[=projection_analyses]{projection_analyses}}}
