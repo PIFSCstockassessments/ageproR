@@ -202,6 +202,8 @@ pstar_projection <- R6Class(
       self$pstar_levels_table <-
         self$create_blank_pstar_levels_table(self$num_pstar_levels)
 
+      #TODO: implement enable_cat_print argument
+
     },
 
     #' @description
