@@ -37,6 +37,7 @@ agepro_model <- R6Class(
     .discard_weight_age = NULL,
     .harvest_scenario = NULL,
     .pstar_projection = NULL,
+    .rebuild_projection = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -121,7 +122,7 @@ agepro_model <- R6Class(
                            .var.name = "general")
 
       #Assign and verify projection_analyses_type
-      self$projection_analyses_type <- projection_analyses_type
+      self$set_projection_analyses_type(projection_analyses_type)
 
       private$.discards_present <- x$discards_present
 
@@ -197,6 +198,11 @@ agepro_model <- R6Class(
                                enable_cat_print = enable_cat_print)
       }
 
+      if(self$projection_analyses_type == "rebuild") {
+        self$rebuild <-
+          rebuild_projection$new(x$seq_years)
+      }
+
     },
 
     #' @description
@@ -225,7 +231,7 @@ agepro_model <- R6Class(
     #' @description
     #' Helper Function to setup agepro model's projection analyses type. agepro
     #' models use standard projection analyses by default, and do not require
-    #' additional keyword parameter setup. "pstar" and  "rebuider" projection
+    #' additional keyword parameter setup. "pstar" and  "rebuild" projection
     #' analyses types require their own keyword parameter classes to setup.
     #' However, they are not created during model initialization.
     #'
@@ -247,15 +253,17 @@ agepro_model <- R6Class(
 
       #Clean PSTAR and REBULD
       if(isFALSE(is.null(self$pstar)))  self$pstar <- NULL
+      if(isFALSE(is.null(self$rebuild))) self$rebuild <- NULL
 
       if(self$projection_analyses_type == "pstar") {
 
-        cli::cli_alert_info("Creating default PStar projection analyses ...")
+        cli::cli_alert_info("Creating default PStar projection values...")
         self$pstar <- pstar_projection$new(self$general$seq_years)
 
       }else if(self$projection_analyses_type == "rebuild") {
 
-        #TODO: create REBUILD object
+        cli::cli_alert_info("Creating default Rebuild Projection values ...")
+        self$rebuild <- rebuild_projection$new(self$general$seq_years)
 
       }
       cli::cli_text("Done")
@@ -483,10 +491,10 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.pstar_projection)
       }else {
-        #Check if projection_analyses_type is not REBUILD
+        #Check if current projection_analyses_type is not REBUILD
         if(self$projection_analyses_type == "rebuild"){
-          stop(paste0("Reading PSTAR projection analyses data but ",
-                    "Projection Analyses Type set to REBUILD"))
+          stop(paste0("Assigning value PSTAR projection object but ",
+                    "current projection_analyses_type is REBUILD"))
         }
         checkmate::assert_r6(value, public = c("target_year",
                                                "num_pstar_levels",
@@ -495,7 +503,35 @@ agepro_model <- R6Class(
                              .var.name = "pstar")
         private$.pstar_projection <- value
       }
+    },
+
+
+    #' @field rebuild
+    #' calculation of the constant total Fishing Mortality \eqn{F}
+    #' calculated across all fleets with the rebuild spawning biomass.
+    rebuild = function(value) {
+      if(missing(value)){
+        return(private$.rebuild_projection)
+      }else {
+        #Check if current active projection_analyses_type is not PSTAR
+        if(self$projection_analyses_type == "pstar"){
+          stop(paste0("Assigning value to REBUILD projection object but ",
+                      "current projection_analyses_type is PSTAR"))
+        }
+        checkmate::assert_r6(value,
+                             public = c("target_year",
+                                        "target_biomass_value",
+                                        "target_biomass_type",
+                                        "target_percent"),
+                             .var.name = "rebuild")
+
+        private$.rebuild_projection <- value
+
+      }
+
     }
+
+
 
   )
 
@@ -640,13 +676,25 @@ agepro_inp_model <- R6Class(
     read_pstar_projection = function(con, nline) {
 
       if(self$projection_analyses_type == "rebuild"){
-        stop(paste0("Reading PSTAR projection analyses data but ",
-                    "Projection Analyses Type set to REBUILD"))
+        stop(paste0("Reading PSTAR projection data but ",
+                    "projection_analyses_type is 'rebuild'"))
       }
 
       self$set_projection_analyses_type("pstar")
 
       self$nline <- self$pstar$read_inp_lines(con, nline)
+    },
+
+    read_rebuild_projection = function(con, nline) {
+
+      if(self$projection_analyses_type == "pstar"){
+        stop(paste0("Reading REBUILD projection data but ",
+                    "projection_analyses_type is 'pstar'"))
+      }
+
+      self$set_projection_analyses_type("rebuild")
+
+      self$nline <- self$rebuild$read_inp_lines(con, nline)
     }
 
 
@@ -839,6 +887,9 @@ agepro_inp_model <- R6Class(
         },
         "[PSTAR]" = {
           rlang::expr(private$read_pstar_projection(inp_con, self$nline))
+        },
+        "[REBUILD]" = {
+          rlang::expr(private$read_rebuild_projection(inp_con, self$nline))
         }
 
       ))

@@ -53,6 +53,9 @@ Discard Fraction}
 
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
+
+\item{\code{rebuild}}{calculation of the constant total Fishing Mortality \eqn{F}
+calculated across all fleets with the rebuild spawning biomass.}
 }
 \if{html}{\out{</div>}}
 }
@@ -184,7 +187,7 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 \subsection{Method \code{set_projection_analyses_type()}}{
 Helper Function to setup agepro model's projection analyses type. agepro
 models use standard projection analyses by default, and do not require
-additional keyword parameter setup. "pstar" and  "rebuider" projection
+additional keyword parameter setup. "pstar" and  "rebuild" projection
 analyses types require their own keyword parameter classes to setup.
 However, they are not created during model initialization.
 
