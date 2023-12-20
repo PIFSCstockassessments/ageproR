@@ -414,7 +414,27 @@ rebuild_projection <- R6Class(
 
       .target_biomass_value = NULL,
       .target_biomass_type = NULL,
-      .target_percent = NULL
+      .target_percent = NULL,
+
+      .names_target_biomass_type = list(
+        "0" = "Spawning Stock Biomass",
+        "1" = "January 1st Stock Biomass",
+        "2" = "Mid-Year (Mean) Biomass"
+      ),
+
+      print_name_target_biomass_type = function() {
+
+        target_biomass_type_name <-
+          private$.names_target_biomass_type[[
+            as.character(self$target_biomass_type)]]
+
+        li_nested <-
+          cli::cli_div(class = "target_type",
+                       theme = list(.target_type = list("margin-left" = 2)))
+        cli::cli_text("{.emph {.field {target_biomass_type_name}}}")
+        cli::cli_end(li_nested)
+
+      }
 
     ),
     public = list(
@@ -488,6 +508,7 @@ rebuild_projection <- R6Class(
                            "{.val {self$target_biomass_value}} MT"))
         cli::cli_li(paste0("target_biomass_type: ",
                            "{.val {self$target_biomass_type}}"))
+        private$print_name_target_biomass_type()
         cli::cli_li("target_percent: {.val {self$target_percent}} %")
         cli::cli_end()
       }
