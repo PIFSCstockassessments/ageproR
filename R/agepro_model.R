@@ -263,14 +263,15 @@ agepro_model <- R6Class(
 
         cli::cli_alert("Creating default PStar projection values...")
         self$pstar <- pstar_projection$new(self$general$seq_years)
+        cli::cli_text("Done")
 
       }else if(self$projection_analyses_type == "rebuild") {
 
         cli::cli_alert("Creating default Rebuild Projection values ...")
         self$rebuild <- rebuild_projection$new(self$general$seq_years)
-
+        cli::cli_text("Done")
       }
-      cli::cli_text("Done")
+
     }
 
   ), active = list(
@@ -779,6 +780,7 @@ agepro_inp_model <- R6Class(
           #(Re)Set File connection to input file
           inp_con <- file(file.path(inpfile), "r")
 
+          self$set_projection_analyses_type("standard")
           self$read_inpfile_values(inp_con)
 
           #Cleanup and close file connections
