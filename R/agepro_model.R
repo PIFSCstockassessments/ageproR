@@ -252,17 +252,21 @@ agepro_model <- R6Class(
                                  "to {.field {self$projection_analyses_type}}"))
 
       #Clean PSTAR and REBULD
-      if(isFALSE(is.null(self$pstar)))  self$pstar <- NULL
-      if(isFALSE(is.null(self$rebuild))) self$rebuild <- NULL
+      if(isFALSE(is.null(self$pstar)))  {
+        self$pstar <- NULL
+      }
+      if(isFALSE(is.null(self$rebuild))) {
+        self$rebuild <- NULL
+      }
 
       if(self$projection_analyses_type == "pstar") {
 
-        cli::cli_alert_info("Creating default PStar projection values...")
+        cli::cli_alert("Creating default PStar projection values...")
         self$pstar <- pstar_projection$new(self$general$seq_years)
 
       }else if(self$projection_analyses_type == "rebuild") {
 
-        cli::cli_alert_info("Creating default Rebuild Projection values ...")
+        cli::cli_alert("Creating default Rebuild Projection values ...")
         self$rebuild <- rebuild_projection$new(self$general$seq_years)
 
       }
@@ -500,6 +504,7 @@ agepro_model <- R6Class(
                                                "num_pstar_levels",
                                                "pstar_levels_table",
                                                "pstar_overfishing_f"),
+                             null.ok = TRUE,
                              .var.name = "pstar")
         private$.pstar_projection <- value
       }
@@ -523,6 +528,7 @@ agepro_model <- R6Class(
                                         "target_biomass_value",
                                         "target_biomass_type",
                                         "target_percent"),
+                             null.ok = TRUE,
                              .var.name = "rebuild")
 
         private$.rebuild_projection <- value
