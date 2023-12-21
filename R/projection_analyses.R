@@ -488,7 +488,7 @@ rebuild_projection <- R6Class(
         #Read an additional line from the file connection, and split into
         #substrings by whitespace
         inp_line <- read_inp_numeric_line(inp_con)
-        cli::cli_alert("Line {nline} : Reading Rebuilding Projection fields : ")
+        cli::cli_alert("Line {nline}: Reading Rebuilding Projection fields: ")
 
         self$target_year <- inp_line[1]
         self$target_biomass_value <- inp_line[2]
