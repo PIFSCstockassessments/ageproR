@@ -1168,6 +1168,8 @@ agepro_json_model <- R6Class(
                                       "harvest",
                                       "pstar"))
 
+      self$projection_analyses_type <-
+        inp_model$projection_analyses_type
 
       if(as.logical(inp_model$general$discards_present)){
         self$discard <- inp_mode$discard
@@ -1191,7 +1193,7 @@ agepro_json_model <- R6Class(
       self$harvest <- inp_model$harvest
       if(self$projection_analyses_type == "pstar"){
 
-        supressMessages(self$set_projection_analyses_type("pstar"))
+        suppressMessages(self$set_projection_analyses_type("pstar"))
         self$pstar <- inp_model$pstar
 
       }
