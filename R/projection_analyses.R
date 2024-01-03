@@ -501,6 +501,20 @@ rebuild_projection <- R6Class(
       },
 
       #' @description
+      #' Returns rebuild projection Values formatted as AGEPRO input file lines.
+      #'
+      #' @template delimiter
+      #'
+      get_inp_lines = function(delimiter) {
+        return(paste(
+          c(self$target_year,
+            self$target_biomass_value,
+            self$target_biomass_type,
+            self$target_percent),
+          collapse = delimiter))
+      },
+
+      #' @description
       #' Prints out the rebuild projections fields to console
       #'
       print = function (...) {

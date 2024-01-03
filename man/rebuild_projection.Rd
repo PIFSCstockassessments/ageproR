@@ -41,6 +41,7 @@ of achieving target).}
 \itemize{
 \item \href{#method-rebuild_projection-new}{\code{rebuild_projection$new()}}
 \item \href{#method-rebuild_projection-read_inp_lines}{\code{rebuild_projection$read_inp_lines()}}
+\item \href{#method-rebuild_projection-get_inp_lines}{\code{rebuild_projection$get_inp_lines()}}
 \item \href{#method-rebuild_projection-print}{\code{rebuild_projection$print()}}
 \item \href{#method-rebuild_projection-clone}{\code{rebuild_projection$clone()}}
 }
@@ -105,6 +106,23 @@ AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rebuild_projection-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-rebuild_projection-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns rebuild projection Values formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rebuild_projection$get_inp_lines(delimiter)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

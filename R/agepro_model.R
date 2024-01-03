@@ -995,6 +995,9 @@ agepro_inp_model <- R6Class(
             self$harvest$get_inplines(delimiter),
             if(self$projection_analyses_type == "pstar"){
               self$pstar$get_inp_lines(delimiter)
+            },
+            if(self$projection_analyses_type == "rebuild"){
+              self$rebuild$get_inp_lines(delimiter)
             }
           )
 
