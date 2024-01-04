@@ -1098,7 +1098,8 @@ agepro_json_model <- R6Class(
                       NA),
              "recruit" = self$recruit$json_list_recruit,
              "harvest" = self$harvest$json_list_object,
-             "pstar" = self$pstar$json_list_object
+             "pstar" = self$pstar$json_list_object,
+             "rebuild" = self$rebuild$json_list_object
         )
 
 
@@ -1198,6 +1199,12 @@ agepro_json_model <- R6Class(
 
         suppressMessages(self$set_projection_analyses_type("pstar"))
         self$pstar <- inp_model$pstar
+
+      }
+      if(self$projection_analyses_type == "rebuild"){
+
+        suppressMessages(self$set_projection_analyses_type("rebuild"))
+        self$rebuild <- inp_model$rebuild
 
       }
 

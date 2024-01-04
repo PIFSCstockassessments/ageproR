@@ -531,6 +531,19 @@ rebuild_projection <- R6Class(
 
     ),
     active = list(
+
+      #' @field json_list_object
+      #' Returns JSON list object of rebuilder Projection values
+      json_list_object = function() {
+
+        return(list(
+          target_year = self$target_year,
+          target_value = self$target_biomass_value,
+          target_type = self$target_biomass_type,
+          target_percent = self$target_percent
+        ))
+      },
+
       #' @field target_biomass_value
       #' Rebuilding projection's target biomass value in units of thousands
       #' of metric tons (MT)
@@ -580,5 +593,6 @@ rebuild_projection <- R6Class(
           private$.target_percent <- value
         }
       }
+
     )
 )

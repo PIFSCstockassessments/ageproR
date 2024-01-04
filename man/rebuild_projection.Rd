@@ -19,6 +19,8 @@ any existing rebuild and pstar projection objects.
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{json_list_object}}{Returns JSON list object of rebuilder Projection values}
+
 \item{\code{target_biomass_value}}{Rebuilding projection's target biomass value in units of thousands
 of metric tons (MT)}
 
