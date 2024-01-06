@@ -1079,6 +1079,7 @@ agepro_json_model <- R6Class(
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
       agepro_json <-
         list("version" = version_json,
+             "case_id" = self$case_id$model_name,
              "general" = self$general$json_list_general,
              "bootstrap" = self$bootstrap$json_bootstrap,
              "natmort" = self$natmort$json_list_process_error,
