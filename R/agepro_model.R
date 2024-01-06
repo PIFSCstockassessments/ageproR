@@ -263,13 +263,12 @@ agepro_model <- R6Class(
 
         cli::cli_alert("Creating default PStar projection values...")
         self$pstar <- pstar_projection$new(self$general$seq_years)
-        cli::cli_text("Done")
 
       }else if(self$projection_analyses_type == "rebuild") {
 
         cli::cli_alert("Creating default Rebuild Projection values ...")
         self$rebuild <- rebuild_projection$new(self$general$seq_years)
-        cli::cli_text("Done")
+
       }
 
     }
@@ -1198,16 +1197,22 @@ agepro_json_model <- R6Class(
       self$harvest <- inp_model$harvest
       if(self$projection_analyses_type == "pstar"){
 
-        suppressMessages(self$set_projection_analyses_type("pstar"))
+        self$set_projection_analyses_type("pstar")
+        cli::cli_alert(paste0("Importing PStar Projection values ",
+                              "from AGEPRO Input Data format ..."))
         self$pstar <- inp_model$pstar
 
       }
       if(self$projection_analyses_type == "rebuild"){
 
-        suppressMessages(self$set_projection_analyses_type("rebuild"))
+        self$set_projection_analyses_type("rebuild")
+        cli::cli_alert(paste0("Importing Rebuling Projection values ",
+                              "from AGEPRO Input Data format ..."))
         self$rebuild <- inp_model$rebuild
 
       }
+
+      invisible(inp_model)
 
     }
 
