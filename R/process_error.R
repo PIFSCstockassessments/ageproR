@@ -89,18 +89,6 @@ process_error <- R6Class(
 
     },
 
-    #Handles potential proj_years "Factor" types, and returns its
-    #"levels", the intended values assigned to this value.
-    handle_factors_proj_years = function(proj_years){
-
-      #Check proj_years
-      if(is.factor(proj_years)) {
-        proj_years <- levels(proj_years)
-      }
-
-      return(proj_years)
-    },
-
     #Change in time_varying will reset parameter and CV table
     time_varying_toggle_resets_parameter_table = function(time_flag) {
 
@@ -157,20 +145,23 @@ process_error <- R6Class(
                           time_varying = TRUE,
                           ...){
 
-      #set and validate input_option value
-      self$input_option <- input_option
 
-      #Time Varying
+      # set and validate value
+      self$input_option <- input_option
       self$time_varying <- time_varying
 
-      proj_years <- private$handle_factors_proj_years(proj_years)
+      # Handles potential proj_years "Factor" types
+      if(is.factor(proj_years)) {
+        proj_years <- levels(proj_years)
+      }
 
-      # Handle num_projection_years that may be a single int
-      # or vector of sequential values
-      proj_years_class <- ageproR::projection_years$new(as.numeric(proj_years))
+      # Handle proj_years that may be a single int or sequential numeric vector
+      # TODO: Handle instances where proj_years is passed as projection_years class
+      projection_years_class <-
+        ageproR::projection_years$new(as.numeric(proj_years))
 
       #Initialize parameter and CV tables
-      self$setup_parameter_tables(proj_years_class,
+      self$setup_parameter_tables(projection_years_class,
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
@@ -367,6 +358,7 @@ process_error <- R6Class(
       cli::cli_end()
 
 
+      # TODO: Setup instances where proj_years is passed as a projection_year class
       # Setup new instance of Parameter and CV tables. time_varying
       # value read from the AGEPRO input file. Including values for
       # projection_years. num_ages, and num_fleets.
@@ -404,12 +396,12 @@ process_error <- R6Class(
       if(private$.num_fleets == 1 && !(self$time_varying)) {
 
         nline <- nline + 1
-        cli::cli_alert("Line {nline}:")
         inp_line <- read_inp_numeric_line(inp_con)
-        cli::cli_text(c("parameter_table (",
-                    "{self$parameter_title}) for All Years: ",
-                    "{.val {inp_line}} ",
-                    "{.emph ({private$.num_ages} Age{?s})}"))
+        cli::cli_alert(c("Line {nline}: ",
+                         "parameter_table (",
+                         "{self$parameter_title}) for All Years: ",
+                         "{.val {inp_line}} ",
+                         "{.emph ({private$.num_ages} Age{?s})}"))
 
         self$parameter_table["All Years",] <- inp_line
 
@@ -418,12 +410,12 @@ process_error <- R6Class(
 
         for(i in rownames(self$parameter_table)){
           nline <- nline + 1
-          cli::cli_alert("Line {nline}:")
           inp_line <- read_inp_numeric_line(inp_con)
-          cli::cli_text(c("parameter_table (",
-                      "{self$parameter_title}) for {i}: ",
-                      "{.val {inp_line}} ",
-                      "{.emph ({private$.num_ages} Age{?s})}"))
+          cli::cli_alert(c("Line {nline}: ",
+                           "parameter_table (",
+                           "{self$parameter_title}) for {i}: ",
+                           "{.val {inp_line}} ",
+                           "{.emph ({private$.num_ages} Age{?s})}"))
 
           self$parameter_table[i,] <- inp_line
         }
@@ -442,11 +434,11 @@ process_error <- R6Class(
 
       if(private$.num_fleets == 1) {
         nline <- nline + 1
-        cli::cli_alert("Line {nline}: ")
         inp_line <- read_inp_numeric_line(inp_con)
-        cli::cli_text(c("cv_table (Coefficent of Variation) for All Years: ",
-                    "{.val {inp_line}} ",
-                    "{.emph ({private$.num_ages} Age{?s})}"))
+        cli::cli_alert(c("Line {nline}: ",
+                         "cv_table (Coefficent of Variation) for All Years: ",
+                         "{.val {inp_line}} ",
+                         "{.emph ({private$.num_ages} Age{?s})}"))
 
         self$cv_table["All Years",] <- inp_line
 
@@ -454,11 +446,11 @@ process_error <- R6Class(
 
         for(i in rownames(self$cv_table)){
           nline <- nline + 1
-          cli::cli_alert("Line {nline}: ")
           inp_line <- read_inp_numeric_line(inp_con)
-          cli::cli_text(c("cv_table (Coefficent of Variation) for {i}: ",
-                      "{.val {inp_line}} ",
-                      "{.emph ({private$.num_ages} Age{?s})}"))
+          cli::cli_alert(c("Line {nline}: ",
+                           "cv_table (Coefficent of Variation) for {i}: ",
+                           "{.val {inp_line}} ",
+                           "{.emph ({private$.num_ages} Age{?s})}"))
 
           self$cv_table[i,] <- inp_line
         }
@@ -788,15 +780,15 @@ discard_fraction <- R6Class(
                           time_varying = TRUE,
                           enable_cat_print = TRUE) {
 
-      super$initalize(proj_years,
+      super$initialize(proj_years,
                       num_ages,
                       num_fleets,
                       input_option,
-                      time_varying)
+                      time_varying,
+                      enable_cat_print)
 
       self$parameter_title <- "Discards Fraction of Numbers at Age"
       private$.keyword_name <- "discard"
-      private$.discards_parameter <- TRUE
 
       private$cli_initialize(enable_cat_print, omit_rows = TRUE)
 

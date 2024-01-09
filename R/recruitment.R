@@ -372,10 +372,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       }
 
-      #Print out Recruitment Probability from Input data to console
-      private$cli_recruit_probability()
-
-
       # For each recruit model in recruit_model_collection
       for (recruit in 1:private$.number_recruit_models){
 
@@ -383,11 +379,23 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         self$model_collection_list[[recruit]] <-
           self$set_recruit_model(self$recruit_model_num_list[[recruit]])
 
-        cli_alert_info(c("Reading recruitment model ",
-                    "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
+        cli::cli_alert_info(
+          paste0("{.strong model_collection_list} ({recruit} of ",
+                 "{length(self$model_collection_list)} ",
+                 "recruit model{?s})"))
+
+        #Nest Recruitment model read_inp_lines Output per model
+        li_nested <- cli::cli_div(class = "input_field",
+                                  theme = list(.input_field =
+                                                 list("margin-left" = 2)))
+        cli::cli_alert_info(
+          paste0("Reading recruitment model ",
+                 "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)
+
+        cli::cli_end(li_nested)
 
       }
 

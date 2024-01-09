@@ -19,6 +19,8 @@ with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
 
+\item{\code{projection_analyses_type}}{Type of projection analyses: standard, rebuilding, pstar.}
+
 \item{\code{case_id}}{Title identifying AGEPRO model attributes}
 
 \item{\code{general}}{General Options}
@@ -45,7 +47,15 @@ Discard Fraction}
 
 \item{\code{disc_weight}}{Discard weight of age by fleet}
 
+\item{\code{harvest}}{Harvest intensity (of fishing mortality or landings quota) by fleet}
+
 \item{\code{recruit}}{AGEPRO Recruitment Model information}
+
+\item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
+probability of overfishing in the target year.}
+
+\item{\code{rebuild}}{calculation of the constant total Fishing Mortality \eqn{F}
+calculated across all fleets with the rebuild spawning biomass.}
 }
 \if{html}{\out{</div>}}
 }
@@ -53,8 +63,10 @@ Discard Fraction}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-agepro_model-new}{\code{agepro_model$new()}}
+\item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
+\item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -62,7 +74,7 @@ Discard Fraction}
 \if{html}{\out{<a id="method-agepro_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_model-new}{}}}
 \subsection{Method \code{new()}}{
-Starts an instances of the AGEPRO Model
+Initializes the instance of the AGEPRO Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_model$new(
   yr_start,
@@ -102,6 +114,39 @@ Starts an instances of the AGEPRO Model
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-default_agepro_keyword_params"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-default_agepro_keyword_params}{}}}
+\subsection{Method \code{default_agepro_keyword_params()}}{
+This will create default values for each primary AGEPRO keyword
+parameter based on the values passed by the \code{general_params} class.
+Optional keyowrd parameters, such as as discard fraction or discard
+weight may be created, if enabled.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$default_agepro_keyword_params(
+  x,
+  projection_analyses_type = "standard",
+  enable_cat_print = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{\link[=general_params]{General Params} class object.}
+
+\item{\code{projection_analyses_type}}{Type of projection analyses type.
+Default is \code{"standard"}.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_model-set_recruit_model"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_model-set_recruit_model}{}}}
 \subsection{Method \code{set_recruit_model()}}{
@@ -132,6 +177,36 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{bsnfile}}{bootstrap filename}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-set_projection_analyses_type"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-set_projection_analyses_type}{}}}
+\subsection{Method \code{set_projection_analyses_type()}}{
+Helper Function to setup agepro model's projection analyses type. agepro
+models use standard projection analyses by default, and do not require
+additional keyword parameter setup. "pstar" and  "rebuild" projection
+analyses types require their own keyword parameter classes to setup.
+However, they are not created during model initialization.
+
+AGEPRO models must can not have both pstar and rebuilder projection
+analyses,
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_projection_analyses_type(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{projection_analyses_type}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }

@@ -26,6 +26,12 @@ projection_years <- R6Class(
     #'
     initialize = function (x) {
 
+      # Handle potential "Factor" types, and return its levels: the intended
+      # values assigned to this field.
+      if(is.factor(x)) {
+        x <- as.numeric(levels(x))[x]
+      }
+
       #Handle as single int or a vector of sequential values
       if (checkmate::test_int(x)) {
         #single
@@ -72,7 +78,8 @@ projection_years <- R6Class(
         checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
                                   .var.name = "projection_years sequence")
         if(all(diff(value) != 1)){
-          stop("Invalid projection_years Sequence", call. = FALSE)
+          stop(paste0("Invalid projection_years Sequence: ",
+                      "Sequence does not increment by 1"), call. = FALSE)
         }
         private$.sequence <- value
       }

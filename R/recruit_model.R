@@ -20,6 +20,7 @@ recruit_model <- R6Class(
     .model_name = NULL,
     .projected_years = NULL,
     .length_projected_years = NULL
+
   ),
   public = list(
 
@@ -288,14 +289,14 @@ empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
+      cli::cli_text("{.emph {.field {self$model_name}}}")
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline}: Observed points: {.val {inp_line}} ")
+      cli_alert("Line {nline}: observed_points: {.val {inp_line}} ")
 
       #Validate input line holds single value for observation recruits
       assert_numeric(inp_line, len = 1)
@@ -309,7 +310,11 @@ empirical_recruit <- R6Class(
       inp_recruit <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert("Line {nline}: Observations ...")
+
+      cli::cli_alert(c("Line {nline}: ",
+                       "observations (recruit): ",
+                       "{.val {inp_recruit}} ",
+                       "{.emph ({self$observed_points} observation{?s})} "))
 
 
       if (self$with_ssb) {
@@ -319,7 +324,11 @@ empirical_recruit <- R6Class(
         inp_ssb <- read_inp_numeric_line(inp_con)
 
         nline <- nline + 1
-        cli_alert("Line {nline} ...")
+
+        cli::cli_alert(c("Line {nline}: ",
+                         "observations (ssb): ",
+                         "{.val {inp_ssb}} ",
+                         "{.emph ({self$observed_points} observation{?s})} "))
 
         self$observations <- cbind(recruit = inp_recruit,
                                        ssb = inp_ssb)
@@ -328,8 +337,10 @@ empirical_recruit <- R6Class(
         self$observations <- cbind(recruit = inp_recruit)
       }
 
-      #Note: Printing first 10 rows to console
-      print(as_tibble(self$observations), n = 10)
+      ##Note: Printing first 10 rows to console
+      #print(as_tibble(self$observations), n = 10)
+
+
 
 
       return(nline)
@@ -559,7 +570,7 @@ two_stage_empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
+      cli::cli_text("{.emph {.field {self$model_name}}}")
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -958,7 +969,7 @@ parametric_curve <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
+      cli::cli_text("{.emph {.field {self$model_name}}}")
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -1096,7 +1107,7 @@ shepherd_curve_model <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli_alert_info("{self$model_name}")
+      cli::cli_text("{.emph {.field {self$model_name}}}")
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
