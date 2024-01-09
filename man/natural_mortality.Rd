@@ -66,7 +66,7 @@ to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console. Default is TRUE.}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }

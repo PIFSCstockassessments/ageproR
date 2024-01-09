@@ -163,7 +163,8 @@ general_params <- R6Class(
       if(missing(value)) {
         private$.yr_end
       }else {
-        checkmate::assert_numeric(value, lower = 1, len = 1,
+        checkmate::assert_numeric(value, len = 1,
+                                  lower = self$yr_start + 1,
                                   .var.name = "yr_end")
         private$.yr_end <- value
       }
@@ -175,7 +176,7 @@ general_params <- R6Class(
       if(missing(value)){
         private$.age_begin
       }else {
-        checkmate::assert_numeric(value, lower = 0, upper = 1, len = 1,
+        checkmate::assert_choice(value, choices = c(0, 1),
                                   .var.name = "age_begin")
         private$.age_begin <- value
       }
@@ -188,8 +189,21 @@ general_params <- R6Class(
         private$.age_end
       }else {
         checkmate::assert_numeric(value, len = 1,
+                                  lower = self$age_begin + 1,
                                   .var.name = "age_end")
         private$.age_end <- value
+      }
+    },
+
+    #' @field num_pop_sims
+    #' Number of Population Simulations
+    num_pop_sims = function(value){
+      if(missing(value)) {
+        private$.num_pop_sims
+      }else {
+        checkmate::assert_numeric(value, lower = 0, len = 1,
+                                  .var.name = "num_pop_sims")
+        private$.num_pop_sims <- value
       }
     },
 
@@ -217,18 +231,6 @@ general_params <- R6Class(
       }
     },
 
-    #' @field num_pop_sims
-    #' Number of Population Simulations
-    num_pop_sims = function(value){
-      if(missing(value)) {
-        private$.num_pop_sims
-      }else {
-        checkmate::assert_numeric(value, lower = 0, len = 1,
-                                  .var.name = "num_pop_sims")
-        private$.num_pop_sims <- value
-      }
-    },
-
     #' @field discards_present
     #' Are discards present?
     discards_present = function(value) {
@@ -236,8 +238,8 @@ general_params <- R6Class(
         private$.discards_present
       }else {
         #set discard_present values as int/numeric. 0=FALSE 1=TRUE
-        checkmate::assert_numeric(value, lower = 0, upper = 1, len = 1,
-                                  .var.name = "discards_present")
+        checkmate::assert_choice(value, choices = c(0, 1),
+                                 .var.name = "discards_present")
         private$.discards_present <- value
       }
     },
