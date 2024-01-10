@@ -24,7 +24,7 @@ AGEPRO (Age Structured Projection Model).
 _**ageproR** is still in early development. Code base may change without warning 
 prior to first stable release._
 
-If you use AGEPRO for production, please use:
+**If you using AGEPRO for production, please use:**
 
 - [Jon Brodziak's original AGEPRO program (source code)](https://github.com/PIFSCstockassessments/AGEPRO)
 - [GUI interface for AGEPRO (installer & source)](https://github.com/PIFSCstockassessments/AGEPRO-GUI)
@@ -39,40 +39,19 @@ with:
 # install.packages("devtools")
 devtools::install_github("PIFSCstockassessments/ageproR")
 ```
-## Create AGEPRO Model
 
-TODO
-
-## Reading AGEPRO input files 
+## AGEPRO input file 
 
 _Note: **ageproR** is currently incompatible with the supported AGEPRO input 
 file format_ (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`). _Included example 
 AGEPRO input file_ (`inst/test-example4.inp`) _is used to demonstrate it's 
-current implementation._
-
-### Loading a AGEPRO Input File:
-
-```{r example}
-library(ageproR)
-## basic example code
-test <- agepro_inp_model$new()
-
-test$read_inp("inst/test-example4.inp")
-```
-
-### To set (or correct) bootstrap filename 
-
-```{r bootstrap}
-test$set_bootstrap_filename("inst/Example1.BSN")
-```
+implemented features._
 
 
-## Save to AGEPRO input file
+## Vignettes
 
-```{r save-inp, eval=FALSE}
-# Opens file dialog window 
-test$write_inp()
-```
+Hawaiian Uku Projection Projection base example (TODO)
+
 
 
 

@@ -12,7 +12,7 @@ Brodizak’s AGEPRO (Age Structured Projection Model).
 ***ageproR** is still in early development. Code base may change without
 warning prior to first stable release.*
 
-If you use AGEPRO for production, please use:
+**If you using AGEPRO for production, please use:**
 
 - [Jon Brodziak’s original AGEPRO program (source
   code)](https://github.com/PIFSCstockassessments/AGEPRO)
@@ -30,135 +30,16 @@ Repository](https://github.com/PIFSCstockassessments/ageproR) with:
 devtools::install_github("PIFSCstockassessments/ageproR")
 ```
 
-## Create AGEPRO Model
-
-TODO
-
-## Reading AGEPRO input files
+## AGEPRO input file
 
 *Note: **ageproR** is currently incompatible with the supported AGEPRO
 input file format* (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`).
 *Included example AGEPRO input file* (`inst/test-example4.inp`) *is used
-to demonstrate it’s current implementation.*
+to demonstrate it’s implemented features.*
 
-### Loading a AGEPRO Input File:
+## Vignettes
 
-``` r
-library(ageproR)
-## basic example code
-test <- agepro_inp_model$new()
-
-test$read_inp("inst/test-example4.inp")
-#> Check Version
-#> → line 1:
-#> ℹ Version: 'AGEPRO VERSION 4.2'
-#> → line 2: [CASEID]
-#> → Line 3: CASE ID: Test EXAMPLE4 - Uku Projection Base (2019-2026)
-#> → line 4: [GENERAL]
-#> → Line 5 : Reading AGEPRO model GENERAL options ...
-#> • First Year in Projection: 2019
-#> • Last Year in Projection: 2026
-#> • First Age Class: 1
-#> • Last Age Class: 32
-#> • Number of Population Simulations: 1000
-#> • Number of Fleets: 4
-#> • Number of Recruitment Model(s): 3
-#> • Discards are present: FALSE
-#> • Calculation Engine Random Number Seed: 300
-#> → line 6: [RECRUIT]
-#> ℹ Setting Recruitment data for 2019 - 2026 ...
-#> → Line 7 : Scaling Factors & Max Recruit Observations ...
-#> • Recruit Scaling Factor: 1000
-#> • SSB Scaling Factor: 1
-#> • Max Recruit Observations: 500
-#> → Line 8: Reading recruitment model number 5, 3, and 3 ...
-#> ℹ Reading Recruitment Probabaility ...
-#> → Line 9: Recruitment probabaility for year 2019: 0.6, 0.2, and 0.2
-#> → Line 10: Recruitment probabaility for year 2020: 0.6, 0.2, and 0.2
-#> → Line 11: Recruitment probabaility for year 2021: 0.6, 0.2, and 0.2
-#> → Line 12: Recruitment probabaility for year 2022: 0.6, 0.2, and 0.2
-#> → Line 13: Recruitment probabaility for year 2023: 0.6, 0.2, and 0.2
-#> → Line 14: Recruitment probabaility for year 2024: 0.6, 0.2, and 0.2
-#> → Line 15: Recruitment probabaility for year 2025: 0.6, 0.2, and 0.2
-#> → Line 16: Recruitment probabaility for year 2026: 0.6, 0.2, and 0.2
-#> ℹ Recruitment Probability:
-#> [[1]]
-#> 2019 2020 2021 2022 2023 2024 2025 2026 
-#>  0.6  0.6  0.6  0.6  0.6  0.6  0.6  0.6 
-#> 
-#> [[2]]
-#> 2019 2020 2021 2022 2023 2024 2025 2026 
-#>  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2 
-#> 
-#> [[3]]
-#> 2019 2020 2021 2022 2023 2024 2025 2026 
-#>  0.2  0.2  0.2  0.2  0.2  0.2  0.2  0.2
-#> ℹ Reading recruitment model 5 ...
-#> ℹ Beverton-Holt Curve w/ Lognormal Error
-#> → Line 17 ...
-#>   • Alpha: 81.1
-#>   • Beta: 157.2
-#>   • Variance: 0.1521
-#> ℹ Reading recruitment model 3 ...
-#> ℹ Empirical Recruitment Distribution
-#> → Line 18: Observed points: 71
-#> → Line 19: Observations ...
-#> # A tibble: 71 × 1
-#>    recruit
-#>      <dbl>
-#>  1    71.3
-#>  2    65.4
-#>  3    66.4
-#>  4    62.8
-#>  5    55.9
-#>  6    53.4
-#>  7    48.1
-#>  8    47.6
-#>  9    50.7
-#> 10    48.4
-#> # ℹ 61 more rows
-#> ℹ Reading recruitment model 3 ...
-#> ℹ Empirical Recruitment Distribution
-#> → Line 20: Observed points: 18
-#> → Line 21: Observations ...
-#> # A tibble: 18 × 1
-#>    recruit
-#>      <dbl>
-#>  1    59.7
-#>  2    65.9
-#>  3    94.6
-#>  4   142. 
-#>  5   101. 
-#>  6    81.5
-#>  7    70.9
-#>  8    73.8
-#>  9    92.8
-#> 10    91.5
-#> # ℹ 8 more rows
-#> → line 22: [BOOTSTRAP]
-#> → Line 23:
-#> Number of Bootstraps: 100
-#> Population Scale Factor (BootFac): 1000
-#> → Line 24:
-#> ! Bootstrap file path does not exist in system: "C:\\Users\\Jon.Brodziak\\Documents\\AGEPRO\\Example\\Example1.BSN"
-#> Warning: 'C:\Users\Jon.Brodziak\Documents\AGEPRO\Example\Example1.BSN' does not exist. 
-#> Please provide a vaild bootstrap filepath when saving to input file for the AGEPRO calcuation engine.
-#> Finished reading to file.
-```
-
-### To set (or correct) bootstrap filename
-
-``` r
-test$set_bootstrap_filename("inst/Example1.BSN")
-#> ✔ Bootstrap file: "inst/Example1.BSN"
-```
-
-## Save to AGEPRO input file
-
-``` r
-# Opens file dialog window 
-test$write_inp()
-```
+Hawaiian Uku Projection Projection base example (TODO)
 
 <!-- Do not edit below. This adds the Disclaimer and NMFS footer. -->
 
