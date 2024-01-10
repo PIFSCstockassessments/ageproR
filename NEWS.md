@@ -1,3 +1,45 @@
+# ageproR 0.5.0 2024-01-10
+
+* Added `harvest_scenario`
+* Added `projection_analyses`
+  - Added `standard_projection`, `pstar_projection`, and `rebuild_projection`
+  - `set_projection_analyses_type`
+    - added agepro_model value ***projection_analyses_type*** to determine the 
+    model's projection analyses type. 
+    - Most models, use `standard` (default). Agepro models using a 
+    **PStar Projection Analyses** or a **Population Rebuilding Projection **
+    **Analyses** will use `pstar` and `rebuild` respectfully.
+* agepro_model
+  - added support for `harvest_scenario`, including the projection analyses 
+  classes: `pstar_projection` and `rebuild_projection`
+  - allow NULL values for discard keyword parameters (`discard` and 
+  `disc_weight`). 
+    - This is allow NULLs for discard keyword parameter class validation
+  - agepro_json_model
+    - added `inport_agepro_inp_model` to import **agepro_inp_model** data to 
+    **agepro_json_model**
+    - added initialization method to `agepro_json_model` to resolve 
+    "Argument is not a function" warning messages 
+    - added `case_id` to JSON experimental input file (#30) 
+* general_params
+  - Improve general_params values validation and error messages 
+    - Check that the lowest value of `yr_end` is 1 higher that `yr_begin` 
+    and `age_end` is 1 higher than `age_begin`.
+    - Check values of `age_begin` and `discards_present` are 0 or 1.
+  - Reordered `pop_num_sims` active binding to match function argument order 
+- discard_fraction
+  - Fixed initialize typo. 
+  - This also resolves a issue where discards_present in `agepro_model` is 
+  imported and exported to file as a numeric/double but used as a logical for 
+  comparable statements.
+- recruitment 
+  - cli tweaks to `read_inp_lines`
+    - removed recruitment `cli_recruit_rule` for utility function 
+    `div_keyword_header` 
+- added utility function `create_parameter_table` 
+- Function documentation changes
+ 
+ 
 # ageproR 0.4.1 2023-10-25
 
 * Code refactoring of `general_params`, `case_id`, and `recruitment`
