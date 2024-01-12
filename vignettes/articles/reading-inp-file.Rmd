@@ -16,291 +16,367 @@ knitr::opts_chunk$set(
 
 This input file read procedure is derived from [AGEPRO-CoreLib's AgeproInputFile.cs](https://github.com/PIFSCstockassessments/AGEPRO-CoreLib/blob/master/src/io/AgeproInputFile.cs), which references the input data structure table and input file examples found in the *AGEPRO Reference Manual*.
 
+# Setup File Connection to AGEPRO Input File
+
 -   Validate INP input file path
 -   Enclose Read Function w/ tryCatch
 -   Open file connection to INP file path
--   Check Line 1 for valid AGEPRO supported input file version. (Supported versions is `AGEPRO VERSION 4.0` ~~and~~ ~~`AGEPRO VERSION 4.2`~~)
+-   Check **Line 1** for valid AGEPRO supported input file version. (Supported versions is `AGEPRO VERSION 4.0` ~~and `AGEPRO VERSION 4.2`~~)
+
+# Reading AGEPRO Imput File keyword parameters (Line 2 - End of File)
+
 -   Read line by line of from the INP Input file connection until the end of file.
 -   If a line matches a bracketed AGEPRO keyword parameter (example `[KEYWORD]`), then the following will we performed depending on the keyword matched:
-    -   If `[CASEID]`, read an additional line from the file connection, and then assign it as the `case_id`(**Model**)
-    -   If `[GENERAL]`, read an additional line from the file connection, split the string into 9 individual substrings, and then assign:
-        -   1st substring, **year_start**(**NFyear**) first year of projection
-        -   2nd substring, **year_end**(**NXyear**) last year of projection
-        -   3rd substring, **age_begin**(**NFage**) first age of population model
-        -   4th substring, **age_end**(**NXage**) 'plus group' of population model
-        -   5th substring, **number_sims**(**NSims**) number of simulations
-        -   6th substring, **number_fleets**(**NFleet**) number of fleets
-        -   7th substring, **number_recruit_models**(**NRecModel**) number of recruitment models of population model
-        -   8th substring, **discards**(**DiscFlag**) or discard flag
-        -   9th substring, **seed**(**ISeed**) or pseudorandom number generator seed
-    -   If `[RECRUIT]`, then
-        -   Get Recruitment's ***observation year sequence array*** using GENERAL's **sequence_year_names** (*seqYears* : Sequence of year names from the first year)
-        -   Read an additional line from the file connection, and split the string into 3 individual substrings, and then assign:
-            -   1st substring, **recruit_factor**(**RecFac**) Recruiting Scaling Factor
-            -   2nd substring, **ssb_factor**(**SSBFac**) SSB Scaling Factor
-            -   3rd substring, **max_recruit_observations**(**MaxRecObs**) Max Recruitment Observations
-        -   Read an additional line from the file connection, trimming any leading/trailing whitespace, and parse the string(s) to **recruit_model_number_type** (**RecruitType**) (Recruitment Model)
-            -   Validate count of **recruit_model_number_type**(**RecruitType**) w/ ~~GENERAL's **number_recruit_models** (**NRecModel** )~~ *vector length of recruitment models field from the* ***set_recruit_data*** \* function\*
-        -   For each year in AGEPRO Model's *observation years*, read an additional line from the file connection, and append line to the recruitment probably (list)
-            -   For multiple Recruits (columns), read each *observation year* (row) and parse the string into substrings by whitespace.
-        -   For each recruit model in **number_recruit_models**(**NumRecModel**):
-            -   ***set_recruit_model*** according to **recruit_model_number_type** (**RecruitType**),
-            -   Set model's observation years using Recruitment's ***observation year sequence array*** (for reference to the time projection)\
-        -   Check for multiple Markov Matrix Recruitment Models
-        -   For each recruit model in **number_recruit_models**(**NumRecModel**), read in recruitment Model data according to **recruit_model_number_type** (**RecruitType**)
-            -   TODO: *Link to separate issue for input data for recruitment models* (*AGEPRO Reference Manual Table 4*)
-    -   If `[STOCK_WEIGHT]`, then read in the process error keyword parameter with GENERAL's ***seq_years***, and ***num_ages***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**StockWtFlag**), option for how `STOCK_WEIGHT` is read:
-            -   2nd substring, **time_varying**(**StockWtTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set STOCK_WEIGHT's input option from **input_option**
-            -   1=fromFile (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*)
-        -   [If **input_option**(**StockWtFlag**) = 1] then read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [(else) **input_option**(**StockWtFlag**) = 0] For ***parameter_table*** (**AvgStockWeight**),
-            -   Set the ages headers from Age 1 to ***count_ages***, and for the row(s):
-                -   [If ***time varying***(**StocKWtTimeFlag**) = 1] : From 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**StocKWtTimeFlag**) is 0, (listed as `"All Years"`)] : read in *only one* additional line from the file connection, and parse the string as an array.
-                -   #Note: For STOCK_WEIGHT, rows are determined if *time varying*= (**length of** ***seq_years*** **vector** \* ***num_fleets*** ), else = ***num_fleets***; which ***num_fleets*** = 1
-            -   For the **cv_table** (**StockWtErr**),
-                -   set the ages headers from Age 1 to ***num_ages***
-                -   row(s): read in one additional line (***num_fleets*** = 1) from the file connection, and parse the string as an array.
-                -   #Note: for **cv_table** rows, ***num_fleets*** = 1
-    -   If `[SSB_WEIGHT]`, then read in the process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**SpawnWtFlag**), option for how `SSB_WEIGHT` is read
-            -   2nd substring, **time_varying**(**SpawnWtTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set SSB_WEIGHT's input option from **input_option**
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*),
-            -   -1=from `STOCK_WEIGHT`
-        -   [**input_option**(**SpawnWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [**input_option**(**SpawnWtFlag**) = -1] NO additional lines are read. (Bypass reading parameter_table and cv_table)
-        -   [(else)**input_option**(**SpawnWtFlag**) = 0] : ***parameter_table*** (**AvgSpawnWeight**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**SpawnWtTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else ***time varying***(**SpawnWtTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.\
-                -   #Note: For SSB_WEIGHT, rows are determined if *time varying*= ( **length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***; which ***num_fleets*** = 1
-            -   For the **cv_table** (**SpawnWtErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): Read in one additional line from the file connection, and parse the string as an array.
-                -   #Note: for **cv_table** rows: ***num_fleets*** = 1\
-    -   If `[MEAN_WEIGHT]`, then read in the process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**MeanStockWtFlag**), option for how `MEAN_WEIGHT` is read
-            -   2nd substring, **time_varying**(**MeanStockWtTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set MEAN_WEIGHT's input option from **input_option**
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*),
-            -   -1=from `STOCK_WEIGHT`
-            -   -2=from `SSB_WEIGHT`
-        -   [**input_option**(**MeanStockWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [**input_option**(**MeanStockWtFlag**) is -1 or -2] : NO additional lines are read. (bypass reading parameter_table and cv_table)
-        -   [**input_option**(**MeanStockWtFlag**) = 0] : **parameter_table\_** (**AvgMeanStockWeight**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**MeanStockWtTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
-                -   #Note: For MEAN_WEIGHT, rows are determined by if *time varying*=( **length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***; which ***num_fleets*** = 1
-            -   For the **cv_table** (**MeanStockWtErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): read in one additional line (***num_fleets*** = 1) from the file connection, and parse the string as an array.
-                -   #Note: ***cv table*** rows: ***num_fleets*** = 1
-    -   If `[CATCH_WEIGHT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***, and ***num_fleets***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**CatchWtFlag**), option for how `CATCH_WEIGHT` is read
-            -   2nd substring, **time_varying**(**CatchWtTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set CATCH_WEIGHT's input option **input_option**(**CatchWtFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*),
-            -   -1=from `STOCK_WEIGHT`
-            -   -2=from `SSB_WEIGHT`
-            -   -3=from `MEAN_WEIGHT`
-        -   [**input_option**(**CatchWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [**input_option**(**CatchWtFlag**) is -1, -2, or -3] : NO additional lines are read. (bypass reading parameter_table and cv_table)
-            -   #Note: **input_option**(**CatchWtFlag**) points to the age vector data to reference from
-        -   [**input_option**(**CatchWtFlag**) = 0] : **parameter_table\_** (**AvgCatchStockWeight**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**CatchWtTimeFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets***), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**CatchWtTimeFlag**) is 0, (listed as `All Years`)] : for 1 to ***num_fleets***, read in additional line from the file connection, and parse the string as an array.
-                -   #Note: For CATCH_WEIGHT, rows are determined if *time_varying(CatchWtTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else=***num_fleets***;
-                    -   *Where the value is passed through the* ***num_fleets*** field, Default is 1
-                    -   Row names ordered by fleet-year
-            -   For the **cv_table** (**CatchWtErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): For 1 to ***num_fleets***, Read an additional line from the file connection, parse the string as an array.\
-    -   If `[DISC_WEIGHT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**DiscWtFlag**), option for how `DISC_WEIGHT` is read
-            -   2nd substring, **time_varying**(**DiscWtTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set DISC_WEIGHT's input option **input_option**(**DiscWtFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*),
-            -   -1=from `STOCK_WEIGHT`
-            -   -2=from `SSB_WEIGHT`
-            -   -3=from `MEAN_WEIGHT`
-            -   -4=from `CATCH_WEIGHT`
-        -   [**input_option**(**DiscWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [**input_option**(**DiscWtFlag**) is -1, -2, -3, or -4] : NO additional lines are read. (bypass reading parameter_table and cv_table)
-            -   #Note: **input_option**(**DiscWtFlag**) points to the age vector data to reference from
-        -   [**input_option**(**DiscWtFlag**) = 0] : ***parameter_table*** (**AvgDiscWeight**),
-            -   Set the ages headers from Age 1 to ***count_ages***, and for the row(s):
-                -   [If ***time varying***(**DiscWtTimeFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as an array, and append array to the (list)
-                -   [Else, ***time varying***(**DiscWtTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
-                -   #Note: For DISC_WEIGHT, rows are determined if *time_varying(DiscWtTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else=***num_fleets***;
-                    -   *Where the value is passed through the* ***num_fleets*** field, Default is 1\
-                    -   Row names ordered by fleet-year
-            -   For the **cv_table** (**DiscWtErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): For 1 to ***num_fleets***, Read an additional line from the file connection, parse the string as an array.\
-    -   If `[NATMORT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**NatMortFlag**), option for how `NATMORT` is read
-            -   2nd substring, **time_varying**(**NatMortTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set NATMORT's input option **input_option**(**NatMortFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*)
-        -   [**input_option**(**NatMortFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [(else) **input_option**(**NatMortFlag**) = 0] : ***parameter_table*** (**AvgNatMort**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**NatMortTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the list
-                -   [Else, ***time varying***(**NatMortTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
-                -   #Note: For NATMORT, rows are determined if *time_varying(NatMortTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***, where ***num_fleets*** = 1\
-            -   For the **cv_table** (**NatMortErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): Read in one additional line from the file connection, parse the string as an array.
-                -   #Note: for **cv_table** rows: ***num_fleets*** = 1
-    -   If `[MATURITY]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**MaturityFlag**), option for how `MATURITY` is read
-            -   2nd substring, **time_varying**(**MaturityTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set MATURITY's input option **input_option**(**MaturityFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*)
-        -   [**input_option**(**MaturityFlag**) =1] : Read an additional line from the file connection, and assign it to **table_filename**(**dataFile**)
-        -   [(else) **input_option**(**MaturityFlag**) = 0] : **parameter_table\_** (**AvgMaturity**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**MaturityTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**MaturityTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
-                -   #Note: For MATURITY, rows are determined if *time_varying(MaturityTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***, where ***num_fleets*** = 1\
-            -   For the **cv_table** (**MaturityErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): Read in one additional line from the file connection, parse the string as an array.
-                -   #Note: for **cv_table** rows: ***num_fleets*** = 1
-    -   If `[FISHERY]`, then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, **input_option**(**FSelecFlag**), option for how `FISHERY` is read
-            -   2nd substring, **time_varying**(**FSelecTimeFlag**), Time Varying option (1=true, 0=false)
-        -   Set FISHERY's input option **input_option**(**FSelecFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*)
-        -   [**input_option**(**FSelecFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [(else) **input_option**(**FSelecFlag**) = 0] : ***parameter_table*** (**AvgFSelec**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**FSelecFlag**) = 1] : from 1 to (**length of** *seq_years* **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**FSelecTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
-                -   #Note: For FISHERY, rows are determined if *time_varying(FSelecTimeFlag)*= (**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***,
-                    -   Where the value is passed through the ***num_fleets*** field, Default is 1
-                    -   Row names ordered by *fleet-year*
-            -   For the **cv_table** (**FSelecErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): For 1 to ***num_fleets***, Read in an additional line from the file connection, parse the string as an array.
-    -   If `[DISCARD]` (or discard fraction), then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
-        -   Read an additional line from the file connection, and split into 2 substrings, an then assign
-            -   1st substring, ***input_option***(**DiscFracFlag**), option for how `DISCARD` is read
-            -   2nd substring, ***time_varying***(**DiscFracFlag**), Time Varying option (1=true, 0=false)
-        -   Set DISCARD's input option **input_option**(**DiscFracFlag**)
-            -   1=fromFile, (Import data from auxiliary data file location)
-            -   0=fromInterface (*userInput*)
-        -   [**input_option**(**DiscFracFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
-        -   [(else) **input_option**(**DiscFracFlag**) = 0] : ***parameter_table*** (**AvgDiscFrac**),
-            -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
-                -   [If ***time varying***(**DiscFracFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
-                -   [Else, ***time varying***(**DiscFracTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
-                -   #Note: For DISCARD, rows are determined if *time_varying(DiscFracTimeFlag)*= (**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***,
-                    -   Where the value is passed through the ***num_fleets*** field, Default is 1
-                    -   Row names ordered by fleet-year
-            -   For the **cv_table** (**DiscFracErr**),
-                -   set the ages headers from Age 1 to ***num_ages***,
-                -   for row(s): For 1 to ***num_fleets***, Read in an additional line from the file connection, parse the string as an array.
-    -   If `[BIOLOGICAL]`, then read in the keyword parameters with GENERAL's ***sequence_year_names*** (**seqYears**):
-        -   Read a line from the file connection, and split the string into substrings. The first substring is assigned as **time_varying**(**ZFracTimeFlag**). Any other substrings in this line are ignored.
-        -   [If **time_varying**(**ZFracTimeFlag**) =1] :
-            -   Read one additional line from the file connection, delimit the line by spaces, and assign the substrings to **fraction_mortality_pre_spawn_female**(**TF**)
-            -   Read an additional line from the file connection, delimit the line by spaces, and assign the substrings to **fraction_mortality_pre_spawn_male**(**TM**)
-            -   For index "i" from 1 to **Length of** ***sequence_year_names***
-                -   Set the **fraction_mortality_pre_spawn_table** column name using current index of ***sequence_year_names*** array,
-                -   Append row with **fraction_mortality_pre_spawn_female**(**TF**)
-                -   Append row with **fraction_mortality_pre_spawn_male**(**TM**)
-        -   [else **time_varying**(**ZFracTimeFlag**) = 0 ] :
-            -   Set the **fraction_mortality_pre_spawn_table** column name as `"All Years"`,
-            -   Read an additional line from the file connection (**TF**), and append the row to the **fraction_mortality_pre_spawn_table**
-            -   Read an additional line from the file connection (**TM**), and append the row to the **fraction_mortality_pre_spawn_table**
-    -   If `[BOOTSTRAP]`, then
-        -   Read an additional line from the file connection, split the line into 2 substrings and assign:
-            -   1st substring, **number_bootstraps**(**NBoot**) the number of bootstraps
-            -   2nd substring, **population_scale_factor**(**BootFac**)
-        -   Read another line from the file connection, and assign it as **bootstrap_filename**(**BootFile**)
-    -   If `[HARVEST]`, then read in keyword parameters with GENERAL's **count_observation_years** and **number_fleets**:
-        -   Read an additional line from the file connection, delimit the line into substrings by whitespace, and assign for **harvest_specification,**(**HarvestSpec**)
-        -   Setup the *Harvest Value* columns,
-            -   [If **number_fleets** = 1] :
-                -   Read an additional line from the file connection and delimit the line into substrings by whitespace,
-                -   Append the value to the *Harvest Value* column
-                -   Assign column name to `HARVEST VALUE`
-            -   [(else) **number_fleets** \> 1 ] : For each "fleet" in **number_fleets**:
-                -   Read an another line from the file connection, and delimit the line into substrings by whitespace
-                -   Append as a *Harvest Value* column
-                -   Use `<current loop index>` value and assign column name as: `FLEET-<current loop index>`
-        -   Setup Harvest Specifications Constants
-        -   Setup Harvest Table
-            -   Column 1: **harvest_specification,**(**HarvestSpec**)
-            -   Column 2+: *Harvest Value* Columns (`Harvest Value`/`Fleet-N`)
-    -   If `[REBUILD]`, then
-        -   Use GENERAL's **sequence_year_names** to set REBUILD's **projection_years**(***ObsYears***)
-        -   Set HARVEST's *AnalysisType* enumerator to **Rebuilder**
-        -   Read in an additional line from the file connection, split the line into 4 substrings, and assign:
-            -   1st substring, **rebuild_target_year**(**TargetYear**)
-            -   2nd substring, **rebuild_target_value**(**TargetValue**)
-            -   3rd substring, **rebuild_target_biomass**(**TargetType**)
-            -   4th substring, **rebuild_target_percent**(**TargetPercent**)
-        -   REBUILD and PSTAR run independently, they can not run both options at the same time.
-            -   Throw an error if PSTAR input data file values data is found.
-    -   If `[REFPOINT]`, set OPTIONS flag *enableRefpoint* = TRUE and then:
-        -   Read an additional line from the file connection, split the line into 4 substrings, and assign:
-            -   1st substring, **threshold_SSB**(**SSBThresh**)
-            -   2nd substring, **threshold_stock_biomass**(**StockBioTresh**)
-            -   3rd substring, **threshold_mean_biomass**(**MeanBioTresh**)
-            -   4th substring, **threshold_fishing_mortality**(**FMortThresh**)
-    -   If `[BOUNDS]`, set OPTIONS flag *enableBounds* = TRUE and then:
-        -   Read an additional line from the file connection, split the line into 2 substrings, and assign:
-            -   1st substring, **max_weight**(**MaxWeight**)
-            -   2nd substring, **max_natural_mortality**(**MaxNatMort**)
-    -   If `[RETROADJUST]` set OPTIONS flag *enableRetroAdjustmentFactors* = TRUE, and then read in keyword parameters with GENERAL's **count_ages**:
-        -   Read an additional line from the file connection, delimit the line into substrings by whitespace, assign as **RetroAdjust** vector
-        -   Verify **count_ages** matches length of **RetroAdjust** vector
-        -   [To return a R-style vector] : Name each substring in **RetroAdjust** from 1 to **count_ages**,\
-        -   [To return a "dataGridView" style (AGEPRO GUI/CoreLib) ] :
-            -   For each *index* from 1 to **count_ages**, create a "row", and populate row with the value of **RetroAdjust** at *index*.\
-    -   If `[OPTIONS]`, then
-        -   Read an additional line from the file connection, split the line into 3 substrings, and assign:
-            -   1st substring, **summary_report**(**StockSummaryFlag**)
-            -   2nd substring, **auxiliary_ouput_files**(**DataFlag**)
-            -   3rd substring, **data_frame_exportR**(**ExportRFlag**)
-    -   If `[SCALE]`, then
-        -   Read an additional line from the file connection, split the line into 3 substrings by whitespace, and then assign
-            -   1st substring, **scale_biomass**(**scalebio**)
-            -   2nd substring, **scale_recruits**(**scalerec**)
-            -   3rd substring, **scale_stock_numbers**(**scalestk**)
-    -   If `[PERC]`, then
-        -   Set OPTIONS's flag **percenticle_report** to TRUE
-        -   Read an additional line from the file connection and assign it to PERC's **report_percentile**(**PercReportValue**) field
-    -   If `[PSTAR]`, then
-        -   Use GENERAL's **sequence_year_names**(***SeqYears***) to set PSTAR's **projection_years**(***ObsYears***)
-        -   Read an additional line from the file connection, and assign it to **number_pstar_levels**(**KPstar**)
-        -   Read an additional line from the file connection, delimit the line by whitespace, and assign as **pstar_level_array**(**PStar**)
-        -   Read an additional line from the file connection, and assign it to **overfishing_f**(**PStarF**)
-        -   Read an additional line from the file connection, and assign it to **target_year**(**TargetYear**)
-        -   PSTAR and REBUILD run independently, they can not run both options at the same time.
-            -   Throw an error if REBUILD input data file values data is found.
--   *Close the file connection* once the file connection reaches "End of File" of the AGEPRO Input File or encounters during an error.
 
+## CASEID
+
+-   If `[CASEID]`, read an additional line from the file connection, and then assign it as the `case_id`(**Model**)
+
+## GENERAL
+
+-   If `[GENERAL]`, read an additional line from the file connection, split the string into 9 individual substrings, and then assign:
+    -   1st substring, **year_start**(**NFyear**) first year of projection
+    -   2nd substring, **year_end**(**NXyear**) last year of projection
+    -   3rd substring, **age_begin**(**NFage**) first age of population model
+    -   4th substring, **age_end**(**NXage**) 'plus group' of population model
+    -   5th substring, **number_sims**(**NSims**) number of simulations
+    -   6th substring, **number_fleets**(**NFleet**) number of fleets
+    -   7th substring, **number_recruit_models**(**NRecModel**) number of recruitment models of population model
+    -   8th substring, **discards**(**DiscFlag**) or discard flag
+    -   9th substring, **seed**(**ISeed**) or pseudorandom number generator seed
+
+## RECRUIT
+
+-   If `[RECRUIT]`, then
+    -   Get Recruitment's ***observation year sequence array*** using GENERAL's **sequence_year_names** (*seqYears* : Sequence of year names from the first year)
+    -   Read an additional line from the file connection, and split the string into 3 individual substrings, and then assign:
+        -   1st substring, **recruit_factor**(**RecFac**) Recruiting Scaling Factor
+        -   2nd substring, **ssb_factor**(**SSBFac**) SSB Scaling Factor
+        -   3rd substring, **max_recruit_observations**(**MaxRecObs**) Max Recruitment Observations
+    -   Read an additional line from the file connection, trimming any leading/trailing whitespace, and parse the string(s) to **recruit_model_number_type** (**RecruitType**) (Recruitment Model)
+        -   Validate count of **recruit_model_number_type**(**RecruitType**) w/ ~~GENERAL's **number_recruit_models** (**NRecModel** )~~ *vector length of recruitment models field from the* ***set_recruit_data*** \* function\*
+    -   For each year in AGEPRO Model's *observation years*, read an additional line from the file connection, and append line to the recruitment probably (list)
+        -   For multiple Recruits (columns), read each *observation year* (row) and parse the string into substrings by whitespace.
+    -   For each recruit model in **number_recruit_models**(**NumRecModel**):
+        -   ***set_recruit_model*** according to **recruit_model_number_type** (**RecruitType**),
+        -   Set model's observation years using Recruitment's ***observation year sequence array*** (for reference to the time projection)\
+    -   Check for multiple Markov Matrix Recruitment Models
+    -   For each recruit model in **number_recruit_models**(**NumRecModel**), read in recruitment Model data according to **recruit_model_number_type** (**RecruitType**)
+        -   *See* ***Table 4*** *in the AGEPRO Reference Manual for input data format used for each valid Recruitment Model*
+
+## STOCK_WEIGHT
+
+-   If `[STOCK_WEIGHT]`, then read in the process error keyword parameter with GENERAL's ***seq_years***, and ***num_ages***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**StockWtFlag**), option for how `STOCK_WEIGHT` is read:
+        -   2nd substring, **time_varying**(**StockWtTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set STOCK_WEIGHT's input option from **input_option**
+        -   1=fromFile (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*)
+    -   [If **input_option**(**StockWtFlag**) = 1] then read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [(else) **input_option**(**StockWtFlag**) = 0] For ***parameter_table*** (**AvgStockWeight**),
+        -   Set the ages headers from Age 1 to ***count_ages***, and for the row(s):
+            -   [If ***time varying***(**StocKWtTimeFlag**) = 1] : From 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**StocKWtTimeFlag**) is 0, (listed as `"All Years"`)] : read in *only one* additional line from the file connection, and parse the string as an array.
+            -   #Note: For STOCK_WEIGHT, rows are determined if *time varying*= (**length of** ***seq_years*** **vector** \* ***num_fleets*** ), else = ***num_fleets***; which ***num_fleets*** = 1
+        -   For the **cv_table** (**StockWtErr**),
+            -   set the ages headers from Age 1 to ***num_ages***
+            -   row(s): read in one additional line (***num_fleets*** = 1) from the file connection, and parse the string as an array.
+            -   #Note: for **cv_table** rows, ***num_fleets*** = 1
+
+## SSB_WEIGHT
+
+-   If `[SSB_WEIGHT]`, then read in the process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**SpawnWtFlag**), option for how `SSB_WEIGHT` is read
+        -   2nd substring, **time_varying**(**SpawnWtTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set SSB_WEIGHT's input option from **input_option**
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*),
+        -   -1=from `STOCK_WEIGHT`
+    -   [**input_option**(**SpawnWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [**input_option**(**SpawnWtFlag**) = -1] NO additional lines are read. (Bypass reading parameter_table and cv_table)
+    -   [(else)**input_option**(**SpawnWtFlag**) = 0] : ***parameter_table*** (**AvgSpawnWeight**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**SpawnWtTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else ***time varying***(**SpawnWtTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.\
+            -   #Note: For SSB_WEIGHT, rows are determined if *time varying*= ( **length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***; which ***num_fleets*** = 1
+        -   For the **cv_table** (**SpawnWtErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): Read in one additional line from the file connection, and parse the string as an array.
+            -   #Note: for **cv_table** rows: ***num_fleets*** = 1\
+
+## MEAN_WEIGHT
+
+-   If `[MEAN_WEIGHT]`, then read in the process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**MeanStockWtFlag**), option for how `MEAN_WEIGHT` is read
+        -   2nd substring, **time_varying**(**MeanStockWtTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set MEAN_WEIGHT's input option from **input_option**
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*),
+        -   -1=from `STOCK_WEIGHT`
+        -   -2=from `SSB_WEIGHT`
+    -   [**input_option**(**MeanStockWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [**input_option**(**MeanStockWtFlag**) is -1 or -2] : NO additional lines are read. (bypass reading parameter_table and cv_table)
+    -   [**input_option**(**MeanStockWtFlag**) = 0] : **parameter_table\_** (**AvgMeanStockWeight**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**MeanStockWtTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
+            -   #Note: For MEAN_WEIGHT, rows are determined by if *time varying*=( **length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***; which ***num_fleets*** = 1
+        -   For the **cv_table** (**MeanStockWtErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): read in one additional line (***num_fleets*** = 1) from the file connection, and parse the string as an array.
+            -   #Note: ***cv table*** rows: ***num_fleets*** = 1
+
+## CATCH_WEIGHT
+
+-   If `[CATCH_WEIGHT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***, and ***num_fleets***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**CatchWtFlag**), option for how `CATCH_WEIGHT` is read
+        -   2nd substring, **time_varying**(**CatchWtTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set CATCH_WEIGHT's input option **input_option**(**CatchWtFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*),
+        -   -1=from `STOCK_WEIGHT`
+        -   -2=from `SSB_WEIGHT`
+        -   -3=from `MEAN_WEIGHT`
+    -   [**input_option**(**CatchWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [**input_option**(**CatchWtFlag**) is -1, -2, or -3] : NO additional lines are read. (bypass reading parameter_table and cv_table)
+        -   #Note: **input_option**(**CatchWtFlag**) points to the age vector data to reference from
+    -   [**input_option**(**CatchWtFlag**) = 0] : **parameter_table\_** (**AvgCatchStockWeight**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**CatchWtTimeFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets***), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**CatchWtTimeFlag**) is 0, (listed as `All Years`)] : for 1 to ***num_fleets***, read in additional line from the file connection, and parse the string as an array.
+            -   #Note: For CATCH_WEIGHT, rows are determined if *time_varying(CatchWtTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else=***num_fleets***;
+                -   *Where the value is passed through the* ***num_fleets*** field, Default is 1
+                -   Row names ordered by fleet-year
+        -   For the **cv_table** (**CatchWtErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): For 1 to ***num_fleets***, Read an additional line from the file connection, parse the string as an array.
+
+## DISC_WEIGHT
+
+-   If `[DISC_WEIGHT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**DiscWtFlag**), option for how `DISC_WEIGHT` is read
+        -   2nd substring, **time_varying**(**DiscWtTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set DISC_WEIGHT's input option **input_option**(**DiscWtFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*),
+        -   -1=from `STOCK_WEIGHT`
+        -   -2=from `SSB_WEIGHT`
+        -   -3=from `MEAN_WEIGHT`
+        -   -4=from `CATCH_WEIGHT`
+    -   [**input_option**(**DiscWtFlag**) \> 0] Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [**input_option**(**DiscWtFlag**) is -1, -2, -3, or -4] : NO additional lines are read. (bypass reading parameter_table and cv_table)
+        -   #Note: **input_option**(**DiscWtFlag**) points to the age vector data to reference from
+    -   [**input_option**(**DiscWtFlag**) = 0] : ***parameter_table*** (**AvgDiscWeight**),
+        -   Set the ages headers from Age 1 to ***count_ages***, and for the row(s):
+            -   [If ***time varying***(**DiscWtTimeFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as an array, and append array to the (list)
+            -   [Else, ***time varying***(**DiscWtTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
+            -   #Note: For DISC_WEIGHT, rows are determined if *time_varying(DiscWtTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else=***num_fleets***;
+                -   *Where the value is passed through the* ***num_fleets*** field, Default is 1\
+                -   Row names ordered by fleet-year
+        -   For the **cv_table** (**DiscWtErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): For 1 to ***num_fleets***, Read an additional line from the file connection, parse the string as an array.\
+
+## NATMORT
+
+-   If `[NATMORT]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**NatMortFlag**), option for how `NATMORT` is read
+        -   2nd substring, **time_varying**(**NatMortTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set NATMORT's input option **input_option**(**NatMortFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*)
+    -   [**input_option**(**NatMortFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [(else) **input_option**(**NatMortFlag**) = 0] : ***parameter_table*** (**AvgNatMort**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**NatMortTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the list
+            -   [Else, ***time varying***(**NatMortTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
+            -   #Note: For NATMORT, rows are determined if *time_varying(NatMortTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***, where ***num_fleets*** = 1\
+        -   For the **cv_table** (**NatMortErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): Read in one additional line from the file connection, parse the string as an array.
+            -   #Note: for **cv_table** rows: ***num_fleets*** = 1
+
+## MATURITY
+
+-   If `[MATURITY]`, then read in process error keyword parameters with GENERAL's ***seq_years***, and ***num_ages***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**MaturityFlag**), option for how `MATURITY` is read
+        -   2nd substring, **time_varying**(**MaturityTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set MATURITY's input option **input_option**(**MaturityFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*)
+    -   [**input_option**(**MaturityFlag**) =1] : Read an additional line from the file connection, and assign it to **table_filename**(**dataFile**)
+    -   [(else) **input_option**(**MaturityFlag**) = 0] : **parameter_table\_** (**AvgMaturity**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**MaturityTimeFlag**) = 1] : from 1 to **length of** ***seq_years*** **vector**, read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**MaturityTimeFlag**) is 0, (listed as `"All Years"`)] : Read in *only one* additional line from the file connection, and parse the string as an array.
+            -   #Note: For MATURITY, rows are determined if *time_varying(MaturityTimeFlag)*=(**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***, where ***num_fleets*** = 1\
+        -   For the **cv_table** (**MaturityErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): Read in one additional line from the file connection, parse the string as an array.
+            -   #Note: for **cv_table** rows: ***num_fleets*** = 1
+
+## FISHERY
+
+-   If `[FISHERY]`, then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, **input_option**(**FSelecFlag**), option for how `FISHERY` is read
+        -   2nd substring, **time_varying**(**FSelecTimeFlag**), Time Varying option (1=true, 0=false)
+    -   Set FISHERY's input option **input_option**(**FSelecFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*)
+    -   [**input_option**(**FSelecFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [(else) **input_option**(**FSelecFlag**) = 0] : ***parameter_table*** (**AvgFSelec**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**FSelecFlag**) = 1] : from 1 to (**length of** *seq_years* **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**FSelecTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
+            -   #Note: For FISHERY, rows are determined if *time_varying(FSelecTimeFlag)*= (**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***,
+                -   Where the value is passed through the ***num_fleets*** field, Default is 1
+                -   Row names ordered by *fleet-year*
+        -   For the **cv_table** (**FSelecErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): For 1 to ***num_fleets***, Read in an additional line from the file connection, parse the string as an array.
+
+## DISCARD
+
+-   If `[DISCARD]` (or discard fraction), then read in process error keyword parameters with GENERAL's ***seq_years***, ***num_ages***, and ***num_fleets***:
+    -   Read an additional line from the file connection, and split into 2 substrings, an then assign
+        -   1st substring, ***input_option***(**DiscFracFlag**), option for how `DISCARD` is read
+        -   2nd substring, ***time_varying***(**DiscFracFlag**), Time Varying option (1=true, 0=false)
+    -   Set DISCARD's input option **input_option**(**DiscFracFlag**)
+        -   1=fromFile, (Import data from auxiliary data file location)
+        -   0=fromInterface (*userInput*)
+    -   [**input_option**(**DiscFracFlag**) =1] : Read an additional line from the file connection, and assign it to **parameter_datafile**(**dataFile**)
+    -   [(else) **input_option**(**DiscFracFlag**) = 0] : ***parameter_table*** (**AvgDiscFrac**),
+        -   Set the ages headers from Age 1 to ***num_ages***, and for the row(s):
+            -   [If ***time varying***(**DiscFracFlag**) = 1] : from 1 to ( **length of** ***seq_years*** **vector** \* ***num_fleets*** ), read an additional line from the file connection, parse the the string as a array, and append array to the (list)
+            -   [Else, ***time varying***(**DiscFracTimeFlag**) is 0, (listed as `"All Years"`)] : For 1 to ***num_fleets***, Read in an additional line from the file connection, and parse the string as an array.
+            -   #Note: For DISCARD, rows are determined if *time_varying(DiscFracTimeFlag)*= (**length of** ***seq_years*** **vector** \* ***num_fleets***), else = ***num_fleets***,
+                -   Where the value is passed through the ***num_fleets*** field, Default is 1
+                -   Row names ordered by fleet-year
+        -   For the **cv_table** (**DiscFracErr**),
+            -   set the ages headers from Age 1 to ***num_ages***,
+            -   for row(s): For 1 to ***num_fleets***, Read in an additional line from the file connection, parse the string as an array.
+
+## BIOLOGICAL
+
+-   If `[BIOLOGICAL]`, then read in the keyword parameters with GENERAL's ***sequence_year_names*** (**seqYears**):
+    -   Read a line from the file connection, and split the string into substrings. The first substring is assigned as **time_varying**(**ZFracTimeFlag**). Any other substrings in this line are ignored.
+    -   [If **time_varying**(**ZFracTimeFlag**) =1] :
+        -   Read one additional line from the file connection, delimit the line by spaces, and assign the substrings to **fraction_mortality_pre_spawn_female**(**TF**)
+        -   Read an additional line from the file connection, delimit the line by spaces, and assign the substrings to **fraction_mortality_pre_spawn_male**(**TM**)
+        -   For index "i" from 1 to **Length of** ***sequence_year_names***
+            -   Set the **fraction_mortality_pre_spawn_table** column name using current index of ***sequence_year_names*** array,
+            -   Append row with **fraction_mortality_pre_spawn_female**(**TF**)
+            -   Append row with **fraction_mortality_pre_spawn_male**(**TM**)
+    -   [else **time_varying**(**ZFracTimeFlag**) = 0 ] :
+        -   Set the **fraction_mortality_pre_spawn_table** column name as `"All Years"`,
+        -   Read an additional line from the file connection (**TF**), and append the row to the **fraction_mortality_pre_spawn_table**
+        -   Read an additional line from the file connection (**TM**), and append the row to the **fraction_mortality_pre_spawn_table**
+
+## BOOTSTRAP
+
+-   If `[BOOTSTRAP]`, then
+    -   Read an additional line from the file connection, split the line into 2 substrings and assign:
+        -   1st substring, **number_bootstraps**(**NBoot**) the number of bootstraps
+        -   2nd substring, **population_scale_factor**(**BootFac**)
+    -   Read another line from the file connection, and assign it as **bootstrap_filename**(**BootFile**)
+
+## HARVEST
+
+-   If `[HARVEST]`, then read in keyword parameters with GENERAL's **count_observation_years** and **number_fleets**:
+    -   Read an additional line from the file connection, delimit the line into substrings by whitespace, and assign for **harvest_specification,**(**HarvestSpec**)
+    -   Setup the *Harvest Value* columns,
+        -   [If **number_fleets** = 1] :
+            -   Read an additional line from the file connection and delimit the line into substrings by whitespace,
+            -   Append the value to the *Harvest Value* column
+            -   Assign column name to `HARVEST VALUE`
+        -   [(else) **number_fleets** \> 1 ] : For each "fleet" in **number_fleets**:
+            -   Read an another line from the file connection, and delimit the line into substrings by whitespace
+            -   Append as a *Harvest Value* column
+            -   Use `<current loop index>` value and assign column name as: `FLEET-<current loop index>`
+    -   Setup Harvest Specifications Constants
+    -   Setup Harvest Table
+        -   Column 1: **harvest_specification,**(**HarvestSpec**)
+        -   Column 2+: *Harvest Value* Columns (`Harvest Value`/`Fleet-N`)
+
+## REBUILD
+
+-   If `[REBUILD]`, then
+    -   Use GENERAL's **sequence_year_names** to set REBUILD's **projection_years**(***ObsYears***)
+    -   Set HARVEST's *AnalysisType* enumerator to **Rebuilder**
+    -   Read in an additional line from the file connection, split the line into 4 substrings, and assign:
+        -   1st substring, **rebuild_target_year**(**TargetYear**)
+        -   2nd substring, **rebuild_target_value**(**TargetValue**)
+        -   3rd substring, **rebuild_target_biomass**(**TargetType**)
+        -   4th substring, **rebuild_target_percent**(**TargetPercent**)
+    -   REBUILD and PSTAR run independently, they can not run both options at the same time.
+        -   Throw an error if PSTAR input data file values data is found.
+
+## REFPOINT
+
+-   If `[REFPOINT]`, set OPTIONS flag *enableRefpoint* = TRUE and then:
+    -   Read an additional line from the file connection, split the line into 4 substrings, and assign:
+        -   1st substring, **threshold_SSB**(**SSBThresh**)
+        -   2nd substring, **threshold_stock_biomass**(**StockBioTresh**)
+        -   3rd substring, **threshold_mean_biomass**(**MeanBioTresh**)
+        -   4th substring, **threshold_fishing_mortality**(**FMortThresh**)
+
+## BOUNDS
+
+-   If `[BOUNDS]`, set OPTIONS flag *enableBounds* = TRUE and then:
+    -   Read an additional line from the file connection, split the line into 2 substrings, and assign:
+        -   1st substring, **max_weight**(**MaxWeight**)
+        -   2nd substring, **max_natural_mortality**(**MaxNatMort**)
+
+## RETROADJUST
+
+-   If `[RETROADJUST]` set OPTIONS flag *enableRetroAdjustmentFactors* = TRUE, and then read in keyword parameters with GENERAL's **count_ages**:
+    -   Read an additional line from the file connection, delimit the line into substrings by whitespace, assign as **RetroAdjust** vector
+    -   Verify **count_ages** matches length of **RetroAdjust** vector
+    -   [To return a R-style vector] : Name each substring in **RetroAdjust** from 1 to **count_ages**,\
+    -   [To return a "dataGridView" style (AGEPRO GUI/CoreLib) ] :
+        -   For each *index* from 1 to **count_ages**, create a "row", and populate row with the value of **RetroAdjust** at *index*.\
+
+## OPTIONS
+
+-   If `[OPTIONS]`, then
+    -   Read an additional line from the file connection, split the line into 3 substrings, and assign:
+        -   1st substring, **summary_report**(**StockSummaryFlag**)
+        -   2nd substring, **auxiliary_ouput_files**(**DataFlag**)
+        -   3rd substring, **data_frame_exportR**(**ExportRFlag**)
+
+## SCALE
+
+-   If `[SCALE]`, then
+    -   Read an additional line from the file connection, split the line into 3 substrings by whitespace, and then assign
+        -   1st substring, **scale_biomass**(**scalebio**)
+        -   2nd substring, **scale_recruits**(**scalerec**)
+        -   3rd substring, **scale_stock_numbers**(**scalestk**)
+
+## PERC
+
+-   If `[PERC]`, then
+    -   Set OPTIONS's flag **percenticle_report** to TRUE
+    -   Read an additional line from the file connection and assign it to PERC's **report_percentile**(**PercReportValue**) field
+
+## PSTAR
+
+-   If `[PSTAR]`, then
+    -   Use GENERAL's **sequence_year_names**(***SeqYears***) to set PSTAR's **projection_years**(***ObsYears***)
+    -   Read an additional line from the file connection, and assign it to **number_pstar_levels**(**KPstar**)
+    -   Read an additional line from the file connection, delimit the line by whitespace, and assign as **pstar_level_array**(**PStar**)
+    -   Read an additional line from the file connection, and assign it to **overfishing_f**(**PStarF**)
+    -   Read an additional line from the file connection, and assign it to **target_year**(**TargetYear**)
+    -   PSTAR and REBUILD run independently, they can not run both options at the same time.
+        -   Throw an error if REBUILD input data file values data is found.
+
+# Close File Connection
+
+-   *Close the file connection* once the file connection reaches "End of File" of the AGEPRO Input File or encounters during an error.
