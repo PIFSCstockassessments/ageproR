@@ -302,3 +302,5 @@ This input file read procedure is derived from [AGEPRO-CoreLib's AgeproInputFile
         -   Read an additional line from the file connection, and assign it to **target_year**(**TargetYear**)
         -   PSTAR and REBUILD run independently, they can not run both options at the same time.
             -   Throw an error if REBUILD input data file values data is found.
+-   *Close the file connection* once the file connection reaches "End of File" of the AGEPRO Input File or encounters during an error.
+
