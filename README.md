@@ -12,7 +12,7 @@ Brodizak’s AGEPRO (Age Structured Projection Model).
 ***ageproR** is still in early development. Code base may change without
 warning prior to first stable release.*
 
-If you use AGEPRO for production, please use:
+**If you using AGEPRO for production, please use:**
 
 - [Jon Brodziak’s original AGEPRO program (source
   code)](https://github.com/PIFSCstockassessments/AGEPRO)
@@ -30,13 +30,16 @@ Repository](https://github.com/PIFSCstockassessments/ageproR) with:
 devtools::install_github("PIFSCstockassessments/ageproR")
 ```
 
-## TODO
+## AGEPRO input file
 
-Create a new AGEPRO Model
+*Note: **ageproR** is currently incompatible with the supported AGEPRO
+input file format* (`AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.2`).
+*Included example AGEPRO input file* (`inst/test-example4.inp`) *is used
+to demonstrate it’s implemented features.*
 
-Import AGEPRO Model data from AGEPRO input file
+## Vignettes
 
-Save to AGEPRO input file
+Hawaiian Uku Projection Projection base example (TODO)
 
 <!-- Do not edit below. This adds the Disclaimer and NMFS footer. -->
 
