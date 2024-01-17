@@ -94,7 +94,7 @@ is TRUE.}
 \subsection{Method \code{set_recruit_data()}}{
 Creates Recruitment Model Data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, num_rec_models)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -102,6 +102,8 @@ Creates Recruitment Model Data
 \describe{
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
+
+\item{\code{num_rec_models}}{AGEPRO model's number of Recruitment models}
 }
 \if{html}{\out{</div>}}
 }
