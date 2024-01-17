@@ -9,6 +9,7 @@
 #'
 #' @template model_num
 #' @template seq_years
+#' @template proj_years_vector
 #' @template elipses
 #' @template inp_con
 #' @template nline
