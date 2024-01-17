@@ -29,7 +29,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .number_projection_years = NULL,
     .number_recruit_models = NULL,
     .sequence_projection_years = NULL,
-    .max_recruit_obs = 10000,
+    .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
 
@@ -141,14 +141,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Initializes the Recruitment Class
     #'
-    #' @param max_rec_obs
+    #' @param max_recruit_obs
     #' Max limit of recruitment observations. Default is 10000.
     #'
     #' @param cat_verbose
     #' Flag to print out `cat` based cli messages printed on console. Default
     #' is TRUE.
     #'
-    initialize = function(model_num, seq_years, max_rec_obs = 10000,
+    initialize = function(model_num, seq_years, max_recruit_obs = 10000,
                           cat_verbose = TRUE) {
 
       #Handle seq_years as a single int or a vector of sequential values
@@ -167,13 +167,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       # Set Recruitment Model data
       self$set_recruit_data(model_num)
-      self$recruit_scaling_factor <- 1000
-      self$ssb_scaling_factor <- 0
+      private$set_recruit_scaling_factor(1000)
+      private$set_ssb_scaling_factor(0)
+      private$set_max_recruit_obs(max_recruit_obs)
 
-
-      if (!missing(max_rec_obs)) {
-        private$.max_rec_obs <- max_rec_obs
-      }
 
       # 'recruit' cli messages at initialization
       div_keyword_header(self$keyword_name)
@@ -332,10 +329,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         "Line {nline} : Scaling Factors & Max Recruit Observations ...")
 
       # Assign substrings
-      self$recruit_scaling_factor <- inp_line[1]
-      self$ssb_scaling_factor <- inp_line[2]
-      self$max_recruit_obs <- inp_line[3]
-      #TODO: rename to max_recruit_observations
+      private$set_recruit_scaling_factor(inp_line[1])
+      private$set_ssb_scaling_factor(inp_line[2])
+      private$set_max_recruit_obs(inp_line[3])
 
       # Console Output
       cli::cli_ul()
@@ -557,7 +553,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       return(list(
         recFac = self$recruit_scaling_factor,
         ssbFac = self$ssb_scaling_factor,
-        maxRecObs = private$.max_rec_obs,
+        maxRecObs = private$.max_recruit_obs,
         type = unlist(self$recruit_model_num_list),
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))

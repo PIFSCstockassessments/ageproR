@@ -63,7 +63,12 @@ to access a specific recruitment models field.}
 \subsection{Method \code{new()}}{
 Initializes the Recruitment Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000, cat_verbose = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(
+  model_num,
+  seq_years,
+  max_recruit_obs = 10000,
+  cat_verbose = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -75,7 +80,7 @@ AGEPRO Recruitment Model Number}
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
 
-\item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
+\item{\code{max_recruit_obs}}{Max limit of recruitment observations. Default is 10000.}
 
 \item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
