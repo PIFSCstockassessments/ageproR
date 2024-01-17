@@ -9,13 +9,6 @@ Recruitment is the primary stochastic element in the AGEPRO model (Brodziak,
 projections. Please refer to the AGEPRO reference Manual for more detail on
 these models.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{observation_years}}{Sequence of projected years}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -26,6 +19,8 @@ absolute numbers of fish}
 spawning weight of fish in kilograms (kg)}
 
 \item{\code{max_recruit_obs}}{Recruitment submodel's maximum number of observations}
+
+\item{\code{observation_years}}{Sequence of projected years}
 
 \item{\code{recruit_probability}}{The Recruitment Probabilities.}
 

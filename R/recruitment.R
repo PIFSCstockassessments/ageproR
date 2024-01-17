@@ -36,6 +36,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
     .model_collection_list = NULL,
+    .observation_years = NULL,
 
     .recruit_probability = NULL,
     .recruit_model_num_list = NULL,
@@ -46,20 +47,24 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       checkmate::assert_numeric(value, len = 1,
                                 .var.name = "recruit_scaling_factor")
       private$.recruit_scaling_factor <- value
-
     },
 
     set_ssb_scaling_factor = function(value) {
       checkmate::assert_numeric(value, len = 1,
                                 .var.name = "ssb_scaling_factor")
       private$.ssb_scaling_factor <- value
-
     },
 
     set_max_recruit_obs = function(value) {
       checkmate::assert_int(value,
                             .var.name = "max_recruit_obs")
       private$.max_recruit_obs <- value
+    },
+
+    set_observation_years = function(value) {
+      checkmate::assert_numeric(value, len = 1, lower = 1,
+                                .var.name = "observation_years")
+      private$.observation_years <- value
     },
 
 
@@ -143,9 +148,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
   ), public = list(
 
-    #' @field observation_years Sequence of projected years
-    observation_years = NULL,
-
     #' @description
     #' Initializes the Recruitment Class
     #'
@@ -161,7 +163,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Handle seq_years as a single int or a vector of sequential values
       #This is used to set parameters for some recruitment models
-      self$observation_years <- seq_years
+      private$set_observation_years(seq_years)
 
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_observed_years(seq_years)
@@ -505,6 +507,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           stop("active binding is read only", call. = FALSE)
       }
       private$.max_recruit_obs
+    },
+
+    #' @field observation_years Sequence of projected years
+    observation_years = function(value){
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.observation_years
     },
 
     #' @field recruit_probability
