@@ -62,23 +62,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.max_recruit_obs <- value
     },
 
-    set_observation_years = function(value) {
-      checkmate::assert_numeric(value,
+    set_observation_years = function(obs_years) {
+      checkmate::assert_numeric(obs_years,
                                 .var.name = "observation_years")
-      private$.observation_years <- value
-    },
+      private$.observation_years <- obs_years
 
-
-    #Module to printout Recruitment probability to Rconsole
-    cli_recruit_probability = function() {
-      cli_alert_info("Recruitment Probability:")
-      assert_list(private$.recruit_probability) #verify recruit_prob list
-      cat_print(private$.recruit_probability)
-    },
-
-    #Handle observed_years as single int or a vector of sequential values
-    assert_observed_years = function(obs_years) {
-
+      #Handle observed_years as single int or a vector of sequential values
       if (test_int(obs_years)) {
         #single
         private$.number_projection_years <- obs_years
@@ -88,10 +77,15 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.number_projection_years <- length(obs_years)
         private$.sequence_projection_years <- obs_years
       }
-
-
     },
 
+
+    #Module to printout Recruitment probability to Rconsole
+    cli_recruit_probability = function() {
+      cli_alert_info("Recruitment Probability:")
+      assert_list(private$.recruit_probability) #verify recruit_prob list
+      cat_print(private$.recruit_probability)
+    },
 
 
     # Creates Recruitment Model Data.
@@ -173,9 +167,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Handle seq_years as a single int or a vector of sequential values
       #This is used to set parameters for some recruitment models
       private$set_observation_years(seq_years)
-
-      # Handle seq_years as a single int or a vector of sequential values
-      private$assert_observed_years(seq_years)
 
       ## Validation
       # Check if input model number matches the number of observed years
@@ -326,7 +317,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Check
       assert_numeric(self$observation_years, sorted = TRUE)
       #Setup .number_projection_years and .sequence_projection_years
-      private$assert_observed_years(self$observation_years)
+      private$set_observed_years(self$observation_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
