@@ -43,7 +43,6 @@ to access a specific recruitment models field.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
-\item \href{#method-recruitment-set_recruit_data}{\code{recruitment$set_recruit_data()}}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
@@ -82,26 +81,6 @@ Array representing the Projection Time Horizon}
 
 \item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_data}{}}}
-\subsection{Method \code{set_recruit_data()}}{
-Creates Recruitment Model Data
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, num_recruit_models)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
-\item{\code{num_rec_models}}{AGEPRO model's number of Recruitment models}
 }
 \if{html}{\out{</div>}}
 }

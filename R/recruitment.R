@@ -92,22 +92,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
+
+
+    # Creates Recruitment Model Data.
     # Helper function to help setup .number_recruit_models,
-    # recruit_model_num_list, & model_collection_list vectors
-    # based on `model_num`.
-    setup_recruitment_list_vectors = function(model_num, num_recruit_models) {
-
-      # Check if input model number matches the number of observed years
-      if(isFALSE(length(model_num) == num_recruit_models)){
-        stop(paste0("Length of Recruitment number vector does not match ",
-                    "AGEPRO model's number of recruits: ",
-                    length(model_num), " (Number of Recruits: ",
-                    num_recruit_models, ")"))
-      }
-
-      # Setup number of recruits based on the vector length of the recruitment
-      # models field sent to the function.
-      private$.number_recruit_models <- length(model_num)
+    # recruit_model_num_list, & model_collection_list vectors.
+    setup_recruit_data = function(model_num) {
 
       #Setup Recruitment Model Number list
       self$recruit_model_num_list <-
@@ -116,6 +106,20 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Setup Recruitment Model Data List
       self$model_collection_list <-
         vector("list", private$.number_recruit_models)
+
+
+      #Set Model data for each recruitment model.
+      for (recruit in 1:private$.number_recruit_models) {
+
+        # #Model Num
+        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
+
+        #Add Recruitment Data with recruitment model number
+        self$model_collection_list[[recruit]] <-
+          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
+
+      }
+
 
     },
 
@@ -173,15 +177,25 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # Handle seq_years as a single int or a vector of sequential values
       private$assert_observed_years(seq_years)
 
-      ## Sets up recruitment vectors:
-      # .number_recruit_models, recruit_model_num_list, model_collection_list
+      ## Validation
+      # Check if input model number matches the number of observed years
+      if(isFALSE(length(model_num) == num_recruit_models)){
+        stop(paste0("Length of Recruitment number vector does not match ",
+                    "AGEPRO model's number of recruits: ",
+                    length(model_num), " (Number of Recruits: ",
+                    num_recruit_models, ")"))
+      }
+
+      # Setup number of recruits based on the vector length of the recruitment
+      # models field sent to the function.
+      private$.number_recruit_models <- length(model_num)
 
       # Setup Recruitment Model data
       private$set_recruit_scaling_factor(1000)
       private$set_ssb_scaling_factor(0)
       private$set_max_recruit_obs(max_recruit_obs)
       private$setup_recruitment_probability()
-      self$set_recruit_data(model_num, num_recruit_models)
+      private$setup_recruit_data(model_num)
 
 
       # 'recruit' cli messages at initialization
@@ -193,30 +207,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
 
-    #' @description
-    #' Creates Recruitment Model Data
-    #'
-    #' @param num_rec_models AGEPRO model's number of Recruitment models
-    set_recruit_data = function(model_num, num_recruit_models) {
 
-      ## Sets up recruitment vectors:
-      # .number_recruit_models, recruit_model_num_list, model_collection_list
-      private$setup_recruitment_list_vectors(model_num, num_recruit_models)
-
-      #Set recruitment probability and model data for each recruitment model.
-      for (recruit in 1:private$.number_recruit_models) {
-
-        # #Model Num
-        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
-
-        #Add Recruitment Data with recruitment model number
-        self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
-
-      }
-
-
-    },
 
 
     #' @description
