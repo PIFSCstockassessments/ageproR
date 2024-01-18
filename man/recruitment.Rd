@@ -43,7 +43,7 @@ to access a specific recruitment models field.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
-\item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
+\item \href{#method-recruitment-initalize_recruit_model}{\code{recruitment$initalize_recruit_model()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
@@ -86,15 +86,15 @@ is TRUE.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_model"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_model}{}}}
-\subsection{Method \code{set_recruit_model()}}{
+\if{html}{\out{<a id="method-recruitment-initalize_recruit_model"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-initalize_recruit_model}{}}}
+\subsection{Method \code{initalize_recruit_model()}}{
 Initializes Recruit Model Data.
 
 Recruitment class field \code{observation_years} is used for recruitment
 models that use the model projection year time horizon for setup.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$initalize_recruit_model(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

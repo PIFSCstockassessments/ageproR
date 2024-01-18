@@ -110,7 +110,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         #Add Recruitment Data with recruitment model number
         self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
+          self$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
       }
 
@@ -208,24 +208,23 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' models that use the model projection year time horizon for setup.
     #'
     #' @export
-    set_recruit_model = function(model_num) {
+    initalize_recruit_model = function(model_num) {
 
-      assert_numeric(model_num, lower = 0, upper = 21)
-
+      checkmate::assert_numeric(model_num, lower = 0, upper = 21)
 
       model_dict <- dict(list(
-        "0" = expr(null_recruit_model$new()),
-        "3" = expr(empirical_distribution_model$new(private$.number_projection_years)),
-        "4" = expr(two_stage_empirical_ssb$new()),
-        "5" = expr(beverton_holt_curve_model$new()),
-        "6" = expr(ricker_curve_model$new()),
-        "7" = expr(shepherd_curve_model$new()),
-        "9" = expr(deprecated_recruit_model_9$new()),
-        "14" = expr(empirical_cdf_model$new()),
-        "15" = expr(two_stage_empirical_cdf$new())
+        "0" = rlang::expr(null_recruit_model$new()),
+        "3" = rlang::expr(empirical_distribution_model$new(private$.number_projection_years)),
+        "4" = rlang::expr(two_stage_empirical_ssb$new()),
+        "5" = rlang::expr(beverton_holt_curve_model$new()),
+        "6" = rlang::expr(ricker_curve_model$new()),
+        "7" = rlang::expr(shepherd_curve_model$new()),
+        "9" = rlang::expr(deprecated_recruit_model_9$new()),
+        "14" = rlang::expr(empirical_cdf_model$new()),
+        "15" = rlang::expr(two_stage_empirical_cdf$new())
       ))
 
-    eval_tidy(model_dict$get(as.character(model_num)))
+    rlang::eval_tidy(model_dict$get(as.character(model_num)))
 
     },
 
@@ -404,7 +403,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         #Setup Recruitment Model w/ default values
         self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
+          self$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
           paste0("{.strong model_collection_list} ({recruit} of ",
