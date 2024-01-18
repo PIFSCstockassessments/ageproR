@@ -318,7 +318,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
 
       #Setup .number_projection_years and .sequence_projection_years
-      private$set_observed_years(seq_years)
+      private$set_observation_years(seq_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
