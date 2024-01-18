@@ -61,6 +61,7 @@ Initializes the Recruitment Class
 \if{html}{\out{<div class="r">}}\preformatted{recruitment$new(
   model_num,
   seq_years,
+  num_recruit_models = 1,
   max_recruit_obs = 10000,
   cat_verbose = TRUE
 )}\if{html}{\out{</div>}}
@@ -74,6 +75,8 @@ AGEPRO Recruitment Model Number}
 
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
+
+\item{\code{num_recruit_models}}{Number of Recruitment Models in AGEPRO model. Default is 1.}
 
 \item{\code{max_recruit_obs}}{Max limit of recruitment observations. Default is 10000.}
 
@@ -89,7 +92,7 @@ is TRUE.}
 \subsection{Method \code{set_recruit_data()}}{
 Creates Recruitment Model Data
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, num_rec_models)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num, num_recruit_models)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

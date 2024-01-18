@@ -101,7 +101,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       if(isFALSE(length(model_num) == num_recruit_models)){
         stop(paste0("Length of Recruitment number vector does not match ",
                     "AGEPRO model's number of recruits: ",
-                    length(model_num), " ( Number of Recruits: ",
+                    length(model_num), " (Number of Recruits: ",
                     num_recruit_models, ")"))
       }
 
@@ -159,7 +159,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Flag to print out `cat` based cli messages printed on console. Default
     #' is TRUE.
     #'
-    initialize = function(model_num, seq_years, max_recruit_obs = 10000,
+    #' @param num_recruit_models
+    #' Number of Recruitment Models in AGEPRO model. Default is 1.
+    #'
+    initialize = function(model_num, seq_years, num_recruit_models = 1,
+                          max_recruit_obs = 10000,
                           cat_verbose = TRUE) {
 
       #Handle seq_years as a single int or a vector of sequential values
@@ -171,16 +175,13 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       ## Sets up recruitment vectors:
       # .number_recruit_models, recruit_model_num_list, model_collection_list
-      private$setup_recruitment_list_vectors(model_num, seq_years$count)
 
-      # Setup Recruitment probability
-      private$setup_recruitment_probability()
-
-      # Set Recruitment Model data
-      self$set_recruit_data(model_num)
+      # Setup Recruitment Model data
       private$set_recruit_scaling_factor(1000)
       private$set_ssb_scaling_factor(0)
       private$set_max_recruit_obs(max_recruit_obs)
+      private$setup_recruitment_probability()
+      self$set_recruit_data(model_num, num_recruit_models)
 
 
       # 'recruit' cli messages at initialization
@@ -196,11 +197,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Creates Recruitment Model Data
     #'
     #' @param num_rec_models AGEPRO model's number of Recruitment models
-    set_recruit_data = function(model_num, num_rec_models) {
+    set_recruit_data = function(model_num, num_recruit_models) {
 
       ## Sets up recruitment vectors:
       # .number_recruit_models, recruit_model_num_list, model_collection_list
-      private$setup_recruitment_list_vectors(model_num, num_rec_models)
+      private$setup_recruitment_list_vectors(model_num, num_recruit_models)
 
       #Set recruitment probability and model data for each recruitment model.
       for (recruit in 1:private$.number_recruit_models) {
@@ -372,8 +373,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # model_collection_list
       private$setup_recruitment_list_vectors(inp_line)
 
-      # Setup Default Recruitment probability
-      private$setup_recruitment_probability()
+
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
