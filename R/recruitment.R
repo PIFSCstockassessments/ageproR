@@ -232,7 +232,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       model_dict <- dict(list(
         "0" = expr(null_recruit_model$new()),
-        "3" = expr(empirical_distribution_model$new(self$observation_years)),
+        "3" = expr(empirical_distribution_model$new(private$.number_projection_years)),
         "4" = expr(two_stage_empirical_ssb$new()),
         "5" = expr(beverton_holt_curve_model$new()),
         "6" = expr(ricker_curve_model$new()),
@@ -384,7 +384,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli_alert_info("Reading Recruitment Probabaility ... ")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
-      for (year in self$observation_years){
+      for (year in private$.sequence_projection_years){
 
         # Read an additional line from the file connection ...
         inp_line <- read_inp_numeric_line(inp_con)
