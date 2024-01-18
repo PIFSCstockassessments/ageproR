@@ -156,7 +156,7 @@ console. Default is TRUE}
 \subsection{Method \code{read_inp_lines()}}{
 Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nline, num_recruit_models = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -167,6 +167,8 @@ Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+
+\item{\code{num_recruit_models}}{Number of Recruitment Models. Default is 1}
 }
 \if{html}{\out{</div>}}
 }

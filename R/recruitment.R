@@ -318,7 +318,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #' @description
     #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
-    read_inp_lines = function(inp_con, nline) {
+    #'
+    #' @param num_recruit_models
+    #' Number of Recruitment Models. Default is 1
+    read_inp_lines = function(inp_con, nline, num_recruit_models = 1) {
 
       #Check
       assert_numeric(self$observation_years, sorted = TRUE)
@@ -356,15 +359,25 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli_alert(c("Line {nline}: Reading recruitment model number ",
                   "{.val {inp_line}} ..."))
 
-      #?Validate length Recruitment's recruit_model_num_list matches
-      #length of recruitment models field from the set_recruit_data function
+      # Validate length Recruitment's recruit_model_num_list matches
+      # Check if input model number matches the number of observed years
+      if(isFALSE(length(inp_line) == num_recruit_models)){
+        stop(paste0("Length of Recruitment number vector does not match ",
+                    "AGEPRO model's number of recruits: ",
+                    length(inp_line), " (Number of Recruits: ",
+                    num_recruit_models, ")"))
+      }
+
+      # Setup number of recruits based on the vector length of the recruitment
+      # models field sent to the function.
+      private$.number_recruit_models <- length(inp_line)
 
       ## Setup for recruitment list vectors:
-      # .number_recruit_models, recruit_model_mum_list,.recruit_probability,
-      # model_collection_list
-      private$setup_recruitment_list_vectors(inp_line)
+      private$setup_recruit_data(inp_line)
+      private$setup_recruitment_probability()
 
 
+      #TODO TODO :: FIX READING RECRUITMENT PROBABILY LINES BY OBSERVED YEARS
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
