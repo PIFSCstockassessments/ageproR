@@ -312,12 +312,13 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #'
     #' @param num_recruit_models
     #' Number of Recruitment Models. Default is 1
-    read_inp_lines = function(inp_con, nline, num_recruit_models = 1) {
+    read_inp_lines = function(inp_con, nline,
+                              seq_years = 1,
+                              num_recruit_models = 1) {
 
-      #Check
-      assert_numeric(self$observation_years, sorted = TRUE)
+
       #Setup .number_projection_years and .sequence_projection_years
-      private$set_observed_years(self$observation_years)
+      private$set_observed_years(seq_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace

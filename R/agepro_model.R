@@ -584,7 +584,8 @@ agepro_inp_model <- R6Class(
       cli_alert_info(c("Setting Recruitment data for ",
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
       self$nline <- self$recruit$read_inp_lines(con, nline,
-                                                self$general$seq_years)
+                                                self$general$seq_years,
+                                                self$general$rec_models)
     },
 
     read_bootstrap = function(con, nline) {
