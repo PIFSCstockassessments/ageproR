@@ -26,11 +26,8 @@ projection_years <- R6Class(
     #'
     initialize = function (x) {
 
-      # Handle potential "Factor" types, and return its levels: the intended
-      # values assigned to this field.
-      if(is.factor(x)) {
-        x <- as.numeric(levels(x))[x]
-      }
+      # Validation
+      checkmate::assert_numeric(x)
 
       #Handle as single int or a vector of sequential values
       if (checkmate::test_int(x)) {
