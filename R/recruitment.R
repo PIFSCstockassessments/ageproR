@@ -63,7 +63,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
     set_observation_years = function(value) {
-      checkmate::assert_numeric(value, len = 1, lower = 1,
+      checkmate::assert_numeric(value,
                                 .var.name = "observation_years")
       private$.observation_years <- value
     },
