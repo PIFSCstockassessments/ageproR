@@ -196,10 +196,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       ## Validation
       # Check if input model number matches the number of observed years
       if(isFALSE(length(model_num) == num_recruit_models)){
-        stop(paste0("Length of Recruitment number vector does not match ",
-                    "AGEPRO model's number of recruits: ",
+        stop(paste0("Quantity of Recruitment Model numbers in model_num ",
+                    "vector does not match number of recruits. \n",
+                    "Length model_num: ",
                     length(model_num), " (Number of Recruits: ",
-                    num_recruit_models, ")"))
+                    num_recruit_models, ")"),
+             call. = FALSE)
       }
 
       # Setup number of recruits based on the vector length of the recruitment
