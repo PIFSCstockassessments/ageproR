@@ -144,10 +144,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
 
-    #' Initializes Recruit Model Data.
-    #'
-    #' Recruitment class field `observation_years` is used for recruitment
-    #' models that use the model projection year time horizon for setup.
+    # Initializes Recruit Model Data.
+    #
+    # Recruitment class field `observation_years` is used for recruitment
+    # models that use the model projection year time horizon for setup.
     initalize_recruit_model = function(model_num) {
 
       checkmate::assert_numeric(model_num, lower = 0, upper = 21)
