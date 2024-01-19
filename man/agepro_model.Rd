@@ -150,7 +150,15 @@ messages to be seen on console.}
 \if{html}{\out{<a id="method-agepro_model-set_recruit_model"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_model-set_recruit_model}{}}}
 \subsection{Method \code{set_recruit_model()}}{
-Set model's Recruitment model
+Setup recruitment and a recruitment model collection list with default
+data using current AGEPRO model's number of recruits and sequence of
+projection years.
+
+To establish multiple recruit models, pass multiple valid AGERPRO
+Recruitment Model numbers as vector to the \code{model_num} parameter. If
+the vector length of \code{model_num} doesn't match current AGEPRO
+\link[=general_params]{general parameter's} \code{num_rec_models}
+value, it will throw an error.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(model_num)}\if{html}{\out{</div>}}
 }

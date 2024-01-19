@@ -207,14 +207,26 @@ agepro_model <- R6Class(
     },
 
     #' @description
-    #' Set model's Recruitment model
+    #' Setup recruitment and a recruitment model collection list with default
+    #' data using current AGEPRO model's number of recruits and sequence of
+    #' projection years.
+    #'
+    #' To establish multiple recruit models, pass multiple valid AGERPRO
+    #' Recruitment Model numbers as vector to the `model_num` parameter. If
+    #' the vector length of `model_num` doesn't match current AGEPRO
+    #' [general parameter's][ageproR::general_params] `num_rec_models`
+    #' value, it will throw an error.
+    #'
     set_recruit_model = function(model_num) {
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
       cli_alert("Using Model Number {.field {model_num}}")
 
-      self$recruit$set_recruit_data(model_num, self$general$num_rec_models)
+      self$recruit <- recruitment$new(model_num,
+                      seq_years = self$general$seq_years,
+                      num_recruit_models = self$general$num_rec_models)
+
       self$recruit$print()
 
 
