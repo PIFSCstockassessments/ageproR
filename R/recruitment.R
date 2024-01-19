@@ -196,10 +196,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       ## Validation
       # Check if input model number matches the number of observed years
       if(isFALSE(length(model_num) == num_recruit_models)){
-        stop(paste0("Quantity of Recruitment Model numbers in model_num ",
-                    "vector does not match number of recruits. \n",
-                    "Length model_num: ",
-                    length(model_num), " (Number of Recruits: ",
+        stop(paste0("Recruitment Model vector (model_num) object count ",
+                    "does not match number of recruits. ",
+                    "(count: ", length(model_num), ", number of recruits: ",
                     num_recruit_models, ")"),
              call. = FALSE)
       }
