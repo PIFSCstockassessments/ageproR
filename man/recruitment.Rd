@@ -61,7 +61,7 @@ Initializes the Recruitment Class
   seq_years,
   num_recruit_models = 1,
   max_recruit_obs = 10000,
-  cat_verbose = TRUE
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -78,7 +78,7 @@ Array representing the Projection Time Horizon}
 
 \item{\code{max_recruit_obs}}{Max limit of recruitment observations. Default is 10000.}
 
-\item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
+\item{\code{enable_cat_print}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
 }
 \if{html}{\out{</div>}}
@@ -114,13 +114,13 @@ console. Default is TRUE}
 \subsection{Method \code{print()}}{
 Prints out Recruitment
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(cat_verbose = TRUE, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cat_verbose}}{Flag to allow \code{cat} based cli messages printed on
+\item{\code{enable_cat_print}}{Flag to allow \code{cat} based cli messages printed on
 console. Default is TRUE}
 
 \item{\code{...}}{further arguments passed to or from other methods}

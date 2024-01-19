@@ -178,7 +178,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @param max_recruit_obs
     #' Max limit of recruitment observations. Default is 10000.
     #'
-    #' @param cat_verbose
+    #' @param enable_cat_print
     #' Flag to print out `cat` based cli messages printed on console. Default
     #' is TRUE.
     #'
@@ -187,7 +187,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #'
     initialize = function(model_num, seq_years, num_recruit_models = 1,
                           max_recruit_obs = 10000,
-                          cat_verbose = TRUE) {
+                          enable_cat_print = TRUE) {
 
       #Handle seq_years as a single int or a vector of sequential values
       #This is used to set parameters for some recruitment models
@@ -217,7 +217,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # 'recruit' cli messages at initialization
       div_keyword_header(self$keyword_name)
       cli_alert("Creating Default Recruitment Model")
-      self$print(cat_verbose)
+      self$print(enable_cat_print)
 
 
     },
@@ -255,9 +255,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Prints out Recruitment
     #'
-    #' @param cat_verbose Flag to allow `cat` based cli messages printed on
+    #' @param enable_cat_print Flag to allow `cat` based cli messages printed on
     #' console. Default is TRUE
-    print = function(cat_verbose = TRUE, ...) {
+    print = function(enable_cat_print = TRUE, ...) {
 
       #verify private fields are numeric
       assert_numeric(private$.number_recruit_models)
@@ -273,7 +273,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      ifelse(cat_verbose,
+      ifelse(enable_cat_print,
              #Allow Recruitment Probability 'cat' cli message
              private$cli_recruit_probability(),
              #Suppress Recruitment Probability 'cat' cli message

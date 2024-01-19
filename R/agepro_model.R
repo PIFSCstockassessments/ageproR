@@ -132,7 +132,7 @@ agepro_model <- R6Class(
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
                                       x$seq_years,
                                       num_recruit_models = x$num_rec_models,
-                                      cat_verbose = enable_cat_print)
+                                      enable_cat_print = enable_cat_print)
 
       self$bootstrap <- bootstrap$new()
 
