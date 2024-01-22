@@ -62,6 +62,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.max_recruit_obs <- value
     },
 
+    set_recruit_model_num_list = function(value, index){
+      checkmate::assert_choice(value, choice = c(0:21))
+      checkmate::assert_number(index, lower = 1,
+                               upper = length(private$.recruit_model_num_list))
+      private$.recruit_model_num_list[[index]] <- value
+
+    },
+
     set_observation_years = function(obs_years) {
       checkmate::assert_numeric(obs_years,
                                 .var.name = "observation_years")
@@ -94,7 +102,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     setup_recruit_data = function(model_num) {
 
       #Setup Recruitment Model Number list
-      self$recruit_model_num_list <-
+      private$.recruit_model_num_list <-
         vector("list", private$.number_recruit_models)
 
       #Setup Recruitment Model Data List
@@ -106,7 +114,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       for (recruit in 1:private$.number_recruit_models) {
 
         # #Model Num
-        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
+        private$set_recruit_model_num_list(model_num[[recruit]], recruit)
 
         #Add Recruitment Data with recruitment model number
         self$model_collection_list[[recruit]] <-
@@ -367,7 +375,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
-        self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
+        private$set_recruit_model_num_list(inp_line[recruit], recruit)
       }
 
       cli_alert_info("Reading Recruitment Probabaility ... ")
@@ -531,13 +539,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @field recruit_model_num_list
     #' Helper Function To View Recruitment Model Collection Data
     recruit_model_num_list = function(value) {
-      if(missing(value)){
         return(private$.recruit_model_num_list)
-      } else{
-        checkmate::assert_list(value, types = c("numeric","null"),
-                               .var.name = "recruit_model_num_list")
-        private$.recruit_model_num_list <- value
-      }
     },
 
     #' @field num_recruit_models
@@ -564,6 +566,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         recFac = self$recruit_scaling_factor,
         ssbFac = self$ssb_scaling_factor,
         maxRecObs = private$.max_recruit_obs,
+        #list of model numbers
         type = unlist(self$recruit_model_num_list),
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))
