@@ -96,17 +96,34 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
 
-    # Creates Recruitment Model Data.
-    # Helper function to help setup .number_recruit_models,
-    # recruit_model_num_list, & model_collection_list vectors.
-    setup_recruit_data = function(model_num) {
+    # Helper function to help setup recruit_model_num_list vector
+    setup_recruit_model_num_list = function(model_num_vector) {
+
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
 
       #Setup Recruitment Model Number list
       private$.recruit_model_num_list <-
         vector("list", private$.number_recruit_models)
 
-      #Setup Recruitment Model Data List
+      # Set Recruitment Model Number for each number_recruit_model vector
+      for (recruit in 1:private$.number_recruit_models) {
 
+        private$set_recruit_model_num_list_item(model_num_vector[[recruit]], recruit)
+      }
+
+    },
+
+
+    # Creates Recruitment Model Data.
+    # Helper function to help setup .number_recruit_models,
+    # recruit_model_num_list, & model_collection_list vectors.
+    setup_recruit_data = function() {
+
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
+
+      #Setup Recruitment Model Data List
       private$.model_collection_list <-
         vector("list", private$.number_recruit_models)
 
@@ -114,15 +131,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #Set Model data for each recruitment model.
       for (recruit in 1:private$.number_recruit_models) {
 
-        # #Model Num
-        private$set_recruit_model_num_list_item(model_num[[recruit]], recruit)
-
         #Add Recruitment Data with recruitment model number
         current_recruit_num <- self$recruit_model_num_list[[recruit]]
         private$.model_collection_list[[recruit]] <-
           private$initalize_recruit_model(current_recruit_num)
-        #self$model_collection_list[[recruit]] <-
-        #  private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
       }
 
@@ -224,7 +236,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$set_ssb_scaling_factor(0)
       private$set_max_recruit_obs(max_recruit_obs)
       private$setup_recruitment_probability()
-      private$setup_recruit_data(model_num)
+      private$setup_recruit_model_num_list(model_num)
+      private$setup_recruit_data()
 
 
       # 'recruit' cli messages at initialization
@@ -390,11 +403,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.number_recruit_models <- length(inp_line)
 
       ## Setup for recruitment list vectors:
-      private$setup_recruit_data(inp_line)
+      private$setup_recruit_model_num_list(inp_line)
+      private$setup_recruit_data()
       private$setup_recruitment_probability()
-
-
-      #TODO TODO :: FIX READING RECRUITMENT PROBABILY LINES BY OBSERVED YEARS
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
