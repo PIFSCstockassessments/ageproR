@@ -207,7 +207,7 @@ agepro_model <- R6Class(
     },
 
     #' @description
-    #' Setup recruitment and a recruitment model collection list with default
+    #' Setup recruitment with a recruitment model collection list with default
     #' data using current AGEPRO model's number of recruits and sequence of
     #' projection years.
     #'
@@ -217,7 +217,7 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    set_recruit_model = function(model_num) {
+    set_recruit = function(model_num) {
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
@@ -231,6 +231,7 @@ agepro_model <- R6Class(
 
 
     },
+
 
     #' @description
     #' Wrapper function to call bootstrap's set_bootstrap_filename

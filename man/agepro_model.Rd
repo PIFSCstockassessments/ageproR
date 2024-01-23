@@ -64,7 +64,7 @@ calculated across all fleets with the rebuild spawning biomass.}
 \itemize{
 \item \href{#method-agepro_model-new}{\code{agepro_model$new()}}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
-\item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
+\item \href{#method-agepro_model-set_recruit}{\code{agepro_model$set_recruit()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
 \item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
@@ -147,10 +147,10 @@ messages to be seen on console.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-set_recruit_model"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-set_recruit_model}{}}}
-\subsection{Method \code{set_recruit_model()}}{
-Setup recruitment and a recruitment model collection list with default
+\if{html}{\out{<a id="method-agepro_model-set_recruit"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-set_recruit}{}}}
+\subsection{Method \code{set_recruit()}}{
+Setup recruitment with a recruitment model collection list with default
 data using current AGEPRO model's number of recruits and sequence of
 projection years.
 
@@ -160,7 +160,7 @@ the vector length of \code{model_num} doesn't match current AGEPRO
 \link[=general_params]{general parameter's} \code{num_rec_models}
 value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit(model_num)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
