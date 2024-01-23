@@ -22,14 +22,14 @@ spawning weight of fish in kilograms (kg)}
 
 \item{\code{observation_years}}{Sequence of projected years}
 
+\item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
+
+\item{\code{num_recruit_models}}{Returns number of recruitment models}
+
 \item{\code{recruit_probability}}{The Recruitment Probabilities.}
 
 \item{\code{model_collection_list}}{List of recruitment models. Use this field
 to access a specific recruitment models field.}
-
-\item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
-
-\item{\code{num_recruit_models}}{Returns number of recruitment models}
 
 \item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
 

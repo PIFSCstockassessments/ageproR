@@ -515,9 +515,31 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.observation_years
     },
 
+    #' @field recruit_model_num_list
+    #' Helper Function To View Recruitment Model Collection Data
+    recruit_model_num_list = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      return(private$.recruit_model_num_list)
+    },
+
+    #' @field num_recruit_models
+    #' Returns number of recruitment models
+    num_recruit_models = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      return(private$.number_recruit_models)
+    },
+
+
     #' @field recruit_probability
     #' The Recruitment Probabilities.
-    recruit_probability = function() {
+    recruit_probability = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       return(private$.recruit_probability)
     },
 
@@ -536,17 +558,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       }
     },
 
-    #' @field recruit_model_num_list
-    #' Helper Function To View Recruitment Model Collection Data
-    recruit_model_num_list = function(value) {
-        return(private$.recruit_model_num_list)
-    },
 
-    #' @field num_recruit_models
-    #' Returns number of recruitment models
-    num_recruit_models = function() {
-      return(private$.number_recruit_models)
-    },
 
     #' @field json_list_recruit
     #' List of RECRUIT keyword fields values, exportable to JSON.
