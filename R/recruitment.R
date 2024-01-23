@@ -70,8 +70,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
-
-
     set_observation_years = function(obs_years) {
       checkmate::assert_numeric(obs_years,
                                 .var.name = "observation_years")
@@ -109,7 +107,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Setup Recruitment Model Data List
 
-      self$model_collection_list <-
+      private$.model_collection_list <-
         vector("list", private$.number_recruit_models)
 
 
@@ -120,8 +118,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$set_recruit_model_num_list_item(model_num[[recruit]], recruit)
 
         #Add Recruitment Data with recruitment model number
-        self$model_collection_list[[recruit]] <-
-          private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
+        current_recruit_num <- self$recruit_model_num_list[[recruit]]
+        private$.model_collection_list[[recruit]] <-
+          private$initalize_recruit_model(current_recruit_num)
+        #self$model_collection_list[[recruit]] <-
+        #  private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
       }
 
@@ -263,6 +264,26 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       if (verbose) private$cli_recruit_probability()
 
     },
+
+    #' @description
+    #' Set recruitment model data class on the index of the single or mulit
+    #' recruitment model collection list vector.
+    #'
+    #' @param value
+    #' AGEPRO Recruitment Model Data Class
+    #'
+    #' @param index
+    #' Index of the model_collection_list
+    #'
+    set_model_collection_list_item = function(value, index) {
+      #Verify class inherits from "recruit_model"
+      checkmate::assert_r6(value, "recruit_model")
+      checkmate::assert_number(index, lower = 1,
+                               upper = length(private$.recruit_model_num_list))
+      private$.model_collection_list[[index]] <- value
+    },
+
+
 
     #' @description
     #' Prints out Recruitment
@@ -407,8 +428,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       for (recruit in 1:private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
-        self$model_collection_list[[recruit]] <-
+        private$.model_collection_list[[recruit]] <-
           private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
+        #self$model_collection_list[[recruit]] <-
+        #  private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
           paste0("{.strong model_collection_list} ({recruit} of ",
@@ -546,9 +569,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       return(private$.recruit_probability)
     },
 
-
-    #TODO: Create a active field function for showing model_collection_list
-
     #' @field model_collection_list
     #' List of recruitment models. Use this field
     #' to access a specific recruitment models field.
@@ -556,7 +576,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       if(missing(value)){
         return(private$.model_collection_list)
       } else{
-        checkmate::assert_list(value, .var.name = "model_collection_list")
+        checkmate::assert_list(value,
+                               len = length(private$.recruit_model_num_list),
+                               .var.name = "model_collection_list")
         private$.model_collection_list <- value
       }
     },

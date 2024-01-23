@@ -44,6 +44,7 @@ to access a specific recruitment models field.}
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
 \item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
+\item \href{#method-recruitment-set_model_collection_list_item}{\code{recruitment$set_model_collection_list_item()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
@@ -104,6 +105,26 @@ Sets the recruitment probability
 
 \item{\code{verbose}}{Flag to allow based cli messages printed on
 console. Default is TRUE}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-recruitment-set_model_collection_list_item"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-set_model_collection_list_item}{}}}
+\subsection{Method \code{set_model_collection_list_item()}}{
+Set recruitment model data class on the index of the single or mulit
+recruitment model collection list vector.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_model_collection_list_item(value, index)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{AGEPRO Recruitment Model Data Class}
+
+\item{\code{index}}{Index of the model_collection_list}
 }
 \if{html}{\out{</div>}}
 }
