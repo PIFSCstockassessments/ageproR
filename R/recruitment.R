@@ -577,8 +577,24 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         return(private$.model_collection_list)
       } else{
         checkmate::assert_list(value,
+                               types = c("recruit_model", "R6"),
                                len = length(private$.recruit_model_num_list),
                                .var.name = "model_collection_list")
+        private$.model_collection_list <- value
+      }
+    },
+
+    #' @field recruit_data
+    #' List containing data for each recruitment model in the recruitment
+    #' model collection list. Use this field to access a specific recruitment models field.
+    recruit_data = function(value) {
+      if(missing(value)){
+        return(private$.model_collection_list)
+      } else{
+        checkmate::assert_list(value,
+                               types = c("recruit_model", "R6"),
+                               len = length(private$.recruit_model_num_list),
+                               .var.name = "recruit_data")
         private$.model_collection_list <- value
       }
     },
