@@ -589,6 +589,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                                types = c("recruit_model", "R6"),
                                len = length(private$.recruit_model_num_list),
                                .var.name = "model_collection_list")
+
+        # Copy the new "model_num" values from the model_collection_list and
+        # set it to recruit_model_num_list.
+        model_num_values <- purrr::map(value, "model_num")
+        if(isFALSE(all(model_num_values %in%
+                       private$.valid_recruit_model_num))){
+          stop("Invalid AGEPRO Recruitment Model Number(s) found.")
+        }
+        private$.recruit_model_num_list <- model_num_values
+
         private$.model_collection_list <- value
       }
     },
