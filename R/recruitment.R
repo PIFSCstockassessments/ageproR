@@ -23,6 +23,7 @@
 #' @importFrom checkmate assert_int
 #' @importFrom collections dict
 #' @importFrom rlang expr eval_tidy
+#' @importFrom purrr map
 #'
 recruitment <- R6Class( # nolint: cyclocomp_linter
   "recruitment",
@@ -33,6 +34,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
+    .valid_recruit_model_num = c(0, 3, 4, 5, 6, 7, 9, 14, 15),
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
@@ -279,23 +281,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
     #' @description
-    #' Set recruitment model data class on the index of the single or mulit
-    #' recruitment model collection list vector.
+    #' Returns a recruitment model data class with default values. The type of
+    #' recruitment model is determined by the `model_num` parameter.
     #'
-    #' @param value
-    #' AGEPRO Recruitment Model Data Class
+    #' @template model_num
     #'
-    #' @param index
-    #' Index of the model_collection_list
-    #'
-    set_model_collection_list_item = function(value, index) {
-      #Verify class inherits from "recruit_model"
-      checkmate::assert_r6(value, "recruit_model")
-      checkmate::assert_number(index, lower = 1,
-                               upper = length(private$.recruit_model_num_list))
-      private$.model_collection_list[[index]] <- value
-    },
+    set_recruit_model = function(model_num) {
 
+      checkmate::assert_number(model_num)
+      checkmate::assert_choice(model_num,
+                               choices = private$.valid_recruit_model_num)
+
+      return(private$initalize_recruit_model(model_num))
+    },
 
 
     #' @description
@@ -606,10 +604,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                                types = c("recruit_model", "R6"),
                                len = length(private$.recruit_model_num_list),
                                .var.name = "recruit_data")
+
+        # Copy the new "model_num" values from the model_collection_list and
+        # set it to recruit_model_num_list.
+        model_num_values <- purrr::map(value, "model_num")
+        if(isFALSE(all(model_num_values %in%
+                       private$.valid_recruit_model_num))){
+          stop("Invalid AGEPRO Recruitment Model Number(s) found.")
+        }
+        private$.recruit_model_num_list <- model_num_values
+
         private$.model_collection_list <- value
       }
     },
-
 
 
     #' @field json_list_recruit
