@@ -572,10 +572,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @field recruit_probability
     #' The Recruitment Probabilities.
     recruit_probability = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+
+      if(missing(value)){
+        return(private$.recruit_probability)
       }
-      return(private$.recruit_probability)
+
+      #Ensure inputs to recruit_probability are valid.
+      value |>
+        purrr::map(\(value) checkmate::assert_numeric(
+          value, len = private$.number_projection_years,
+          upper = 1, lower = 0, names = "unique"))
+
+      private$.recruit_probability <- value
+
     },
 
     #' @field model_collection_list
