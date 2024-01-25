@@ -580,15 +580,21 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       checkmate::assert_list(value, types = c("numeric"),
                              len = private$.number_recruit_models)
 
-      #Ensure inputs to recruit_probability are valid.
-      #Check that input vector:
-      #1. Is uniquely named numeric vector that has values between 0 and 1
-      #2. Length of Input Vector matches the number of projection years
-      #TODO: Check names of numeric vector match the projection year sequence
+      # Ensure inputs to recruit_probability are valid.
+      # Check that input vector:
+      # #1. Is uniquely named numeric vector that has values between 0 and 1
+      # #2. Length of Input Vector matches the number of projection years
       value |>
         purrr::map(\(value) checkmate::assert_numeric(
           value, len = private$.number_projection_years,
           upper = 1, lower = 0, names = "unique"))
+
+      # #3. Check names of numeric vector match the projection year sequence
+      value |>
+        purrr::map(\(value) checkmate::assert_names(
+          names(value),
+          permutation.of = as.character(private$.sequence_projection_years) ))
+
 
       private$.recruit_probability <- value
 
