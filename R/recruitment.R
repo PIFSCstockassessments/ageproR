@@ -273,24 +273,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
-
-
-    #' @description
-    #' Returns a recruitment model data class with default values. The type of
-    #' recruitment model is determined by the `model_num` parameter.
-    #'
-    #' @template model_num
-    #'
-    set_recruit_model = function(model_num) {
-
-      checkmate::assert_number(model_num)
-      checkmate::assert_choice(model_num,
-                               choices = private$.valid_recruit_model_num)
-
-      return(private$initialize_recruit_model(model_num))
-    },
-
-
     #' @description
     #' Prints out Recruitment
     #'

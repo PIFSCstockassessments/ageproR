@@ -46,7 +46,6 @@ model collection list. Use this field to access a specific recruitment models fi
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
-\item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
 \item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
@@ -74,9 +73,6 @@ Initializes the Recruitment Class
 \item{\code{model_num}}{\cr
 AGEPRO Recruitment Model Number}
 
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
 
@@ -86,28 +82,6 @@ Array representing the Projection Time Horizon}
 
 \item{\code{enable_cat_print}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_model"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_model}{}}}
-\subsection{Method \code{set_recruit_model()}}{
-Returns a recruitment model data class with default values. The type of
-recruitment model is determined by the \code{model_num} parameter.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
 }
 \if{html}{\out{</div>}}
 }
