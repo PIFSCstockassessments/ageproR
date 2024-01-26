@@ -169,6 +169,31 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       }
     },
 
+    # Sets the recruitment probability
+    #
+    set_recruit_probability_by_inp_line =
+      function(j, year, value, verbose = TRUE) {
+
+      assert_int(j, lower = 1, upper = self$num_recruit_models)
+      assert_numeric(year,
+                     max.len = length(self$recruit_probability[[j]]))
+      assert_numeric(value, lower = 0, upper = 1,
+                     max.len = length(year))
+
+      if (!all(year %in% private$.sequence_projection_years)) {
+        stop(paste0(
+          "Year ",
+          subset(year, !(year %in% private$.sequence_projection_years)),
+          " is not within model projected year time horizon.\n  "))
+      }
+
+      private$.recruit_probability[[j]][as.character(year)] <- value
+
+      if (verbose) private$cli_recruit_probability()
+
+    },
+
+
 
     # Initializes Recruit Model Data.
     #
@@ -193,8 +218,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       rlang::eval_tidy(model_dict$get(as.character(model_num)))
 
     }
-
-
 
   ), public = list(
 
@@ -251,34 +274,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
 
-    #' @description
-    #' Sets the recruitment probability
-    #'
-    #' @param j Index of the recruitment collection list
-    #' @param year index of the Time series
-    #' @param value Recruitment Probability
-    #' @param verbose Flag to allow based cli messages printed on
-    #' console. Default is TRUE
-    set_recruit_probability = function(j, year, value, verbose = TRUE) {
-
-      assert_int(j, lower = 1, upper = self$num_recruit_models)
-      assert_numeric(year,
-                     max.len = length(self$recruit_probability[[j]]))
-      assert_numeric(value, lower = 0, upper = 1,
-                     max.len = length(year))
-
-      if (!all(year %in% private$.sequence_projection_years)) {
-        stop(paste0(
-          "Year ",
-          subset(year, !(year %in% private$.sequence_projection_years)),
-          " is not within model projected year time horizon.\n  "))
-      }
-
-      private$.recruit_probability[[j]][as.character(year)] <- value
-
-      if (verbose) private$cli_recruit_probability()
-
-    },
 
     #' @description
     #' Returns a recruitment model data class with default values. The type of
@@ -428,7 +423,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         # And then append line to the recruitment probability (list) ...
         for (j in seq_along(inp_line)) {
-          self$set_recruit_probability(j, year, inp_line[[j]], verbose = FALSE)
+          private$set_recruit_probability_by_inp_line(
+            j, year, inp_line[[j]], verbose = FALSE)
         }
 
       }
@@ -439,8 +435,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         #Setup Recruitment Model w/ default values
         private$.model_collection_list[[recruit]] <-
           private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
-        #self$model_collection_list[[recruit]] <-
-        #  private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
           paste0("{.strong model_collection_list} ({recruit} of ",

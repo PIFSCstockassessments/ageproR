@@ -46,7 +46,6 @@ model collection list. Use this field to access a specific recruitment models fi
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
-\item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
@@ -87,30 +86,6 @@ Array representing the Projection Time Horizon}
 
 \item{\code{enable_cat_print}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_probability"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_probability}{}}}
-\subsection{Method \code{set_recruit_probability()}}{
-Sets the recruitment probability
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value, verbose = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{j}}{Index of the recruitment collection list}
-
-\item{\code{year}}{index of the Time series}
-
-\item{\code{value}}{Recruitment Probability}
-
-\item{\code{verbose}}{Flag to allow based cli messages printed on
-console. Default is TRUE}
 }
 \if{html}{\out{</div>}}
 }
