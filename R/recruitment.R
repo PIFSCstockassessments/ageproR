@@ -637,7 +637,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       for (recruit in seq_along(self$recruit_model_num_list)){
         recruit_model_data_list[[recruit]] <-
-          self$model_collection_list[[recruit]][["recruit_data"]]
+          self$model_collection_list[[recruit]][["json_recruit_data"]]
       }
 
       return(list(

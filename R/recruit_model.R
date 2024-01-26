@@ -388,9 +388,9 @@ empirical_recruit <- R6Class(
       private$.low_bound
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(points = self$observed_points,
                   recruits = subset(self$observations,
                                     select = "recruit", drop = TRUE) ))
@@ -713,9 +713,9 @@ two_stage_empirical_recruit <- R6Class(
       }
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -757,9 +757,9 @@ two_stage_empirical_ssb <- R6Class(
 
   ), active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -806,9 +806,9 @@ two_stage_empirical_cdf <- R6Class(
 
   ), active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -850,10 +850,10 @@ parametric_curve <- R6Class(
   ),
   active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' Returns JSON-ready Recruit Model Data'
     #'
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         alpha = self$alpha,
         beta = self$beta,
@@ -1165,9 +1165,9 @@ shepherd_curve_model <- R6Class(
       }
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' Returns JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         alpha = self$alpha,
         beta = self$beta,

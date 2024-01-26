@@ -18,7 +18,7 @@ Shepherd Curve with Lognormal Error (Model #7)
 Sets the Parametric Curve Parameter, k. Returns the
 current value if no argument was passed}
 
-\item{\code{recruit_data}}{Returns JSON-ready Recruit Model Data}
+\item{\code{json_recruit_data}}{Returns JSON-ready Recruit Model Data}
 }
 \if{html}{\out{</div>}}
 }
