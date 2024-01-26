@@ -136,7 +136,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         #Add Recruitment Data with recruitment model number
         current_recruit_num <- self$recruit_model_num_list[[recruit]]
         private$.model_collection_list[[recruit]] <-
-          private$initalize_recruit_model(current_recruit_num)
+          private$initialize_recruit_model(current_recruit_num)
 
       }
 
@@ -199,7 +199,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #
     # Recruitment class field `observation_years` is used for recruitment
     # models that use the model projection year time horizon for setup.
-    initalize_recruit_model = function(model_num) {
+    initialize_recruit_model = function(model_num) {
 
       checkmate::assert_numeric(model_num, lower = 0, upper = 21)
 
@@ -287,7 +287,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       checkmate::assert_choice(model_num,
                                choices = private$.valid_recruit_model_num)
 
-      return(private$initalize_recruit_model(model_num))
+      return(private$initialize_recruit_model(model_num))
     },
 
 
@@ -434,7 +434,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         #Setup Recruitment Model w/ default values
         private$.model_collection_list[[recruit]] <-
-          private$initalize_recruit_model(self$recruit_model_num_list[[recruit]])
+          private$initialize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
           paste0("{.strong model_collection_list} ({recruit} of ",
