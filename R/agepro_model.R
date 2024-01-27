@@ -217,7 +217,7 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    set_recruit = function(model_num) {
+    set_recruit_model = function(model_num) {
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
