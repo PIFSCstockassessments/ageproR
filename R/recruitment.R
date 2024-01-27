@@ -174,7 +174,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     set_recruit_probability_by_inp_line =
       function(j, year, value, verbose = TRUE) {
 
-      assert_int(j, lower = 1, upper = self$num_recruit_models)
+      assert_int(j, lower = 1, upper = private$.number_recruit_models)
       assert_numeric(year,
                      max.len = length(self$recruit_probability[[j]]))
       assert_numeric(value, lower = 0, upper = 1,
@@ -234,7 +234,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @param num_recruit_models
     #' Number of Recruitment Models in AGEPRO model. Default is 1.
     #'
-    initialize = function(model_num, seq_years, num_recruit_models = 1,
+    initialize = function(model_num, seq_years,
+                          num_recruit_models = 1,
                           max_recruit_obs = 10000,
                           enable_cat_print = TRUE) {
 
@@ -535,9 +536,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       return(private$.recruit_model_num_list)
     },
 
-    #' @field num_recruit_models
+    #' @field number_recruit_models
     #' Returns number of recruitment models
-    num_recruit_models = function(value) {
+    number_recruit_models = function(value) {
       if(isFALSE(missing(value))){
         stop("active binding is read only", call. = FALSE)
       }
