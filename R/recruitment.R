@@ -446,7 +446,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Returns the values for the RECRUIT keyword parameter formatted
     #' to the AGEPRO input file format.
-    inplines_recruit = function(delimiter = " ") {
+    get_inp_lines = function(delimiter = " ") {
 
       # Set recruitment probability as a matrix and then separate matrix by
       # (year) rows as assign rows as separate list objects representing

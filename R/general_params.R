@@ -194,7 +194,7 @@ general_params <- R6Class(
     #' Returns the values for the GENERAL keyword parameter formatted
     #' to the AGEPRO input file format.
     #'
-    inplines_general = function(delimiter = "  ") {
+    get_inp_lines = function(delimiter = "  ") {
       return(list(
         self$inp_keyword,
         paste(self$yr_start,

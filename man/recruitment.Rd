@@ -45,7 +45,7 @@ model collection list. Use this field to access a specific recruitment models fi
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
-\item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
+\item \href{#method-recruitment-get_inp_lines}{\code{recruitment$get_inp_lines()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -135,13 +135,13 @@ Array representing the Projection Time Horizon}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-inplines_recruit"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-inplines_recruit}{}}}
-\subsection{Method \code{inplines_recruit()}}{
+\if{html}{\out{<a id="method-recruitment-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns the values for the RECRUIT keyword parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$inplines_recruit(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -990,7 +990,7 @@ agepro_inp_model <- R6Class(
           list_inplines <- c(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
-            self$general$inplines_general(delimiter),
+            self$general$get_inp_lines(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
             self$stock_weight$inplines_process_error(delimiter),
             self$ssb_weight$inplines_process_error(delimiter),
@@ -1005,7 +1005,7 @@ agepro_inp_model <- R6Class(
             if(as.logical(self$general$discards_present)){
               self$discard$inplines_process_error(delimiter)
             },
-            self$recruit$inplines_recruit(delimiter),
+            self$recruit$get_inp_lines(delimiter),
             self$harvest$get_inplines(delimiter),
             if(self$projection_analyses_type == "pstar"){
               self$pstar$get_inp_lines(delimiter)
