@@ -38,7 +38,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
-    .model_collection_list = NULL,
+    .recruit_data = NULL,
     .observation_years = NULL,
 
     .recruit_probability = NULL,
@@ -119,14 +119,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     # Creates Recruitment Model Data.
     # Helper function to help setup .number_recruit_models,
-    # recruit_model_num_list, & model_collection_list vectors.
+    # recruit_model_num_list, & recruit_data vectors.
     setup_recruit_data = function() {
 
       # Validate number_recruit_models
       checkmate::assert_count(private$.number_recruit_models)
 
       #Setup Recruitment Model Data List
-      private$.model_collection_list <-
+      private$.recruit_data <-
         vector("list", private$.number_recruit_models)
 
 
@@ -135,7 +135,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         #Add Recruitment Data with recruitment model number
         current_recruit_num <- self$recruit_model_num_list[[recruit]]
-        private$.model_collection_list[[recruit]] <-
+        private$.recruit_data[[recruit]] <-
           private$initialize_recruit_model(current_recruit_num)
 
       }
@@ -312,9 +312,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                               "{self$recruit_model_num_list[[recruit]]} "))
 
         #Verify class inherits from "recruit_model"
-        assert_r6(self$model_collection_list[[recruit]], "recruit_model")
+        assert_r6(self$recruit_data[[recruit]], "recruit_model")
 
-        self$model_collection_list[[recruit]]$print()
+        self$recruit_data[[recruit]]$print()
         cli_end()
       }
       cli_par()
@@ -358,7 +358,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli::cli_end()
 
       # Read an additional line from the file connection, and parse the
-      # substring(s) for Recruitment Model(s) for model_collection_list
+      # substring(s) for Recruitment Model(s) for recruit_data
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
@@ -416,12 +416,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       for (recruit in 1:private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
-        private$.model_collection_list[[recruit]] <-
+        private$.recruit_data[[recruit]] <-
           private$initialize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
-          paste0("{.strong model_collection_list} ({recruit} of ",
-                 "{length(self$model_collection_list)} ",
+          paste0("{.strong recruit_data} ({recruit} of ",
+                 "{length(self$recruit_data)} ",
                  "recruit model{?s})"))
 
         #Nest Recruitment model read_inp_lines Output per model
@@ -433,7 +433,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                  "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
-          self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)
+          self$recruit_data[[recruit]]$read_inp_lines(inp_con, nline)
 
         cli::cli_end(li_nested)
 
@@ -466,7 +466,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       list_recruit_data <-
         as.list(unlist(rapply(
-          self$model_collection_list,
+          self$recruit_data,
           f = function(X) {X$inplines_recruit_data(delimiter)},
           how = "list")))
 
@@ -577,43 +577,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
-    #' @field model_collection_list
-    #' List of recruitment models. Use this field
-    #' to access a specific recruitment models field.
-    model_collection_list = function(value) {
-      if(missing(value)){
-        return(private$.model_collection_list)
-      } else{
-        checkmate::assert_list(value,
-                               types = c("recruit_model", "R6"),
-                               len = private$.number_recruit_models)
-
-        # Copy the new "model_num" values from the model_collection_list and
-        # set it to recruit_model_num_list.
-        model_num_values <- purrr::map(value, "model_num")
-        if(isFALSE(all(model_num_values %in%
-                       private$.valid_recruit_model_num))){
-          stop("Invalid AGEPRO Recruitment Model Number(s) found.")
-        }
-        private$.recruit_model_num_list <- model_num_values
-
-        private$.model_collection_list <- value
-      }
-    },
-
     #' @field recruit_data
     #' List containing data for each recruitment model in the recruitment
     #' model collection list. Use this field to access a specific recruitment models field.
     recruit_data = function(value) {
       if(missing(value)){
-        return(private$.model_collection_list)
+        return(private$.recruit_data)
       } else{
         checkmate::assert_list(value,
                                types = c("recruit_model", "R6"),
                                len = length(private$.recruit_model_num_list),
                                .var.name = "recruit_data")
 
-        # Copy the new "model_num" values from the model_collection_list and
+        # Copy the new "model_num" values from the recruit_data and
         # set it to recruit_model_num_list.
         model_num_values <- purrr::map(value, "model_num")
         if(isFALSE(all(model_num_values %in%
@@ -622,7 +598,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         }
         private$.recruit_model_num_list <- model_num_values
 
-        private$.model_collection_list <- value
+        private$.recruit_data <- value
       }
     },
 
@@ -638,7 +614,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       for (recruit in seq_along(self$recruit_model_num_list)){
         recruit_model_data_list[[recruit]] <-
-          self$model_collection_list[[recruit]][["json_recruit_data"]]
+          self$recruit_data[[recruit]][["json_recruit_data"]]
       }
 
       return(list(

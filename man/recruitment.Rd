@@ -28,9 +28,6 @@ spawning weight of fish in kilograms (kg)}
 
 \item{\code{recruit_probability}}{The Recruitment Probabilities.}
 
-\item{\code{model_collection_list}}{List of recruitment models. Use this field
-to access a specific recruitment models field.}
-
 \item{\code{recruit_data}}{List containing data for each recruitment model in the recruitment
 model collection list. Use this field to access a specific recruitment models field.}
 
