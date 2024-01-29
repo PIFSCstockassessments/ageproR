@@ -297,37 +297,56 @@ general_params <- R6Class(
 
     #' @field num_years Determines the number of years in projection by the
     #' (absolute) difference of the last and first year of projection.
-    num_years = function() {
+    num_years = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       abs(self$yr_end - self$yr_start) + 1
     },
 
     #' @field num_ages Determines number of ages by the (absolute) difference
     #' of the first and last age class.
-    num_ages = function() {
+    num_ages = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       abs(self$age_begin - self$age_end) + 1
     },
 
     #' @field seq_years Returns a sequence of years from First year of
     #' projection
-    seq_years = function() {
+    seq_years = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       seq(self$yr_start, self$yr_end)
     },
 
     #' @field keyword_name
     #' AGEPRO keyword parameter name
-    keyword_name = function() {
+    keyword_name = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       private$.keyword_name
     },
 
     #' @field inp_keyword
     #' Returns AGEPRO input-file formatted Parameter
-    inp_keyword = function() {
+    inp_keyword = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
       paste0("[",toupper(private$.keyword_name),"]")
     },
 
     #' @field json_list_general
     #' List of GENERAL keyword fields values, exportable to JSON.
-    json_list_general = function() {
+    json_list_general = function(value) {
+
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
 
       #If discard Flag is numeric check if it is 0 or 1
       if (!test_logical(self$discards_present)) {
