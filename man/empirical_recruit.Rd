@@ -16,7 +16,7 @@ Recruitment Model Description
 
 \item{\code{low_bound}}{Lowest significant number bound}
 
-\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+\item{\code{json_recruit_data}}{gets JSON-ready Recruit Model Data}
 
 \item{\code{observed_points}}{Gets/Sets the number of observations used of the model projection}
 

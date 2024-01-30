@@ -9,6 +9,7 @@
 #'
 #' @template model_num
 #' @template seq_years
+#' @template proj_years_vector
 #' @template elipses
 #' @template inp_con
 #' @template nline
@@ -22,6 +23,7 @@
 #' @importFrom checkmate assert_int
 #' @importFrom collections dict
 #' @importFrom rlang expr eval_tidy
+#' @importFrom purrr map
 #'
 recruitment <- R6Class( # nolint: cyclocomp_linter
   "recruitment",
@@ -29,28 +31,53 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .number_projection_years = NULL,
     .number_recruit_models = NULL,
     .sequence_projection_years = NULL,
-    .max_rec_obs = 10000,
+    .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
+    .valid_recruit_model_num = c(0, 3, 4, 5, 6, 7, 9, 14, 15),
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
-    .model_collection_list = NULL,
+    .recruit_data = NULL,
+    .observation_years = NULL,
 
     .recruit_probability = NULL,
     .recruit_model_num_list = NULL,
 
 
-    #Module to printout Recruitment probability to Rconsole
-    cli_recruit_probability = function() {
-      cli_alert_info("Recruitment Probability:")
-      assert_list(private$.recruit_probability) #verify recruit_prob list
-      cat_print(private$.recruit_probability)
+    #private setters for recruitment fields
+    set_recruit_scaling_factor = function(value) {
+      checkmate::assert_numeric(value, len = 1,
+                                .var.name = "recruit_scaling_factor")
+      private$.recruit_scaling_factor <- value
     },
 
-    #Handle observed_years as single int or a vector of sequential values
-    assert_observed_years = function(obs_years) {
+    set_ssb_scaling_factor = function(value) {
+      checkmate::assert_numeric(value, len = 1,
+                                .var.name = "ssb_scaling_factor")
+      private$.ssb_scaling_factor <- value
+    },
 
+    set_max_recruit_obs = function(value) {
+      checkmate::assert_int(value,
+                            .var.name = "max_recruit_obs")
+      private$.max_recruit_obs <- value
+    },
+
+    set_recruit_model_num_list_item = function(value, index){
+      checkmate::assert_choice(value, choice = c(0:21))
+      checkmate::assert_number(index, lower = 1,
+                               upper = length(private$.recruit_model_num_list))
+      private$.recruit_model_num_list[[index]] <- value
+
+    },
+
+    set_observation_years = function(obs_years) {
+      checkmate::assert_numeric(obs_years,
+                                .var.name = "observation_years")
+      private$.observation_years <- obs_years
+
+      #Handle observed_years as single int or a vector of sequential values
       if (test_int(obs_years)) {
         #single
         private$.number_projection_years <- obs_years
@@ -60,26 +87,59 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.number_projection_years <- length(obs_years)
         private$.sequence_projection_years <- obs_years
       }
+    },
 
+
+    #Module to printout Recruitment probability to Rconsole
+    cli_recruit_probability = function() {
+      cli_alert_info("Recruitment Probability:")
+      assert_list(private$.recruit_probability) #verify recruit_prob list
+      cat_print(private$.recruit_probability)
+    },
+
+
+    # Helper function to help setup recruit_model_num_list vector
+    setup_recruit_model_num_list = function(model_num_vector) {
+
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
+
+      #Setup Recruitment Model Number list
+      private$.recruit_model_num_list <-
+        vector("list", private$.number_recruit_models)
+
+      # Set Recruitment Model Number for each number_recruit_model vector
+      for (recruit in 1:private$.number_recruit_models) {
+
+        private$set_recruit_model_num_list_item(model_num_vector[[recruit]], recruit)
+      }
 
     },
 
+
+    # Creates Recruitment Model Data.
     # Helper function to help setup .number_recruit_models,
-    # recruit_model_num_list, & model_collection_list vectors
-    # based on `model_num`.
-    setup_recruitment_list_vectors = function(model_num) {
+    # recruit_model_num_list, & recruit_data vectors.
+    setup_recruit_data = function() {
 
-      # Setup number of recruits based on the vector length of the recruitment
-      # models field sent to the function.
-      private$.number_recruit_models <- length(model_num)
-
-      #Setup Recruitment Model Number list
-      self$recruit_model_num_list <-
-        vector("list", private$.number_recruit_models)
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
 
       #Setup Recruitment Model Data List
-      self$model_collection_list <-
+      private$.recruit_data <-
         vector("list", private$.number_recruit_models)
+
+
+      #Set Model data for each recruitment model.
+      for (recruit in 1:private$.number_recruit_models) {
+
+        #Add Recruitment Data with recruitment model number
+        current_recruit_num <- self$recruit_model_num_list[[recruit]]
+        private$.recruit_data[[recruit]] <-
+          private$initialize_recruit_model(current_recruit_num)
+
+      }
+
 
     },
 
@@ -107,126 +167,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           private$.sequence_projection_years
 
       }
-    }
-
-
-
-  ), public = list(
-
-    #' @field observation_years Sequence of projected years
-    observation_years = NULL,
-
-    #' @description
-    #' Initializes the Recruitment Class
-    #'
-    #' @param max_rec_obs
-    #' Max limit of recruitment observations. Default is 10000.
-    #'
-    #' @param cat_verbose
-    #' Flag to print out `cat` based cli messages printed on console. Default
-    #' is TRUE.
-    #'
-    initialize = function(model_num, seq_years, max_rec_obs = 10000,
-                          cat_verbose = TRUE) {
-
-      #Handle seq_years as a single int or a vector of sequential values
-      #This is used to set parameters for some recruitment models
-      self$observation_years <- seq_years
-
-      # Handle seq_years as a single int or a vector of sequential values
-      private$assert_observed_years(seq_years)
-
-      ## Sets up recruitment vectors:
-      # .number_recruit_models, recruit_model_num_list, model_collection_list
-      private$setup_recruitment_list_vectors(model_num)
-
-      # Setup Recruitment probability
-      private$setup_recruitment_probability()
-
-      # Set Recruitment Model data
-      self$set_recruit_data(model_num)
-      self$recruit_scaling_factor <- 1000
-      self$ssb_scaling_factor <- 0
-
-
-      if (!missing(max_rec_obs)) {
-        private$.max_rec_obs <- max_rec_obs
-      }
-
-      # 'recruit' cli messages at initialization
-      div_keyword_header(self$keyword_name)
-      cli_alert("Creating Default Recruitment Model")
-      self$print(cat_verbose)
-
-
     },
 
+    # Sets the recruitment probability
+    #
+    set_recruit_probability_by_inp_line =
+      function(j, year, value, verbose = TRUE) {
 
-    #' @description
-    #' Creates Recruitment Model Data
-    set_recruit_data = function(model_num) {
-
-      ## Sets up recruitment vectors:
-      # .number_recruit_models, recruit_model_num_list, model_collection_list
-      private$setup_recruitment_list_vectors(model_num)
-
-      #Set recruitment probability and model data for each recruitment model.
-      for (recruit in 1:private$.number_recruit_models) {
-
-        # #Model Num
-        self$recruit_model_num_list[[recruit]] <- model_num[[recruit]]
-
-        #Add Recruitment Data with recruitment model number
-        self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
-
-      }
-
-
-    },
-
-
-    #' @description
-    #' Initializes Recruit Model Data.
-    #'
-    #' Recruitment class field `observation_years` is used for recruitment
-    #' models that use the model projection year time horizon for setup.
-    #'
-    #' @export
-    set_recruit_model = function(model_num) {
-
-      assert_numeric(model_num, lower = 0, upper = 21)
-
-
-      model_dict <- dict(list(
-        "0" = expr(null_recruit_model$new()),
-        "3" = expr(empirical_distribution_model$new(self$observation_years)),
-        "4" = expr(two_stage_empirical_ssb$new()),
-        "5" = expr(beverton_holt_curve_model$new()),
-        "6" = expr(ricker_curve_model$new()),
-        "7" = expr(shepherd_curve_model$new()),
-        "9" = expr(deprecated_recruit_model_9$new()),
-        "14" = expr(empirical_cdf_model$new()),
-        "15" = expr(two_stage_empirical_cdf$new())
-      ))
-
-    eval_tidy(model_dict$get(as.character(model_num)))
-
-    },
-
-
-
-    #' @description
-    #' Sets the recruitment probability
-    #'
-    #' @param j Index of the recruitment collection list
-    #' @param year index of the Time series
-    #' @param value Recruitment Probability
-    #' @param verbose Flag to allow based cli messages printed on
-    #' console. Default is TRUE
-    set_recruit_probability = function(j, year, value, verbose = TRUE) {
-
-      assert_int(j, lower = 1, upper = self$num_recruit_models)
+      assert_int(j, lower = 1, upper = private$.number_recruit_models)
       assert_numeric(year,
                      max.len = length(self$recruit_probability[[j]]))
       assert_numeric(value, lower = 0, upper = 1,
@@ -245,12 +193,93 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
+
+
+    # Initializes Recruit Model Data.
+    #
+    # Recruitment class field `observation_years` is used for recruitment
+    # models that use the model projection year time horizon for setup.
+    initialize_recruit_model = function(model_num) {
+
+      checkmate::assert_numeric(model_num, lower = 0, upper = 21)
+
+      model_dict <- dict(list(
+        "0" = rlang::expr(null_recruit_model$new()),
+        "3" = rlang::expr(empirical_distribution_model$new(private$.number_projection_years)),
+        "4" = rlang::expr(two_stage_empirical_ssb$new()),
+        "5" = rlang::expr(beverton_holt_curve_model$new()),
+        "6" = rlang::expr(ricker_curve_model$new()),
+        "7" = rlang::expr(shepherd_curve_model$new()),
+        "9" = rlang::expr(deprecated_recruit_model_9$new()),
+        "14" = rlang::expr(empirical_cdf_model$new()),
+        "15" = rlang::expr(two_stage_empirical_cdf$new())
+      ))
+
+      rlang::eval_tidy(model_dict$get(as.character(model_num)))
+
+    }
+
+  ), public = list(
+
+    #' @description
+    #' Initializes the Recruitment Class
+    #'
+    #' @param max_recruit_obs
+    #' Max limit of recruitment observations. Default is 10000.
+    #'
+    #' @param enable_cat_print
+    #' Flag to print out `cat` based cli messages printed on console. Default
+    #' is TRUE.
+    #'
+    #' @param num_recruit_models
+    #' Number of Recruitment Models in AGEPRO model. Default is 1.
+    #'
+    initialize = function(model_num, seq_years,
+                          num_recruit_models = 1,
+                          max_recruit_obs = 10000,
+                          enable_cat_print = TRUE) {
+
+      #Handle seq_years as a single int or a vector of sequential values
+      #This is used to set parameters for some recruitment models
+      private$set_observation_years(seq_years)
+
+      ## Validation
+      # Check if input model number matches the number of observed years
+      if(isFALSE(length(model_num) == num_recruit_models)){
+        stop(paste0("Recruitment Model vector (model_num) object count ",
+                    "does not match number of recruits. ",
+                    "(count: ", length(model_num), ", number of recruits: ",
+                    num_recruit_models, ")"),
+             call. = FALSE)
+      }
+
+      # Setup number of recruits based on the vector length of the recruitment
+      # models field sent to the function.
+      private$.number_recruit_models <- length(model_num)
+
+      # Setup Recruitment Model data
+      private$set_recruit_scaling_factor(1000)
+      private$set_ssb_scaling_factor(0)
+      private$set_max_recruit_obs(max_recruit_obs)
+      private$setup_recruitment_probability()
+      private$setup_recruit_model_num_list(model_num)
+      private$setup_recruit_data()
+
+
+      # 'recruit' cli messages at initialization
+      div_keyword_header(self$keyword_name)
+      cli_alert("Creating Default Recruitment Model")
+      self$print(enable_cat_print)
+
+
+    },
+
     #' @description
     #' Prints out Recruitment
     #'
-    #' @param cat_verbose Flag to allow `cat` based cli messages printed on
+    #' @param enable_cat_print Flag to allow `cat` based cli messages printed on
     #' console. Default is TRUE
-    print = function(cat_verbose = TRUE, ...) {
+    print = function(enable_cat_print = TRUE, ...) {
 
       #verify private fields are numeric
       assert_numeric(private$.number_recruit_models)
@@ -266,7 +295,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      ifelse(cat_verbose,
+      ifelse(enable_cat_print,
              #Allow Recruitment Probability 'cat' cli message
              private$cli_recruit_probability(),
              #Suppress Recruitment Probability 'cat' cli message
@@ -283,9 +312,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                               "{self$recruit_model_num_list[[recruit]]} "))
 
         #Verify class inherits from "recruit_model"
-        assert_r6(self$model_collection_list[[recruit]], "recruit_model")
+        assert_r6(self$recruit_data[[recruit]], "recruit_model")
 
-        self$model_collection_list[[recruit]]$print()
+        self$recruit_data[[recruit]]$print()
         cli_end()
       }
       cli_par()
@@ -294,12 +323,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #' @description
     #' Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
-    read_inp_lines = function(inp_con, nline) {
+    #'
+    #' @param num_recruit_models
+    #' Number of Recruitment Models. Default is 1
+    read_inp_lines = function(inp_con, nline,
+                              seq_years = 1,
+                              num_recruit_models = 1) {
 
-      #Check
-      assert_numeric(self$observation_years, sorted = TRUE)
+
       #Setup .number_projection_years and .sequence_projection_years
-      private$assert_observed_years(self$observation_years)
+      private$set_observation_years(seq_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -310,10 +343,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         "Line {nline} : Scaling Factors & Max Recruit Observations ...")
 
       # Assign substrings
-      self$recruit_scaling_factor <- inp_line[1]
-      self$ssb_scaling_factor <- inp_line[2]
-      self$max_recruit_obs <- inp_line[3]
-      #TODO: rename to max_recruit_observations
+      private$set_recruit_scaling_factor(inp_line[1])
+      private$set_ssb_scaling_factor(inp_line[2])
+      private$set_max_recruit_obs(inp_line[3])
 
       # Console Output
       cli::cli_ul()
@@ -326,34 +358,41 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli::cli_end()
 
       # Read an additional line from the file connection, and parse the
-      # substring(s) for Recruitment Model(s) for model_collection_list
+      # substring(s) for Recruitment Model(s) for recruit_data
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
       cli_alert(c("Line {nline}: Reading recruitment model number ",
                   "{.val {inp_line}} ..."))
 
-      #?Validate length Recruitment's recruit_model_num_list matches
-      #length of recruitment models field from the set_recruit_data function
+      # Validate length Recruitment's recruit_model_num_list matches
+      # Check if input model number matches the number of observed years
+      if(isFALSE(length(inp_line) == num_recruit_models)){
+        stop(paste0("Length of Recruitment number vector does not match ",
+                    "AGEPRO model's number of recruits: ",
+                    length(inp_line), " (Number of Recruits: ",
+                    num_recruit_models, ")"))
+      }
+
+      # Setup number of recruits based on the vector length of the recruitment
+      # models field sent to the function.
+      private$.number_recruit_models <- length(inp_line)
 
       ## Setup for recruitment list vectors:
-      # .number_recruit_models, recruit_model_mum_list,.recruit_probability,
-      # model_collection_list
-      private$setup_recruitment_list_vectors(inp_line)
-
-      # Setup Default Recruitment probability
+      private$setup_recruit_model_num_list(inp_line)
+      private$setup_recruit_data()
       private$setup_recruitment_probability()
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
-        self$recruit_model_num_list[[recruit]] <- inp_line[recruit]
+        private$set_recruit_model_num_list_item(inp_line[recruit], recruit)
       }
 
       cli_alert_info("Reading Recruitment Probabaility ... ")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
-      for (year in self$observation_years){
+      for (year in private$.sequence_projection_years){
 
         # Read an additional line from the file connection ...
         inp_line <- read_inp_numeric_line(inp_con)
@@ -367,7 +406,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         # And then append line to the recruitment probability (list) ...
         for (j in seq_along(inp_line)) {
-          self$set_recruit_probability(j, year, inp_line[[j]], verbose = FALSE)
+          private$set_recruit_probability_by_inp_line(
+            j, year, inp_line[[j]], verbose = FALSE)
         }
 
       }
@@ -376,12 +416,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       for (recruit in 1:private$.number_recruit_models){
 
         #Setup Recruitment Model w/ default values
-        self$model_collection_list[[recruit]] <-
-          self$set_recruit_model(self$recruit_model_num_list[[recruit]])
+        private$.recruit_data[[recruit]] <-
+          private$initialize_recruit_model(self$recruit_model_num_list[[recruit]])
 
         cli::cli_alert_info(
-          paste0("{.strong model_collection_list} ({recruit} of ",
-                 "{length(self$model_collection_list)} ",
+          paste0("{.strong recruit_data} ({recruit} of ",
+                 "{length(self$recruit_data)} ",
                  "recruit model{?s})"))
 
         #Nest Recruitment model read_inp_lines Output per model
@@ -393,7 +433,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                  "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
-          self$model_collection_list[[recruit]]$read_inp_lines(inp_con, nline)
+          self$recruit_data[[recruit]]$read_inp_lines(inp_con, nline)
 
         cli::cli_end(li_nested)
 
@@ -406,7 +446,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Returns the values for the RECRUIT keyword parameter formatted
     #' to the AGEPRO input file format.
-    inplines_recruit = function(delimiter = " ") {
+    get_inp_lines = function(delimiter = " ") {
 
       # Set recruitment probability as a matrix and then separate matrix by
       # (year) rows as assign rows as separate list objects representing
@@ -426,7 +466,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       list_recruit_data <-
         as.list(unlist(rapply(
-          self$model_collection_list,
+          self$recruit_data,
           f = function(X) {X$inplines_recruit_data(delimiter)},
           how = "list")))
 
@@ -449,81 +489,119 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
   ), active <- list(
 
-    #' @field max_recruit_obs
-    #' Recruitment submodel's maximum number of observations
-    max_recruit_obs = function(value) {
-      if (missing(value)) {
-        return(private$.max_rec_obs)
-      }else {
-        assert_int(value)
-        private$.max_rec_obs <- value
-      }
-    },
-
-    #' @field recruit_probability
-    #' The Recruitment Probabilities.
-    recruit_probability = function() {
-      return(private$.recruit_probability)
-    },
-
-
-    #TODO: Create a active field function for showing model_collection_list
-
-    #' @field model_collection_list
-    #' List of recruitment models. Use this field
-    #' to access a specific recruitment models field.
-    model_collection_list = function(value) {
-      if(missing(value)){
-        return(private$.model_collection_list)
-      } else{
-        checkmate::assert_list(value, .var.name = "model_collection_list")
-        private$.model_collection_list <- value
-      }
-    },
-
-    #' @field recruit_model_num_list
-    #' Helper Function To View Recruitment Model Collection Data
-    recruit_model_num_list = function(value) {
-      if(missing(value)){
-        return(private$.recruit_model_num_list)
-      } else{
-        checkmate::assert_list(value, types = c("numeric","null"),
-                               .var.name = "recruit_model_num_list")
-        private$.recruit_model_num_list <- value
-      }
-    },
-
-    #' @field num_recruit_models
-    #' Returns number of recruitment models
-    num_recruit_models = function() {
-      return(private$.number_recruit_models)
-    },
-
     #' @field recruit_scaling_factor
     #' The multiplier to convert recruitment submodel's recruitment units to
     #' absolute numbers of fish
     recruit_scaling_factor = function(value) {
-      if (missing(value)) {
-        return(private$.recruit_scaling_factor)
-      }else {
-        assert_numeric(value)
-        private$.recruit_scaling_factor <- value
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
       }
-
+      private$.recruit_scaling_factor
     },
 
     #' @field ssb_scaling_factor
     #' The multiplier to convert recruitment submodel's SSB to absolute
     #' spawning weight of fish in kilograms (kg)
     ssb_scaling_factor = function(value) {
-      if (missing(value)) {
-        return(private$.ssb_scaling_factor)
-      }else {
-        assert_numeric(value)
-        private$.ssb_scaling_factor <- value
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.ssb_scaling_factor
+    },
+
+
+    #' @field max_recruit_obs
+    #' Recruitment submodel's maximum number of observations
+    max_recruit_obs = function(value) {
+      if(isFALSE(missing(value))){
+          stop("active binding is read only", call. = FALSE)
+      }
+      private$.max_recruit_obs
+    },
+
+    #' @field observation_years Sequence of projected years
+    observation_years = function(value){
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.observation_years
+    },
+
+    #' @field recruit_model_num_list
+    #' Helper Function To View Recruitment Model Collection Data
+    recruit_model_num_list = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      return(private$.recruit_model_num_list)
+    },
+
+    #' @field number_recruit_models
+    #' Returns number of recruitment models
+    number_recruit_models = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      return(private$.number_recruit_models)
+    },
+
+
+    #' @field recruit_probability
+    #' The Recruitment Probabilities.
+    recruit_probability = function(value) {
+
+      if(missing(value)){
+        return(private$.recruit_probability)
       }
 
+      checkmate::assert_list(value, types = c("numeric"),
+                             len = private$.number_recruit_models)
+
+      # Ensure inputs to recruit_probability are valid.
+      # Check that input vector:
+      # #1. Is uniquely named numeric vector that has values between 0 and 1
+      # #2. Length of Input Vector matches the number of projection years
+      value |>
+        purrr::map(\(value) checkmate::assert_numeric(
+          value, len = private$.number_projection_years,
+          upper = 1, lower = 0, names = "unique"))
+
+      # #3. Check names of numeric vector match the projection year sequence
+      value |>
+        purrr::map(\(value) checkmate::assert_names(
+          names(value),
+          permutation.of = as.character(private$.sequence_projection_years) ))
+
+
+      private$.recruit_probability <- value
+
     },
+
+    #' @field recruit_data
+    #' List containing data for each recruitment model in the recruitment
+    #' model collection list. Use this field to access a specific recruitment models field.
+    recruit_data = function(value) {
+      if(missing(value)){
+        return(private$.recruit_data)
+      } else{
+        checkmate::assert_list(value,
+                               types = c("recruit_model", "R6"),
+                               len = length(private$.recruit_model_num_list),
+                               .var.name = "recruit_data")
+
+        # Copy the new "model_num" values from the recruit_data and
+        # set it to recruit_model_num_list.
+        model_num_values <- purrr::map(value, "model_num")
+        if(isFALSE(all(model_num_values %in%
+                       private$.valid_recruit_model_num))){
+          stop("Invalid AGEPRO Recruitment Model Number(s) found.")
+        }
+        private$.recruit_model_num_list <- model_num_values
+
+        private$.recruit_data <- value
+      }
+    },
+
 
     #' @field json_list_recruit
     #' List of RECRUIT keyword fields values, exportable to JSON.
@@ -536,13 +614,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       for (recruit in seq_along(self$recruit_model_num_list)){
         recruit_model_data_list[[recruit]] <-
-          self$model_collection_list[[recruit]][["recruit_data"]]
+          self$recruit_data[[recruit]][["json_recruit_data"]]
       }
 
       return(list(
         recFac = self$recruit_scaling_factor,
         ssbFac = self$ssb_scaling_factor,
-        maxRecObs = private$.max_rec_obs,
+        maxRecObs = private$.max_recruit_obs,
+        #list of model numbers
         type = unlist(self$recruit_model_num_list),
         prob = self$recruit_probability,
         recruitData = recruit_model_data_list))

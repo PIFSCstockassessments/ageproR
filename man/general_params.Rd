@@ -53,7 +53,7 @@ projection}
 \item \href{#method-general_params-new}{\code{general_params$new()}}
 \item \href{#method-general_params-print}{\code{general_params$print()}}
 \item \href{#method-general_params-read_inp_lines}{\code{general_params$read_inp_lines()}}
-\item \href{#method-general_params-inplines_general}{\code{general_params$inplines_general()}}
+\item \href{#method-general_params-get_inp_lines}{\code{general_params$get_inp_lines()}}
 \item \href{#method-general_params-clone}{\code{general_params$clone()}}
 }
 }
@@ -139,13 +139,13 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-general_params-inplines_general"></a>}}
-\if{latex}{\out{\hypertarget{method-general_params-inplines_general}{}}}
-\subsection{Method \code{inplines_general()}}{
+\if{html}{\out{<a id="method-general_params-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-general_params-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns the values for the GENERAL keyword parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{general_params$inplines_general(delimiter = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{general_params$get_inp_lines(delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

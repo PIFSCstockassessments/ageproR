@@ -17,7 +17,7 @@ Two-Stage Empirical Cumulative Distribution Function of Recruitment
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+\item{\code{json_recruit_data}}{gets JSON-ready Recruit Model Data}
 }
 \if{html}{\out{</div>}}
 }

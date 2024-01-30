@@ -24,7 +24,7 @@ Two-Stage Empirical Recruitment Base
 
 \item{\code{high_recruitment}}{Vector of High State Recruitments per Spawning Biomass}
 
-\item{\code{recruit_data}}{gets JSON-ready Recruit Model Data}
+\item{\code{json_recruit_data}}{gets JSON-ready Recruit Model Data}
 }
 \if{html}{\out{</div>}}
 }

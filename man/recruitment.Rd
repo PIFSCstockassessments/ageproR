@@ -9,32 +9,27 @@ Recruitment is the primary stochastic element in the AGEPRO model (Brodziak,
 projections. Please refer to the AGEPRO reference Manual for more detail on
 these models.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{observation_years}}{Sequence of projected years}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{max_recruit_obs}}{Recruitment submodel's maximum number of observations}
-
-\item{\code{recruit_probability}}{The Recruitment Probabilities.}
-
-\item{\code{model_collection_list}}{List of recruitment models. Use this field
-to access a specific recruitment models field.}
-
-\item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
-
-\item{\code{num_recruit_models}}{Returns number of recruitment models}
-
 \item{\code{recruit_scaling_factor}}{The multiplier to convert recruitment submodel's recruitment units to
 absolute numbers of fish}
 
 \item{\code{ssb_scaling_factor}}{The multiplier to convert recruitment submodel's SSB to absolute
 spawning weight of fish in kilograms (kg)}
+
+\item{\code{max_recruit_obs}}{Recruitment submodel's maximum number of observations}
+
+\item{\code{observation_years}}{Sequence of projected years}
+
+\item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
+
+\item{\code{number_recruit_models}}{Returns number of recruitment models}
+
+\item{\code{recruit_probability}}{The Recruitment Probabilities.}
+
+\item{\code{recruit_data}}{List containing data for each recruitment model in the recruitment
+model collection list. Use this field to access a specific recruitment models field.}
 
 \item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
 
@@ -48,12 +43,9 @@ spawning weight of fish in kilograms (kg)}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-recruitment-new}{\code{recruitment$new()}}
-\item \href{#method-recruitment-set_recruit_data}{\code{recruitment$set_recruit_data()}}
-\item \href{#method-recruitment-set_recruit_model}{\code{recruitment$set_recruit_model()}}
-\item \href{#method-recruitment-set_recruit_probability}{\code{recruitment$set_recruit_probability()}}
 \item \href{#method-recruitment-print}{\code{recruitment$print()}}
 \item \href{#method-recruitment-read_inp_lines}{\code{recruitment$read_inp_lines()}}
-\item \href{#method-recruitment-inplines_recruit}{\code{recruitment$inplines_recruit()}}
+\item \href{#method-recruitment-get_inp_lines}{\code{recruitment$get_inp_lines()}}
 \item \href{#method-recruitment-clone}{\code{recruitment$clone()}}
 }
 }
@@ -63,7 +55,13 @@ spawning weight of fish in kilograms (kg)}
 \subsection{Method \code{new()}}{
 Initializes the Recruitment Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(model_num, seq_years, max_rec_obs = 10000, cat_verbose = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$new(
+  model_num,
+  seq_years,
+  num_recruit_models = 1,
+  max_recruit_obs = 10000,
+  enable_cat_print = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -75,73 +73,12 @@ AGEPRO Recruitment Model Number}
 \item{\code{seq_years}}{\cr
 Array representing the Projection Time Horizon}
 
-\item{\code{max_rec_obs}}{Max limit of recruitment observations. Default is 10000.}
+\item{\code{num_recruit_models}}{Number of Recruitment Models in AGEPRO model. Default is 1.}
 
-\item{\code{cat_verbose}}{Flag to print out \code{cat} based cli messages printed on console. Default
+\item{\code{max_recruit_obs}}{Max limit of recruitment observations. Default is 10000.}
+
+\item{\code{enable_cat_print}}{Flag to print out \code{cat} based cli messages printed on console. Default
 is TRUE.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_data}{}}}
-\subsection{Method \code{set_recruit_data()}}{
-Creates Recruitment Model Data
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_data(model_num)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_model"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_model}{}}}
-\subsection{Method \code{set_recruit_model()}}{
-Initializes Recruit Model Data.
-
-Recruitment class field \code{observation_years} is used for recruitment
-models that use the model projection year time horizon for setup.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_model(model_num)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-set_recruit_probability"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-set_recruit_probability}{}}}
-\subsection{Method \code{set_recruit_probability()}}{
-Sets the recruitment probability
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$set_recruit_probability(j, year, value, verbose = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{j}}{Index of the recruitment collection list}
-
-\item{\code{year}}{index of the Time series}
-
-\item{\code{value}}{Recruitment Probability}
-
-\item{\code{verbose}}{Flag to allow based cli messages printed on
-console. Default is TRUE}
 }
 \if{html}{\out{</div>}}
 }
@@ -152,13 +89,13 @@ console. Default is TRUE}
 \subsection{Method \code{print()}}{
 Prints out Recruitment
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(cat_verbose = TRUE, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{cat_verbose}}{Flag to allow \code{cat} based cli messages printed on
+\item{\code{enable_cat_print}}{Flag to allow \code{cat} based cli messages printed on
 console. Default is TRUE}
 
 \item{\code{...}}{further arguments passed to or from other methods}
@@ -172,7 +109,12 @@ console. Default is TRUE}
 \subsection{Method \code{read_inp_lines()}}{
 Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$read_inp_lines(
+  inp_con,
+  nline,
+  seq_years = 1,
+  num_recruit_models = 1
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -183,18 +125,23 @@ Reads in Recruitment AGEPRO parameters from AGEPRO INP Input File
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+
+\item{\code{seq_years}}{\cr
+Array representing the Projection Time Horizon}
+
+\item{\code{num_recruit_models}}{Number of Recruitment Models. Default is 1}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-recruitment-inplines_recruit"></a>}}
-\if{latex}{\out{\hypertarget{method-recruitment-inplines_recruit}{}}}
-\subsection{Method \code{inplines_recruit()}}{
+\if{html}{\out{<a id="method-recruitment-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-recruitment-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns the values for the RECRUIT keyword parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{recruitment$inplines_recruit(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{recruitment$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

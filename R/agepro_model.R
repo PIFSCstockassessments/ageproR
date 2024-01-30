@@ -128,10 +128,11 @@ agepro_model <- R6Class(
 
       self$case_id <- case_id$new()
 
-       #TODO: rename cat_verbose to enable_cat_print
+      #TODO: rename cat_verbose to enable_cat_print
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
                                       x$seq_years,
-                                      cat_verbose = enable_cat_print)
+                                      num_recruit_models = x$num_rec_models,
+                                      enable_cat_print = enable_cat_print)
 
       self$bootstrap <- bootstrap$new()
 
@@ -206,14 +207,26 @@ agepro_model <- R6Class(
     },
 
     #' @description
-    #' Set model's Recruitment model
+    #' Setup recruitment with a recruitment model collection list with default
+    #' data using current AGEPRO model's number of recruits and sequence of
+    #' projection years.
+    #'
+    #' To establish multiple recruit models, pass multiple valid AGERPRO
+    #' Recruitment Model numbers as vector to the `model_num` parameter. If
+    #' the vector length of `model_num` doesn't match current AGEPRO
+    #' [general parameter's][ageproR::general_params] `num_rec_models`
+    #' value, it will throw an error.
+    #'
     set_recruit_model = function(model_num) {
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
       cli_alert("Using Model Number {.field {model_num}}")
 
-      self$recruit$set_recruit_data(model_num)
+      self$recruit <- recruitment$new(model_num,
+                      seq_years = self$general$seq_years,
+                      num_recruit_models = self$general$num_rec_models)
+
       self$recruit$print()
 
 
@@ -582,8 +595,10 @@ agepro_inp_model <- R6Class(
       # year names from the projection time period
       cli_alert_info(c("Setting Recruitment data for ",
                 "{self$general$yr_start} - {self$general$yr_end} ..."))
-      self$recruit$observation_years <- self$general$seq_years
-      self$nline <- self$recruit$read_inp_lines(con, nline)
+
+      self$nline <- self$recruit$read_inp_lines(con, nline,
+                                                self$general$seq_years,
+                                                self$general$num_rec_models)
     },
 
     read_bootstrap = function(con, nline) {
@@ -975,7 +990,7 @@ agepro_inp_model <- R6Class(
           list_inplines <- c(
             self$ver_legacy_string,
             self$case_id$inplines_case_id(),
-            self$general$inplines_general(delimiter),
+            self$general$get_inp_lines(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
             self$stock_weight$inplines_process_error(delimiter),
             self$ssb_weight$inplines_process_error(delimiter),
@@ -990,7 +1005,7 @@ agepro_inp_model <- R6Class(
             if(as.logical(self$general$discards_present)){
               self$discard$inplines_process_error(delimiter)
             },
-            self$recruit$inplines_recruit(delimiter),
+            self$recruit$get_inp_lines(delimiter),
             self$harvest$get_inplines(delimiter),
             if(self$projection_analyses_type == "pstar"){
               self$pstar$get_inp_lines(delimiter)
