@@ -20,8 +20,6 @@ spawning weight of fish in kilograms (kg)}
 
 \item{\code{max_recruit_obs}}{Recruitment submodel's maximum number of observations}
 
-\item{\code{observation_years}}{Sequence of projected years}
-
 \item{\code{recruit_model_num_list}}{Helper Function To View Recruitment Model Collection Data}
 
 \item{\code{number_recruit_models}}{Returns number of recruitment models}

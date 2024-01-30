@@ -39,7 +39,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
     .recruit_data = NULL,
-    .observation_years = NULL,
 
     .recruit_probability = NULL,
     .recruit_model_num_list = NULL,
@@ -73,9 +72,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
     set_projection_years = function(obs_years) {
-      checkmate::assert_numeric(obs_years,
-                                .var.name = "observation_years")
-      private$.observation_years <- obs_years
+      checkmate::assert_numeric(obs_years, lower = 0)
 
       #Handle observed_years as single int or a vector of sequential values
       if (test_int(obs_years)) {
@@ -197,12 +194,12 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     # Initializes Recruit Model Data.
     #
-    # Recruitment class field `observation_years` is used for recruitment
-    # models that use the model projection year time horizon for setup.
     initialize_recruit_model = function(model_num) {
 
       checkmate::assert_numeric(model_num, lower = 0, upper = 21)
 
+      # `.number_projection_years` is used for recruitment
+      # models that use the model projection year time horizon for setup.
       model_dict <- dict(list(
         "0" = rlang::expr(null_recruit_model$new()),
         "3" = rlang::expr(empirical_distribution_model$new(private$.number_projection_years)),
@@ -517,14 +514,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           stop("active binding is read only", call. = FALSE)
       }
       private$.max_recruit_obs
-    },
-
-    #' @field observation_years Sequence of projected years
-    observation_years = function(value){
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
-      }
-      private$.observation_years
     },
 
     #' @field recruit_model_num_list
