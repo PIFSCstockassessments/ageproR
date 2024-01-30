@@ -72,7 +72,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     },
 
-    set_observation_years = function(obs_years) {
+    set_projection_years = function(obs_years) {
       checkmate::assert_numeric(obs_years,
                                 .var.name = "observation_years")
       private$.observation_years <- obs_years
@@ -241,7 +241,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Handle seq_years as a single int or a vector of sequential values
       #This is used to set parameters for some recruitment models
-      private$set_observation_years(seq_years)
+      private$set_projection_years(seq_years)
 
       ## Validation
       # Check if input model number matches the number of observed years
@@ -332,7 +332,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
 
       #Setup .number_projection_years and .sequence_projection_years
-      private$set_observation_years(seq_years)
+      private$set_projection_years(seq_years)
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
