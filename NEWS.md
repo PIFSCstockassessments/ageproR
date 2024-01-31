@@ -1,3 +1,29 @@
+# ageproR 0.5.1 2024-02-02
+
+* recruitment 
+  - Fixed an issue (#39) where a difference of number of recruitment models using the agepro_model function `set_recruit_model` only changed the Recruit Data collection object structure but did not change recruitment probability nor the `num_rec_models` general_param field.
+    - Assert that the count of the **Recruitment Model Number(s)** (`model_num`) parameter matches `num_recruit_models` parameter at initialization and when importing recruitment data (`read_inp_lines`) from AGEPRO input files. 
+      - Added `num_recruit_models` parameter to recruitment initialization
+      - Added Sequence years (`seq_years`) parameter to `read_inp_files` to update number of recruit models
+    - `agepro_model$set_recruit_model` : This now initializes a new instance of the recruitment class, using the general_params field *number of recruitment models* (`num_rec_models`) value.
+    - Use `purrr::map` to validate input for valid recruitment probabilities within the time projection year horizon for each recruitment model in **Recruitment Probability** (`recruit_probability`) active binding setter. Recruitment probabilities can be set after Recruitment 
+    - Use `purrr::map` to get (and validate) recruitment model numbers from **Recruitment Model Data** (`recruit_data`) input and update the **Recruitment Model Number Vector** in the `recruit_data` active binding setter.
+  - Setter access to general **recruitment** active binding fields: `recruit_scaling_factor`, `ssb_scaling_factor`, `max_recruit_obs`, `recruit_model_num_list`, is set to private. These values can be set using methods of the **recruitment** class, such as during initialization.
+  - Code cleanup for consistency and clarity
+    - Modularize setups for **Recruitment probability**(`recruit_probability`), **Recruitment Model Number vector** (`recruit_model_num_list`), and the **Recruitment Model Data** (`recruit_data`) into private helper functions. 
+    - Renamed field `model_collection_list -> recruit_data` for clarity. 
+     - Renamed common **recruit_model** active binding `recruit_data -> json_recruit_data`
+    - Replaced `observed_years` to `sequence_projection_years` field.
+    - Renamed recruitment's `set_recruit_model` function to `initialize_recruit_model` to reflect its intended functionality and set it as a private helper function.
+    - Renamed field `max_rec_obs -> max_recruit_obs`
+    - Renamed recruitment function `inplines_recruit` (and `inplines_general` from **general_params**) to `get_inp_lines` (#37)
+    - Renamed recruitment parameter `cat_verbose -> enable_cat_print`
+* Setter access to **general_params** active binding fields: `yr_begin`, `yr_end`, `age_begin`, `age_end`, `num_pop_sims`, `num_fleets`, `num_rec_models`, `discards_present`, `seed` is set to private. These values can be set using methods of the **general_params** class, such as during initialization. This behavior matches AGEPRO-GUI 
+* Simplified projection years validation checks to check for numeric 
+* Updated roxygen dependency to version 7.3.0
+  - Replaced deprecated doctype package in with  **\_PACKAGE\_** roxygen package documentation (`ageproR.R -> ageproR-package.R`)
+
+
 # ageproR 0.5.0 2024-01-10
 
 * Added `harvest_scenario`
