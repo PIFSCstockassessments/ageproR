@@ -34,7 +34,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
-    .valid_recruit_model_num = c(0, 3, 4, 5, 6, 7, 9, 14, 15),
+    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 14, 15),
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
@@ -64,7 +64,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
     set_recruit_model_num_list_item = function(value, index){
-      checkmate::assert_choice(value, choice = c(0:21))
+      checkmate::assert_choice(value,
+                               choice = private$.valid_recruit_model_num)
       checkmate::assert_number(index, lower = 1,
                                upper = length(private$.recruit_model_num_list))
       private$.recruit_model_num_list[[index]] <- value
@@ -196,13 +197,15 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #
     initialize_recruit_model = function(model_num) {
 
-      checkmate::assert_numeric(model_num, lower = 0, upper = 21)
+      checkmate::assert_choice(model_num,
+                               choice = private$.valid_recruit_model_num)
 
       # `.number_projection_years` is used for recruitment
       # models that use the model projection year time horizon for setup.
       model_dict <- dict(list(
         "0" = rlang::expr(null_recruit_model$new()),
-        "3" = rlang::expr(empirical_distribution_model$new(private$.number_projection_years)),
+        "3" = rlang::expr(empirical_distribution_model$new(
+          private$.number_projection_years)),
         "4" = rlang::expr(two_stage_empirical_ssb$new()),
         "5" = rlang::expr(beverton_holt_curve_model$new()),
         "6" = rlang::expr(ricker_curve_model$new()),
@@ -212,7 +215,13 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         "15" = rlang::expr(two_stage_empirical_cdf$new())
       ))
 
-      rlang::eval_tidy(model_dict$get(as.character(model_num)))
+      rlang::eval_tidy(
+        model_dict$get(as.character(model_num),
+                       default = stop(paste0("Recruitment Model Number ",
+                                             model_num, " does not match list ",
+                                             "of known recruitment models ",
+                                             " to initialize."),
+                                      call. = FALSE) ))
 
     }
 
