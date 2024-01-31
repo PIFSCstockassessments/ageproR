@@ -1,4 +1,4 @@
-# ageproR 0.5.1 2024-02-02
+# ageproR 0.5.1 2024-02-01
 
 * recruitment 
   - Fixed an issue (#39) where a difference of number of recruitment models using the agepro_model function `set_recruit_model` only changed the Recruit Data collection object structure but did not change recruitment probability nor the `num_rec_models` general_param field.
