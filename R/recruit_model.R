@@ -11,7 +11,6 @@
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_character assert_numeric
 #'
-#' @export
 recruit_model <- R6Class(
   "recruit_model",
   private = list(
@@ -104,6 +103,7 @@ recruit_model <- R6Class(
 #' Null Recruitment UI Fallback Default
 #' @inherit recruit_model description
 #' @template elipses
+#' @export
 null_recruit_model <- R6Class(
   "null_recruit_model",
   inherit = recruit_model,
@@ -136,6 +136,7 @@ null_recruit_model <- R6Class(
 #' Handles an instance for deprecated recruitment model #9.
 #'
 #' @template elipses
+#' @export
 #'
 deprecated_recruit_model_9 <- R6Class(
   "deprecated_recruit_model_9",
@@ -191,7 +192,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
 #' @importFrom tibble as_tibble
-#' @export
+#'
 empirical_recruit <- R6Class(
   "empirical_recruit",
   inherit = recruit_model,
@@ -438,7 +439,7 @@ empirical_recruit <- R6Class(
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations
-#'
+#' @export
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
   inherit = empirical_recruit,
@@ -459,6 +460,7 @@ empirical_distribution_model <- R6Class(
 #' Empirical CDF of Recruitment (Model #14)
 #'
 #' @template num_observations
+#' @export
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
   inherit = empirical_recruit,
@@ -492,6 +494,7 @@ empirical_cdf_model <- R6Class(
 #' @template delimiter
 #'
 #' @importFrom checkmate assert_numeric
+#' @export
 #'
 two_stage_empirical_recruit <- R6Class(
   "two_stage_empirical_recruit",
@@ -782,6 +785,7 @@ two_stage_empirical_ssb <- R6Class(
 #'(Recruit #15)
 #'
 #' @template two_stage_empirical_parameters
+#' @export
 #'
 two_stage_empirical_cdf <- R6Class(
   "two_stage_empirical_cdf",
@@ -836,7 +840,6 @@ two_stage_empirical_cdf <- R6Class(
 #'
 #' @importFrom checkmate assert_numeric
 #'
-#' @export
 parametric_curve <- R6Class(
   "parametric_curve",
   inherit = recruit_model,
@@ -1000,7 +1003,7 @@ parametric_curve <- R6Class(
 #' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
 #' @template parametric_parameters
-#'
+#' @export
 beverton_holt_curve_model <- R6Class(
   "beverton_holt_curve_model",
   inherit = parametric_curve,
@@ -1021,7 +1024,8 @@ beverton_holt_curve_model <- R6Class(
 
 #'Ricker Curve #/ Lognormal Error (Model #6)
 #'
-#'@template parametric_parameters
+#' @template parametric_parameters
+#' @export
 #'
 ricker_curve_model <- R6Class(
   "ricker_curve_model",
@@ -1049,6 +1053,7 @@ ricker_curve_model <- R6Class(
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @export
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
