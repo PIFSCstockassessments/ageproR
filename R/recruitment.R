@@ -90,10 +90,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
-      cli_alert_info("recruitment_probability")
-      assert_list(private$.recruit_probability) #verify recruit_prob list
+      cli::cli_alert_info("recruitment_probability")
+      #verify recruit_prob list
+      checkmate::assert_list(private$.recruit_probability)
 
-      cat_print(private$.recruit_probability)
+      cli::cat_print(private$.recruit_probability)
     },
 
 
@@ -289,16 +290,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     print = function(enable_cat_print = TRUE, ...) {
 
       #verify private fields are numeric
-      assert_numeric(private$.number_recruit_models)
-      assert_numeric(private$.number_projection_years)
+      checkmate::assert_numeric(private$.number_recruit_models)
+      checkmate::assert_numeric(private$.number_projection_years)
 
-      cli_alert_info(c("{private$.number_recruit_models} recruitment model{?s}",
+      cli::cli_par()
+      cli::cli_alert(c("{private$.number_recruit_models} recruitment model{?s}",
                      " for {private$.number_projection_years} year{?s}."))
-      cli_ul()
-      cli_li("recruit_scaling_factor: {.val {self$recruit_scaling_factor}}")
-      cli_li("ssb_scaling_factor: {.val {self$ssb_scaling_factor}}")
-      cli_par()
-      cli_end()
+
+      cli::cli_alert_info("recruit_scaling_factor: {.val {self$recruit_scaling_factor}}")
+      cli::cli_alert_info("ssb_scaling_factor: {.val {self$ssb_scaling_factor}}")
+      cli::cli_end()
 
       #Module to printout Recruitment Probability
       #Verbose flag check
@@ -309,7 +310,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
              capture.output(x <- private$cli_recruit_probability())
              )
 
-      cli_par()
+      cli::cli_par()
       cli::cli_alert_info("recruit_data")
       for (recruit in 1:private$.number_recruit_models){
         cli::cli_par()
