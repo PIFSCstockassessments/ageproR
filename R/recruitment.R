@@ -303,17 +303,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      ifelse(enable_cat_print,
-             #Allow Recruitment Probability 'cat' cli message
-             private$cli_recruit_probability(),
-             #Suppress Recruitment Probability 'cat' cli message
-             capture.output(x <- private$cli_recruit_probability())
-             )
-
       cli::cli_par()
+      if(enable_cat_print){
+        #Allow Recruitment Probability 'cat' cli message
+        private$cli_recruit_probability()
+      }else{
+        #Suppress Recruitment Probability 'cat' cli message
+        capture.output(x <- private$cli_recruit_probability())
+      }
+      cli::cli_end()
+
       cli::cli_alert_info("recruit_data")
       for (recruit in 1:private$.number_recruit_models){
-        cli::cli_par()
+        par_recruit <-  cli::cli_par()
         cli::cli_text("[[{recruit}]]")
         cli::cli_alert(paste0("Recruitment Model #",
                               "{self$recruit_model_num_list[[recruit]]} "))
@@ -322,10 +324,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         assert_r6(self$recruit_data[[recruit]], "recruit_model")
 
         self$recruit_data[[recruit]]$print()
-      cli::cli_end()
+        cli::cli_end(par_recruit)
       }
-      cli::cli_par()
-      cli::cli_end()
+
     },
 
     #' @description
