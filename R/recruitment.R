@@ -90,9 +90,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
-      cli_alert_info("Recruitment Probability:")
-      assert_list(private$.recruit_probability) #verify recruit_prob list
-      cat_print(private$.recruit_probability)
+      cli::cli_alert_info("recruitment_probability")
+      #verify recruit_prob list
+      checkmate::assert_list(private$.recruit_probability)
+
+      cli::cat_print(private$.recruit_probability)
     },
 
 
@@ -288,43 +290,43 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     print = function(enable_cat_print = TRUE, ...) {
 
       #verify private fields are numeric
-      assert_numeric(private$.number_recruit_models)
-      assert_numeric(private$.number_projection_years)
+      checkmate::assert_numeric(private$.number_recruit_models)
+      checkmate::assert_numeric(private$.number_projection_years)
 
-      cli_alert_info(c("{private$.number_recruit_models} recruitment model{?s}",
+      cli::cli_par()
+      cli::cli_alert(c("{private$.number_recruit_models} recruitment model{?s}",
                      " for {private$.number_projection_years} year{?s}."))
-      cli_ul()
-      cli_li("Recruitment Scaling Factor: {.val {self$recruit_scaling_factor}}")
-      cli_li("SSB Scaling Factor: {.val {self$ssb_scaling_factor}}")
-      cli_par()
-      cli_end()
+
+      cli::cli_alert_info("recruit_scaling_factor: {.val {self$recruit_scaling_factor}}")
+      cli::cli_alert_info("ssb_scaling_factor: {.val {self$ssb_scaling_factor}}")
+      cli::cli_end()
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      ifelse(enable_cat_print,
-             #Allow Recruitment Probability 'cat' cli message
-             private$cli_recruit_probability(),
-             #Suppress Recruitment Probability 'cat' cli message
-             capture.output(x <- private$cli_recruit_probability())
-             )
+      cli::cli_par()
+      if(enable_cat_print){
+        #Allow Recruitment Probability 'cat' cli message
+        private$cli_recruit_probability()
+      }else{
+        #Suppress Recruitment Probability 'cat' cli message
+        capture.output(x <- private$cli_recruit_probability())
+      }
+      cli::cli_end()
 
-      cli_par()
-      cli::cli_alert_info("Recruit Data in recruitment's model collection list:")
+      cli::cli_alert_info("recruit_data")
       for (recruit in 1:private$.number_recruit_models){
-        cli_par()
-        cli_alert_info(paste0("Recruit {recruit} of ",
-                              "{private$.number_recruit_models} : ",
-                              "Recruitment Model #",
+        par_recruit <-  cli::cli_par()
+        cli::cli_text("[[{recruit}]]")
+        cli::cli_alert(paste0("Recruitment Model #",
                               "{self$recruit_model_num_list[[recruit]]} "))
 
         #Verify class inherits from "recruit_model"
         assert_r6(self$recruit_data[[recruit]], "recruit_model")
 
         self$recruit_data[[recruit]]$print()
-        cli_end()
+        cli::cli_end(par_recruit)
       }
-      cli_par()
-      cli_end()
+
     },
 
     #' @description
