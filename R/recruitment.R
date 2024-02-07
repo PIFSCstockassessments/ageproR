@@ -161,7 +161,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.recruit_probability[[recruit]] <-
           as.numeric(format(
             round(rep(1, private$.number_projection_years) /
-                    private$.number_projection_years, digits = 4), nsmall = 4))
+                    private$.number_recruit_models, digits = 4), nsmall = 4))
 
         names(private$.recruit_probability[[recruit]]) <-
           private$.sequence_projection_years
