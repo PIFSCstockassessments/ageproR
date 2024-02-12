@@ -23,13 +23,13 @@ mortality_fraction_before_spawn <- R6Class(
   "mortality_fraction_before_spawning",
   private = list(
 
-    .proj_years = NULL,
+    .projection_years = NULL,
     .time_varying = NULL,
     .natural_mortality_before_spawn = NULL,
     .fishing_mortality_before_spawn = NULL,
 
     # Handle proj_years that may be a single int or sequential numeric vector
-    setup_projection_years = function(value){
+    set_projection_years = function(value){
 
       # Handle instances where value is passed as projection_years class
       if(checkmate::test_r6(value, public = c("count","sequence"))){
@@ -47,7 +47,7 @@ mortality_fraction_before_spawn <- R6Class(
 
     # Creates matrix object vector for natural_mortality_before_spawn and
     # fishing_mortality_before_spawn
-    setup_fraction_mortality_matrix = function(time_varying) {
+    set_fraction_mortality_matrix = function(time_varying) {
 
       default_proportion <- 0.5
 
@@ -90,16 +90,18 @@ mortality_fraction_before_spawn <- R6Class(
                                 any.missing = FALSE, all.missing=FALSE,
                                 len = 1)
 
-
-      private$setup_projection_years(proj_years_vector)
+      #setup .projection_years
+      private$set_projection_years(proj_years_vector)
       private$.time_varying <- time_varying
+
+
 
       #Setup
       private$.natural_mortality_before_spawn <-
-        setup_fraction_mortality_matrix(private$.time_varying)
+        private$set_fraction_mortality_matrix(private$.time_varying)
 
       private$.fishing_mortality_before_spawn <-
-        setup_fraction_mortality_matrix(private$.time_varying)
+        private$set_fraction_mortality_matrix(private$.time_varying)
 
     }
 
