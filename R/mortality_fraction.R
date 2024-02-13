@@ -19,14 +19,14 @@
 #' @importFrom jsonlite toJSON
 #'
 #' @export
-mortality_fraction_before_spawn <- R6Class(
-  "mortality_fraction_before_spawning",
+mortality_fraction_prior_spawn <- R6Class(
+  "mortality_fraction_prior_spawn",
   private = list(
 
     .projection_years = NULL,
     .time_varying = NULL,
-    .natural_mortality_before_spawn = NULL,
-    .fishing_mortality_before_spawn = NULL,
+    .natural_mortality_prior_spawn = NULL,
+    .fishing_mortality_prior_spawn = NULL,
 
     # Handle proj_years that may be a single int or sequential numeric vector
     set_projection_years = function(value){
@@ -48,8 +48,9 @@ mortality_fraction_before_spawn <- R6Class(
     # Creates matrix object vector for natural_mortality_before_spawn and
     # fishing_mortality_before_spawn
     set_fraction_mortality_matrix = function(time_varying,
-                                             row_names = NULL,
-                                             default_proportion = 0.5) {
+                                             row_names = NULL) {
+
+      default_proportion <- 0.5
 
       if(time_varying){
         return(
@@ -81,8 +82,6 @@ mortality_fraction_before_spawn <- R6Class(
     #' @description
     #' Initializes the class
     #'
-    #'
-    #'
     initialize = function(proj_years_vector, time_varying = FALSE) {
 
       checkmate::assert_logical(time_varying,
@@ -94,15 +93,14 @@ mortality_fraction_before_spawn <- R6Class(
       private$.time_varying <- time_varying
 
 
-
       #Setup
-      private$.natural_mortality_before_spawn <-
+      private$.natural_mortality_prior_spawn <-
         private$set_fraction_mortality_matrix(private$.time_varying,
-                                              "natural_mortality_prior_spawn")
+                                              row_names = "natural_mortality_prior_spawn")
 
-      private$.fishing_mortality_before_spawn <-
+      private$.fishing_mortality_prior_spawn <-
         private$set_fraction_mortality_matrix(private$.time_varying,
-                                              "fishing_mortality_prior_spawn")
+                                              row_names = "fishing_mortality_prior_spawn")
 
     }
 
@@ -126,8 +124,8 @@ mortality_fraction_before_spawn <- R6Class(
       if(isFALSE(missing(value))){
         stop("active binding is read only", call. = FALSE)
       }
-      rbind(private$.natural_mortality_before_spawn,
-            private$.fishing_mortality_before_spawn)
+      rbind(private$.natural_mortality_prior_spawn,
+            private$.fishing_mortality_prior_spawn)
     }
 
 
