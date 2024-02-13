@@ -120,9 +120,9 @@ mortality_fraction_before_spawn <- R6Class(
       private$.time_varying
     },
 
-    #' @field z_frac
-    #' Fraction Mortality Prior to Spawning
-    z_frac = function(value) {
+    #' @field proportion_total_mortality
+    #' Proportion of total mortality occurring prior to spawning
+    proportion_total_mortality = function(value) {
       if(isFALSE(missing(value))){
         stop("active binding is read only", call. = FALSE)
       }

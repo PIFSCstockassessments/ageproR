@@ -13,7 +13,7 @@ prior to spawning season
 \item{\code{time_varying}}{\link[base:logical]{Logical} flag to list fishing and natural mortality per
 observation year if TRUE or representative of the}
 
-\item{\code{z_frac}}{Fraction Mortality Prior to Spawning}
+\item{\code{proportion_total_mortality}}{Proportion of total mortality occurring prior to spawning}
 }
 \if{html}{\out{</div>}}
 }
