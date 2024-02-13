@@ -14,6 +14,13 @@
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number assert_file_exists
+#'
+#' @examples
+#' \dontrun{
+#' # General parameters for 2019-2026 Uku Projections Base (Example 4)
+#' test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
+#' }
+#'
 agepro_model <- R6Class(
   classname = "agepro_model",
   private = list(

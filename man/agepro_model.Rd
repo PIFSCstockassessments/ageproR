@@ -11,6 +11,13 @@ of fleets, recruitment, and uncertainties
 AGEPRO performs stochastic projections on exploited fisheries stock to
 determine age-structured population over a time period. Brodziak, 2022
 }
+\examples{
+\dontrun{
+# General parameters for 2019-2026 Uku Projections Base (Example 4)
+test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
+}
+
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
