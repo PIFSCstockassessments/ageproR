@@ -52,14 +52,14 @@ mortality_fraction_before_spawn <- R6Class(
       default_proportion <- 0.5
 
       if(time_varying){
-        # Default values of fishing and natural mortality are co
+        # Default values of fishing and natural mortality are constant
         return(
-          matrix(rep(default_proportion/private$.proj_years$count,
-                     private$.proj_years$count),
+          matrix(rep(default_proportion/private$.projection_years$count,
+                     private$.projection_years$count),
                  nrow = 1,
-                 ncol = private$.proj_years$count,
+                 ncol = private$.projection_years$count,
                  dimnames = list(NULL,
-                                 private$.proj_years$sequence))
+                                 private$.projection_years$sequence))
         )
 
       }else{
@@ -105,6 +105,29 @@ mortality_fraction_before_spawn <- R6Class(
 
     }
 
+
+  ),
+  active = list(
+
+    #' @field time_varying
+    #' [Logical][base::logical] flag to list fishing and natural mortality per
+    #' observation year if TRUE or representative of the
+    time_varying = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.time_varying
+    },
+
+    #' @field z_frac
+    #' Fraction Mortality Prior to Spawning
+    z_frac = function(value) {
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      rbind(private$.natural_mortality_before_spawn,
+            private$.fishing_mortality_before_spawn)
+    }
 
 
   )

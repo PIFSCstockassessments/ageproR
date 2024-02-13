@@ -7,6 +7,16 @@
 Class Structure that includes proportion seasonal timing for fishing mortality & natural mortality
 prior to spawning season
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{time_varying}}{\link[base:logical]{Logical} flag to list fishing and natural mortality per
+observation year if TRUE or representative of the}
+
+\item{\code{z_frac}}{Fraction Mortality Prior to Spawning}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
