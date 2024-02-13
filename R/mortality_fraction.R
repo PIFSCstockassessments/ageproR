@@ -47,18 +47,17 @@ mortality_fraction_before_spawn <- R6Class(
 
     # Creates matrix object vector for natural_mortality_before_spawn and
     # fishing_mortality_before_spawn
-    set_fraction_mortality_matrix = function(time_varying) {
-
-      default_proportion <- 0.5
+    set_fraction_mortality_matrix = function(time_varying,
+                                             row_names = NULL,
+                                             default_proportion = 0.5) {
 
       if(time_varying){
-        # Default values of fishing and natural mortality are constant
         return(
           matrix(rep(default_proportion/private$.projection_years$count,
                      private$.projection_years$count),
                  nrow = 1,
                  ncol = private$.projection_years$count,
-                 dimnames = list(NULL,
+                 dimnames = list(row_names,
                                  private$.projection_years$sequence))
         )
 
@@ -67,7 +66,7 @@ mortality_fraction_before_spawn <- R6Class(
           matrix(default_proportion,
                  nrow = 1,
                  ncol = 1,
-                 dimnames = list(NULL, "All Years"))
+                 dimnames = list(row_names, "All Years"))
         )
 
       }
@@ -98,10 +97,12 @@ mortality_fraction_before_spawn <- R6Class(
 
       #Setup
       private$.natural_mortality_before_spawn <-
-        private$set_fraction_mortality_matrix(private$.time_varying)
+        private$set_fraction_mortality_matrix(private$.time_varying,
+                                              "natural_mortality_prior_spawn")
 
       private$.fishing_mortality_before_spawn <-
-        private$set_fraction_mortality_matrix(private$.time_varying)
+        private$set_fraction_mortality_matrix(private$.time_varying,
+                                              "fishing_mortality_prior_spawn")
 
     }
 
