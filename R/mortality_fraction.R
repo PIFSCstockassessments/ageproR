@@ -30,6 +30,12 @@ mortality_fraction_prior_spawn <- R6Class(
     .natural_mortality_prior_spawn = NULL,
     .fishing_mortality_prior_spawn = NULL,
 
+
+    set_time_varying = function(value){
+      checkmate::assert_choice(value, choices = c(0, 1))
+      private$.time_varying <- value
+    },
+
     # Handle proj_years that may be a single int or sequential numeric vector
     set_projection_years = function(value){
 
