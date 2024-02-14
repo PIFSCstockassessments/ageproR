@@ -14,6 +14,10 @@ prior to spawning season
 observation year if TRUE or representative of the}
 
 \item{\code{proportion_total_mortality}}{Proportion of total mortality occurring prior to spawning}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 }
 \if{html}{\out{</div>}}
 }

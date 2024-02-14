@@ -23,6 +23,8 @@ mortality_fraction_prior_spawn <- R6Class(
   "mortality_fraction_prior_spawn",
   private = list(
 
+    .keyword_name = "biological",
+
     .projection_years = NULL,
     .time_varying = NULL,
     .natural_mortality_prior_spawn = NULL,
@@ -88,12 +90,10 @@ mortality_fraction_prior_spawn <- R6Class(
                                 any.missing = FALSE, all.missing=FALSE,
                                 len = 1)
 
-      #setup .projection_years
+      #setup
       private$set_projection_years(proj_years_vector)
       private$.time_varying <- time_varying
 
-
-      #Setup
       private$.natural_mortality_prior_spawn <-
         private$set_fraction_mortality_matrix(private$.time_varying,
                                               row_names = "natural_mortality_prior_spawn")
@@ -103,7 +103,6 @@ mortality_fraction_prior_spawn <- R6Class(
                                               row_names = "fishing_mortality_prior_spawn")
 
     }
-
 
   ),
   active = list(
@@ -126,6 +125,18 @@ mortality_fraction_prior_spawn <- R6Class(
       }
       rbind(private$.natural_mortality_prior_spawn,
             private$.fishing_mortality_prior_spawn)
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
     }
 
 
