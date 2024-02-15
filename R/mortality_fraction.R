@@ -34,7 +34,15 @@ mortality_fraction_prior_spawn <- R6Class(
 
 
     set_time_varying = function(value){
-      checkmate::assert_choice(value, choices = c(0, 1))
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert(
+        checkmate::check_numeric(value),
+        checkmate::check_choice(value, choices = c(0, 1)),
+        combine = "and",
+        add = validation_error
+      )
+      checkmate::reportAssertions(validation_error)
+
       private$.time_varying <- value
     },
 
