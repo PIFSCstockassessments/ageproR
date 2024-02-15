@@ -45,6 +45,7 @@ agepro_model <- R6Class(
     .harvest_scenario = NULL,
     .pstar_projection = NULL,
     .rebuild_projection = NULL,
+    .mortality_fraction_prior_spawn = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -199,6 +200,10 @@ agepro_model <- R6Class(
         harvest_scenario$new(x$seq_years,
                              x$num_fleets,
                              enable_cat_print = enable_cat_print)
+
+      self$biologial <-
+        mortality_fraction_prior_spawn$new(x$seq_years)
+
 
       if(self$projection_analyses_type == "pstar") {
         self$pstar <-
@@ -553,6 +558,24 @@ agepro_model <- R6Class(
 
         private$.rebuild_projection <- value
 
+      }
+
+    },
+
+
+    #' @field biological
+    #' Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
+    #' mortality (\eqn{M})
+    #'
+    biological = function(value) {
+      if(missing(value)) {
+        return(private$.mortality_fraction_prior_spawn)
+      }else{
+        checkmate::check_r6(value,
+                            public = c("time_varying",
+                                       "proportion_total_mortality"))
+
+        private$.mortality_fraction_prior_spawn <- value
       }
 
     }

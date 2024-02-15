@@ -63,6 +63,9 @@ probability of overfishing in the target year.}
 
 \item{\code{rebuild}}{calculation of the constant total Fishing Mortality \eqn{F}
 calculated across all fleets with the rebuild spawning biomass.}
+
+\item{\code{biological}}{Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
+mortality (\eqn{M})}
 }
 \if{html}{\out{</div>}}
 }
