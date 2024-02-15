@@ -25,6 +25,7 @@ observation year if TRUE or representative of the}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-mortality_fraction_prior_spawn-new}{\code{mortality_fraction_prior_spawn$new()}}
+\item \href{#method-mortality_fraction_prior_spawn-read_inp_lines}{\code{mortality_fraction_prior_spawn$read_inp_lines()}}
 \item \href{#method-mortality_fraction_prior_spawn-clone}{\code{mortality_fraction_prior_spawn$clone()}}
 }
 }
@@ -34,7 +35,11 @@ observation year if TRUE or representative of the}
 \subsection{Method \code{new()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$new(proj_years_vector, time_varying = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$new(
+  proj_years_vector,
+  time_varying = FALSE,
+  default_proportion = 0.5
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -46,6 +51,38 @@ projection or the number of years in the time projection.}
 \item{\code{time_varying}}{Logical flag that enables the stochastic parameter
 to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is FALSE}
+
+\item{\code{default_proportion}}{Proportion default values. Time varying will adjust the values by
+number of projection years.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mortality_fraction_prior_spawn-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-mortality_fraction_prior_spawn-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter BIOLOGICAL from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$read_inp_lines(
+  inp_con,
+  nline,
+  proj_years_vector
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+
+\item{\code{proj_years_vector}}{Input can be Sequence of years in from first to last year of
+projection or the number of years in the time projection.}
 }
 \if{html}{\out{</div>}}
 }
