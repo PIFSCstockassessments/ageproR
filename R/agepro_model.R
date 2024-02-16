@@ -201,7 +201,7 @@ agepro_model <- R6Class(
                              x$num_fleets,
                              enable_cat_print = enable_cat_print)
 
-      self$biologial <-
+      self$biological <-
         mortality_fraction_prior_spawn$new(x$seq_years)
 
 
