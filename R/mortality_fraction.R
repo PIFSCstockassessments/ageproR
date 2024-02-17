@@ -69,6 +69,8 @@ mortality_fraction_prior_spawn <- R6Class(
                                              time_varying,
                                              row_names = NULL) {
 
+      #TODO: validate time_varying field
+
       default_proportion <- 0.5
 
       if(time_varying){
@@ -134,6 +136,30 @@ mortality_fraction_prior_spawn <- R6Class(
                                               "fishing_mortality_prior_spawn")
 
     },
+
+    #' @description
+    #' Formatted to print out the values of the Fraction Mortality Parameter
+    #'
+    #' @template enable_cat_print
+    #'
+    print = function(enable_cat_print = TRUE){
+
+      cli::cli_ul()
+      #cli statement included in call to time_varying active binding
+      cli::cli_li(paste0("time_varying: ",
+                         "{.val {private$.time_varying} ",
+                         "({as.logical(private$.time_varying)})}"))
+      cli::cli_end()
+
+      if(enable_cat_print){
+        cli::cli_alert(paste0("proportion_total_mortality ",
+                              "(Fraction Mortality prior to spawn)"))
+        cli::cat_print(private$.proportion_total_mortality)
+
+      }
+
+    },
+
 
 
     #' @description
@@ -206,7 +232,8 @@ mortality_fraction_prior_spawn <- R6Class(
       if(isFALSE(missing(value))){
         stop("active binding is read only", call. = FALSE)
       }
-      cli::cli_text("{{private$.time_varying}} {.emph({as.logical(private$.time_varying)} )}")
+      cli::cli_text(paste0("{as.numeric(private$.time_varying)} ",
+                           "({.emph { as.logical(private$.time_varying)}})"))
     },
 
     #' @field proportion_total_mortality

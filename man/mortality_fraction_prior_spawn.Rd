@@ -25,6 +25,7 @@ observation year if TRUE or representative of the}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-mortality_fraction_prior_spawn-new}{\code{mortality_fraction_prior_spawn$new()}}
+\item \href{#method-mortality_fraction_prior_spawn-print}{\code{mortality_fraction_prior_spawn$print()}}
 \item \href{#method-mortality_fraction_prior_spawn-read_inp_lines}{\code{mortality_fraction_prior_spawn$read_inp_lines()}}
 \item \href{#method-mortality_fraction_prior_spawn-clone}{\code{mortality_fraction_prior_spawn$clone()}}
 }
@@ -54,6 +55,24 @@ vector will cover "all years" of the projection. Default is FALSE}
 
 \item{\code{default_proportion}}{Proportion default values. Time varying will adjust the values by
 number of projection years.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mortality_fraction_prior_spawn-print"></a>}}
+\if{latex}{\out{\hypertarget{method-mortality_fraction_prior_spawn-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out the values of the Fraction Mortality Parameter
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$print(enable_cat_print = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
