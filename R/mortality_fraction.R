@@ -34,11 +34,16 @@ mortality_fraction_prior_spawn <- R6Class(
 
 
     set_time_varying = function(value){
+
+      #Convert logical values as numeric
+      if(checkmate::test_logical(value)){
+        value <- as.numeric(value)
+      }
+
       validation_error <- checkmate::makeAssertCollection()
       checkmate::assert(
         checkmate::check_numeric(value),
         checkmate::check_choice(value, choices = c(0, 1)),
-        combine = "and",
         add = validation_error
       )
       checkmate::reportAssertions(validation_error)
@@ -68,8 +73,6 @@ mortality_fraction_prior_spawn <- R6Class(
     set_fraction_mortality_matrix = function(value,
                                              time_varying,
                                              row_names = NULL) {
-
-      #TODO: validate time_varying field
 
       default_proportion <- 0.5
 
@@ -110,13 +113,10 @@ mortality_fraction_prior_spawn <- R6Class(
     initialize = function(proj_years_vector, time_varying = FALSE,
                           default_proportion = 0.5) {
 
-      checkmate::assert_logical(time_varying,
-                                any.missing = FALSE, all.missing=FALSE,
-                                len = 1)
-
       #setup
       private$set_projection_years(proj_years_vector)
-      private$.time_varying <- time_varying
+      #validate time_varying field
+      private$set_time_varying(time_varying)
 
       #zfrac_default: defaults
       if(private$.time_varying) {
@@ -144,11 +144,11 @@ mortality_fraction_prior_spawn <- R6Class(
     #'
     print = function(enable_cat_print = TRUE){
 
-      cli::cli_ul()
-      #cli statement included in call to time_varying active binding
-      cli::cli_li(paste0("time_varying: ",
-                         "{.val {private$.time_varying} ",
-                         "({as.logical(private$.time_varying)})}"))
+      # Format container for blue emph text
+      cli::cli_div(theme = list(span.emph = list(color = "blue")))
+      cli::cli_text(c("{symbol$bullet} ",
+                      "time_varying: {.val {private$.time_varying}} ",
+                      "{.emph ({as.logical(private$.time_varying)})}"))
       cli::cli_end()
 
       if(enable_cat_print){
@@ -179,9 +179,9 @@ mortality_fraction_prior_spawn <- R6Class(
       inp_line <- read_inp_numeric_line(inp_con)
 
       private$set_time_varying(inp_line)
-      cli::cli_alert(paste0("Line {nline}: ",
-                            "time_varying: {.var {private$.time_varying}} ",
-                            "{.emph {as.logical(private$.time_varying)}}"))
+      cli::cli_alert(c("Line {nline}: ",
+                       "time_varying: {.var {private$.time_varying}} ",
+                       "{.emph {as.logical(private$.time_varying)}}"))
 
       if(isTRUE(private$.time_varying)){
         names_proj_years_count <- paste0(private$.projection_years$count,
@@ -232,8 +232,7 @@ mortality_fraction_prior_spawn <- R6Class(
       if(isFALSE(missing(value))){
         stop("active binding is read only", call. = FALSE)
       }
-      cli::cli_text(paste0("{as.numeric(private$.time_varying)} ",
-                           "({.emph { as.logical(private$.time_varying)}})"))
+      private$.time_varying
     },
 
     #' @field proportion_total_mortality
