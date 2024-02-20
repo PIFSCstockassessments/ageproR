@@ -13,7 +13,7 @@ prior to spawning season
 \item{\code{time_varying}}{\link[base:logical]{Logical} flag to list fishing and natural mortality per
 observation year if TRUE or representative of the}
 
-\item{\code{proportion_total_mortality}}{Proportion of total mortality occurring prior to spawning}
+\item{\code{proportion_total_mortality_matrix}}{Proportion of total mortality occurring prior to spawning}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 

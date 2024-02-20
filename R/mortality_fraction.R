@@ -266,14 +266,15 @@ mortality_fraction_prior_spawn <- R6Class(
       private$.time_varying
     },
 
-    #' @field proportion_total_mortality
+    #' @field proportion_total_mortality_matrix
     #' Proportion of total mortality occurring prior to spawning
-    proportion_total_mortality = function(value) {
+    proportion_total_mortality_matrix = function(value) {
       if(isFALSE(missing(value))){
+        #TODO: indicate to edit natural_mortality_prior_spawn or
+        # fishing_mortality_prior_spawn instead
         stop("active binding is read only", call. = FALSE)
       }
-      rbind(private$.natural_mortality_prior_spawn,
-            private$.fishing_mortality_prior_spawn)
+      private$.proportion_total_mortality_matrix
     },
 
     #' @field keyword_name
