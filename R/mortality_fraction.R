@@ -10,6 +10,7 @@
 #' @template proj_years_vector
 #' @template inp_con
 #' @template nline
+#' @template enable_cat_print
 #'
 #' @param time_varying
 #' Logical flag that enables the stochastic parameter
@@ -31,6 +32,7 @@ mortality_fraction_prior_spawn <- R6Class(
     .time_varying = NULL,
     .natural_mortality_prior_spawn = NULL,
     .fishing_mortality_prior_spawn = NULL,
+    .proportion_total_mortality_matrix = NULL,
 
 
     set_time_varying = function(value){
@@ -96,7 +98,24 @@ mortality_fraction_prior_spawn <- R6Class(
 
       }
 
+    },
+
+    set_proportion_total_mortality_matrix = function(){
+
+      checkmate::assert_numeric(private$.natural_mortality_prior_spawn,
+                                lower = 0,
+                                upper = 1)
+
+      checkmate::assert_numeric(private$.fishing_mortality_prior_spawn,
+                                lower = 0,
+                                upper = 1)
+
+      private$.proportion_total_mortality_matrix <-
+        rbind(private$.natural_mortality_prior_spawn,
+              private$.fishing_mortality_prior_spawn)
+
     }
+
 
 
   ),
@@ -111,7 +130,8 @@ mortality_fraction_prior_spawn <- R6Class(
     #' number of projection years.
     #'
     initialize = function(proj_years_vector, time_varying = FALSE,
-                          default_proportion = 0.5) {
+                          default_proportion = 0.5,
+                          enable_cat_print = TRUE) {
 
       #setup
       private$set_projection_years(proj_years_vector)
@@ -135,6 +155,12 @@ mortality_fraction_prior_spawn <- R6Class(
                                               private$.time_varying,
                                               "fishing_mortality_prior_spawn")
 
+      private$set_proportion_total_mortality_matrix()
+
+      div_keyword_header(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print)
+
     },
 
     #' @description
@@ -152,9 +178,9 @@ mortality_fraction_prior_spawn <- R6Class(
       cli::cli_end()
 
       if(enable_cat_print){
-        cli::cli_alert(paste0("proportion_total_mortality ",
+        cli::cli_alert(paste0("proportion_total_mortality_matrix ",
                               "(Fraction Mortality prior to spawn)"))
-        cli::cat_print(private$.proportion_total_mortality)
+        cli::cat_print(private$.proportion_total_mortality_matrix)
 
       }
 
@@ -218,6 +244,9 @@ mortality_fraction_prior_spawn <- R6Class(
           tm_inp_line,
           private$.time_varying,
           row_names = "natural_mortality_prior_spawn")
+
+      cli::cli_alert("Setting proportion_total_mortality_matrix table")
+      private$set_proportion_total_mortality_matrix()
 
     }
 

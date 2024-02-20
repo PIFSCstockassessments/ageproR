@@ -39,7 +39,8 @@ Initializes the class
 \if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$new(
   proj_years_vector,
   time_varying = FALSE,
-  default_proportion = 0.5
+  default_proportion = 0.5,
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -55,6 +56,12 @@ vector will cover "all years" of the projection. Default is FALSE}
 
 \item{\code{default_proportion}}{Proportion default values. Time varying will adjust the values by
 number of projection years.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
@@ -71,6 +78,9 @@ Formatted to print out the values of the Fraction Mortality Parameter
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console.}
 }
