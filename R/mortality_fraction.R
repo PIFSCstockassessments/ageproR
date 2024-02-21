@@ -76,12 +76,9 @@ mortality_fraction_prior_spawn <- R6Class(
                                              time_varying,
                                              row_names = NULL) {
 
-      default_proportion <- 0.5
-
       if(time_varying){
         return(
-          matrix(rep(default_proportion/private$.projection_years$count,
-                     private$.projection_years$count),
+          matrix(value,
                  nrow = 1,
                  ncol = private$.projection_years$count,
                  dimnames = list(row_names,
@@ -90,7 +87,7 @@ mortality_fraction_prior_spawn <- R6Class(
 
       }else{
         return(
-          matrix(default_proportion,
+          matrix(value,
                  nrow = 1,
                  ncol = 1,
                  dimnames = list(row_names, "All Years"))
