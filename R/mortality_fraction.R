@@ -76,6 +76,9 @@ mortality_fraction_prior_spawn <- R6Class(
                                              time_varying,
                                              row_names = NULL) {
 
+      #Validate if value is proportional value
+      checkmate::assert_numeric(value, lower = 0, upper = 1)
+
       if(time_varying){
         return(
           matrix(value,
@@ -98,14 +101,6 @@ mortality_fraction_prior_spawn <- R6Class(
     },
 
     set_proportion_total_mortality_matrix = function(){
-
-      checkmate::assert_numeric(private$.natural_mortality_prior_spawn,
-                                lower = 0,
-                                upper = 1)
-
-      checkmate::assert_numeric(private$.fishing_mortality_prior_spawn,
-                                lower = 0,
-                                upper = 1)
 
       private$.proportion_total_mortality_matrix <-
         rbind(private$.natural_mortality_prior_spawn,
