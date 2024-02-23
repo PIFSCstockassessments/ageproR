@@ -111,7 +111,7 @@ check_proj_years_parameter <- function (proj_years) {
 #'
 #' @export
 #'
-map_validate = function(.xs, .fn, ...) {
+validate_map = function(.xs, .fn, ...) {
 
   # Capture the defused code supplied as `.fn`
   fn_code <- substitute(.fn)
