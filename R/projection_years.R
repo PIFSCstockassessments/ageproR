@@ -76,7 +76,9 @@ projection_years <- R6Class(
                                   .var.name = "projection_years sequence")
         if(all(diff(value) != 1)){
           stop(paste0("Invalid projection_years Sequence: ",
-                      "Sequence does not increment by 1"), call. = FALSE)
+                      "Sequence does not increment by 1 or ",
+                      "not a valid interaction of two elements."),
+               call. = FALSE)
         }
         private$.sequence <- value
       }
