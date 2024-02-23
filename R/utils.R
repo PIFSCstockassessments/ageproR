@@ -109,34 +109,32 @@ check_proj_years_parameter <- function (proj_years) {
 #' @param .xs List r Atomic Vector
 #' @param .fn Function
 #'
+#' @export
 #'
-#'
-validation_map = function(.xs, .fn, ...) {
+map_validate = function(.xs, .fn, ...) {
 
   # Capture the defused code supplied as `.fn`
   fn_code <- substitute(.fn)
 
   out <- rlang::new_list(length(.xs))
 
-  rlang::try_fetch(
-    for(i in seq_along(.xs)){
-      out[[i]] <- .fn(.xs[[i]], ...)
-    },
-    error = function(cnd) {
-      # Inspect the 'call' field to detect `.fn` calls
-      if(rlang::is_call(cnd$call, ".fn")) {
-        # Replace ".fn" by the defused code
-        # and Keep existing Arguemnts
-        cnd$call[[1]] <- fn_code
+  for(i in seq_along(.xs)){
+    rlang::try_fetch(
+      out[[i]] <- .fn(.xs[[i]], ...),
+      error = function(cnd) {
+        # Inspect the 'call' field to detect `.fn` calls
+        if(rlang::is_call(cnd$call, ".fn")) {
+          # Replace ".fn" by the defused code
+          # and Keep existing Arguemnts
+          cnd$call[[1]] <- fn_code
+        }
+        rlang::abort(
+          sprintf("Problem while mapping around element %d ", i),
+          parent = cnd
+        )
       }
-      rlang::abort(
-        sprintf("Problem while mapping around element %d ", i),
-        parent = cnd
-      )
-    }
-
-
-  )
+    )
+  }
   out
 }
 
