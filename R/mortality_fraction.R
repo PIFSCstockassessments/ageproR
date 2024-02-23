@@ -58,7 +58,7 @@ mortality_fraction_prior_spawn <- R6Class(
 
       # Handle instances where value is passed as projection_years class
       if(checkmate::test_r6(value, public = c("count","sequence"))){
-        private$.projection_years <- value$deep(clone = TRUE)
+        private$.projection_years <- value$clone(deep = TRUE)
         invisible(value)
       }
 
