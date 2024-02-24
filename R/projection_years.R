@@ -15,7 +15,27 @@ projection_years <- R6Class(
   private = list(
 
     .count = NULL,
-    .sequence = NULL
+    .sequence = NULL,
+
+    # Wrap custom Sequence Validation Error Messages into checkmate check
+    check_numeric_sequence = function (x) {
+      if(isFALSE(all(diff(x) %in% 1))) {
+        paste0("Invalid projection_years Sequence: ",
+               "Sequence does not increment by 1 or ",
+               "not a valid interaction (no colon) of two numeric ",
+               "elements.")
+      }else {
+        TRUE
+      }
+    },
+
+    # Wrap custom Sequence Validation Error Messages into checkmate assertion
+    assert_numeric_sequence = function(x, .var.name = checkmate::vname(x),
+                                       add = NULL) {
+      res = private$check_numeric_sequence(x)
+      checkmate::makeAssertion(x, res, .var.name, add)
+    }
+
   ),
   public = list(
 
@@ -72,15 +92,13 @@ projection_years <- R6Class(
       if(missing(value)){
         private$.sequence
       } else {
+        # Validate input
+        validation_error <- checkmate::makeAssertCollection()
         checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
-                                  .var.name = "projection_years sequence")
-        if(all(diff(value) != 1)){
-          stop(paste0("Invalid projection_years Sequence: ",
-                      "Sequence does not increment by 1 or ",
-                      "not a valid interaction (no colon) of two numeric ",
-                      "elements."),
-               call. = FALSE)
-        }
+                                  add = validation_error)
+        private$assert_numeric_sequence(value, add = validation_error)
+        checkmate::reportAssertions(validation_error)
+
         private$.sequence <- value
       }
     }
