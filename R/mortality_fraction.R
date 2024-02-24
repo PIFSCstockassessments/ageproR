@@ -261,12 +261,21 @@ mortality_fraction_prior_spawn <- R6Class(
     #' @field proportion_total_mortality_matrix
     #' Proportion of total mortality occurring prior to spawning
     proportion_total_mortality_matrix = function(value) {
-      if(isFALSE(missing(value))){
-        #TODO: indicate to edit natural_mortality_prior_spawn or
-        # fishing_mortality_prior_spawn instead
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.proportion_total_mortality_matrix)
       }
-      private$.proportion_total_mortality_matrix
+
+      ncols_proportion_total_mortality_matrix <-
+        ifelse(as.logical(private$.time_varying), 1,
+               private$.projection_years$count)
+
+      checkmate::assert_matrix(value, ncols = )
+      value |>
+        ageproR::validate_map(\(value)
+                              checkmate::assert_numeric(value,
+                                                        upper = 1,
+                                                        lower = 0))
+      private$.proportion_total_mortality_matrix <- value
     },
 
     #' @field keyword_name
