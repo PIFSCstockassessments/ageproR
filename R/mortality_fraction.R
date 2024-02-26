@@ -35,7 +35,7 @@ mortality_fraction_prior_spawn <- R6Class(
     .proportion_total_mortality_matrix = NULL,
 
 
-    set_time_varying = function(value){
+    set_time_varying = function(value, overwrite = FALSE){
 
       #Convert logical values as numeric
       if(checkmate::test_logical(value)){
@@ -51,6 +51,7 @@ mortality_fraction_prior_spawn <- R6Class(
       checkmate::reportAssertions(validation_error)
 
       private$.time_varying <- value
+
     },
 
     # Handle proj_years that may be a single int or sequential numeric vector
@@ -265,16 +266,23 @@ mortality_fraction_prior_spawn <- R6Class(
         return(private$.proportion_total_mortality_matrix)
       }
 
+      validation_error <- checkmate::makeAssertCollection()
       ncols_proportion_total_mortality_matrix <-
-        ifelse(as.logical(private$.time_varying), 1,
-               private$.projection_years$count)
+        ifelse(as.logical(private$.time_varying),
+               private$.projection_years$count,
+               1)
 
-      checkmate::assert_matrix(value, ncols = )
+      checkmate::assert_matrix(value,
+                               ncols = ncols_proportion_total_mortality_matrix,
+                               add = validation_error)
       value |>
-        ageproR::validate_map(\(value)
-                              checkmate::assert_numeric(value,
-                                                        upper = 1,
-                                                        lower = 0))
+        ageproR::validate_map(
+          \(value) checkmate::assert_numeric(value, upper = 1, lower = 0,
+                                             add = validation_error))
+
+      checkmate::reportAssertions(validation_error)
+
+
       private$.proportion_total_mortality_matrix <- value
     },
 
