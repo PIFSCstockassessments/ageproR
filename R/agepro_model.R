@@ -202,7 +202,8 @@ agepro_model <- R6Class(
                              enable_cat_print = enable_cat_print)
 
       self$biological <-
-        mortality_fraction_prior_spawn$new(x$seq_years)
+        mortality_fraction_prior_spawn$new(x$seq_years,
+                                           enable_cat_print = enable_cat_print)
 
 
       if(self$projection_analyses_type == "pstar") {
@@ -649,6 +650,12 @@ agepro_inp_model <- R6Class(
                                                  self$general$num_ages)
     },
 
+    read_mortality_fraction_prior_spawn = function(con, nline){
+      self$nline <- self$biological$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years)
+    },
+
     read_fishery_selectivity = function(con, nline) {
       self$nline <-
         self$fishery$read_inp_lines(con,
@@ -888,8 +895,8 @@ agepro_inp_model <- R6Class(
 
       # TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
       # ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
-      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-      # ~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
+      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, ~~BIOLOGICAL~~,
+      # ~~BOOTSTRAP~~, ~~HARVEST~~, ~~REBUILD~~, ~~PSTAR~~
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
@@ -910,6 +917,10 @@ agepro_inp_model <- R6Class(
         },
         "[MATURITY]" = {
           rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
+        },
+        "[BIOLOGICAL]" = {
+          rlang::expr(
+            private$read_mortality_fraction_prior_spawn(inp_con, self$nline))
         },
         "[FISHERY]" = {
           rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
