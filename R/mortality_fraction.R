@@ -99,16 +99,7 @@ mortality_fraction_prior_spawn <- R6Class(
 
       }
 
-    },
-
-    set_proportion_total_mortality_matrix = function(){
-
-      private$.proportion_total_mortality_matrix <-
-        rbind(private$.natural_mortality_prior_spawn,
-              private$.fishing_mortality_prior_spawn)
-
     }
-
 
 
   ),
@@ -148,7 +139,10 @@ mortality_fraction_prior_spawn <- R6Class(
                                               private$.time_varying,
                                               "fishing_mortality_prior_spawn")
 
-      private$set_proportion_total_mortality_matrix()
+      private$.proportion_total_mortality_matrix <-
+        rbind(private$.natural_mortality_prior_spawn,
+              private$.fishing_mortality_prior_spawn)
+
 
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting up Default Values")
@@ -241,7 +235,9 @@ mortality_fraction_prior_spawn <- R6Class(
           row_names = "natural_mortality_prior_spawn")
 
       cli::cli_alert("Setting proportion_total_mortality_matrix table")
-      private$set_proportion_total_mortality_matrix()
+      private$.proportion_total_mortality_matrix <-
+        rbind(private$.natural_mortality_prior_spawn,
+              private$.fishing_mortality_prior_spawn)
 
     }
 
