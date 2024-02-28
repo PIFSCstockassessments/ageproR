@@ -262,6 +262,7 @@ mortality_fraction_prior_spawn <- R6Class(
         rbind(private$.natural_mortality_prior_spawn,
               private$.fishing_mortality_prior_spawn)
 
+      return(nline)
     }
 
 
