@@ -39,7 +39,6 @@ mortality_fraction_prior_spawn <- R6Class(
 
       #Convert logical values as numeric
       if(checkmate::test_logical(value)){
-        cli::cli_alert("Convert {value} as {as.numeric(value)}")
         value <- as.numeric(value)
       }
 
@@ -56,11 +55,9 @@ mortality_fraction_prior_spawn <- R6Class(
 
       if(field_changed){
 
-        d <- cli::cli_div(theme = list(span.emph = list(color = "blue")))
-        cli::cli_alert_info(c("{.val time_varying} is set to ",
+        cli::cli_alert_info(c("{.val time_varying} is set as ",
                         "{.val {private$.time_varying}} ",
                         "{.emph ({as.logical(private$.time_varying)})}"))
-        cli::cli_end(d)
         private$set_default_fraction_mortality_matrix(...)
         cli::cli_text("New {.val proportion_total_mortality_matrix} created")
 
