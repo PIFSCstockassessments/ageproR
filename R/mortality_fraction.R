@@ -35,22 +35,36 @@ mortality_fraction_prior_spawn <- R6Class(
     .proportion_total_mortality_matrix = NULL,
 
 
-    set_time_varying = function(value, overwrite = FALSE){
+    set_time_varying = function(value, ...){
 
       #Convert logical values as numeric
       if(checkmate::test_logical(value)){
+        cli::cli_alert("Convert {value} as {as.numeric(value)}")
         value <- as.numeric(value)
       }
 
       validation_error <- checkmate::makeAssertCollection()
-      checkmate::assert(
-        checkmate::check_numeric(value),
-        checkmate::check_choice(value, choices = c(0, 1)),
-        add = validation_error
-      )
+      checkmate::assert_numeric(value, add = validation_error)
+      checkmate::assert_choice(value, choices = c(0, 1),
+                               add = validation_error)
       checkmate::reportAssertions(validation_error)
 
+      # Check input 'value' is the same as time_varying field being overridden
+      field_changed <- isFALSE(identical(private$.time_varying, value))
+
       private$.time_varying <- value
+
+      if(field_changed){
+
+        d <- cli::cli_div(theme = list(span.emph = list(color = "blue")))
+        cli::cli_alert_info(c("{.val time_varying} is set to ",
+                        "{.val {private$.time_varying}} ",
+                        "{.emph ({as.logical(private$.time_varying)})}"))
+        cli::cli_end(d)
+        private$set_default_fraction_mortality_matrix(...)
+        cli::cli_text("New {.val proportion_total_mortality_matrix} created")
+
+      }
 
     },
 
@@ -99,6 +113,40 @@ mortality_fraction_prior_spawn <- R6Class(
 
       }
 
+    },
+
+
+    set_default_fraction_mortality_matrix = function(default_proportion = 0.5) {
+
+      #Validation
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_numeric(private$.projection_years$count,
+                                add = validation_error)
+      checkmate::assert_numeric(private$.time_varying, add = validation_error)
+      checkmate::reportAssertions(validation_error)
+
+      if(private$.time_varying) {
+        default_proportion <-
+          rep(default_proportion/private$.projection_years$count,
+              private$.projection_years$count)
+      }
+
+
+      private$.natural_mortality_prior_spawn <-
+        private$set_fraction_mortality_matrix(default_proportion,
+                                              private$.time_varying,
+                                              "natural_mortality_prior_spawn")
+
+      private$.fishing_mortality_prior_spawn <-
+        private$set_fraction_mortality_matrix(default_proportion,
+                                              private$.time_varying,
+                                              "fishing_mortality_prior_spawn")
+
+      private$.proportion_total_mortality_matrix <-
+        rbind(private$.natural_mortality_prior_spawn,
+              private$.fishing_mortality_prior_spawn)
+
+
     }
 
 
@@ -120,29 +168,7 @@ mortality_fraction_prior_spawn <- R6Class(
       #setup
       private$set_projection_years(proj_years_vector)
       #validate time_varying field
-      private$set_time_varying(time_varying)
-
-      #zfrac_default: defaults
-      if(private$.time_varying) {
-        default_proportion <-
-          rep(default_proportion/private$.projection_years$count,
-              private$.projection_years$count)
-      }
-
-      private$.natural_mortality_prior_spawn <-
-        private$set_fraction_mortality_matrix(default_proportion,
-                                              private$.time_varying,
-                                              "natural_mortality_prior_spawn")
-
-      private$.fishing_mortality_prior_spawn <-
-        private$set_fraction_mortality_matrix(default_proportion,
-                                              private$.time_varying,
-                                              "fishing_mortality_prior_spawn")
-
-      private$.proportion_total_mortality_matrix <-
-        rbind(private$.natural_mortality_prior_spawn,
-              private$.fishing_mortality_prior_spawn)
-
+      private$set_time_varying(time_varying, default_proportion)
 
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting up Default Values")
@@ -249,10 +275,10 @@ mortality_fraction_prior_spawn <- R6Class(
     #' [Logical][base::logical] flag to list fishing and natural mortality per
     #' observation year if TRUE or representative of the
     time_varying = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)) {
+        return(private$.time_varying)
       }
-      private$.time_varying
+      private$set_time_varying(value)
     },
 
     #' @field proportion_total_mortality_matrix
