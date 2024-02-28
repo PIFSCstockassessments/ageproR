@@ -1042,6 +1042,7 @@ agepro_inp_model <- R6Class(
             },
             self$natmort$inplines_process_error(delimiter),
             self$maturity$inplines_process_error(delimiter),
+            self$biological$get_inp_lines(delimiter),
             self$fishery$inplines_process_error(delimiter),
             if(as.logical(self$general$discards_present)){
               self$discard$inplines_process_error(delimiter)

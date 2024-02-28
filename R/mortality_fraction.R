@@ -263,6 +263,23 @@ mortality_fraction_prior_spawn <- R6Class(
               private$.fishing_mortality_prior_spawn)
 
       return(nline)
+
+    },
+
+    #' @description
+    #' Returns values from the mortality_fraction_prior_spawn (BIOLOGICAL)
+    #' AGEPRO keyword parameter formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " "){
+      return(c(
+        self$inp_keyword,
+        self$time_varying,
+        # Format matrix to lines of text
+        paste(apply(self$proportion_total_mortality_matrix, 1, paste,
+                    collapse = delimiter), collapse = "\n")
+      ))
     }
 
 

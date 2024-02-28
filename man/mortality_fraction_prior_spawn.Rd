@@ -27,6 +27,7 @@ observation year if TRUE or representative of the}
 \item \href{#method-mortality_fraction_prior_spawn-new}{\code{mortality_fraction_prior_spawn$new()}}
 \item \href{#method-mortality_fraction_prior_spawn-print}{\code{mortality_fraction_prior_spawn$print()}}
 \item \href{#method-mortality_fraction_prior_spawn-read_inp_lines}{\code{mortality_fraction_prior_spawn$read_inp_lines()}}
+\item \href{#method-mortality_fraction_prior_spawn-get_inp_lines}{\code{mortality_fraction_prior_spawn$get_inp_lines()}}
 \item \href{#method-mortality_fraction_prior_spawn-clone}{\code{mortality_fraction_prior_spawn$clone()}}
 }
 }
@@ -112,6 +113,24 @@ the AGEPRO input file is open.}
 
 \item{\code{proj_years_vector}}{Input can be Sequence of years in from first to last year of
 projection or the number of years in the time projection.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mortality_fraction_prior_spawn-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-mortality_fraction_prior_spawn-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns values from the mortality_fraction_prior_spawn (BIOLOGICAL)
+AGEPRO keyword parameter formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mortality_fraction_prior_spawn$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
