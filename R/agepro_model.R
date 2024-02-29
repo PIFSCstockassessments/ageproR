@@ -1140,6 +1140,7 @@ agepro_json_model <- R6Class(
              "bootstrap" = self$bootstrap$json_bootstrap,
              "natmort" = self$natmort$json_list_process_error,
              "maturity" = self$maturity$json_list_process_error,
+             "biological" = self$biological$json_list_object,
              "fishery" = self$fishery$json_list_process_error,
              "discard" =
                ifelse(!is.null(self$discard),
@@ -1218,6 +1219,7 @@ agepro_json_model <- R6Class(
                                       "bootstrap",
                                       "natmort",
                                       "maturity",
+                                      "biological",
                                       "fishery",
                                       "discard",
                                       "stock_weight",
@@ -1245,6 +1247,7 @@ agepro_json_model <- R6Class(
       self$bootstrap <- inp_model$bootstrap
       self$natmort <- inp_model$natmort
       self$maturity <- inp_model$maturity
+      self$biological <- inp_model$biological
       self$fishery <- inp_model$fishery
       self$stock_weight <- inp_model$stock_weight
       self$ssb_weight <- inp_model$ssb_weight

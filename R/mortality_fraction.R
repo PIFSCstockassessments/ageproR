@@ -323,6 +323,18 @@ mortality_fraction_prior_spawn <- R6Class(
       private$.proportion_total_mortality_matrix <- value
     },
 
+    #' @field json_list_object
+    #' Returns JSON list object of values from the
+    #' mortality_fraction_prior_spawn class
+    json_list_object = function() {
+
+      return(list(
+        zfrac_time_flag = private$.time_varying,
+        tf = as.vector(private$.fishing_mortality_prior_spawn),
+        tm = as.vector(private$.natural_mortality_prior_spawn)
+      ))
+    },
+
     #' @field keyword_name
     #' AGEPRO keyword parameter name
     keyword_name = function() {
