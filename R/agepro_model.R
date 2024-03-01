@@ -230,7 +230,13 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    set_recruit_model = function(model_num) {
+    #' @template elipses
+    #'
+    set_recruit_model = function(...) {
+
+      model_num <- list(...)
+      model_num |> purrr::walk(\(model_num) checkmate::assert_choice(
+        model_num, choices = self$recruit$valid_recruit_models))
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")

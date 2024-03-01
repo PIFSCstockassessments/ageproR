@@ -170,14 +170,13 @@ the vector length of \code{model_num} doesn't match current AGEPRO
 \link[=general_params]{general parameter's} \code{num_rec_models}
 value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
