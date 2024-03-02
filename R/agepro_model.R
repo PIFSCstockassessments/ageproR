@@ -50,7 +50,6 @@ agepro_model <- R6Class(
     .discards_present = NULL,
     .projection_analyses_type = NULL
 
-
   ),
   public = list(
 
@@ -234,9 +233,16 @@ agepro_model <- R6Class(
     #'
     set_recruit_model = function(...) {
 
-      model_num <- list(...)
-      model_num |> purrr::walk(\(model_num) checkmate::assert_choice(
+      validation_error <- checkmate::makeAssertCollection()
+      assert_model_num_vector_args(list(...), add = validation_error,
+                                   .var.name = "model_num")
+
+      model_num <- unlist(list(...))
+
+      model_num |>
+        purrr::walk(\(model_num) checkmate::assert_choice(
         model_num, choices = self$recruit$valid_recruit_models))
+      checkmate::reportAssertions(validation_error)
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
@@ -246,7 +252,6 @@ agepro_model <- R6Class(
                       seq_years = self$general$seq_years,
                       num_recruit_models = self$general$num_rec_models)
 
-      self$recruit$print()
 
 
     },
