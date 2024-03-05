@@ -237,7 +237,8 @@ agepro_model <- R6Class(
       assert_model_num_vector_args(list(...), add = validation_error,
                                    .var.name = "model_num")
 
-      model_num <- unlist(list(...))
+      #Combines lists elements as a vector
+      model_num <- purrr::list_c(list(...))
 
       assert_model_num_vector_count(model_num, self$general$num_rec_models,
                                     add = validation_error)
