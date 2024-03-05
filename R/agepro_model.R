@@ -242,10 +242,14 @@ agepro_model <- R6Class(
 
       assert_model_num_vector_count(model_num, self$general$num_rec_models,
                                     add = validation_error)
-      model_num |>
-        purrr::walk(\(model_num) checkmate::assert_choice(
-        model_num, choices = self$recruit$valid_recruit_models,
-        add = validation_error))
+
+
+      sapply(model_num, function(.X) {
+        checkmate::assert_choice(.X,
+                                 choices = self$recruit$valid_recruit_models,
+                                 add = validation_error,
+                                 .var.name = deparse(.X))
+      })
 
       checkmate::reportAssertions(validation_error)
 
