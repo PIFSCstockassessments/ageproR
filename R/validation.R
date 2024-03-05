@@ -11,12 +11,12 @@
 #' If the input value is passed as a list of multiple arguments,
 #' this function will "throw" a message of the issue and possible resolution.
 #'
-#' [ageproR::assert_model_num_vector_args] wraps
-#' [ageproR::check_model_num_vector_args] as a custom checkmate assertion via [checkmate::makeAssertion]
+#' [ageproR::assert_model_num_vector_format] wraps
+#' [ageproR::check_model_num_vector_format] as a custom checkmate assertion via [checkmate::makeAssertion]
 #'
 #' @param x object to check
 #'
-check_model_num_vector_args <- function(x) {
+check_model_num_vector_format <- function(x) {
 
   # Catch "Empty" argument
   if(isTRUE(all.equal(length(x), 0))){
@@ -34,14 +34,14 @@ check_model_num_vector_args <- function(x) {
 }
 
 
-#' @rdname check_model_num_vector_args
+#' @rdname check_model_num_vector_format
 #'
 #' @template assert
-assert_model_num_vector_args <- function(x,
+assert_model_num_vector_format <- function(x,
                                       .var.name = checkmate::vname(x),
                                       add = NULL) {
 
-  res = check_model_num_vector_args(x)
+  res = check_model_num_vector_format(x)
   checkmate::makeAssertion(x, res, .var.name, add)
 
 }
@@ -57,11 +57,11 @@ assert_model_num_vector_args <- function(x,
 #' Object to check
 #'
 #' @param num_recruit_models
-#' Number of recruitment models AGEPRO model was intialized with#'
+#' Number of recruitment models AGEPRO model at initialization
 #'
 check_model_num_vector_count <- function(x, num_recruit_models){
 
-  #Throw Error if vector length doesn't match num_recruit models
+  #Throw Error if vector length doesn't match num_recruit_models
   if(!isTRUE(all.equal(length(x), num_recruit_models))){
     return(paste0("Recruitment Model vector (model_num) object count ",
                 "does not match number of recruits. ",

@@ -17,7 +17,7 @@ assert_model_num_vector_count(
 \arguments{
 \item{x}{Object to check}
 
-\item{num_recruit_models}{Number of recruitment models AGEPRO model was intialized with#'}
+\item{num_recruit_models}{Number of recruitment models AGEPRO model at initialization}
 
 \item{.var.name}{\code{character(1)}\cr
 Name of the checked object to print in assertions. Defaults to

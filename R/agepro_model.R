@@ -234,7 +234,7 @@ agepro_model <- R6Class(
     set_recruit_model = function(...) {
 
       validation_error <- checkmate::makeAssertCollection()
-      assert_model_num_vector_args(list(...), add = validation_error,
+      assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
       #Combines lists elements as a vector
