@@ -45,3 +45,42 @@ assert_model_num_vector_args <- function(x,
   checkmate::makeAssertion(x, res, .var.name, add)
 
 }
+
+
+#' Recruitment model number vector count validation
+#'
+#' @description
+#' Checks if input model number matches the number of recruitment models of
+#' the model.
+#'
+#' @param x
+#' Object to check
+#'
+#' @param num_recruit_models
+#' Number of recruitment models AGEPRO model was intialized with#'
+#'
+check_model_num_vector_count <- function(x, num_recruit_models){
+
+  #Throw Error if vector length doesn't match num_recruit models
+  if(!isTRUE(all.equal(length(x), num_recruit_models))){
+    return(paste0("Recruitment Model vector (model_num) object count ",
+                "does not match number of recruits. ",
+                "(count: ", length(x), ", number of recruits: ",
+                num_recruit_models, ")"))
+  }
+
+  return(TRUE)
+
+}
+
+#' @rdname check_model_num_vector_count
+#'
+#' @template assert
+#'
+assert_model_num_vector_count <- function(x, num_recruit_models,
+                                          .var.name = checkmate::vname(x),
+                                          add = NULL) {
+
+  res = check_model_num_vector_count(x, num_recruit_models)
+  checkmate::makeAssertion(x, res, .var.name, add)
+}
