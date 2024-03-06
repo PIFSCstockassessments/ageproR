@@ -237,19 +237,30 @@ agepro_model <- R6Class(
       assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
-      #Combines lists elements as a vector
-      model_num <- purrr::list_c(list(...))
 
-      assert_model_num_vector_count(model_num, self$general$num_rec_models,
-                                    add = validation_error)
+      list_is_numeric <- checkmate::check_list(list(...), types = "numeric")
+      if(isTRUE(list_is_numeric)) {
+
+        #Combines lists elements as a vector
+        model_num <- purrr::list_c(list(...))
+
+        assert_model_num_vector_count(model_num, self$general$num_rec_models,
+                                      add = validation_error)
 
 
-      sapply(model_num, function(.X) {
-        checkmate::assert_choice(.X,
-                                 choices = self$recruit$valid_recruit_models,
-                                 add = validation_error,
-                                 .var.name = deparse(.X))
-      })
+        sapply(model_num, function(.X) {
+          checkmate::assert_choice(.X,
+                                   choices = self$recruit$valid_recruit_models,
+                                   add = validation_error,
+                                   .var.name = deparse(.X))
+        })
+      } else{
+        #Throw the error message to the validation_error assertion
+        validation_error$push(list_is_numeric)
+        sapply(list(...),function(.X){
+          checkmate::assert_numeric(.X, .var.name=deparse(.X),
+                                    add = validation_error )})
+      }
 
       checkmate::reportAssertions(validation_error)
 
