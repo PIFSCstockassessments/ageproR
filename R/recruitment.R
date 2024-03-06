@@ -638,7 +638,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Returns AGEPRO input-file formatted Parameter
     inp_keyword = function() {
       paste0("[",toupper(private$.keyword_name),"]")
+    },
+
+    #' @field valid_recruit_models
+    #' Returns vector of valid Recruitment Model Numbers
+    valid_recruit_models = function() {
+      return(private$.valid_recruit_model_num)
     }
+
 
   )
 

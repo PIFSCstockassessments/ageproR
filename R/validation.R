@@ -1,0 +1,86 @@
+
+
+#' Recruitment Model Number Parameter validation
+#'
+#' @description
+#' Custom validation to check
+#' \href{../../ageproR/html/agepro_model.html#method-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
+#' arguments to see if multiple recruit numbers is passed as a single vector
+#' or seen as a list of multiple arguments.
+#'
+#' If the input value is passed as a list of multiple arguments,
+#' this function will "throw" a message of the issue and possible resolution.
+#'
+#' [ageproR::assert_model_num_vector_format] wraps
+#' [ageproR::check_model_num_vector_format] as a custom checkmate assertion via [checkmate::makeAssertion]
+#'
+#' @param x object to check
+#'
+check_model_num_vector_format <- function(x) {
+
+  # Catch "Empty" argument
+  if(isTRUE(all.equal(length(x), 0))){
+    return(paste0("No recruitment model numbers passed"))
+  }
+
+  # Catch Multiple parameters and return validation message
+  if(!isTRUE(all.equal(length(x),1))){
+    return(paste0("Multiple parameters detected, ",
+                  "please pass multiple recruitment models as a single vector"))
+  }
+
+  return(TRUE)
+
+}
+
+
+#' @rdname check_model_num_vector_format
+#'
+#' @template assert
+assert_model_num_vector_format <- function(x,
+                                      .var.name = checkmate::vname(x),
+                                      add = NULL) {
+
+  res = check_model_num_vector_format(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+
+}
+
+
+#' Recruitment model number vector count validation
+#'
+#' @description
+#' Checks if input model number matches the number of recruitment models of
+#' the model.
+#'
+#' @param x
+#' Object to check
+#'
+#' @param num_recruit_models
+#' Number of recruitment models AGEPRO model at initialization
+#'
+check_model_num_vector_count <- function(x, num_recruit_models){
+
+  #Throw Error if vector length doesn't match num_recruit_models
+  if(!isTRUE(all.equal(length(x), num_recruit_models))){
+    return(paste0("Recruitment Model vector (model_num) object count ",
+                "does not match number of recruits. ",
+                "(count: ", length(x), ", number of recruits: ",
+                num_recruit_models, ")"))
+  }
+
+  return(TRUE)
+
+}
+
+#' @rdname check_model_num_vector_count
+#'
+#' @template assert
+#'
+assert_model_num_vector_count <- function(x, num_recruit_models,
+                                          .var.name = checkmate::vname(x),
+                                          add = NULL) {
+
+  res = check_model_num_vector_count(x, num_recruit_models)
+  checkmate::makeAssertion(x, res, .var.name, add)
+}

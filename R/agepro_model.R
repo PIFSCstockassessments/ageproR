@@ -50,7 +50,6 @@ agepro_model <- R6Class(
     .discards_present = NULL,
     .projection_analyses_type = NULL
 
-
   ),
   public = list(
 
@@ -230,7 +229,40 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    set_recruit_model = function(model_num) {
+    #' @template elipses
+    #'
+    set_recruit_model = function(...) {
+
+      validation_error <- checkmate::makeAssertCollection()
+      assert_model_num_vector_format(list(...), add = validation_error,
+                                   .var.name = "model_num")
+
+
+      list_is_numeric <- checkmate::check_list(list(...), types = "numeric")
+      if(isTRUE(list_is_numeric)) {
+
+        #Combines lists elements as a vector
+        model_num <- purrr::list_c(list(...))
+
+        assert_model_num_vector_count(model_num, self$general$num_rec_models,
+                                      add = validation_error)
+
+
+        sapply(model_num, function(.X) {
+          checkmate::assert_choice(.X,
+                                   choices = self$recruit$valid_recruit_models,
+                                   add = validation_error,
+                                   .var.name = deparse(.X))
+        })
+      } else{
+        #Throw the error message to the validation_error assertion
+        validation_error$push(list_is_numeric)
+        sapply(list(...),function(.X){
+          checkmate::assert_numeric(.X, .var.name=deparse(.X),
+                                    add = validation_error )})
+      }
+
+      checkmate::reportAssertions(validation_error)
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
@@ -240,7 +272,6 @@ agepro_model <- R6Class(
                       seq_years = self$general$seq_years,
                       num_recruit_models = self$general$num_rec_models)
 
-      self$recruit$print()
 
 
     },
