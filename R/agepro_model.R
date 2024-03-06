@@ -237,6 +237,7 @@ agepro_model <- R6Class(
       assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
+      # TODO: Check for Multiple Recruitment Model number "1"
 
       list_is_numeric <- checkmate::check_list(list(...), types = "numeric")
       if(isTRUE(list_is_numeric)) {
