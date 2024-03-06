@@ -15,6 +15,12 @@ observation year if TRUE or representative of the}
 
 \item{\code{proportion_total_mortality_matrix}}{Proportion of total mortality occurring prior to spawning}
 
+\item{\code{natural_mortality_prior_spawn}}{Returns the proportions of Natural mortality (TM) that occurs from
+January 1st to Spawning Season.}
+
+\item{\code{fishing_mortality_prior_spawn}}{Returns within-year fractions of fishing mortality (TF) that occurs from
+January 1st to Spawning Season.}
+
 \item{\code{json_list_object}}{Returns JSON list object of values from the
 mortality_fraction_prior_spawn class}
 

@@ -321,6 +321,44 @@ mortality_fraction_prior_spawn <- R6Class(
 
 
       private$.proportion_total_mortality_matrix <- value
+
+      #Set matrix values to fishing and natural mortality proportions
+      private$.natural_mortality_prior_spawn <-
+        private$.proportion_total_mortality_matrix["natural_mortality_prior_spawn",]
+
+      private$.fishing_mortality_prior_spawn <-
+        private$.proportion_total_mortality_matrix["fishing_mortality_prior_spawn",]
+
+    },
+
+    #' @field natural_mortality_prior_spawn
+    #' Returns the proportions of Natural mortality (TM) that occurs from
+    #' January 1st to Spawning Season.
+    #'
+    natural_mortality_prior_spawn = function(value) {
+      if(isFALSE(missing(value))){
+        stop(paste0("Active binding is read only. \n",
+                    "Please use proportion_total_mortality_matrix \n",
+                    "to set proportions for natural and fishing mortality ",
+                    "prior to spawn."),
+             call. = FALSE)
+      }
+      return(private$.natural_mortality_prior_spawn)
+    },
+
+    #' @field fishing_mortality_prior_spawn
+    #' Returns within-year fractions of fishing mortality (TF) that occurs from
+    #' January 1st to Spawning Season.
+    #'
+    fishing_mortality_prior_spawn = function(value) {
+      if(isFALSE(missing(value))){
+        stop(paste0("Active binding is read only. \n",
+                    "Please use proportion_total_mortality_matrix ",
+                    "to set proportions for natural and fishing mortality ",
+                    "prior to spawn."),
+             call. = FALSE)
+      }
+      return(private$.fishing_mortality_prior_spawn)
     },
 
     #' @field json_list_object
