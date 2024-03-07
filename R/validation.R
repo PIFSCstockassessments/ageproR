@@ -86,6 +86,37 @@ assert_model_num_vector_count <- function(x, num_recruit_models,
 }
 
 
+#' Projection year sequence vector validation
+#'
+#' @description
+#' Custom validation to check projection_years sequence vector is
+#' properly incremented by 1, Can be Wrapped as a custom checkmate assertion.
+#'
+#' @param x
+#' Object to check
+#'
+check_proj_years_sequence <- function(x) {
+  if(isFALSE(all(diff(x) %in% 1))) {
+    paste0("Invalid projection_years Sequence: ",
+           "Sequence does not increment by 1 or ",
+           "not a valid interaction (no colon) of two numeric ",
+           "elements.")
+  }else {
+    TRUE
+  }
+}
+
+#' @rdname check_proj_years_sequence
+#'
+#' @template assert
+#'
+assert_proj_years_sequence = function(x, .var.name = checkmate::vname(x),
+                                   add = NULL) {
+  res = check_proj_years_sequence(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+}
+
+
 #' @title
 #' Custom mapping function for error handing
 #'
