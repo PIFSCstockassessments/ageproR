@@ -76,7 +76,7 @@ create_blank_parameter_table = function(num_rows, num_cols,
 #' Validates the usage of the 'projection years' parameter.
 #'
 #' @description
-#' #' If `proj_years` parameter is a
+#' If `proj_years` parameter is a
 #' [projection_years class][ageproR::projection_years], then it will return
 #' that value. Otherwise, it will create a new `projection_years` class based
 #' on the param value passed.
@@ -84,7 +84,7 @@ create_blank_parameter_table = function(num_rows, num_cols,
 #' @param proj_years Projection year parameter. May be a numeric vector or a
 #' [`projection_years`][ageproR::projection_years]
 #'
-check_proj_years_parameter <- function (proj_years) {
+validate_proj_years_parameter <- function (proj_years) {
 
   #Validate parameters
   if (checkmate::test_r6(proj_years, public = c("count","sequence") )) {
