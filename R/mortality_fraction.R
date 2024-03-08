@@ -55,11 +55,11 @@ mortality_fraction_prior_spawn <- R6Class(
 
       if(field_changed){
 
-        cli::cli_alert_info(c("{.val time_varying} is set as ",
+        cli::cli_alert(c("{.val time_varying} is set as ",
                         "{.val {private$.time_varying}} ",
                         "{.emph ({as.logical(private$.time_varying)})}"))
         private$set_default_fraction_mortality_matrix(...)
-        cli::cli_text("New {.val proportion_total_mortality_matrix} created")
+        cli::cli_alert("New {.val proportion_total_mortality_matrix} created")
 
       }
 
@@ -162,13 +162,14 @@ mortality_fraction_prior_spawn <- R6Class(
                           default_proportion = 0.5,
                           enable_cat_print = TRUE) {
 
+      div_keyword_header(private$.keyword_name)
+      cli_alert(paste0("Setting up values for total proportion of mortality ",
+                       "prior to spawn ..."))
       #setup
       private$set_projection_years(proj_years_vector)
       #validate time_varying field
       private$set_time_varying(time_varying, default_proportion)
 
-      div_keyword_header(private$.keyword_name)
-      cli_alert("Setting up Default Values")
       self$print(enable_cat_print)
 
     },
@@ -183,8 +184,7 @@ mortality_fraction_prior_spawn <- R6Class(
       # Format container for blue emph text
       cli::cli_par()
       d <- cli::cli_div(theme = list(span.emph = list(color = "blue")))
-      cli::cli_text(c("{symbol$bullet} ",
-                      "time_varying: {.val {private$.time_varying}} ",
+      cli::cli_alert_info(c("time_varying: {.val {private$.time_varying}} ",
                       "{.emph ({as.logical(private$.time_varying)})}"))
       cli::cli_end(d)
 
