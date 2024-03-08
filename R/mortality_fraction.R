@@ -181,12 +181,9 @@ mortality_fraction_prior_spawn <- R6Class(
     #'
     print = function(enable_cat_print = TRUE){
 
-      # Format container for blue emph text
       cli::cli_par()
-      d <- cli::cli_div(theme = list(span.emph = list(color = "blue")))
       cli::cli_alert_info(c("time_varying: {.val {private$.time_varying}} ",
                       "{.emph ({as.logical(private$.time_varying)})}"))
-      cli::cli_end(d)
 
       if(enable_cat_print){
         cli::cli_alert_info(paste0("proportion_total_mortality_matrix ",
