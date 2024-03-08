@@ -368,8 +368,8 @@ mortality_fraction_prior_spawn <- R6Class(
 
       return(list(
         zfrac_time_flag = private$.time_varying,
-        tf = as.vector(private$.fishing_mortality_prior_spawn),
-        tm = as.vector(private$.natural_mortality_prior_spawn)
+        fishing_mortality_prior_spawn = as.vector(private$.fishing_mortality_prior_spawn),
+        natural_mortality_prior_spawn = as.vector(private$.natural_mortality_prior_spawn)
       ))
     },
 
