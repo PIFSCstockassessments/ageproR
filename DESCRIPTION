@@ -1,17 +1,19 @@
 Package: ageproR
 Type: Package
-Title: Age Structured Projection Model (AGEPRO) data structure
-Version: 0.5.1
+Title: R package interface for AGEPRO (Age Structured Projection Model) data 
+Version: 0.6.0
 Authors@R: c( 
   person("Eric", "Fletcher", email = "eric.fletcher@noaa.gov", 
     role = c("aut", "cre")),
   person("Jon", "Brodziak", role = "aut")
   )
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Eric Fletcher <eric.fletcher@noaa.gov>
 Description: Object-oriented data structures based on the input file format 
-    defined by the Age Structured Projection Model Reference Manual. Includes 
-    support modules for AGEPRO input file support and interactivity with
-    AGEPRO calculation engine.
+    defined in the Age Structured Projection Model Reference Manual, by Jon 
+    Brodziak. Includes support modules for AGEPRO input file support, and 
+    experimental JSON input file format.
+URL: https://github.com/PIFSCstockassessments/ageproR
+BugReports: https://github.com/PIFSCstockassessments/ageproR/issues
 Imports:
   jsonlite,
   here,

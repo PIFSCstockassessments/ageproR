@@ -10,6 +10,7 @@
 - Fixed multi recruitment model number support for agepro_model `set_recruit_model` (#49)
   - Included multiple assertions (from checkmate) to check `set_recruit_model` argument is a numeric vector that matches a list of valid AGEPRO recruitment model numbers.
   - Added custom checkmate assertion wrapper to check `set_recruit_model` argument is empty or has multiple arguments.
+- Update DESCRIPTION
 
 # ageproR 0.5.1 2024-01-31
 

@@ -4,9 +4,17 @@
 \name{ageproR-package}
 \alias{ageproR}
 \alias{ageproR-package}
-\title{ageproR: Age Structured Projection Model (AGEPRO) data structure}
+\title{ageproR: R package interface for AGEPRO (Age Structured Projection Model) data}
 \description{
-Object-oriented data structures based on the input file format defined by the Age Structured Projection Model Reference Manual. Includes support modules for AGEPRO input file support and interactivity with AGEPRO calculation engine.
+Object-oriented data structures based on the input file format defined in the Age Structured Projection Model Reference Manual, by Jon Brodziak. Includes support modules for AGEPRO input file support, and experimental JSON input file format.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/PIFSCstockassessments/ageproR}
+  \item Report bugs at \url{https://github.com/PIFSCstockassessments/ageproR/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Eric Fletcher \email{eric.fletcher@noaa.gov}
