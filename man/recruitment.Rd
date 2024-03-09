@@ -34,6 +34,8 @@ model collection list. Use this field to access a specific recruitment models fi
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
+
+\item{\code{valid_recruit_models}}{Returns vector of valid Recruitment Model Numbers}
 }
 \if{html}{\out{</div>}}
 }

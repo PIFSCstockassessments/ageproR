@@ -48,7 +48,7 @@ projection_analyses <- R6Class(
 
       # Handle `proj_years` that may be a single int or vector of sequential
       # values or an instance of ageproR::projection_years
-      private$.projection_years <- check_proj_years_parameter(proj_years)
+      private$.projection_years <- validate_proj_years_parameter(proj_years)
 
       if(is.null(target_year)){
         # Set default target_year to last projection year

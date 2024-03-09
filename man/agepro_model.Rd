@@ -11,6 +11,13 @@ of fleets, recruitment, and uncertainties
 AGEPRO performs stochastic projections on exploited fisheries stock to
 determine age-structured population over a time period. Brodziak, 2022
 }
+\examples{
+\dontrun{
+# General parameters for 2019-2026 Uku Projections Base (Example 4)
+test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
+}
+
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -56,6 +63,9 @@ probability of overfishing in the target year.}
 
 \item{\code{rebuild}}{calculation of the constant total Fishing Mortality \eqn{F}
 calculated across all fleets with the rebuild spawning biomass.}
+
+\item{\code{biological}}{Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
+mortality (\eqn{M})}
 }
 \if{html}{\out{</div>}}
 }
@@ -160,14 +170,13 @@ the vector length of \code{model_num} doesn't match current AGEPRO
 \link[=general_params]{general parameter's} \code{num_rec_models}
 value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

@@ -14,6 +14,13 @@
 #' @export
 #' @importFrom R6 R6Class
 #' @importFrom checkmate test_logical assert_number assert_file_exists
+#'
+#' @examples
+#' \dontrun{
+#' # General parameters for 2019-2026 Uku Projections Base (Example 4)
+#' test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
+#' }
+#'
 agepro_model <- R6Class(
   classname = "agepro_model",
   private = list(
@@ -38,10 +45,10 @@ agepro_model <- R6Class(
     .harvest_scenario = NULL,
     .pstar_projection = NULL,
     .rebuild_projection = NULL,
+    .mortality_fraction_prior_spawn = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
-
 
   ),
   public = list(
@@ -193,6 +200,11 @@ agepro_model <- R6Class(
                              x$num_fleets,
                              enable_cat_print = enable_cat_print)
 
+      self$biological <-
+        mortality_fraction_prior_spawn$new(x$seq_years,
+                                           enable_cat_print = enable_cat_print)
+
+
       if(self$projection_analyses_type == "pstar") {
         self$pstar <-
           pstar_projection$new(x$seq_years,
@@ -217,7 +229,41 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    set_recruit_model = function(model_num) {
+    #' @template elipses
+    #'
+    set_recruit_model = function(...) {
+
+      validation_error <- checkmate::makeAssertCollection()
+      assert_model_num_vector_format(list(...), add = validation_error,
+                                   .var.name = "model_num")
+
+      # TODO: Check for Multiple Recruitment Model number "1"
+
+      list_is_numeric <- checkmate::check_list(list(...), types = "numeric")
+      if(isTRUE(list_is_numeric)) {
+
+        #Combines lists elements as a vector
+        model_num <- purrr::list_c(list(...))
+
+        assert_model_num_vector_count(model_num, self$general$num_rec_models,
+                                      add = validation_error)
+
+
+        sapply(model_num, function(.X) {
+          checkmate::assert_choice(.X,
+                                   choices = self$recruit$valid_recruit_models,
+                                   add = validation_error,
+                                   .var.name = deparse(.X))
+        })
+      } else{
+        #Throw the error message to the validation_error assertion
+        validation_error$push(list_is_numeric)
+        sapply(list(...),function(.X){
+          checkmate::assert_numeric(.X, .var.name=deparse(.X),
+                                    add = validation_error )})
+      }
+
+      checkmate::reportAssertions(validation_error)
 
       div_keyword_header(self$recruit$keyword_name)
       cli_alert("Recruitment Data Setup")
@@ -227,7 +273,6 @@ agepro_model <- R6Class(
                       seq_years = self$general$seq_years,
                       num_recruit_models = self$general$num_rec_models)
 
-      self$recruit$print()
 
 
     },
@@ -548,6 +593,24 @@ agepro_model <- R6Class(
 
       }
 
+    },
+
+
+    #' @field biological
+    #' Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
+    #' mortality (\eqn{M})
+    #'
+    biological = function(value) {
+      if(missing(value)) {
+        return(private$.mortality_fraction_prior_spawn)
+      }else{
+        checkmate::check_r6(value,
+                            public = c("time_varying",
+                                       "proportion_total_mortality"))
+
+        private$.mortality_fraction_prior_spawn <- value
+      }
+
     }
 
 
@@ -617,6 +680,12 @@ agepro_inp_model <- R6Class(
                                                  nline,
                                                  self$general$seq_years,
                                                  self$general$num_ages)
+    },
+
+    read_mortality_fraction_prior_spawn = function(con, nline){
+      self$nline <- self$biological$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years)
     },
 
     read_fishery_selectivity = function(con, nline) {
@@ -858,8 +927,8 @@ agepro_inp_model <- R6Class(
 
       # TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
       # ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
-      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, BIOLOGICAL,
-      # ~~BOOTSTRAP~~, ~~HARVEST~~, REBUILD, PSTAR
+      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, ~~BIOLOGICAL~~,
+      # ~~BOOTSTRAP~~, ~~HARVEST~~, ~~REBUILD~~, ~~PSTAR~~
 
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
@@ -880,6 +949,10 @@ agepro_inp_model <- R6Class(
         },
         "[MATURITY]" = {
           rlang::expr(private$read_maturity_fraction(inp_con, self$nline))
+        },
+        "[BIOLOGICAL]" = {
+          rlang::expr(
+            private$read_mortality_fraction_prior_spawn(inp_con, self$nline))
         },
         "[FISHERY]" = {
           rlang::expr(private$read_fishery_selectivity(inp_con, self$nline))
@@ -1001,6 +1074,7 @@ agepro_inp_model <- R6Class(
             },
             self$natmort$inplines_process_error(delimiter),
             self$maturity$inplines_process_error(delimiter),
+            self$biological$get_inp_lines(delimiter),
             self$fishery$inplines_process_error(delimiter),
             if(as.logical(self$general$discards_present)){
               self$discard$inplines_process_error(delimiter)
@@ -1098,6 +1172,7 @@ agepro_json_model <- R6Class(
              "bootstrap" = self$bootstrap$json_bootstrap,
              "natmort" = self$natmort$json_list_process_error,
              "maturity" = self$maturity$json_list_process_error,
+             "biological" = self$biological$json_list_object,
              "fishery" = self$fishery$json_list_process_error,
              "discard" =
                ifelse(!is.null(self$discard),
@@ -1176,6 +1251,7 @@ agepro_json_model <- R6Class(
                                       "bootstrap",
                                       "natmort",
                                       "maturity",
+                                      "biological",
                                       "fishery",
                                       "discard",
                                       "stock_weight",
@@ -1203,6 +1279,7 @@ agepro_json_model <- R6Class(
       self$bootstrap <- inp_model$bootstrap
       self$natmort <- inp_model$natmort
       self$maturity <- inp_model$maturity
+      self$biological <- inp_model$biological
       self$fishery <- inp_model$fishery
       self$stock_weight <- inp_model$stock_weight
       self$ssb_weight <- inp_model$ssb_weight

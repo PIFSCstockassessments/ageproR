@@ -16,6 +16,7 @@ projection_years <- R6Class(
 
     .count = NULL,
     .sequence = NULL
+
   ),
   public = list(
 
@@ -72,12 +73,13 @@ projection_years <- R6Class(
       if(missing(value)){
         private$.sequence
       } else {
+        # Validate input
+        validation_error <- checkmate::makeAssertCollection()
         checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
-                                  .var.name = "projection_years sequence")
-        if(all(diff(value) != 1)){
-          stop(paste0("Invalid projection_years Sequence: ",
-                      "Sequence does not increment by 1"), call. = FALSE)
-        }
+                                  add = validation_error)
+        assert_proj_years_sequence(value, add = validation_error)
+        checkmate::reportAssertions(validation_error)
+
         private$.sequence <- value
       }
     }
