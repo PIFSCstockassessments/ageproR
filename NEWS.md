@@ -1,3 +1,16 @@
+# ageproR 0.6.0 2024-03-11
+
+- Added `mortality_fraction_prior_spawn`
+  - Data can be imported/exported to AGEPRO Input File/Experimental JSON Input File
+  - added `BIOLOGICAL` data to toy Example Agepro Input File
+  - changing `time_varying` creates a new `proportion_total_mortality_matrix` with default values and the number of columns depends on the `time_varying` state. The behavior is similar to AGEPRO-GUI  
+  - Explicitly state *natural_mortality* and *fishing_mortailty* to `proportion_total_mortality_matrix` to avoid ambiguity with gender abbreviations
+- Improved projection_years validation: multiple assertions (from the checkmate package) can be prompted to Rconsole. 
+  - Integrated sequence validation error check wrapped as a custom checkmate assertion. 
+- Fixed multi recruitment model number support for agepro_model `set_recruit_model` (#49)
+  - Included multiple assertions (from checkmate) to check `set_recruit_model` argument is a numeric vector that matches a list of valid AGEPRO recruitment model numbers.
+  - Added custom checkmate assertion wrapper to check `set_recruit_model` argument is empty or has multiple arguments.
+
 # ageproR 0.5.1 2024-01-31
 
 * recruitment 
