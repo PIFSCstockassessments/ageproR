@@ -266,8 +266,8 @@ empirical_recruit <- R6Class(
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
       cli_alert_info("Observations:")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$observations))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$observations, .name_repair = "minimal"))))
       cli_end()
 
 
@@ -337,12 +337,6 @@ empirical_recruit <- R6Class(
       } else {
         self$observations <- cbind(recruit = inp_recruit)
       }
-
-      ##Note: Printing first 10 rows to console
-      #print(as_tibble(self$observations), n = 10)
-
-
-
 
       return(nline)
     },
@@ -594,7 +588,8 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
-      cat_line(capture.output(as_tibble(self$low_recruitment)))
+      cat_line(capture.output(
+        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal")))
 
 
       ## high_recruitment
@@ -605,7 +600,8 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
-      cat_line(capture.output(as_tibble(self$high_recruitment)))
+      cat_line(capture.output(
+        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal")))
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -647,11 +643,11 @@ two_stage_empirical_recruit <- R6Class(
       cli_end(a)
       cli_alert_info("Observations:")
       cli_text("Low recruitment")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$low_recruitment))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
       cli_text("High recruitment")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$high_recruitment))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
       cli_end()
 
 
