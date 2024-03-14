@@ -253,7 +253,7 @@ harvest_scenario <- R6Class(
     #'
     #' @template delimiter
     #'
-    get_inplines = function (delimiter = " ") {
+    get_inp_lines = function (delimiter = " ") {
 
       # Check harvest_specifications and harvest_value is not NULL
       checkmate::assert_vector(self$harvest_specifications,

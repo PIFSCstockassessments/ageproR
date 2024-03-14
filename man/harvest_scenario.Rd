@@ -38,7 +38,7 @@ projection year.}
 \item \href{#method-harvest_scenario-print}{\code{harvest_scenario$print()}}
 \item \href{#method-harvest_scenario-setup_harvest_scenario_variables}{\code{harvest_scenario$setup_harvest_scenario_variables()}}
 \item \href{#method-harvest_scenario-read_inp_lines}{\code{harvest_scenario$read_inp_lines()}}
-\item \href{#method-harvest_scenario-get_inplines}{\code{harvest_scenario$get_inplines()}}
+\item \href{#method-harvest_scenario-get_inp_lines}{\code{harvest_scenario$get_inp_lines()}}
 \item \href{#method-harvest_scenario-clone}{\code{harvest_scenario$clone()}}
 }
 }
@@ -134,13 +134,13 @@ projection or the number of years in the time projection.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-harvest_scenario-get_inplines"></a>}}
-\if{latex}{\out{\hypertarget{method-harvest_scenario-get_inplines}{}}}
-\subsection{Method \code{get_inplines()}}{
+\if{html}{\out{<a id="method-harvest_scenario-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-harvest_scenario-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns Harvest Specification and Harvest Values from the Harvest
 Scenario parameter formatted to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$get_inplines(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{harvest_scenario$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

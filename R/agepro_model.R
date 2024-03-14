@@ -1080,7 +1080,7 @@ agepro_inp_model <- R6Class(
               self$discard$inplines_process_error(delimiter)
             },
             self$recruit$get_inp_lines(delimiter),
-            self$harvest$get_inplines(delimiter),
+            self$harvest$get_inp_lines(delimiter),
             if(self$projection_analyses_type == "pstar"){
               self$pstar$get_inp_lines(delimiter)
             },
