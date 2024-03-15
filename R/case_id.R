@@ -52,7 +52,7 @@ case_id <- R6Class(
     #' Returns the values for the CASEID keyword parameter formatted
     #' to the AGEPRO input file format.description
     #'
-    inplines_case_id = function() {
+    get_inp_lines = function() {
       return(list(
         self$inp_keyword,
         self$model_name

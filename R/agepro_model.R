@@ -1062,7 +1062,7 @@ agepro_inp_model <- R6Class(
         {
           list_inplines <- c(
             self$ver_legacy_string,
-            self$case_id$inplines_case_id(),
+            self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
             self$stock_weight$inplines_process_error(delimiter),
