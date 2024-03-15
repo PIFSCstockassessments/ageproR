@@ -325,9 +325,9 @@ general_params <- R6Class(
       paste0("[",toupper(private$.keyword_name),"]")
     },
 
-    #' @field json_list_general
+    #' @field json_list_object
     #' List of GENERAL keyword fields values, exportable to JSON.
-    json_list_general = function() {
+    json_list_object = function() {
 
       #If discard Flag is numeric check if it is 0 or 1
       if (!test_logical(self$discards_present)) {

@@ -29,7 +29,7 @@ spawning weight of fish in kilograms (kg)}
 \item{\code{recruit_data}}{List containing data for each recruitment model in the recruitment
 model collection list. Use this field to access a specific recruitment models field.}
 
-\item{\code{json_list_recruit}}{List of RECRUIT keyword fields values, exportable to JSON.}
+\item{\code{json_list_object}}{List of RECRUIT keyword fields values, exportable to JSON.}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 

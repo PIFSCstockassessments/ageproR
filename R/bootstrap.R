@@ -203,10 +203,10 @@ bootstrap <- R6Class(
       }
     },
 
-    #' @field json_bootstrap
+    #' @field json_list_object
     #' JSON list object for BOOTSTRAP keyword parameter
     #'
-    json_bootstrap = function() {
+    json_list_object = function() {
       return(list(
         nboot = self$num_bootstraps,
         bootFac = self$pop_scale_factor,

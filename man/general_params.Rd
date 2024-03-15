@@ -43,7 +43,7 @@ projection}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
 
-\item{\code{json_list_general}}{List of GENERAL keyword fields values, exportable to JSON.}
+\item{\code{json_list_object}}{List of GENERAL keyword fields values, exportable to JSON.}
 }
 \if{html}{\out{</div>}}
 }

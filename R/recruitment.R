@@ -603,10 +603,10 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     },
 
 
-    #' @field json_list_recruit
+    #' @field json_list_object
     #' List of RECRUIT keyword fields values, exportable to JSON.
     #'
-    json_list_recruit = function() {
+    json_list_object = function() {
 
       #Gather Recruit Model Data
       recruit_model_data_list <-

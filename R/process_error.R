@@ -583,9 +583,9 @@ process_error <- R6Class(
       paste0("[",toupper(private$.keyword_name),"]")
     },
 
-    #' @field json_list_process_error
+    #' @field json_list_object
     #' Returns JSON list object with Process Error Parameter values
-    json_list_process_error = function(){
+    json_list_object = function(){
 
       if(self$input_option < 0){
         if(!private$.weight_age_parameter){

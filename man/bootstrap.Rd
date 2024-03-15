@@ -21,7 +21,7 @@ absolute numbers at age.}
 
 \item{\code{bootstrap_file}}{Bootstrap file path.}
 
-\item{\code{json_bootstrap}}{JSON list object for BOOTSTRAP keyword parameter}
+\item{\code{json_list_object}}{JSON list object for BOOTSTRAP keyword parameter}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
