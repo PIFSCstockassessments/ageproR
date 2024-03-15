@@ -207,15 +207,20 @@ process_error <- R6Class(
       self$input_option <- input_option
       self$time_varying <- time_varying
 
-      # Handles potential proj_years "Factor" types
-      if(is.factor(proj_years)) {
-        proj_years <- levels(proj_years)
+      # Handle instances where proj_years is passed as projection_years class
+      if (checkmate::test_r6(proj_years, public = c("count","sequence") )) {
+        projection_years_class <- proj_years
+      } else{
+
+        # Uncommon instance when 'proj_years' is passed as a factor
+        if(is.factor(proj_years)) {
+          proj_years <- levels(proj_years)
+        }
+
+        projection_years_class <-
+          ageproR::projection_years$new(as.numeric(proj_years))
       }
 
-      # Handle proj_years that may be a single int or sequential numeric vector
-      # TODO: Handle instances where proj_years is passed as projection_years class
-      projection_years_class <-
-        ageproR::projection_years$new(as.numeric(proj_years))
 
       #Initialize parameter and CV tables
       private$setup_parameter_tables(projection_years_class,
