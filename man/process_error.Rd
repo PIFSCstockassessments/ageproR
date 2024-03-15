@@ -42,7 +42,6 @@ error of the average population or fishery process parameter's at age
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-process_error-new}{\code{process_error$new()}}
-\item \href{#method-process_error-setup_parameter_tables}{\code{process_error$setup_parameter_tables()}}
 \item \href{#method-process_error-create_parameter_table}{\code{process_error$create_parameter_table()}}
 \item \href{#method-process_error-print}{\code{process_error$print()}}
 \item \href{#method-process_error-cli_print_process_error_table}{\code{process_error$cli_print_process_error_table()}}
@@ -91,37 +90,6 @@ to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
 
 \item{\code{...}}{further arguments passed to or from other methods}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-setup_parameter_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-setup_parameter_tables}{}}}
-\subsection{Method \code{setup_parameter_tables()}}{
-Initialize Parameter and CV tables
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$setup_parameter_tables(
-  projection_years,
-  num_ages,
-  num_fleets = 1,
-  time_varying = FALSE
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{projection_years}}{\link[=projection_years]{Projection years}
-value}
-
-\item{\code{num_ages}}{Number of Ages}
-
-\item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
-
-\item{\code{time_varying}}{Logical flag that enables the stochastic parameter
-to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
-vector will cover "all years" of the projection. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }

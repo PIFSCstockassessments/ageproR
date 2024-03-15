@@ -27,7 +27,6 @@ AGEPRO Keyword parameter.
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inp_lines"><a href='../../ageproR/html/process_error.html#method-process_error-read_inp_lines'><code>ageproR::process_error$read_inp_lines()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inplines_cv_table"><a href='../../ageproR/html/process_error.html#method-process_error-read_inplines_cv_table'><code>ageproR::process_error$read_inplines_cv_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="read_inplines_parameter_tables"><a href='../../ageproR/html/process_error.html#method-process_error-read_inplines_parameter_tables'><code>ageproR::process_error$read_inplines_parameter_tables()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="setup_parameter_tables"><a href='../../ageproR/html/process_error.html#method-process_error-setup_parameter_tables'><code>ageproR::process_error$setup_parameter_tables()</code></a></span></li>
 </ul>
 </details>
 }}

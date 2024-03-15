@@ -51,6 +51,63 @@ process_error <- R6Class(
       "-4" = "Use Catch Weights of Age"
     ),
 
+
+    # Initializes Parameter and CV tables
+    setup_parameter_tables = function (projection_years,
+                                       num_ages,
+                                       num_fleets = 1,
+                                       time_varying = FALSE) {
+
+      #Initialize private values
+      private$.projection_years <- projection_years
+      private$.num_ages <- num_ages
+      private$.num_fleets <- num_fleets
+
+      #Validate parameters
+      checkmate::assert_numeric(projection_years$count, lower = 1)
+      checkmate::assert_integerish(num_ages, lower = 1)
+      checkmate::assert_integerish(num_fleets, lower = 1)
+
+      #initialize tables
+      private$.parameter_table <- vector("list", 1)
+      private$.cv_table <- vector("list", 1)
+
+      if(time_varying){
+
+        self$parameter_table <- self$create_parameter_table(
+          (projection_years$count * num_fleets), num_ages)
+
+      }else{
+        #All Years
+        self$parameter_table <-
+          self$create_parameter_table((1 * num_fleets), num_ages)
+      }
+
+      self$cv_table <-
+        self$create_parameter_table((1 * num_fleets), num_ages)
+
+
+      #Rownames: Fleet-Years
+      # Fleet-year rownames for Parameter of Age table
+      rownames(self$parameter_table)  <-
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets,
+                                               time_varying)
+
+      # Fleet-year rownames for CV. Not affected by time varying
+      rownames(self$cv_table) <-
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets)
+
+      #Colnames: Ages
+      colnames_ages <- paste0("Age", seq(num_ages))
+      colnames(self$parameter_table) <- colnames_ages
+      colnames(self$cv_table) <- colnames_ages
+
+    },
+
+
+
     #Rownames: Fleet-Years
     setup_parameter_table_rownames = function (proj_years_sequence,
                                           num_fleets = 1,
@@ -98,7 +155,7 @@ process_error <- R6Class(
 
       if(time_flag != private$.time_varying){
 
-        self$setup_parameter_tables(private$.projection_years,
+        private$setup_parameter_tables(private$.projection_years,
                                       private$.num_ages,
                                       private$.num_fleets,
                                       time_varying = time_flag)
@@ -161,7 +218,7 @@ process_error <- R6Class(
         ageproR::projection_years$new(as.numeric(proj_years))
 
       #Initialize parameter and CV tables
-      self$setup_parameter_tables(projection_years_class,
+      private$setup_parameter_tables(projection_years_class,
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
@@ -173,66 +230,6 @@ process_error <- R6Class(
 
     },
 
-    #' @description
-    #' Initialize Parameter and CV tables
-    #'
-    #' @param projection_years [Projection years][ageproR::projection_years]
-    #' value
-    #' @param num_ages Number of Ages
-    #' @param num_fleets Number of Fleets. Defaults to 1
-    #'
-    setup_parameter_tables = function (projection_years,
-                                        num_ages,
-                                        num_fleets = 1,
-                                        time_varying = FALSE) {
-
-      #Initialize private values
-      private$.projection_years <- projection_years
-      private$.num_ages <- num_ages
-      private$.num_fleets <- num_fleets
-
-      #Validate parameters
-      checkmate::assert_numeric(projection_years$count, lower = 1)
-      checkmate::assert_integerish(num_ages, lower = 1)
-      checkmate::assert_integerish(num_fleets, lower = 1)
-
-      #initialize tables
-      private$.parameter_table <- vector("list", 1)
-      private$.cv_table <- vector("list", 1)
-
-      if(time_varying){
-
-        self$parameter_table <- self$create_parameter_table(
-          (projection_years$count * num_fleets), num_ages)
-
-      }else{
-        #All Years
-        self$parameter_table <-
-          self$create_parameter_table((1 * num_fleets), num_ages)
-      }
-
-      self$cv_table <-
-        self$create_parameter_table((1 * num_fleets), num_ages)
-
-
-      #Rownames: Fleet-Years
-      # Fleet-year rownames for Parameter of Age table
-      rownames(self$parameter_table)  <-
-        private$setup_parameter_table_rownames(projection_years$sequence,
-                                               num_fleets,
-                                               time_varying)
-
-      # Fleet-year rownames for CV. Not affected by time varying
-      rownames(self$cv_table) <-
-        private$setup_parameter_table_rownames(projection_years$sequence,
-                                               num_fleets)
-
-      #Colnames: Ages
-      colnames_ages <- paste0("Age", seq(num_ages))
-      colnames(self$parameter_table) <- colnames_ages
-      colnames(self$cv_table) <- colnames_ages
-
-    },
 
 
 
@@ -362,7 +359,7 @@ process_error <- R6Class(
       # Setup new instance of Parameter and CV tables. time_varying
       # value read from the AGEPRO input file. Including values for
       # projection_years. num_ages, and num_fleets.
-      self$setup_parameter_tables(ageproR::projection_years$new(proj_years),
+      private$setup_parameter_tables(ageproR::projection_years$new(proj_years),
                                    num_ages,
                                    num_fleets,
                                    time_varying = self$time_varying)
