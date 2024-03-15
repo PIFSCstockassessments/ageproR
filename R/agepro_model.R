@@ -1064,7 +1064,7 @@ agepro_inp_model <- R6Class(
             self$ver_legacy_string,
             self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
-            self$bootstrap$inplines_bootstrap(delimiter),
+            self$bootstrap$get_inp_lines(delimiter),
             self$stock_weight$get_inp_lines(delimiter),
             self$ssb_weight$get_inp_lines(delimiter),
             self$mean_weight$get_inp_lines(delimiter),

@@ -35,7 +35,7 @@ absolute numbers at age.}
 \item \href{#method-bootstrap-new}{\code{bootstrap$new()}}
 \item \href{#method-bootstrap-set_bootstrap_filename}{\code{bootstrap$set_bootstrap_filename()}}
 \item \href{#method-bootstrap-read_inp_lines}{\code{bootstrap$read_inp_lines()}}
-\item \href{#method-bootstrap-inplines_bootstrap}{\code{bootstrap$inplines_bootstrap()}}
+\item \href{#method-bootstrap-get_inp_lines}{\code{bootstrap$get_inp_lines()}}
 \item \href{#method-bootstrap-print}{\code{bootstrap$print()}}
 \item \href{#method-bootstrap-clone}{\code{bootstrap$clone()}}
 }
@@ -89,12 +89,12 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-bootstrap-inplines_bootstrap"></a>}}
-\if{latex}{\out{\hypertarget{method-bootstrap-inplines_bootstrap}{}}}
-\subsection{Method \code{inplines_bootstrap()}}{
+\if{html}{\out{<a id="method-bootstrap-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns BOOTSTRAP values AGEPRO input file format (*,inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{bootstrap$inplines_bootstrap(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
