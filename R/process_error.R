@@ -465,7 +465,7 @@ process_error <- R6Class(
     #' @description
     #' Returns the values for the Process Error parameter formatted
     #' to the AGEPRO input file format.
-    inplines_process_error = function(delimiter = "  ") {
+    get_inp_lines = function(delimiter = "  ") {
 
 
       if(self$input_option < 0){

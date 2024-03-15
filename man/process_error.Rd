@@ -49,7 +49,7 @@ error of the average population or fishery process parameter's at age
 \item \href{#method-process_error-read_inp_lines}{\code{process_error$read_inp_lines()}}
 \item \href{#method-process_error-read_inplines_parameter_tables}{\code{process_error$read_inplines_parameter_tables()}}
 \item \href{#method-process_error-read_inplines_cv_table}{\code{process_error$read_inplines_cv_table()}}
-\item \href{#method-process_error-inplines_process_error}{\code{process_error$inplines_process_error()}}
+\item \href{#method-process_error-get_inp_lines}{\code{process_error$get_inp_lines()}}
 \item \href{#method-process_error-clone}{\code{process_error$clone()}}
 }
 }
@@ -270,13 +270,13 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-inplines_process_error"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-inplines_process_error}{}}}
-\subsection{Method \code{inplines_process_error()}}{
+\if{html}{\out{<a id="method-process_error-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns the values for the Process Error parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$inplines_process_error(delimiter = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$get_inp_lines(delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

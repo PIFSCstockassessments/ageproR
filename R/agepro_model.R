@@ -1065,19 +1065,19 @@ agepro_inp_model <- R6Class(
             self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
             self$bootstrap$inplines_bootstrap(delimiter),
-            self$stock_weight$inplines_process_error(delimiter),
-            self$ssb_weight$inplines_process_error(delimiter),
-            self$mean_weight$inplines_process_error(delimiter),
-            self$catch_weight$inplines_process_error(delimiter),
+            self$stock_weight$get_inp_lines(delimiter),
+            self$ssb_weight$get_inp_lines(delimiter),
+            self$mean_weight$get_inp_lines(delimiter),
+            self$catch_weight$get_inp_lines(delimiter),
             if(as.logical(self$general$discards_present)){
-              self$disc_weight$inplines_process_error(delimiter)
+              self$disc_weight$get_inp_lines(delimiter)
             },
-            self$natmort$inplines_process_error(delimiter),
-            self$maturity$inplines_process_error(delimiter),
+            self$natmort$get_inp_lines(delimiter),
+            self$maturity$get_inp_lines(delimiter),
             self$biological$get_inp_lines(delimiter),
-            self$fishery$inplines_process_error(delimiter),
+            self$fishery$get_inp_lines(delimiter),
             if(as.logical(self$general$discards_present)){
-              self$discard$inplines_process_error(delimiter)
+              self$discard$get_inp_lines(delimiter)
             },
             self$recruit$get_inp_lines(delimiter),
             self$harvest$get_inp_lines(delimiter),
