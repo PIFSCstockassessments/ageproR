@@ -33,7 +33,7 @@ current value if no argument was passed.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-parametric_curve-new}{\code{parametric_curve$new()}}
-\item \href{#method-parametric_curve-inplines_recruit_data}{\code{parametric_curve$inplines_recruit_data()}}
+\item \href{#method-parametric_curve-inp_lines_recruit_data}{\code{parametric_curve$inp_lines_recruit_data()}}
 \item \href{#method-parametric_curve-print}{\code{parametric_curve$print()}}
 \item \href{#method-parametric_curve-read_inp_lines}{\code{parametric_curve$read_inp_lines()}}
 \item \href{#method-parametric_curve-clone}{\code{parametric_curve$clone()}}
@@ -64,13 +64,13 @@ variance}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parametric_curve-inplines_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-parametric_curve-inplines_recruit_data}{}}}
-\subsection{Method \code{inplines_recruit_data()}}{
+\if{html}{\out{<a id="method-parametric_curve-inp_lines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-parametric_curve-inp_lines_recruit_data}{}}}
+\subsection{Method \code{inp_lines_recruit_data()}}{
 Exports RECRUIT submodel data for parametric curve recruitment
 to AGEPRO input file lines.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{parametric_curve$inplines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{parametric_curve$inp_lines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

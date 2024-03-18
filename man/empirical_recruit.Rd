@@ -34,7 +34,7 @@ Recruitment Model Description
 \item \href{#method-empirical_recruit-print}{\code{empirical_recruit$print()}}
 \item \href{#method-empirical_recruit-print_json}{\code{empirical_recruit$print_json()}}
 \item \href{#method-empirical_recruit-read_inp_lines}{\code{empirical_recruit$read_inp_lines()}}
-\item \href{#method-empirical_recruit-inplines_recruit_data}{\code{empirical_recruit$inplines_recruit_data()}}
+\item \href{#method-empirical_recruit-inp_lines_recruit_data}{\code{empirical_recruit$inp_lines_recruit_data()}}
 \item \href{#method-empirical_recruit-clone}{\code{empirical_recruit$clone()}}
 }
 }
@@ -118,13 +118,13 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-empirical_recruit-inplines_recruit_data"></a>}}
-\if{latex}{\out{\hypertarget{method-empirical_recruit-inplines_recruit_data}{}}}
-\subsection{Method \code{inplines_recruit_data()}}{
+\if{html}{\out{<a id="method-empirical_recruit-inp_lines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-empirical_recruit-inp_lines_recruit_data}{}}}
+\subsection{Method \code{inp_lines_recruit_data()}}{
 Exports RECRUIT submodel data for empirical recruitment types
 to AGEPRO input file lines.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$inplines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$inp_lines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -345,7 +345,7 @@ empirical_recruit <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for empirical recruitment types
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
 
       #Observation Matrix columns are labeled "recruit" and "ssb"
       if(self$with_ssb){
@@ -619,7 +619,7 @@ two_stage_empirical_recruit <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for two-stage empirical recruitment types
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
       return(list(
         paste(self$num_low_recruits,self$num_high_recruits),
         paste(self$low_recruitment, collapse =  delimiter),
@@ -941,7 +941,7 @@ parametric_curve <- R6Class(
     #' Exports RECRUIT submodel data for parametric curve recruitment
     #' to AGEPRO input file lines.
     #'
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
       return(list(paste(self$alpha,
                         self$beta,
                         self$variance,
@@ -1138,7 +1138,7 @@ shepherd_curve_model <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for shepherd curve recruitment
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
       return(list(paste(self$alpha,
                         self$beta,
                         self$kpar,

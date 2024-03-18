@@ -46,8 +46,8 @@ error of the average population or fishery process parameter's at age
 \item \href{#method-process_error-print}{\code{process_error$print()}}
 \item \href{#method-process_error-cli_print_process_error_table}{\code{process_error$cli_print_process_error_table()}}
 \item \href{#method-process_error-read_inp_lines}{\code{process_error$read_inp_lines()}}
-\item \href{#method-process_error-read_inplines_parameter_tables}{\code{process_error$read_inplines_parameter_tables()}}
-\item \href{#method-process_error-read_inplines_cv_table}{\code{process_error$read_inplines_cv_table()}}
+\item \href{#method-process_error-read_inp_lines_parameter_tables}{\code{process_error$read_inp_lines_parameter_tables()}}
+\item \href{#method-process_error-read_inp_lines_cv_table}{\code{process_error$read_inp_lines_cv_table()}}
 \item \href{#method-process_error-get_inp_lines}{\code{process_error$get_inp_lines()}}
 \item \href{#method-process_error-clone}{\code{process_error$clone()}}
 }
@@ -192,14 +192,14 @@ projection or the number of years in the time projection.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-read_inplines_parameter_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-read_inplines_parameter_tables}{}}}
-\subsection{Method \code{read_inplines_parameter_tables()}}{
+\if{html}{\out{<a id="method-process_error-read_inp_lines_parameter_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-read_inp_lines_parameter_tables}{}}}
+\subsection{Method \code{read_inp_lines_parameter_tables()}}{
 Helper function to set population or fishery process parameter
 tables from AGEPRO input files. Reads in an additional line (or lines)
 from the file connection to assign to the \code{parameter_table}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_parameter_tables(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inp_lines_parameter_tables(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -215,14 +215,14 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-read_inplines_cv_table"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-read_inplines_cv_table}{}}}
-\subsection{Method \code{read_inplines_cv_table()}}{
+\if{html}{\out{<a id="method-process_error-read_inp_lines_cv_table"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-read_inp_lines_cv_table}{}}}
+\subsection{Method \code{read_inp_lines_cv_table()}}{
 Internal helper function to set cv tables from
 AGEPRO input files. Reads in an additional line (or lines) from the
 file connection to assign to the \code{cv_table}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_cv_table(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inp_lines_cv_table(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

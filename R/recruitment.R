@@ -468,14 +468,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
           paste,
           collapse = delimiter)
 
-      # Unlist each recruitment model's "inplines_recruit_data", via rapply:
+      # Unlist each recruitment model's "inp_lines_recruit_data", via rapply:
       # returning a flat string vector of input data lines. Relist vector,
       # via "as.list", to convert to list of input data line elements.
 
       list_recruit_data <-
         as.list(unlist(rapply(
           self$recruit_data,
-          f = function(X) {X$inplines_recruit_data(delimiter)},
+          f = function(X) {X$inp_lines_recruit_data(delimiter)},
           how = "list")))
 
       return(c(list(

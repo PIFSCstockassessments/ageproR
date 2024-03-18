@@ -377,8 +377,8 @@ process_error <- R6Class(
         return(nline)
       } else {
         #from interface
-        nline <- self$read_inplines_parameter_tables(inp_con, nline)
-        nline <- self$read_inplines_cv_table(inp_con, nline)
+        nline <- self$read_inp_lines_parameter_tables(inp_con, nline)
+        nline <- self$read_inp_lines_cv_table(inp_con, nline)
       }
 
       return(nline)
@@ -390,7 +390,7 @@ process_error <- R6Class(
     #' tables from AGEPRO input files. Reads in an additional line (or lines)
     #' from the file connection to assign to the `parameter_table`
     #'
-    read_inplines_parameter_tables = function(inp_con, nline) {
+    read_inp_lines_parameter_tables = function(inp_con, nline) {
 
       #TODO: Verify inp_line is same length as num_ages
 
@@ -432,7 +432,7 @@ process_error <- R6Class(
     #' AGEPRO input files. Reads in an additional line (or lines) from the
     #' file connection to assign to the `cv_table`
     #'
-    read_inplines_cv_table = function(inp_con, nline) {
+    read_inp_lines_cv_table = function(inp_con, nline) {
 
       if(private$.num_fleets == 1) {
         nline <- nline + 1

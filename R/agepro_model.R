@@ -1060,7 +1060,7 @@ agepro_inp_model <- R6Class(
 
       tryCatch(
         {
-          list_inplines <- c(
+          list_inp_lines <- c(
             self$ver_legacy_string,
             self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
@@ -1093,9 +1093,9 @@ agepro_inp_model <- R6Class(
 
       )
 
-      #Write list_inplines to inpfile
+      #Write list_inp_lines to inpfile
       sink(inpfile)
-      cat(unlist(list_inplines), sep = "\n")
+      cat(unlist(list_inp_lines), sep = "\n")
       sink()
       cli::cli_alert_info("Saved to {.file {inpfile}}")
 
