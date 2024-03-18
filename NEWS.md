@@ -1,3 +1,13 @@
+# ageproR 0.6.1 2024-03-18
+
+- Rename inplines -> inp_lines for consistency (#37)
+- Rename general, bootstrap, process_error, and recruitment json_list active binding functions to `json_list_object`
+- process_error (#47)
+  - Cleanup proj_years validation code
+  - Moved `setup_projection_tables` as a private helper method.
+- Resolved `tibble::as_tibble` column name deprecation (#44)
+- Updated Roxygen Dependency to 7.3.1
+
 # ageproR 0.6.0 2024-03-11
 
 - Added `mortality_fraction_prior_spawn`
