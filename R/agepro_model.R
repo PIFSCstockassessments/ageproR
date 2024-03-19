@@ -23,34 +23,6 @@
 #'
 agepro_model <- R6Class(
   classname = "agepro_model",
-  private = list(
-
-    .ver_legacy_string = NULL,
-    .ver_numeric_string = NULL,
-
-    # AGEPRO keyword parameters
-    .case_id = NULL,
-    .general_options = NULL,
-    .recruitment = NULL,
-    .bootstrap = NULL,
-    .natural_mortality = NULL,
-    .maturity_fraction = NULL,
-    .fishery_selectivity = NULL,
-    .discard_fraction = NULL,
-    .jan_stock_weight_age = NULL,
-    .spawning_stock_weight_age = NULL,
-    .mean_population_weight_age = NULL,
-    .landed_catch_weight_age = NULL,
-    .discard_weight_age = NULL,
-    .harvest_scenario = NULL,
-    .pstar_projection = NULL,
-    .rebuild_projection = NULL,
-    .mortality_fraction_prior_spawn = NULL,
-
-    .discards_present = NULL,
-    .projection_analyses_type = NULL
-
-  ),
   public = list(
 
     #' @description
@@ -331,7 +303,8 @@ agepro_model <- R6Class(
 
     }
 
-  ), active = list(
+  ),
+  active = list(
 
     #' @field ver_legacy_string
     #' Version string on AGEPRO input files (*.inp) for version compatibility
@@ -595,7 +568,6 @@ agepro_model <- R6Class(
 
     },
 
-
     #' @field biological
     #' Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
     #' mortality (\eqn{M})
@@ -613,7 +585,33 @@ agepro_model <- R6Class(
 
     }
 
+  ),
+  private = list(
 
+    .ver_legacy_string = NULL,
+    .ver_numeric_string = NULL,
+
+    # AGEPRO keyword parameters
+    .case_id = NULL,
+    .general_options = NULL,
+    .recruitment = NULL,
+    .bootstrap = NULL,
+    .natural_mortality = NULL,
+    .maturity_fraction = NULL,
+    .fishery_selectivity = NULL,
+    .discard_fraction = NULL,
+    .jan_stock_weight_age = NULL,
+    .spawning_stock_weight_age = NULL,
+    .mean_population_weight_age = NULL,
+    .landed_catch_weight_age = NULL,
+    .discard_weight_age = NULL,
+    .harvest_scenario = NULL,
+    .pstar_projection = NULL,
+    .rebuild_projection = NULL,
+    .mortality_fraction_prior_spawn = NULL,
+
+    .discards_present = NULL,
+    .projection_analyses_type = NULL
 
   )
 
@@ -636,159 +634,6 @@ agepro_model <- R6Class(
 agepro_inp_model <- R6Class(
   "agepro_inp_model",
   inherit = agepro_model,
-  private = list(
-
-    .pre_v4 = FALSE,
-    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.2"),
-
-    .nline = NULL,
-
-    read_case_id = function(con, nline) {
-      self$nline <- self$case_id$read_inp_lines(con, nline)
-    },
-
-    read_general_params = function(con, nline) {
-      self$nline <- self$general$read_inp_lines(con, nline)
-      # Set .discards_present to Input file's "discards_present" value
-      private$.discards_present <- as.logical(self$general$discards_present)
-    },
-
-    read_recruit = function(con, nline) {
-      # Set Recruitment's observation year sequence array using GENERAL's
-      # year names from the projection time period
-      cli_alert_info(c("Setting Recruitment data for ",
-                "{self$general$yr_start} - {self$general$yr_end} ..."))
-
-      self$nline <- self$recruit$read_inp_lines(con, nline,
-                                                self$general$seq_years,
-                                                self$general$num_rec_models)
-    },
-
-    read_bootstrap = function(con, nline) {
-      self$nline <- self$bootstrap$read_inp_lines(con, nline)
-    },
-
-    read_natural_mortality = function(con, nline) {
-      self$nline <- self$natmort$read_inp_lines(con,
-                                                nline,
-                                                self$general$seq_years,
-                                                self$general$num_ages)
-    },
-
-    read_maturity_fraction = function(con, nline) {
-      self$nline <- self$maturity$read_inp_lines(con,
-                                                 nline,
-                                                 self$general$seq_years,
-                                                 self$general$num_ages)
-    },
-
-    read_mortality_fraction_prior_spawn = function(con, nline){
-      self$nline <- self$biological$read_inp_lines(con,
-                                                   nline,
-                                                   self$general$seq_years)
-    },
-
-    read_fishery_selectivity = function(con, nline) {
-      self$nline <-
-        self$fishery$read_inp_lines(con,
-                                    nline,
-                                    self$general$seq_years,
-                                    self$general$num_ages,
-                                    self$general$num_fleets)
-    },
-
-    read_discard_fraction = function(con, nline) {
-
-      if(!(as.logical(self$general$discards_present))){
-        stop(paste0("Reading Discard Fraction data but ",
-                    "'Discards are present' option is FALSE"))
-      }
-      self$nline <- self$discard$read_inp_lines(con,
-                                                nline,
-                                                self$general$seq_years,
-                                                self$general$num_ages,
-                                                self$general$num_fleets)
-
-    },
-
-    read_jan_stock_weight_age = function(con, nline) {
-      self$nline <- self$stock_weight$read_inp_lines(con,
-                                                     nline,
-                                                     self$general$seq_years,
-                                                     self$general$num_ages)
-    },
-
-    read_spawning_stock_weight_age = function(con, nline) {
-      self$nline <- self$ssb_weight$read_inp_lines(con,
-                                                   nline,
-                                                   self$general$seq_years,
-                                                   self$general$num_ages)
-    },
-
-    read_mean_population_weight_age = function(con, nline) {
-      self$nline <- self$mean_weight$read_inp_lines(con,
-                                                    nline,
-                                                    self$general$seq_years,
-                                                    self$general$num_ages)
-    },
-
-    read_landed_catch_weight_age = function(con, nline) {
-      self$nline <- self$catch_weight$read_inp_lines(con,
-                                                     nline,
-                                                     self$general$seq_years,
-                                                     self$general$num_ages,
-                                                     self$general$num_fleets)
-    },
-
-    read_discard_weight_age = function(con, nline) {
-
-      if(!as.logical(self$general$discards_present)){
-        stop(paste0("Reading Discard Fraction data but ",
-                    "'Discards are present' option is FALSE"))
-      }
-      self$nline <- self$disc_weight$read_inp_lines(con,
-                                                    nline,
-                                                    self$general$seq_years,
-                                                    self$general$num_ages,
-                                                    self$general$num_fleets)
-
-    },
-
-    read_harvest_scenario = function(con,nline) {
-
-      self$nline <- self$harvest$read_inp_lines(con,
-                                                nline,
-                                                self$general$seq_years,
-                                                self$general$num_fleets)
-
-    },
-
-    read_pstar_projection = function(con, nline) {
-
-      if(self$projection_analyses_type == "rebuild"){
-        stop(paste0("Reading PSTAR projection data but ",
-                    "projection_analyses_type is 'rebuild'"))
-      }
-
-      self$set_projection_analyses_type("pstar")
-
-      self$nline <- self$pstar$read_inp_lines(con, nline)
-    },
-
-    read_rebuild_projection = function(con, nline) {
-
-      if(self$projection_analyses_type == "pstar"){
-        stop(paste0("Reading REBUILD projection data but ",
-                    "projection_analyses_type is 'pstar'"))
-      }
-
-      self$set_projection_analyses_type("rebuild")
-
-      self$nline <- self$rebuild$read_inp_lines(con, nline)
-    }
-
-
-  ),
   public = list(
 
     #' @description
@@ -831,10 +676,6 @@ agepro_inp_model <- R6Class(
         self$default_agepro_keyword_params(self$general,
                                            enable_cat_print = TRUE)
       }
-
-
-
-
 
       cli::cli_text("Done")
     },
@@ -1114,9 +955,161 @@ agepro_inp_model <- R6Class(
       }
     }
 
+  ),
+  private = list(
+
+    .pre_v4 = FALSE,
+    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.2"),
+
+    .nline = NULL,
+
+    read_case_id = function(con, nline) {
+      self$nline <- self$case_id$read_inp_lines(con, nline)
+    },
+
+    read_general_params = function(con, nline) {
+      self$nline <- self$general$read_inp_lines(con, nline)
+      # Set .discards_present to Input file's "discards_present" value
+      private$.discards_present <- as.logical(self$general$discards_present)
+    },
+
+    read_recruit = function(con, nline) {
+      # Set Recruitment's observation year sequence array using GENERAL's
+      # year names from the projection time period
+      cli_alert_info(c("Setting Recruitment data for ",
+                       "{self$general$yr_start} - {self$general$yr_end} ..."))
+
+      self$nline <- self$recruit$read_inp_lines(con, nline,
+                                                self$general$seq_years,
+                                                self$general$num_rec_models)
+    },
+
+    read_bootstrap = function(con, nline) {
+      self$nline <- self$bootstrap$read_inp_lines(con, nline)
+    },
+
+    read_natural_mortality = function(con, nline) {
+      self$nline <- self$natmort$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages)
+    },
+
+    read_maturity_fraction = function(con, nline) {
+      self$nline <- self$maturity$read_inp_lines(con,
+                                                 nline,
+                                                 self$general$seq_years,
+                                                 self$general$num_ages)
+    },
+
+    read_mortality_fraction_prior_spawn = function(con, nline){
+      self$nline <- self$biological$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years)
+    },
+
+    read_fishery_selectivity = function(con, nline) {
+      self$nline <-
+        self$fishery$read_inp_lines(con,
+                                    nline,
+                                    self$general$seq_years,
+                                    self$general$num_ages,
+                                    self$general$num_fleets)
+    },
+
+    read_discard_fraction = function(con, nline) {
+
+      if(!(as.logical(self$general$discards_present))){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <- self$discard$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_ages,
+                                                self$general$num_fleets)
+
+    },
+
+    read_jan_stock_weight_age = function(con, nline) {
+      self$nline <- self$stock_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages)
+    },
+
+    read_spawning_stock_weight_age = function(con, nline) {
+      self$nline <- self$ssb_weight$read_inp_lines(con,
+                                                   nline,
+                                                   self$general$seq_years,
+                                                   self$general$num_ages)
+    },
+
+    read_mean_population_weight_age = function(con, nline) {
+      self$nline <- self$mean_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_years,
+                                                    self$general$num_ages)
+    },
+
+    read_landed_catch_weight_age = function(con, nline) {
+      self$nline <- self$catch_weight$read_inp_lines(con,
+                                                     nline,
+                                                     self$general$seq_years,
+                                                     self$general$num_ages,
+                                                     self$general$num_fleets)
+    },
+
+    read_discard_weight_age = function(con, nline) {
+
+      if(!as.logical(self$general$discards_present)){
+        stop(paste0("Reading Discard Fraction data but ",
+                    "'Discards are present' option is FALSE"))
+      }
+      self$nline <- self$disc_weight$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$seq_years,
+                                                    self$general$num_ages,
+                                                    self$general$num_fleets)
+
+    },
+
+    read_harvest_scenario = function(con,nline) {
+
+      self$nline <- self$harvest$read_inp_lines(con,
+                                                nline,
+                                                self$general$seq_years,
+                                                self$general$num_fleets)
+
+    },
+
+    read_pstar_projection = function(con, nline) {
+
+      if(self$projection_analyses_type == "rebuild"){
+        stop(paste0("Reading PSTAR projection data but ",
+                    "projection_analyses_type is 'rebuild'"))
+      }
+
+      self$set_projection_analyses_type("pstar")
+
+      self$nline <- self$pstar$read_inp_lines(con, nline)
+    },
+
+    read_rebuild_projection = function(con, nline) {
+
+      if(self$projection_analyses_type == "pstar"){
+        stop(paste0("Reading REBUILD projection data but ",
+                    "projection_analyses_type is 'pstar'"))
+      }
+
+      self$set_projection_analyses_type("rebuild")
+
+      self$nline <- self$rebuild$read_inp_lines(con, nline)
+    }
 
 
   )
+
 )
 
 #' @title
@@ -1307,8 +1300,6 @@ agepro_json_model <- R6Class(
       invisible(inp_model)
 
     }
-
-
 
   )
 )

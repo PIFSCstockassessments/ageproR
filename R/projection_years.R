@@ -12,12 +12,6 @@
 #'
 projection_years <- R6Class(
   "projection_years",
-  private = list(
-
-    .count = NULL,
-    .sequence = NULL
-
-  ),
   public = list(
 
     #' @description
@@ -83,6 +77,12 @@ projection_years <- R6Class(
         private$.sequence <- value
       }
     }
+
+  ),
+  private = list(
+
+    .count = NULL,
+    .sequence = NULL
 
   )
 )

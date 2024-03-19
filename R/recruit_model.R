@@ -13,14 +13,6 @@
 #'
 recruit_model <- R6Class(
   "recruit_model",
-  private = list(
-    .model_num = NULL,
-    .model_group = NULL,
-    .model_name = NULL,
-    .projected_years = NULL,
-    .length_projected_years = NULL
-
-  ),
   public = list(
 
     #' @description
@@ -95,8 +87,16 @@ recruit_model <- R6Class(
       }
     }
 
+  ),
+  private = list(
+    .model_num = NULL,
+    .model_group = NULL,
+    .model_name = NULL,
+    .projected_years = NULL,
+    .length_projected_years = NULL
 
   )
+
 )
 
 
@@ -141,16 +141,6 @@ null_recruit_model <- R6Class(
 deprecated_recruit_model_9 <- R6Class(
   "deprecated_recruit_model_9",
   inherit = recruit_model,
-  private = list(
-
-    cli_recruit_danger = function() {
-      d <- cli_div(class = "tmp", theme = list(.tmp = list(
-        color = "red")))
-      cli_text("{symbol$cross} {private$.model_name}")
-      cli_end(d)
-    }
-
-  ),
   public = list(
     #' @description
     #' Initializes the class
@@ -172,8 +162,16 @@ deprecated_recruit_model_9 <- R6Class(
                               "Time-Varying Empirical Distribution."),
            call. = FALSE)
 
+    }
 
+  ),
+  private = list(
 
+    cli_recruit_danger = function() {
+      d <- cli_div(class = "tmp", theme = list(.tmp = list(
+        color = "red")))
+      cli_text("{symbol$cross} {private$.model_name}")
+      cli_end(d)
     }
 
   )
@@ -196,15 +194,6 @@ deprecated_recruit_model_9 <- R6Class(
 empirical_recruit <- R6Class(
   "empirical_recruit",
   inherit = recruit_model,
-  private = list(
-
-    .low_bound = 0.0001,
-    .with_ssb = FALSE,
-    .model_group = 1,
-    .observed_points = 0,
-    .observations = NULL
-
-  ),
   public = list(
 
     #'@description
@@ -424,10 +413,16 @@ empirical_recruit <- R6Class(
       super
     }
 
+  ),
+  private = list(
 
+    .low_bound = 0.0001,
+    .with_ssb = FALSE,
+    .model_group = 1,
+    .observed_points = 0,
+    .observations = NULL
 
   )
-  #TODO: Set MaxRecObs
 )
 
 #' Empirical Recruitment Distribution (Model #3)
@@ -493,16 +488,7 @@ empirical_cdf_model <- R6Class(
 two_stage_empirical_recruit <- R6Class(
   "two_stage_empirical_recruit",
   inherit = empirical_recruit,
-  private = list(
-
-    .num_low_recruits = NULL,
-    .num_high_recruits = NULL,
-    .ssb_cutoff = NULL,
-    .low_recruitment = NULL,
-    .high_recruitment = NULL,
-    .with_ssb = FALSE
-
-  ), public = list(
+  public = list(
 
     #' @description
     #' Initialize the Empirical CDF Model
@@ -724,6 +710,16 @@ two_stage_empirical_recruit <- R6Class(
       ))
     }
 
+  ),
+  private = list(
+
+    .num_low_recruits = NULL,
+    .num_high_recruits = NULL,
+    .ssb_cutoff = NULL,
+    .low_recruitment = NULL,
+    .high_recruitment = NULL,
+    .with_ssb = FALSE
+
   )
 
 )
@@ -754,7 +750,8 @@ two_stage_empirical_ssb <- R6Class(
                        with_ssb = TRUE)
     }
 
-  ), active = list(
+  ),
+  active = list(
 
     #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
@@ -804,7 +801,8 @@ two_stage_empirical_cdf <- R6Class(
                        with_ssb = FALSE)
     }
 
-  ), active = list(
+  ),
+  active = list(
 
     #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
@@ -839,12 +837,84 @@ two_stage_empirical_cdf <- R6Class(
 parametric_curve <- R6Class(
   "parametric_curve",
   inherit = recruit_model,
-  private = list(
+  public = list(
 
-    .alpha = 0,
-    .beta = 0,
-    .variance = 0,
-    .model_group = 2
+    #'@description
+    #'Instantiate Parametric Recruitment Curve Model
+    #'
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0) {
+
+      #Set to Active Bindings
+      if (!missing(alpha)) {
+        private$.alpha <- alpha
+      }
+
+      if (!missing(beta)) {
+        private$.beta <- beta
+      }
+
+      if (!missing(variance)) {
+        private$.variance <- variance
+      }
+
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for parametric curve recruitment
+    #' to AGEPRO input file lines.
+    #'
+    inp_lines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        sep = delimiter)))
+    },
+
+    #' @description
+    #' Prints out Parametric Data
+    #'
+    print = function(...) {
+
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      cli::cli_text("{.emph {.field {self$model_name}}}")
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+
+      #self$print()
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
+
+      return(nline)
+    }
 
   ),
   active = list(
@@ -910,89 +980,15 @@ parametric_curve <- R6Class(
     }
 
   ),
-  public = list(
+  private = list(
 
-
-    #'@description
-    #'Instantiate Parametric Recruitment Curve Model
-    #'
-    initialize = function(alpha = 0,
-                           beta = 0,
-                           variance = 0) {
-
-      #Set to Active Bindings
-      if (!missing(alpha)) {
-        private$.alpha <- alpha
-      }
-
-      if (!missing(beta)) {
-        private$.beta <- beta
-      }
-
-      if (!missing(variance)) {
-        private$.variance <- variance
-      }
-
-
-
-    },
-
-    #' @description
-    #' Exports RECRUIT submodel data for parametric curve recruitment
-    #' to AGEPRO input file lines.
-    #'
-    inp_lines_recruit_data = function(delimiter = " ") {
-      return(list(paste(self$alpha,
-                        self$beta,
-                        self$variance,
-                        sep = delimiter)))
-    },
-
-    #' @description
-    #' Prints out Parametric Data
-    #'
-    print = function(...) {
-
-      #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-    },
-
-    #' @description
-    #' Reads Parametric Curve model data from AGEPRO Input file
-    #'
-    read_inp_lines = function(inp_con, nline) {
-
-      #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
-
-      # Read an additional line from the file connection and split the string
-      # into substrings by whitespace
-      inp_line <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} ...")
-
-      # Assign substrings
-      self$alpha <- inp_line[1]
-      self$beta <- inp_line[2]
-      self$variance <- inp_line[3]
-
-      #self$print()
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-
-      return(nline)
-    }
+    .alpha = 0,
+    .beta = 0,
+    .variance = 0,
+    .model_group = 2
 
   )
+
 
 )
 
@@ -1054,14 +1050,6 @@ ricker_curve_model <- R6Class(
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
   inherit = parametric_curve,
-  private = list(
-
-    .alpha = 0.1,
-    .beta = 0.1,
-    .kpar = 0.1,
-    .variance = 0.1
-
-  ),
   public = list(
 
 
@@ -1177,7 +1165,13 @@ shepherd_curve_model <- R6Class(
       ))
     }
 
+  ),
+  private = list(
 
+    .alpha = 0.1,
+    .beta = 0.1,
+    .kpar = 0.1,
+    .variance = 0.1
 
   )
 )

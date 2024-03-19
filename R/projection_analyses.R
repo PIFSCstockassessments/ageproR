@@ -20,17 +20,6 @@
 #'
 projection_analyses <- R6Class(
   "projection_analyses",
-  private = list(
-
-    .target_year = NULL,
-
-    .keyword_name = NULL,
-
-    #setup variables at initialization
-    .projection_years = NULL
-
-
-  ),
   public = list(
 
     #' @description
@@ -97,7 +86,18 @@ projection_analyses <- R6Class(
       paste0("[",toupper(private$.keyword_name),"]")
     }
 
-  )
+  ),
+  private = list(
+
+    .target_year = NULL,
+
+    .keyword_name = NULL,
+
+    #setup variables at initialization
+    .projection_years = NULL
+
+
+  ),
 )
 
 #' @title
@@ -163,22 +163,6 @@ standard_projection <- R6Class(
 pstar_projection <- R6Class(
   "pstar_projection",
   inherit = projection_analyses,
-  private = list(
-
-    .keyword_name = "pstar",
-
-    .num_pstar_levels = NULL,
-    .pstar_levels_table = NULL,
-    .pstar_overfishing_f = NULL,
-
-    #Helper Function to printout num_pstar_levels to Rconsole
-    cat_print_pstar_levels_table = function (){
-      cli::cli_text("{symbol$bullet} pstar_levels_table ({.emph PStar}):")
-      checkmate::assert_matrix(self$pstar_levels_table)
-      cli::cat_print(self$pstar_levels_table)
-    }
-
-  ),
   public = list(
 
     #' @description
@@ -381,6 +365,23 @@ pstar_projection <- R6Class(
         target_year = self$target_year
       ))
     }
+
+  ),
+  private = list(
+
+    .keyword_name = "pstar",
+
+    .num_pstar_levels = NULL,
+    .pstar_levels_table = NULL,
+    .pstar_overfishing_f = NULL,
+
+    #Helper Function to printout num_pstar_levels to Rconsole
+    cat_print_pstar_levels_table = function (){
+      cli::cli_text("{symbol$bullet} pstar_levels_table ({.emph PStar}):")
+      checkmate::assert_matrix(self$pstar_levels_table)
+      cli::cat_print(self$pstar_levels_table)
+    }
+
   )
 
 )
@@ -410,35 +411,6 @@ pstar_projection <- R6Class(
 rebuild_projection <- R6Class(
     "rebuild_projection",
     inherit = projection_analyses,
-    private = list(
-
-      .keyword_name = "rebuild",
-
-      .target_biomass_value = NULL,
-      .target_biomass_type = NULL,
-      .target_percent = NULL,
-
-      .names_target_biomass_type = list(
-        "0" = "Spawning Stock Biomass",
-        "1" = "January 1st Stock Biomass",
-        "2" = "Mid-Year (Mean) Biomass"
-      ),
-
-      print_name_target_biomass_type = function() {
-
-        target_biomass_type_name <-
-          private$.names_target_biomass_type[[
-            as.character(self$target_biomass_type)]]
-
-        li_nested <-
-          cli::cli_div(class = "target_type",
-                       theme = list(.target_type = list("margin-left" = 2)))
-        cli::cli_text("{.emph {.field {target_biomass_type_name}}}")
-        cli::cli_end(li_nested)
-
-      }
-
-    ),
     public = list(
 
       #' @description
@@ -592,6 +564,35 @@ rebuild_projection <- R6Class(
 
           private$.target_percent <- value
         }
+      }
+
+    ),
+    private = list(
+
+      .keyword_name = "rebuild",
+
+      .target_biomass_value = NULL,
+      .target_biomass_type = NULL,
+      .target_percent = NULL,
+
+      .names_target_biomass_type = list(
+        "0" = "Spawning Stock Biomass",
+        "1" = "January 1st Stock Biomass",
+        "2" = "Mid-Year (Mean) Biomass"
+      ),
+
+      print_name_target_biomass_type = function() {
+
+        target_biomass_type_name <-
+          private$.names_target_biomass_type[[
+            as.character(self$target_biomass_type)]]
+
+        li_nested <-
+          cli::cli_div(class = "target_type",
+                       theme = list(.target_type = list("margin-left" = 2)))
+        cli::cli_text("{.emph {.field {target_biomass_type_name}}}")
+        cli::cli_end(li_nested)
+
       }
 
     )
