@@ -25,72 +25,6 @@
 #'
 harvest_scenario <- R6Class(
   "harvest_scenario",
-  private = list(
-
-    .keyword_name = "harvest",
-
-    .harvest_specifications = NULL,
-    .harvest_value = NULL,
-    .harvest_scenario_table = NULL,
-
-    .names_specification = list(
-      "0" = "F-MULT",
-      "1" = "LANDINGS",
-      "2" = "REMOVALS"
-    ),
-
-    #setup variables at initialization
-    .projection_years = NULL,
-    .num_fleets = NULL,
-
-    # assert_specification_type
-    #
-    # Checks the harvest specification values matches valid specification
-    # types
-    assert_specification_type  = function(x){
-      checkmate::assert_matrix(x, ncols = 1,
-                               .var.name = "harvest_specifications")
-
-      specification_types <- names(private$.names_specification)
-      result_spec_match <- as.numeric(x[,1]) %in% specification_types
-
-      # Throw error message if any numeric is outside the specification type
-      # range: {0, 1, 2}
-      spec_match_error_msg <-
-        paste0("Invalid harvest specfication found: ",
-               cli::ansi_collapse(
-                 x[!(result_spec_match)], trunc = 5, style = "head"),
-               ". Must be within {",
-               paste0(specification_types, collapse = ", "), "}")
-
-
-      if(isFALSE(all(result_spec_match))){
-        stop(spec_match_error_msg)
-      }
-    },
-
-    # setup_harvest_value_colnames
-    #
-    # Helper function that returns the column names of the Harvest Value
-    # table-like matrix determined by single or multiple fleets
-    setup_harvest_value_colnames = function(num_fleets = 1){
-
-      #Validate
-      checkmate::assert_numeric(num_fleets, low = 1,
-                                .var.name = "num_fleets")
-
-      #Check if Single or Multi Fleet
-      if(isTRUE(identical(private$.num_fleets, 1))){
-        harvest_value_colnames <- "harvest_value"
-      }else {
-        harvest_value_colnames <- paste0("FLEET-", 1:private$.num_fleets)
-      }
-
-      return(harvest_value_colnames)
-    }
-
-
-  ),
   public = list(
 
     #' @description
@@ -341,5 +275,73 @@ harvest_scenario <- R6Class(
     inp_keyword = function() {
       paste0("[",toupper(private$.keyword_name),"]")
     }
+
+  ),
+  private = list(
+
+    .keyword_name = "harvest",
+
+    .harvest_specifications = NULL,
+    .harvest_value = NULL,
+    .harvest_scenario_table = NULL,
+
+    .names_specification = list(
+      "0" = "F-MULT",
+      "1" = "LANDINGS",
+      "2" = "REMOVALS"
+    ),
+
+    #setup variables at initialization
+    .projection_years = NULL,
+    .num_fleets = NULL,
+
+    # assert_specification_type
+    #
+    # Checks the harvest specification values matches valid specification
+    # types
+    assert_specification_type  = function(x){
+      checkmate::assert_matrix(x, ncols = 1,
+                               .var.name = "harvest_specifications")
+
+      specification_types <- names(private$.names_specification)
+      result_spec_match <- as.numeric(x[,1]) %in% specification_types
+
+      # Throw error message if any numeric is outside the specification type
+      # range: {0, 1, 2}
+      spec_match_error_msg <-
+        paste0("Invalid harvest specfication found: ",
+               cli::ansi_collapse(
+                 x[!(result_spec_match)], trunc = 5, style = "head"),
+               ". Must be within {",
+               paste0(specification_types, collapse = ", "), "}")
+
+
+      if(isFALSE(all(result_spec_match))){
+        stop(spec_match_error_msg)
+      }
+    },
+
+    # setup_harvest_value_colnames
+    #
+    # Helper function that returns the column names of the Harvest Value
+    # table-like matrix determined by single or multiple fleets
+    setup_harvest_value_colnames = function(num_fleets = 1){
+
+      #Validate
+      checkmate::assert_numeric(num_fleets, low = 1,
+                                .var.name = "num_fleets")
+
+      #Check if Single or Multi Fleet
+      if(isTRUE(identical(private$.num_fleets, 1))){
+        harvest_value_colnames <- "harvest_value"
+      }else {
+        harvest_value_colnames <- paste0("FLEET-", 1:private$.num_fleets)
+      }
+
+      return(harvest_value_colnames)
+    }
+
+
   )
+
 )

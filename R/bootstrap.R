@@ -18,49 +18,7 @@
 #' @importFrom checkmate assert_numeric test_file_exists
 bootstrap <- R6Class(
   "bootstrap",
-  private = list(
-
-    .num_bootstraps = NULL,
-    .pop_scale_factor = NULL,
-    .bootstrap_file = NULL,
-    .keyword_name = "bootstrap",
-
-
-    #Validate bootstrap_file
-    validate_bootstrap_file = function(value) {
-
-      #Set value to bootstrap file
-      private$.bootstrap_file <- value
-
-      #Validate that 'value' points to a existing file.
-      if (test_file_exists(value, access = "r", extension = "bsn")) {
-        #If validated, assign value
-        cli_alert_success("Bootstrap file: {.val {value}}")
-
-      }else if (is.null(value)) {
-        #Warn if file path is NULL,
-        warning(paste0("NULL Bootstrap file path. \n",
-                       "Please provide a vaild bootstrap filepath when saving ",
-                       "to input file for the AGEPRO calcuation engine."),
-                call. = FALSE)
-      }else {
-        #Else, warn bootstrap file name does not exist
-        cli_div(
-          theme = list(span.val = list(color = "orange",
-                                       "font-style" = "italic")))
-        cli_alert_warning(c("Bootstrap file path does not exist in system: ",
-                            "{.val {value}}"))
-        cli_end()
-
-        warning(paste0("'", value, "' does not exist. \n",
-        "Please provide a vaild bootstrap filepath when saving to input ",
-        "file for the AGEPRO calcuation engine."), call. = FALSE)
-      }
-
-    }
-
-
-  ), public = list(
+  public = list(
 
     #' @description
     #' Initializes the Bootstrap Class
@@ -226,8 +184,47 @@ bootstrap <- R6Class(
       paste0("[",toupper(private$.keyword_name),"]")
     }
 
+  ),
+  private = list(
+
+    .num_bootstraps = NULL,
+    .pop_scale_factor = NULL,
+    .bootstrap_file = NULL,
+    .keyword_name = "bootstrap",
 
 
+    #Validate bootstrap_file
+    validate_bootstrap_file = function(value) {
+
+      #Set value to bootstrap file
+      private$.bootstrap_file <- value
+
+      #Validate that 'value' points to a existing file.
+      if (test_file_exists(value, access = "r", extension = "bsn")) {
+        #If validated, assign value
+        cli_alert_success("Bootstrap file: {.val {value}}")
+
+      }else if (is.null(value)) {
+        #Warn if file path is NULL,
+        warning(paste0("NULL Bootstrap file path. \n",
+                       "Please provide a vaild bootstrap filepath when saving ",
+                       "to input file for the AGEPRO calcuation engine."),
+                call. = FALSE)
+      }else {
+        #Else, warn bootstrap file name does not exist
+        cli_div(
+          theme = list(span.val = list(color = "orange",
+                                       "font-style" = "italic")))
+        cli_alert_warning(c("Bootstrap file path does not exist in system: ",
+                            "{.val {value}}"))
+        cli_end()
+
+        warning(paste0("'", value, "' does not exist. \n",
+                       "Please provide a vaild bootstrap filepath when saving to input ",
+                       "file for the AGEPRO calcuation engine."), call. = FALSE)
+      }
+
+    }
 
   )
 

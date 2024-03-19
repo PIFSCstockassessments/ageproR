@@ -27,207 +27,7 @@
 #'
 recruitment <- R6Class( # nolint: cyclocomp_linter
   "recruitment",
-  private = list(
-    .number_projection_years = NULL,
-    .number_recruit_models = NULL,
-    .sequence_projection_years = NULL,
-    .max_recruit_obs = NULL,
-
-    .keyword_name = "recruit",
-    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 14, 15),
-
-    .recruit_scaling_factor = NULL,
-    .ssb_scaling_factor = NULL,
-    .recruit_data = NULL,
-
-    .recruit_probability = NULL,
-    .recruit_model_num_list = NULL,
-
-
-    #private setters for recruitment fields
-    set_recruit_scaling_factor = function(value) {
-      checkmate::assert_numeric(value, len = 1,
-                                .var.name = "recruit_scaling_factor")
-      private$.recruit_scaling_factor <- value
-    },
-
-    set_ssb_scaling_factor = function(value) {
-      checkmate::assert_numeric(value, len = 1,
-                                .var.name = "ssb_scaling_factor")
-      private$.ssb_scaling_factor <- value
-    },
-
-    set_max_recruit_obs = function(value) {
-      checkmate::assert_int(value,
-                            .var.name = "max_recruit_obs")
-      private$.max_recruit_obs <- value
-    },
-
-    set_recruit_model_num_list_item = function(value, index){
-      checkmate::assert_choice(value,
-                               choice = private$.valid_recruit_model_num)
-      checkmate::assert_number(index, lower = 1,
-                               upper = length(private$.recruit_model_num_list))
-      private$.recruit_model_num_list[[index]] <- value
-
-    },
-
-    set_projection_years = function(obs_years) {
-      checkmate::assert_numeric(obs_years, lower = 0)
-
-      #Handle observed_years as single int or a vector of sequential values
-      if (test_int(obs_years)) {
-        #single
-        private$.number_projection_years <- obs_years
-        private$.sequence_projection_years <- 1:obs_years
-
-      } else {
-        private$.number_projection_years <- length(obs_years)
-        private$.sequence_projection_years <- obs_years
-      }
-    },
-
-
-    #Module to printout Recruitment probability to Rconsole
-    cli_recruit_probability = function() {
-      cli::cli_alert_info("recruitment_probability")
-      #verify recruit_prob list
-      checkmate::assert_list(private$.recruit_probability)
-
-      cli::cat_print(private$.recruit_probability)
-    },
-
-
-    # Helper function to help setup recruit_model_num_list vector
-    setup_recruit_model_num_list = function(model_num_vector) {
-
-      # Validate number_recruit_models
-      checkmate::assert_count(private$.number_recruit_models)
-
-      #Setup Recruitment Model Number list
-      private$.recruit_model_num_list <-
-        vector("list", private$.number_recruit_models)
-
-      # Set Recruitment Model Number for each number_recruit_model vector
-      for (recruit in 1:private$.number_recruit_models) {
-
-        private$set_recruit_model_num_list_item(model_num_vector[[recruit]], recruit)
-      }
-
-    },
-
-
-    # Creates Recruitment Model Data.
-    # Helper function to help setup .number_recruit_models,
-    # recruit_model_num_list, & recruit_data vectors.
-    setup_recruit_data = function() {
-
-      # Validate number_recruit_models
-      checkmate::assert_count(private$.number_recruit_models)
-
-      #Setup Recruitment Model Data List
-      private$.recruit_data <-
-        vector("list", private$.number_recruit_models)
-
-
-      #Set Model data for each recruitment model.
-      for (recruit in 1:private$.number_recruit_models) {
-
-        #Add Recruitment Data with recruitment model number
-        current_recruit_num <- self$recruit_model_num_list[[recruit]]
-        private$.recruit_data[[recruit]] <-
-          private$initialize_recruit_model(current_recruit_num)
-
-      }
-
-
-    },
-
-    #Setup recruitment probability for each recruitment model.
-    setup_recruitment_probability = function() {
-
-      assert_numeric(private$.number_recruit_models, lower = 1)
-      assert_numeric(private$.number_projection_years, lower = 1)
-      assert_numeric(private$.sequence_projection_years)
-
-      #Setup Recruitment Probability list
-      private$.recruit_probability <-
-        vector("list", private$.number_recruit_models)
-
-      for (recruit in 1:private$.number_recruit_models) {
-
-        # Recruitment Probability: Fill the time series with a recruitment
-        # probability sums equal to unity
-        private$.recruit_probability[[recruit]] <-
-          as.numeric(format(
-            round(rep(1, private$.number_projection_years) /
-                    private$.number_recruit_models, digits = 4), nsmall = 4))
-
-        names(private$.recruit_probability[[recruit]]) <-
-          private$.sequence_projection_years
-
-      }
-    },
-
-    # Sets the recruitment probability
-    #
-    set_recruit_probability_by_inp_line =
-      function(j, year, value, verbose = TRUE) {
-
-      assert_int(j, lower = 1, upper = private$.number_recruit_models)
-      assert_numeric(year,
-                     max.len = length(self$recruit_probability[[j]]))
-      assert_numeric(value, lower = 0, upper = 1,
-                     max.len = length(year))
-
-      if (!all(year %in% private$.sequence_projection_years)) {
-        stop(paste0(
-          "Year ",
-          subset(year, !(year %in% private$.sequence_projection_years)),
-          " is not within model projected year time horizon.\n  "))
-      }
-
-      private$.recruit_probability[[j]][as.character(year)] <- value
-
-      if (verbose) private$cli_recruit_probability()
-
-    },
-
-
-
-    # Initializes Recruit Model Data.
-    #
-    initialize_recruit_model = function(model_num) {
-
-      checkmate::assert_choice(model_num,
-                               choice = private$.valid_recruit_model_num)
-
-      # `.number_projection_years` is used for recruitment
-      # models that use the model projection year time horizon for setup.
-      model_dict <- dict(list(
-        "0" = rlang::expr(null_recruit_model$new()),
-        "3" = rlang::expr(empirical_distribution_model$new(
-          private$.number_projection_years)),
-        "4" = rlang::expr(two_stage_empirical_ssb$new()),
-        "5" = rlang::expr(beverton_holt_curve_model$new()),
-        "6" = rlang::expr(ricker_curve_model$new()),
-        "7" = rlang::expr(shepherd_curve_model$new()),
-        "9" = rlang::expr(deprecated_recruit_model_9$new()),
-        "14" = rlang::expr(empirical_cdf_model$new()),
-        "15" = rlang::expr(two_stage_empirical_cdf$new())
-      ))
-
-      rlang::eval_tidy(
-        model_dict$get(as.character(model_num),
-                       default = stop(paste0("Recruitment Model Number ",
-                                             model_num, " does not match list ",
-                                             "of known recruitment models ",
-                                             " to initialize."),
-                                      call. = FALSE) ))
-
-    }
-
-  ), public = list(
+  public = list(
 
     #' @description
     #' Initializes the Recruitment Class
@@ -495,7 +295,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       ))
     }
 
-  ), active <- list(
+  ),
+  active <- list(
 
     #' @field recruit_scaling_factor
     #' The multiplier to convert recruitment submodel's recruitment units to
@@ -647,6 +448,208 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     }
 
 
+  ),
+  private = list(
+    .number_projection_years = NULL,
+    .number_recruit_models = NULL,
+    .sequence_projection_years = NULL,
+    .max_recruit_obs = NULL,
+
+    .keyword_name = "recruit",
+    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 14, 15),
+
+    .recruit_scaling_factor = NULL,
+    .ssb_scaling_factor = NULL,
+    .recruit_data = NULL,
+
+    .recruit_probability = NULL,
+    .recruit_model_num_list = NULL,
+
+
+    #private setters for recruitment fields
+    set_recruit_scaling_factor = function(value) {
+      checkmate::assert_numeric(value, len = 1,
+                                .var.name = "recruit_scaling_factor")
+      private$.recruit_scaling_factor <- value
+    },
+
+    set_ssb_scaling_factor = function(value) {
+      checkmate::assert_numeric(value, len = 1,
+                                .var.name = "ssb_scaling_factor")
+      private$.ssb_scaling_factor <- value
+    },
+
+    set_max_recruit_obs = function(value) {
+      checkmate::assert_int(value,
+                            .var.name = "max_recruit_obs")
+      private$.max_recruit_obs <- value
+    },
+
+    set_recruit_model_num_list_item = function(value, index){
+      checkmate::assert_choice(value,
+                               choice = private$.valid_recruit_model_num)
+      checkmate::assert_number(index, lower = 1,
+                               upper = length(private$.recruit_model_num_list))
+      private$.recruit_model_num_list[[index]] <- value
+
+    },
+
+    set_projection_years = function(obs_years) {
+      checkmate::assert_numeric(obs_years, lower = 0)
+
+      #Handle observed_years as single int or a vector of sequential values
+      if (test_int(obs_years)) {
+        #single
+        private$.number_projection_years <- obs_years
+        private$.sequence_projection_years <- 1:obs_years
+
+      } else {
+        private$.number_projection_years <- length(obs_years)
+        private$.sequence_projection_years <- obs_years
+      }
+    },
+
+
+    #Module to printout Recruitment probability to Rconsole
+    cli_recruit_probability = function() {
+      cli::cli_alert_info("recruitment_probability")
+      #verify recruit_prob list
+      checkmate::assert_list(private$.recruit_probability)
+
+      cli::cat_print(private$.recruit_probability)
+    },
+
+
+    # Helper function to help setup recruit_model_num_list vector
+    setup_recruit_model_num_list = function(model_num_vector) {
+
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
+
+      #Setup Recruitment Model Number list
+      private$.recruit_model_num_list <-
+        vector("list", private$.number_recruit_models)
+
+      # Set Recruitment Model Number for each number_recruit_model vector
+      for (recruit in 1:private$.number_recruit_models) {
+
+        private$set_recruit_model_num_list_item(model_num_vector[[recruit]], recruit)
+      }
+
+    },
+
+
+    # Creates Recruitment Model Data.
+    # Helper function to help setup .number_recruit_models,
+    # recruit_model_num_list, & recruit_data vectors.
+    setup_recruit_data = function() {
+
+      # Validate number_recruit_models
+      checkmate::assert_count(private$.number_recruit_models)
+
+      #Setup Recruitment Model Data List
+      private$.recruit_data <-
+        vector("list", private$.number_recruit_models)
+
+
+      #Set Model data for each recruitment model.
+      for (recruit in 1:private$.number_recruit_models) {
+
+        #Add Recruitment Data with recruitment model number
+        current_recruit_num <- self$recruit_model_num_list[[recruit]]
+        private$.recruit_data[[recruit]] <-
+          private$initialize_recruit_model(current_recruit_num)
+
+      }
+
+
+    },
+
+    #Setup recruitment probability for each recruitment model.
+    setup_recruitment_probability = function() {
+
+      assert_numeric(private$.number_recruit_models, lower = 1)
+      assert_numeric(private$.number_projection_years, lower = 1)
+      assert_numeric(private$.sequence_projection_years)
+
+      #Setup Recruitment Probability list
+      private$.recruit_probability <-
+        vector("list", private$.number_recruit_models)
+
+      for (recruit in 1:private$.number_recruit_models) {
+
+        # Recruitment Probability: Fill the time series with a recruitment
+        # probability sums equal to unity
+        private$.recruit_probability[[recruit]] <-
+          as.numeric(format(
+            round(rep(1, private$.number_projection_years) /
+                    private$.number_recruit_models, digits = 4), nsmall = 4))
+
+        names(private$.recruit_probability[[recruit]]) <-
+          private$.sequence_projection_years
+
+      }
+    },
+
+    # Sets the recruitment probability
+    #
+    set_recruit_probability_by_inp_line =
+      function(j, year, value, verbose = TRUE) {
+
+        assert_int(j, lower = 1, upper = private$.number_recruit_models)
+        assert_numeric(year,
+                       max.len = length(self$recruit_probability[[j]]))
+        assert_numeric(value, lower = 0, upper = 1,
+                       max.len = length(year))
+
+        if (!all(year %in% private$.sequence_projection_years)) {
+          stop(paste0(
+            "Year ",
+            subset(year, !(year %in% private$.sequence_projection_years)),
+            " is not within model projected year time horizon.\n  "))
+        }
+
+        private$.recruit_probability[[j]][as.character(year)] <- value
+
+        if (verbose) private$cli_recruit_probability()
+
+      },
+
+
+
+    # Initializes Recruit Model Data.
+    #
+    initialize_recruit_model = function(model_num) {
+
+      checkmate::assert_choice(model_num,
+                               choice = private$.valid_recruit_model_num)
+
+      # `.number_projection_years` is used for recruitment
+      # models that use the model projection year time horizon for setup.
+      model_dict <- dict(list(
+        "0" = rlang::expr(null_recruit_model$new()),
+        "3" = rlang::expr(empirical_distribution_model$new(
+          private$.number_projection_years)),
+        "4" = rlang::expr(two_stage_empirical_ssb$new()),
+        "5" = rlang::expr(beverton_holt_curve_model$new()),
+        "6" = rlang::expr(ricker_curve_model$new()),
+        "7" = rlang::expr(shepherd_curve_model$new()),
+        "9" = rlang::expr(deprecated_recruit_model_9$new()),
+        "14" = rlang::expr(empirical_cdf_model$new()),
+        "15" = rlang::expr(two_stage_empirical_cdf$new())
+      ))
+
+      rlang::eval_tidy(
+        model_dict$get(as.character(model_num),
+                       default = stop(paste0("Recruitment Model Number ",
+                                             model_num, " does not match list ",
+                                             "of known recruitment models ",
+                                             " to initialize."),
+                                      call. = FALSE) ))
+
+    }
+
   )
+
 
 )

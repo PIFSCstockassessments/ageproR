@@ -12,12 +12,6 @@
 #' @importFrom R6 R6Class
 case_id <- R6Class(
   "case_id",
-  private = list(
-
-    .keyword_name = "caseid",
-
-    .model_name = NULL
-  ),
   public = list(
 
     #' @description
@@ -83,5 +77,12 @@ case_id <- R6Class(
     inp_keyword = function() {
       paste0("[",toupper(private$.keyword_name),"]")
     }
+
+  ),
+  private = list(
+
+    .keyword_name = "caseid",
+
+    .model_name = NULL
   )
 )

@@ -17,89 +17,6 @@
 #' @importFrom checkmate test_logical assert_number
 general_params <- R6Class(
   classname = "general_params",
-  private = list(
-
-    .yr_start = NULL,
-    .yr_end = NULL,
-    .age_begin = NULL,
-    .age_end = NULL,
-    .num_pop_sims = NULL,
-    .num_fleets = NULL,
-    .num_rec_models = NULL,
-    .discards_present = NULL,
-    .seed = NULL,
-
-    .keyword_name = "general",
-
-    ## Private setter functions w/ validation
-
-    #yr_start
-    set_yr_start = function (value) {
-      checkmate::assert_numeric(value, lower = 0, len = 1,
-                                .var.name = "yr_start")
-      private$.yr_start <- value
-    },
-
-    #yr_end
-    set_yr_end = function(value){
-      checkmate::assert_numeric(value, len = 1,
-                                lower = self$yr_start + 1,
-                                .var.name = "yr_end")
-      private$.yr_end <- value
-    },
-
-    #age_begin
-    set_age_begin = function(value){
-      checkmate::assert_choice(value, choices = c(0, 1),
-                               .var.name = "age_begin")
-      private$.age_begin <- value
-    },
-
-    #age_end
-    set_age_end = function(value){
-      checkmate::assert_numeric(value, len = 1,
-                                lower = self$age_begin + 1,
-                                .var.name = "age_end")
-      private$.age_end <- value
-    },
-
-    #num_pop_sims
-    set_num_pop_sims = function(value){
-      checkmate::assert_numeric(value, lower = 0, len = 1,
-                                .var.name = "num_pop_sims")
-      private$.num_pop_sims <- value
-    },
-
-    #num_fleets
-    set_num_fleets = function(value){
-      checkmate::assert_numeric(value, lower = 1, len = 1,
-                                .var.name = "num_fleets")
-      private$.num_fleets <- value
-    },
-
-    #num_rec_models
-    set_num_rec_models = function(value){
-      checkmate::assert_numeric(value, lower = 1, len = 1,
-                                .var.name = "num_rec_models")
-      private$.num_rec_models <- value
-    },
-
-    #discards_present
-    set_discards_present = function(value){
-      #set discard_present values as int/numeric. 0=FALSE 1=TRUE
-      checkmate::assert_choice(value, choices = c(0, 1),
-                               .var.name = "discards_present")
-      private$.discards_present <- value
-    },
-
-    #seed
-    set_seed = function(value){
-      checkmate::assert_numeric(value, len = 1,
-                                .var.name = "seed")
-      private$.seed <- value
-    }
-
-  ),
   public = list(
 
     #' @description
@@ -348,6 +265,90 @@ general_params <- R6Class(
       ))
     }
 
+  ),
+  private = list(
+
+    .yr_start = NULL,
+    .yr_end = NULL,
+    .age_begin = NULL,
+    .age_end = NULL,
+    .num_pop_sims = NULL,
+    .num_fleets = NULL,
+    .num_rec_models = NULL,
+    .discards_present = NULL,
+    .seed = NULL,
+
+    .keyword_name = "general",
+
+    ## Private setter functions w/ validation
+
+    #yr_start
+    set_yr_start = function (value) {
+      checkmate::assert_numeric(value, lower = 0, len = 1,
+                                .var.name = "yr_start")
+      private$.yr_start <- value
+    },
+
+    #yr_end
+    set_yr_end = function(value){
+      checkmate::assert_numeric(value, len = 1,
+                                lower = self$yr_start + 1,
+                                .var.name = "yr_end")
+      private$.yr_end <- value
+    },
+
+    #age_begin
+    set_age_begin = function(value){
+      checkmate::assert_choice(value, choices = c(0, 1),
+                               .var.name = "age_begin")
+      private$.age_begin <- value
+    },
+
+    #age_end
+    set_age_end = function(value){
+      checkmate::assert_numeric(value, len = 1,
+                                lower = self$age_begin + 1,
+                                .var.name = "age_end")
+      private$.age_end <- value
+    },
+
+    #num_pop_sims
+    set_num_pop_sims = function(value){
+      checkmate::assert_numeric(value, lower = 0, len = 1,
+                                .var.name = "num_pop_sims")
+      private$.num_pop_sims <- value
+    },
+
+    #num_fleets
+    set_num_fleets = function(value){
+      checkmate::assert_numeric(value, lower = 1, len = 1,
+                                .var.name = "num_fleets")
+      private$.num_fleets <- value
+    },
+
+    #num_rec_models
+    set_num_rec_models = function(value){
+      checkmate::assert_numeric(value, lower = 1, len = 1,
+                                .var.name = "num_rec_models")
+      private$.num_rec_models <- value
+    },
+
+    #discards_present
+    set_discards_present = function(value){
+      #set discard_present values as int/numeric. 0=FALSE 1=TRUE
+      checkmate::assert_choice(value, choices = c(0, 1),
+                               .var.name = "discards_present")
+      private$.discards_present <- value
+    },
+
+    #seed
+    set_seed = function(value){
+      checkmate::assert_numeric(value, len = 1,
+                                .var.name = "seed")
+      private$.seed <- value
+    }
+
   )
+
 
 )

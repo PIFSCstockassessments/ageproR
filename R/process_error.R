@@ -24,173 +24,7 @@
 #' @export
 process_error <- R6Class(
   "process_error",
-  private = list(
-
-    .input_option = NULL,
-    .time_varying = NULL,
-    .parameter_datafile = NULL,
-    .parameter_table = NULL,
-    .cv_table = NULL,
-    .upper_bounds = NULL,
-
-    .valid_input_options = c(0,1),
-    .weight_age_parameter = NULL,
-    .parameter_title = NULL,
-    .keyword_name = NULL,
-
-    .projection_years = NULL,
-    .num_ages = NULL,
-    .num_fleets = NULL,
-
-    .names_input_option = list(
-      "1" = "Import from auxiliary data file",
-      "0" = "Read from input data",
-      "-1" = "Use (Jan 1st) Stock Weights of Age",
-      "-2" = "Use SSB Weights of Age",
-      "-3" = "Use (Mid-year) Mean Weights of Age",
-      "-4" = "Use Catch Weights of Age"
-    ),
-
-
-    # Initializes Parameter and CV tables
-    setup_parameter_tables = function (projection_years,
-                                       num_ages,
-                                       num_fleets = 1,
-                                       time_varying = FALSE) {
-
-      #Initialize private values
-      private$.projection_years <- projection_years
-      private$.num_ages <- num_ages
-      private$.num_fleets <- num_fleets
-
-      #Validate parameters
-      checkmate::assert_numeric(projection_years$count, lower = 1)
-      checkmate::assert_integerish(num_ages, lower = 1)
-      checkmate::assert_integerish(num_fleets, lower = 1)
-
-      #initialize tables
-      private$.parameter_table <- vector("list", 1)
-      private$.cv_table <- vector("list", 1)
-
-      if(time_varying){
-
-        self$parameter_table <- self$create_parameter_table(
-          (projection_years$count * num_fleets), num_ages)
-
-      }else{
-        #All Years
-        self$parameter_table <-
-          self$create_parameter_table((1 * num_fleets), num_ages)
-      }
-
-      self$cv_table <-
-        self$create_parameter_table((1 * num_fleets), num_ages)
-
-
-      #Rownames: Fleet-Years
-      # Fleet-year rownames for Parameter of Age table
-      rownames(self$parameter_table)  <-
-        private$setup_parameter_table_rownames(projection_years$sequence,
-                                               num_fleets,
-                                               time_varying)
-
-      # Fleet-year rownames for CV. Not affected by time varying
-      rownames(self$cv_table) <-
-        private$setup_parameter_table_rownames(projection_years$sequence,
-                                               num_fleets)
-
-      #Colnames: Ages
-      colnames_ages <- paste0("Age", seq(num_ages))
-      colnames(self$parameter_table) <- colnames_ages
-      colnames(self$cv_table) <- colnames_ages
-
-    },
-
-
-
-    #Rownames: Fleet-Years
-    setup_parameter_table_rownames = function (proj_years_sequence,
-                                          num_fleets = 1,
-                                          time_varying = FALSE){
-      #Validate num_fleets
-      checkmate::check_integerish(num_fleets, lower = 1)
-
-      if(num_fleets > 1) {
-        if(time_varying) {
-          # Assemble Fleet-years rownames vector by creating a sequence of
-          # Fleet and projected_years sequence strings. For fleet-dependent
-          # parameters, repeat each unique element of the fleet
-          # sequence by the length of the time projection.
-          rownames_fleetyears <-
-
-            paste(paste0("Fleet", rep(seq(num_fleets),
-                                each = length(proj_years_sequence))),
-                  proj_years_sequence, sep = "-")
-
-
-        }else {
-          rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
-        }
-
-      } else {
-        # If num_fleets is 1 && use the projection_years sequence as rownames,
-        # Otherwise use the "All years" rowname
-        if(time_varying){
-          rownames_fleetyears <- proj_years_sequence
-        }else{
-          rownames_fleetyears <- "All Years"
-        }
-      }
-
-      return(rownames_fleetyears)
-
-    },
-
-    #Change in time_varying will reset parameter and CV table
-    time_varying_toggle_resets_parameter_table = function(time_flag) {
-
-      if(is.null(private$.time_varying)){
-        return()
-      }
-
-      if(time_flag != private$.time_varying){
-
-        private$setup_parameter_tables(private$.projection_years,
-                                      private$.num_ages,
-                                      private$.num_fleets,
-                                      time_varying = time_flag)
-      }
-      return()
-    },
-
-    # Function helper that prints the name representing the process error's
-    # input option.
-    print_input_option_name = function() {
-      #Check if input option is valid
-      checkmate::assert_choice(self$input_option,
-                               private$.valid_input_options,
-                               .var.name = "input_option")
-
-      input_option_name <-
-        private$.names_input_option[[as.character(self$input_option)]]
-
-      li_nested <- cli::cli_div(class = "input_field",
-                                theme = list(.input_field =
-                                               list("margin-left" = 2)))
-      cli::cli_text("{.emph {.field {input_option_name}}}")
-      cli::cli_end(li_nested)
-
-    },
-
-    # Function Wrapper to Print out Process Error Info at Initialization
-    cli_initialize = function(enable_cat_print = TRUE, ...) {
-      div_keyword_header(private$.keyword_name)
-      cli_alert("Setting up Default Values")
-      self$print(enable_cat_print, ...)
-    }
-
-
-  ), public = list (
+  public = list (
 
     #' @description
     #' Initializes the class
@@ -234,8 +68,6 @@ process_error <- R6Class(
       private$.weight_age_parameter <- FALSE
 
     },
-
-
 
 
     #' @description
@@ -497,13 +329,6 @@ process_error <- R6Class(
       ))
     }
 
-
-
-
-
-
-
-
   ), active = list (
 
     #' @field input_option
@@ -603,6 +428,172 @@ process_error <- R6Class(
         error = self$cv_table
       ))
     }
+
+  ),
+  private = list(
+
+    .input_option = NULL,
+    .time_varying = NULL,
+    .parameter_datafile = NULL,
+    .parameter_table = NULL,
+    .cv_table = NULL,
+    .upper_bounds = NULL,
+
+    .valid_input_options = c(0,1),
+    .weight_age_parameter = NULL,
+    .parameter_title = NULL,
+    .keyword_name = NULL,
+
+    .projection_years = NULL,
+    .num_ages = NULL,
+    .num_fleets = NULL,
+
+    .names_input_option = list(
+      "1" = "Import from auxiliary data file",
+      "0" = "Read from input data",
+      "-1" = "Use (Jan 1st) Stock Weights of Age",
+      "-2" = "Use SSB Weights of Age",
+      "-3" = "Use (Mid-year) Mean Weights of Age",
+      "-4" = "Use Catch Weights of Age"
+    ),
+
+
+    # Initializes Parameter and CV tables
+    setup_parameter_tables = function (projection_years,
+                                       num_ages,
+                                       num_fleets = 1,
+                                       time_varying = FALSE) {
+
+      #Initialize private values
+      private$.projection_years <- projection_years
+      private$.num_ages <- num_ages
+      private$.num_fleets <- num_fleets
+
+      #Validate parameters
+      checkmate::assert_numeric(projection_years$count, lower = 1)
+      checkmate::assert_integerish(num_ages, lower = 1)
+      checkmate::assert_integerish(num_fleets, lower = 1)
+
+      #initialize tables
+      private$.parameter_table <- vector("list", 1)
+      private$.cv_table <- vector("list", 1)
+
+      if(time_varying){
+
+        self$parameter_table <- self$create_parameter_table(
+          (projection_years$count * num_fleets), num_ages)
+
+      }else{
+        #All Years
+        self$parameter_table <-
+          self$create_parameter_table((1 * num_fleets), num_ages)
+      }
+
+      self$cv_table <-
+        self$create_parameter_table((1 * num_fleets), num_ages)
+
+
+      #Rownames: Fleet-Years
+      # Fleet-year rownames for Parameter of Age table
+      rownames(self$parameter_table)  <-
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets,
+                                               time_varying)
+
+      # Fleet-year rownames for CV. Not affected by time varying
+      rownames(self$cv_table) <-
+        private$setup_parameter_table_rownames(projection_years$sequence,
+                                               num_fleets)
+
+      #Colnames: Ages
+      colnames_ages <- paste0("Age", seq(num_ages))
+      colnames(self$parameter_table) <- colnames_ages
+      colnames(self$cv_table) <- colnames_ages
+
+    },
+
+
+    #Rownames: Fleet-Years
+    setup_parameter_table_rownames = function (proj_years_sequence,
+                                               num_fleets = 1,
+                                               time_varying = FALSE){
+      #Validate num_fleets
+      checkmate::check_integerish(num_fleets, lower = 1)
+
+      if(num_fleets > 1) {
+        if(time_varying) {
+          # Assemble Fleet-years rownames vector by creating a sequence of
+          # Fleet and projected_years sequence strings. For fleet-dependent
+          # parameters, repeat each unique element of the fleet
+          # sequence by the length of the time projection.
+          rownames_fleetyears <-
+
+            paste(paste0("Fleet", rep(seq(num_fleets),
+                                      each = length(proj_years_sequence))),
+                  proj_years_sequence, sep = "-")
+
+
+        }else {
+          rownames_fleetyears <- paste0("Fleet",seq(num_fleets))
+        }
+
+      } else {
+        # If num_fleets is 1 && use the projection_years sequence as rownames,
+        # Otherwise use the "All years" rowname
+        if(time_varying){
+          rownames_fleetyears <- proj_years_sequence
+        }else{
+          rownames_fleetyears <- "All Years"
+        }
+      }
+
+      return(rownames_fleetyears)
+
+    },
+
+    #Change in time_varying will reset parameter and CV table
+    time_varying_toggle_resets_parameter_table = function(time_flag) {
+
+      if(is.null(private$.time_varying)){
+        return()
+      }
+
+      if(time_flag != private$.time_varying){
+
+        private$setup_parameter_tables(private$.projection_years,
+                                       private$.num_ages,
+                                       private$.num_fleets,
+                                       time_varying = time_flag)
+      }
+      return()
+    },
+
+    # Function helper that prints the name representing the process error's
+    # input option.
+    print_input_option_name = function() {
+      #Check if input option is valid
+      checkmate::assert_choice(self$input_option,
+                               private$.valid_input_options,
+                               .var.name = "input_option")
+
+      input_option_name <-
+        private$.names_input_option[[as.character(self$input_option)]]
+
+      li_nested <- cli::cli_div(class = "input_field",
+                                theme = list(.input_field =
+                                               list("margin-left" = 2)))
+      cli::cli_text("{.emph {.field {input_option_name}}}")
+      cli::cli_end(li_nested)
+
+    },
+
+    # Function Wrapper to Print out Process Error Info at Initialization
+    cli_initialize = function(enable_cat_print = TRUE, ...) {
+      div_keyword_header(private$.keyword_name)
+      cli_alert("Setting up Default Values")
+      self$print(enable_cat_print, ...)
+    }
+
 
   )
 

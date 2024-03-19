@@ -24,130 +24,6 @@
 #' @export
 mortality_fraction_prior_spawn <- R6Class(
   "mortality_fraction_prior_spawn",
-  private = list(
-
-    .keyword_name = "biological",
-
-    .projection_years = NULL,
-    .time_varying = NULL,
-    .natural_mortality_prior_spawn = NULL,
-    .fishing_mortality_prior_spawn = NULL,
-    .proportion_total_mortality_matrix = NULL,
-
-
-    set_time_varying = function(value, ...){
-
-      #Convert logical values as numeric
-      if(checkmate::test_logical(value)){
-        value <- as.numeric(value)
-      }
-
-      validation_error <- checkmate::makeAssertCollection()
-      checkmate::assert_numeric(value, add = validation_error)
-      checkmate::assert_choice(value, choices = c(0, 1),
-                               add = validation_error)
-      checkmate::reportAssertions(validation_error)
-
-      # Check input 'value' is the same as time_varying field being overridden
-      field_changed <- isFALSE(identical(private$.time_varying, value))
-
-      private$.time_varying <- value
-
-      if(field_changed){
-
-        cli::cli_alert(c("{.val time_varying} is set as ",
-                        "{.val {private$.time_varying}} ",
-                        "{.emph ({as.logical(private$.time_varying)})}"))
-        private$set_default_fraction_mortality_matrix(...)
-        cli::cli_alert("New {.val proportion_total_mortality_matrix} created")
-
-      }
-
-    },
-
-    # Handle proj_years that may be a single int or sequential numeric vector
-    set_projection_years = function(value){
-
-      # Handle instances where value is passed as projection_years class
-      if(checkmate::test_r6(value, public = c("count","sequence"))){
-        private$.projection_years <- value$clone(deep = TRUE)
-        invisible(value)
-      }
-
-      checkmate::assert_numeric(value)
-      private$.projection_years <-
-        ageproR::projection_years$new(as.numeric(value))
-
-
-    },
-
-
-    # Creates matrix object vector for natural_mortality_before_spawn and
-    # fishing_mortality_before_spawn
-    set_fraction_mortality_matrix = function(value,
-                                             time_varying,
-                                             row_names = NULL) {
-
-      #Validate if value is proportional value
-      checkmate::assert_numeric(value, lower = 0, upper = 1)
-
-      if(time_varying){
-        return(
-          matrix(value,
-                 nrow = 1,
-                 ncol = private$.projection_years$count,
-                 dimnames = list(row_names,
-                                 private$.projection_years$sequence))
-        )
-
-      }else{
-        return(
-          matrix(value,
-                 nrow = 1,
-                 ncol = 1,
-                 dimnames = list(row_names, "All Years"))
-        )
-
-      }
-
-    },
-
-
-    set_default_fraction_mortality_matrix = function(default_proportion = 0.5) {
-
-      #Validation
-      validation_error <- checkmate::makeAssertCollection()
-      checkmate::assert_numeric(private$.projection_years$count,
-                                add = validation_error)
-      checkmate::assert_numeric(private$.time_varying, add = validation_error)
-      checkmate::reportAssertions(validation_error)
-
-      if(private$.time_varying) {
-        default_proportion <-
-          rep(default_proportion/private$.projection_years$count,
-              private$.projection_years$count)
-      }
-
-
-      private$.natural_mortality_prior_spawn <-
-        private$set_fraction_mortality_matrix(default_proportion,
-                                              private$.time_varying,
-                                              "natural_mortality_prior_spawn")
-
-      private$.fishing_mortality_prior_spawn <-
-        private$set_fraction_mortality_matrix(default_proportion,
-                                              private$.time_varying,
-                                              "fishing_mortality_prior_spawn")
-
-      private$.proportion_total_mortality_matrix <-
-        rbind(private$.natural_mortality_prior_spawn,
-              private$.fishing_mortality_prior_spawn)
-
-
-    }
-
-
-  ),
   public = list(
 
 
@@ -380,6 +256,129 @@ mortality_fraction_prior_spawn <- R6Class(
     #' Returns AGEPRO input-file formatted Parameter
     inp_keyword = function() {
       paste0("[",toupper(private$.keyword_name),"]")
+    }
+
+  ),
+  private = list(
+
+    .keyword_name = "biological",
+
+    .projection_years = NULL,
+    .time_varying = NULL,
+    .natural_mortality_prior_spawn = NULL,
+    .fishing_mortality_prior_spawn = NULL,
+    .proportion_total_mortality_matrix = NULL,
+
+
+    set_time_varying = function(value, ...){
+
+      #Convert logical values as numeric
+      if(checkmate::test_logical(value)){
+        value <- as.numeric(value)
+      }
+
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_numeric(value, add = validation_error)
+      checkmate::assert_choice(value, choices = c(0, 1),
+                               add = validation_error)
+      checkmate::reportAssertions(validation_error)
+
+      # Check input 'value' is the same as time_varying field being overridden
+      field_changed <- isFALSE(identical(private$.time_varying, value))
+
+      private$.time_varying <- value
+
+      if(field_changed){
+
+        cli::cli_alert(c("{.val time_varying} is set as ",
+                         "{.val {private$.time_varying}} ",
+                         "{.emph ({as.logical(private$.time_varying)})}"))
+        private$set_default_fraction_mortality_matrix(...)
+        cli::cli_alert("New {.val proportion_total_mortality_matrix} created")
+
+      }
+
+    },
+
+    # Handle proj_years that may be a single int or sequential numeric vector
+    set_projection_years = function(value){
+
+      # Handle instances where value is passed as projection_years class
+      if(checkmate::test_r6(value, public = c("count","sequence"))){
+        private$.projection_years <- value$clone(deep = TRUE)
+        invisible(value)
+      }
+
+      checkmate::assert_numeric(value)
+      private$.projection_years <-
+        ageproR::projection_years$new(as.numeric(value))
+
+
+    },
+
+
+    # Creates matrix object vector for natural_mortality_before_spawn and
+    # fishing_mortality_before_spawn
+    set_fraction_mortality_matrix = function(value,
+                                             time_varying,
+                                             row_names = NULL) {
+
+      #Validate if value is proportional value
+      checkmate::assert_numeric(value, lower = 0, upper = 1)
+
+      if(time_varying){
+        return(
+          matrix(value,
+                 nrow = 1,
+                 ncol = private$.projection_years$count,
+                 dimnames = list(row_names,
+                                 private$.projection_years$sequence))
+        )
+
+      }else{
+        return(
+          matrix(value,
+                 nrow = 1,
+                 ncol = 1,
+                 dimnames = list(row_names, "All Years"))
+        )
+
+      }
+
+    },
+
+
+    set_default_fraction_mortality_matrix = function(default_proportion = 0.5) {
+
+      #Validation
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_numeric(private$.projection_years$count,
+                                add = validation_error)
+      checkmate::assert_numeric(private$.time_varying, add = validation_error)
+      checkmate::reportAssertions(validation_error)
+
+      if(private$.time_varying) {
+        default_proportion <-
+          rep(default_proportion/private$.projection_years$count,
+              private$.projection_years$count)
+      }
+
+
+      private$.natural_mortality_prior_spawn <-
+        private$set_fraction_mortality_matrix(default_proportion,
+                                              private$.time_varying,
+                                              "natural_mortality_prior_spawn")
+
+      private$.fishing_mortality_prior_spawn <-
+        private$set_fraction_mortality_matrix(default_proportion,
+                                              private$.time_varying,
+                                              "fishing_mortality_prior_spawn")
+
+      private$.proportion_total_mortality_matrix <-
+        rbind(private$.natural_mortality_prior_spawn,
+              private$.fishing_mortality_prior_spawn)
+
+
     }
 
 
