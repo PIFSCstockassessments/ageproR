@@ -1,4 +1,6 @@
-# ageproR 0.6.2
+# ageproR 0.6.2 2024-03-20
+
+- Revise R6 class method order to: public, active, private for maintainability  
 
 # ageproR 0.6.1 2024-03-18
 
