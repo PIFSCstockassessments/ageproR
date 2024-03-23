@@ -35,9 +35,9 @@ You can install the development version of ageproR from
 [PIFSCstockassessments GitHub Repository](https://github.com/PIFSCstockassessments/ageproR) 
 with:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("PIFSCstockassessments/ageproR")
+```{r, eval = FALSE}
+install.packages("pak")
+pak::pkg_install("PIFSCstockassessments/ageproR")
 ```
 
 ## AGEPRO input file 
