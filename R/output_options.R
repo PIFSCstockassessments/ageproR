@@ -20,18 +20,25 @@ output_options <- R6Class(
     #' Initializes the class
     #'
     #' @param summary_report
-    #' description
+    #' Logical flag to enable stock summary output.
     #'
     #' @param process_error_aux_files
-    #' Logical flag to
+    #' Logical flag to enable output of process_error auxiliary files
+    #'
+    #' @param export_r_data_frame
+    #' Logical flag to enable AGEPRO ouyput to data.frame
     #'
     initialize = function(summary_report = FALSE,
                           process_error_aux_files = FALSE,
-                          export_r = TRUE) {
+                          export_r_data_frame = TRUE) {
 
       div_keyword_header(private$.keyword_name)
       cli_alert(paste0("Setting up values for total proportion of mortality ",
                        "prior to spawn ..."))
+
+      self$output_summary_report <- summary_report
+      self$output_process_error_aux_files <- process_error_aux_files
+      self$output_data_frame <- export_r_data_frame
 
     }
 
@@ -48,29 +55,29 @@ output_options <- R6Class(
       }
     },
 
-    #' @field output_process_error_auxiliary_data
+    #' @field output_process_error_aux_files
     #' [Logical][base::logical] flag to output population and fishery processes
     #' simulated with lognormal process error (process_error parameters) to
     #' auxiliary output files
-    output_process_error_auxiliary_data = function(value) {
+    output_process_error_aux_files = function(value) {
       if(missing(value)) {
-        return(private$.output_process_error_auxiliary_data)
+        return(private$.output_process_error_aux_files)
       }else {
-        private$.output_process_error_auxiliary_data <-
+        private$.output_process_error_aux_files <-
           validate_logical_parameter(value)
       }
     },
 
-    #' @field export_r
+    #' @field output_data_frame
     #' [Logical][base::logical] flag to output AGEPRO calculation engine
     #' projection results to R [data.frame][base::data.frame]. Default is
     #' `1` (or TRUE) at initialization.
     #'
-    export_r = function(value) {
+    output_data_frame = function(value) {
       if(missing(value)){
-        return(private$.export_r)
+        return(private$.output_data_frame)
       }else{
-        private$.export_r <- validate_logical_parameter(value)
+        private$.output_data_frame <- validate_logical_parameter(value)
       }
     },
 
@@ -92,8 +99,8 @@ output_options <- R6Class(
     .keyword_name = "options",
 
     .output_stock_summary = NULL,
-    .output_process_error_auxiliary_data = NULL,
-    .export_r = NULL
+    .output_process_error_aux_files = NULL,
+    .output_data_frame = NULL
 
 
 

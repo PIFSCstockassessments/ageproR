@@ -12,11 +12,11 @@ options to export AGEPRO output
 \describe{
 \item{\code{output_stock_summary}}{\link[base:logical]{Logical} flag to output stock summary information}
 
-\item{\code{output_process_error_auxiliary_data}}{\link[base:logical]{Logical} flag to output population and fishery processes
+\item{\code{output_process_error_aux_files}}{\link[base:logical]{Logical} flag to output population and fishery processes
 simulated with lognormal process error (process_error parameters) to
 auxiliary output files}
 
-\item{\code{export_r}}{\link[base:logical]{Logical} flag to output AGEPRO calculation engine
+\item{\code{output_data_frame}}{\link[base:logical]{Logical} flag to output AGEPRO calculation engine
 projection results to R \link[base:data.frame]{data.frame}. Default is
 \code{1} (or TRUE) at initialization.}
 
@@ -42,16 +42,18 @@ Initializes the class
 \if{html}{\out{<div class="r">}}\preformatted{output_options$new(
   summary_report = FALSE,
   process_error_aux_files = FALSE,
-  export_r = TRUE
+  export_r_data_frame = TRUE
 )}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{summary_report}}{description}
+\item{\code{summary_report}}{Logical flag to enable stock summary output.}
 
-\item{\code{process_error_aux_files}}{Logical flag to}
+\item{\code{process_error_aux_files}}{Logical flag to enable output of process_error auxiliary files}
+
+\item{\code{export_r_data_frame}}{Logical flag to enable AGEPRO ouyput to data.frame}
 }
 \if{html}{\out{</div>}}
 }
