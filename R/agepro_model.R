@@ -176,6 +176,8 @@ agepro_model <- R6Class(
         mortality_fraction_prior_spawn$new(x$seq_years,
                                            enable_cat_print = enable_cat_print)
 
+      self$options <- output_options$new()
+
 
       if(self$projection_analyses_type == "pstar") {
         self$pstar <-
@@ -583,6 +585,22 @@ agepro_model <- R6Class(
         private$.mortality_fraction_prior_spawn <- value
       }
 
+    },
+
+
+    #' @field options
+    #' Options for AGEPRO projection output
+    #'
+    options = function(value) {
+      if(missing(value)){
+        return(private$.output_options)
+      }else {
+        checkmate::check_r6(value,
+                            public = c("output_stock_summary",
+                                       "output_process_error_aux_files",
+                                       "output_data_frame"))
+        private$.output_options <- value
+      }
     }
 
   ),
@@ -609,6 +627,7 @@ agepro_model <- R6Class(
     .pstar_projection = NULL,
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
+    .output_options = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
