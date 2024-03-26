@@ -30,6 +30,7 @@ projection results to R \link[base:data.frame]{data.frame}. Default is
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-output_options-new}{\code{output_options$new()}}
+\item \href{#method-output_options-print}{\code{output_options$print()}}
 \item \href{#method-output_options-clone}{\code{output_options$clone()}}
 }
 }
@@ -57,6 +58,16 @@ Initializes the class
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-output_options-print"></a>}}
+\if{latex}{\out{\hypertarget{method-output_options-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out output_option values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{output_options$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-output_options-clone"></a>}}

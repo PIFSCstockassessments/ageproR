@@ -33,12 +33,31 @@ output_options <- R6Class(
                           export_r_data_frame = TRUE) {
 
       div_keyword_header(private$.keyword_name)
-      cli_alert(paste0("Setting up values for total proportion of mortality ",
-                       "prior to spawn ..."))
+      cli_alert("Setting AGEPRO projection output options ...")
 
-      self$output_summary_report <- summary_report
+      self$output_stock_summary <- summary_report
       self$output_process_error_aux_files <- process_error_aux_files
       self$output_data_frame <- export_r_data_frame
+
+      self$print()
+
+    },
+
+    #' @description
+    #' Formatted to print out output_option values
+    #'
+    print = function() {
+      cli::cli_par()
+      cli::cli_li(paste0("output_stock_summary: ",
+                    "{.val {private$.output_stock_summary}} ",
+                    "{.emph ({as.logical(private$.output_stock_summary)})}"))
+      cli::cli_li(paste0("output_process_error_aux_files: ",
+                    "{.val {private$.output_process_error_aux_files}} ",
+                    "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
+      cli::cli_li(paste0("output_data_frame (export AGEPRO output as data.frame): ",
+                    "{.val {private$.output_data_frame}} ",
+                    "{.emph ({as.logical(private$.output_data_frame)})}"))
+      cli::cli_end()
 
     }
 
