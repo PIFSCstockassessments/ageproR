@@ -39,7 +39,8 @@ output_options <- R6Class(
       # validate_logical_parameter messages
       withCallingHandlers(
         message = function (cnd) {
-          cli::cli_text(paste0("summary_report: ", conditionMessage(cnd)))
+          cli::cli_text(paste0("summary_report: ",
+                               "{sub('→ ', '', conditionMessage(cnd))}"))
           rlang::cnd_muffle(cnd)
         },
         self$output_stock_summary <- summary_report
@@ -47,7 +48,8 @@ output_options <- R6Class(
 
       withCallingHandlers(
         message = function(cnd) {
-          cli::cli_text("process_error_aux_files: {conditionMessage(cnd)}")
+          cli::cli_text(paste0("process_error_aux_files: ",
+                               "{sub('→ ', '', conditionMessage(cnd))}"))
           rlang::cnd_muffle(cnd)
         },
         self$output_process_error_aux_files <- process_error_aux_files
@@ -55,7 +57,8 @@ output_options <- R6Class(
 
       withCallingHandlers(
         message = function(cnd) {
-          cli::cli_alert("export_r_data_frame: {conditionMessage(cnd)}")
+          cli::cli_alert(paste0("export_r_data_frame: ",
+                                "{sub('→ ', '', conditionMessage(cnd))}"))
           rlang::cnd_muffle(cnd)
         },
         self$output_data_frame <- export_r_data_frame
