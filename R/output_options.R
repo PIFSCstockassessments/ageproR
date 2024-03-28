@@ -35,9 +35,31 @@ output_options <- R6Class(
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting AGEPRO projection output options ...")
 
-      self$output_stock_summary <- summary_report
-      self$output_process_error_aux_files <- process_error_aux_files
-      self$output_data_frame <- export_r_data_frame
+      # withCallingHandlers Wrappers to wrap fields with
+      # validate_logical_parameter messages
+      withCallingHandlers(
+        message = function (cnd) {
+          cli::cli_text(paste0("summary_report: ", conditionMessage(cnd)))
+          rlang::cnd_muffle(cnd)
+        },
+        self$output_stock_summary <- summary_report
+      )
+
+      withCallingHandlers(
+        message = function(cnd) {
+          cli::cli_text("process_error_aux_files: {conditionMessage(cnd)}")
+          rlang::cnd_muffle(cnd)
+        },
+        self$output_process_error_aux_files <- process_error_aux_files
+      )
+
+      withCallingHandlers(
+        message = function(cnd) {
+          cli::cli_alert("export_r_data_frame: {conditionMessage(cnd)}")
+          rlang::cnd_muffle(cnd)
+        },
+        self$output_data_frame <- export_r_data_frame
+      )
 
       self$print()
 
