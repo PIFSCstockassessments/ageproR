@@ -51,11 +51,12 @@ Initializes the class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{summary_report}}{Logical flag to enable stock summary output.}
+\item{\code{summary_report}}{\link[base:logical]{Logical} flag to enable stock summary output.}
 
-\item{\code{process_error_aux_files}}{Logical flag to enable output of process_error auxiliary files}
+\item{\code{process_error_aux_files}}{\link[base:logical]{Logical} flag to enable output of process_error
+auxiliary files}
 
-\item{\code{export_r_data_frame}}{Logical flag to enable AGEPRO ouyput to data.frame}
+\item{\code{export_r_data_frame}}{\link[base:logical]{Logical} flag to enable AGEPRO output to data.frame}
 }
 \if{html}{\out{</div>}}
 }

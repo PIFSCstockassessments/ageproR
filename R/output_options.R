@@ -23,13 +23,14 @@ output_options <- R6Class(
     #' Initializes the class
     #'
     #' @param summary_report
-    #' Logical flag to enable stock summary output.
+    #' [Logical][base::logical] flag to enable stock summary output.
     #'
     #' @param process_error_aux_files
-    #' Logical flag to enable output of process_error auxiliary files
+    #' [Logical][base::logical] flag to enable output of process_error
+    #' auxiliary files
     #'
     #' @param export_r_data_frame
-    #' Logical flag to enable AGEPRO ouyput to data.frame
+    #' [Logical][base::logical] flag to enable AGEPRO output to data.frame
     #'
     initialize = function(summary_report = FALSE,
                           process_error_aux_files = FALSE,
