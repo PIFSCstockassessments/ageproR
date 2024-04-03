@@ -31,6 +31,7 @@ projection results to R \link[base:data.frame]{data.frame}. Default is
 \itemize{
 \item \href{#method-output_options-new}{\code{output_options$new()}}
 \item \href{#method-output_options-print}{\code{output_options$print()}}
+\item \href{#method-output_options-read_inp_lines}{\code{output_options$read_inp_lines()}}
 \item \href{#method-output_options-clone}{\code{output_options$clone()}}
 }
 }
@@ -68,6 +69,28 @@ Formatted to print out output_option values
 \if{html}{\out{<div class="r">}}\preformatted{output_options$print()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-output_options-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-output_options-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter OPTIONS from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{output_options$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-output_options-clone"></a>}}

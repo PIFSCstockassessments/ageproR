@@ -10,6 +10,9 @@
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite toJSON
 #'
+#' @template inp_con
+#' @template nline
+#'
 #' @export
 #'
 output_options <- R6Class(
@@ -84,6 +87,28 @@ output_options <- R6Class(
                     "{.emph ({as.logical(private$.output_data_frame)})}"))
       cli::cli_end()
 
+    },
+
+    #' @description
+    #' Reads in the values from the keyword parameter OPTIONS from the
+    #' AGEPRO Input file
+    #'
+    read_inp_lines = function (inp_con, nline) {
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$output_stock_summary <- inp_line[1]
+      self$output_process_error_aux_files <- inp_line[2]
+      self$output_data_frame <- inp_line[3]
+
+      cli::cli_alert(paste0("Line {nline} : ",
+                            "Reading AGEPRO projection output options ..."))
+      self$print()
+
+      retrurn(nline)
     }
 
   ),
