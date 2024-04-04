@@ -109,7 +109,7 @@ output_options <- R6Class(
                             "Reading AGEPRO projection output options ..."))
       self$print()
 
-      retrurn(nline)
+      return(nline)
     },
 
     #' @description
