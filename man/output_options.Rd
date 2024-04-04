@@ -32,6 +32,7 @@ projection results to R \link[base:data.frame]{data.frame}. Default is
 \item \href{#method-output_options-new}{\code{output_options$new()}}
 \item \href{#method-output_options-print}{\code{output_options$print()}}
 \item \href{#method-output_options-read_inp_lines}{\code{output_options$read_inp_lines()}}
+\item \href{#method-output_options-get_inp_lines}{\code{output_options$get_inp_lines()}}
 \item \href{#method-output_options-clone}{\code{output_options$clone()}}
 }
 }
@@ -89,6 +90,24 @@ AGEPRO Input file
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-output_options-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-output_options-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns values from the output_options (OPTIONS)
+AGEPRO keyword parameter formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{output_options$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

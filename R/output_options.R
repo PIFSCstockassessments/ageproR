@@ -94,7 +94,7 @@ output_options <- R6Class(
     #' Reads in the values from the keyword parameter OPTIONS from the
     #' AGEPRO Input file
     #'
-    read_inp_lines = function (inp_con, nline) {
+    read_inp_lines = function(inp_con, nline) {
 
       cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
 
@@ -110,6 +110,22 @@ output_options <- R6Class(
       self$print()
 
       retrurn(nline)
+    },
+
+    #' @description
+    #' Returns values from the output_options (OPTIONS)
+    #' AGEPRO keyword parameter formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " "){
+      return(list(
+        self$inp_keyword,
+        paste(self$output_stock_summary,
+              self$output_process_error_aux_files,
+              self$output_data_frame,
+              sep = delimiter)
+      ))
     }
 
   ),

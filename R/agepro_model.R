@@ -845,6 +845,9 @@ agepro_inp_model <- R6Class(
         },
         "[REBUILD]" = {
           rlang::expr(private$read_rebuild_projection(inp_con, self$nline))
+        },
+        "[OPTIONS]" = {
+          rlang::expr(private$read_output_options(inp_con, self$nline))
         }
 
       ))
@@ -1124,11 +1127,15 @@ agepro_inp_model <- R6Class(
       self$set_projection_analyses_type("rebuild")
 
       self$nline <- self$rebuild$read_inp_lines(con, nline)
+    },
+
+    read_output_options = function(con, nline) {
+
+      self$nline <- self$options$read_inp_lines(con, nline)
     }
 
 
   )
-
 )
 
 #' @title
