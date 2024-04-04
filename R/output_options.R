@@ -76,7 +76,7 @@ output_options <- R6Class(
     #' Formatted to print out output_option values
     #'
     print = function() {
-      cli::cli_par()
+      cli::cli_ul(id = "output_options_fields")
       cli::cli_li(paste0("output_stock_summary: ",
                     "{.val {private$.output_stock_summary}} ",
                     "{.emph ({as.logical(private$.output_stock_summary)})}"))
@@ -86,7 +86,7 @@ output_options <- R6Class(
       cli::cli_li(paste0("output_data_frame (export AGEPRO output as data.frame): ",
                     "{.val {private$.output_data_frame}} ",
                     "{.emph ({as.logical(private$.output_data_frame)})}"))
-      cli::cli_end()
+      cli::cli_end(id = "output_options_fields")
 
     },
 
@@ -107,6 +107,8 @@ output_options <- R6Class(
 
       cli::cli_alert(paste0("Line {nline} : ",
                             "Reading AGEPRO projection output options ..."))
+
+      cli::cli_div(theme= list(ul = list(`margin-left` = 2, before = "")))
       self$print()
 
       return(nline)
