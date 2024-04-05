@@ -949,7 +949,8 @@ agepro_inp_model <- R6Class(
             },
             if(self$projection_analyses_type == "rebuild"){
               self$rebuild$get_inp_lines(delimiter)
-            }
+            },
+            self$options$get_inp_lines(delimiter)
           )
 
         }
