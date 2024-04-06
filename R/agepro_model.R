@@ -1209,7 +1209,9 @@ agepro_json_model <- R6Class(
              "recruit" = self$recruit$json_list_object,
              "harvest" = self$harvest$json_list_object,
              "pstar" = self$pstar$json_list_object,
-             "rebuild" = self$rebuild$json_list_object
+             "rebuild" = self$rebuild$json_list_object,
+             "options" = self$options$json_list_object
+
         )
 
 

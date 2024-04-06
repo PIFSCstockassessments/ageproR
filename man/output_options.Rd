@@ -20,6 +20,8 @@ auxiliary output files}
 projection results to R \link[base:data.frame]{data.frame}. Default is
 \code{1} (or TRUE) at initialization.}
 
+\item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}

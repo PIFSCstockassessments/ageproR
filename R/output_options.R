@@ -169,6 +169,16 @@ output_options <- R6Class(
       }
     },
 
+    #' @field json_list_object
+    #' Returns JSON list object of containing output_options values
+    json_list_object = function() {
+      return(list(
+        stock_summary_flag = self$output_stock_summary,
+        process_error_aux_data_flag = self$output_process_error_aux_files,
+        export_R_flag = self$output_data_frame
+      ))
+    },
+
     #' @field keyword_name
     #' AGEPRO keyword parameter name
     keyword_name = function() {
