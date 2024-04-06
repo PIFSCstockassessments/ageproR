@@ -1283,7 +1283,8 @@ agepro_json_model <- R6Class(
                                       "disc_weight",
                                       "recruit",
                                       "harvest",
-                                      "pstar"))
+                                      "pstar",
+                                      "options"))
 
       self$projection_analyses_type <-
         inp_model$projection_analyses_type
@@ -1325,6 +1326,7 @@ agepro_json_model <- R6Class(
         self$rebuild <- inp_model$rebuild
 
       }
+      self$options <- inp_model$options
 
       invisible(inp_model)
 
