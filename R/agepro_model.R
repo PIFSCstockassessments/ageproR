@@ -1242,7 +1242,7 @@ agepro_json_model <- R6Class(
 
       write(self$get_json(), file)
 
-      message("Saved at :\n", file)
+      message("JSON input file saved at:\n", file)
       if (show_dir) {
         browseURL(dirname(file))
       }
