@@ -39,13 +39,8 @@ output_options <- R6Class(
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting AGEPRO projection output options ...")
 
-      # withCallingHandlers Wrappers to wrap fields with
-      # validate_logical_parameter messages
-
       self$output_stock_summary <- summary_report
-
       self$output_process_error_aux_files <- process_error_aux_files
-
       self$output_data_frame <- export_r_data_frame
 
     },
@@ -117,6 +112,9 @@ output_options <- R6Class(
       if(missing(value)) {
         return(private$.output_stock_summary)
       }else{
+
+        # Calling Handler to wrap field name w/ validate_logical_parameter
+        # message
         withCallingHandlers(
           message = function (cnd) {
             cli::cli_alert(
@@ -139,6 +137,9 @@ output_options <- R6Class(
       if(missing(value)) {
         return(private$.output_process_error_aux_files)
       }else {
+
+        # Calling Handler to wrap field name w/ validate_logical_parameter
+        # message
         withCallingHandlers(
           message = function(cnd) {
             cli::cli_alert(
@@ -163,10 +164,14 @@ output_options <- R6Class(
       if(missing(value)){
         return(private$.output_data_frame)
       }else{
+
+        # Calling Handler to wrap field name w/ validate_logical_parameter
+        # message
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(paste0("output_data_frame: ",
-                                  "{sub('\u2192 ', '', conditionMessage(cnd))}"))
+            cli::cli_alert(
+              paste0("output_data_frame: ",
+                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
             rlang::cnd_muffle(cnd)
           },
 
