@@ -66,6 +66,8 @@ calculated across all fleets with the rebuild spawning biomass.}
 
 \item{\code{biological}}{Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
 mortality (\eqn{M})}
+
+\item{\code{options}}{Options for AGEPRO projection output}
 }
 \if{html}{\out{</div>}}
 }

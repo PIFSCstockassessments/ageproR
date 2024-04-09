@@ -176,6 +176,8 @@ agepro_model <- R6Class(
         mortality_fraction_prior_spawn$new(x$seq_years,
                                            enable_cat_print = enable_cat_print)
 
+      self$options <- output_options$new()
+
 
       if(self$projection_analyses_type == "pstar") {
         self$pstar <-
@@ -583,6 +585,22 @@ agepro_model <- R6Class(
         private$.mortality_fraction_prior_spawn <- value
       }
 
+    },
+
+
+    #' @field options
+    #' Options for AGEPRO projection output
+    #'
+    options = function(value) {
+      if(missing(value)){
+        return(private$.output_options)
+      }else {
+        checkmate::check_r6(value,
+                            public = c("output_stock_summary",
+                                       "output_process_error_aux_files",
+                                       "output_data_frame"))
+        private$.output_options <- value
+      }
     }
 
   ),
@@ -609,6 +627,7 @@ agepro_model <- R6Class(
     .pstar_projection = NULL,
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
+    .output_options = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -826,6 +845,9 @@ agepro_inp_model <- R6Class(
         },
         "[REBUILD]" = {
           rlang::expr(private$read_rebuild_projection(inp_con, self$nline))
+        },
+        "[OPTIONS]" = {
+          rlang::expr(private$read_output_options(inp_con, self$nline))
         }
 
       ))
@@ -927,7 +949,8 @@ agepro_inp_model <- R6Class(
             },
             if(self$projection_analyses_type == "rebuild"){
               self$rebuild$get_inp_lines(delimiter)
-            }
+            },
+            self$options$get_inp_lines(delimiter)
           )
 
         }
@@ -1105,11 +1128,15 @@ agepro_inp_model <- R6Class(
       self$set_projection_analyses_type("rebuild")
 
       self$nline <- self$rebuild$read_inp_lines(con, nline)
+    },
+
+    read_output_options = function(con, nline) {
+
+      self$nline <- self$options$read_inp_lines(con, nline)
     }
 
 
   )
-
 )
 
 #' @title
@@ -1182,7 +1209,9 @@ agepro_json_model <- R6Class(
              "recruit" = self$recruit$json_list_object,
              "harvest" = self$harvest$json_list_object,
              "pstar" = self$pstar$json_list_object,
-             "rebuild" = self$rebuild$json_list_object
+             "rebuild" = self$rebuild$json_list_object,
+             "options" = self$options$json_list_object
+
         )
 
 
@@ -1213,7 +1242,7 @@ agepro_json_model <- R6Class(
 
       write(self$get_json(), file)
 
-      message("Saved at :\n", file)
+      message("JSON input file saved at:\n", file)
       if (show_dir) {
         browseURL(dirname(file))
       }
@@ -1254,7 +1283,8 @@ agepro_json_model <- R6Class(
                                       "disc_weight",
                                       "recruit",
                                       "harvest",
-                                      "pstar"))
+                                      "pstar",
+                                      "options"))
 
       self$projection_analyses_type <-
         inp_model$projection_analyses_type
@@ -1296,6 +1326,7 @@ agepro_json_model <- R6Class(
         self$rebuild <- inp_model$rebuild
 
       }
+      self$options <- inp_model$options
 
       invisible(inp_model)
 
