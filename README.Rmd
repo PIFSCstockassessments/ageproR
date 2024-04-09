@@ -36,6 +36,11 @@ You can install the development version of ageproR from
 with:
 
 ```{r, eval = FALSE}
+
+install.packages("remotes")
+remotes::install_github("PIFSCstockassessments/ageproR")
+
+# Alternative method via `pak`
 install.packages("pak")
 pak::pkg_install("PIFSCstockassessments/ageproR")
 ```
