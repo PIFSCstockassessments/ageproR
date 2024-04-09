@@ -41,23 +41,10 @@ output_options <- R6Class(
 
       # withCallingHandlers Wrappers to wrap fields with
       # validate_logical_parameter messages
-      withCallingHandlers(
-        message = function (cnd) {
-          cli::cli_text(paste0("summary_report: ",
-                               "{sub('\u2192 ', '', conditionMessage(cnd))}"))
-          rlang::cnd_muffle(cnd)
-        },
-        self$output_stock_summary <- summary_report
-      )
 
-      withCallingHandlers(
-        message = function(cnd) {
-          cli::cli_text(paste0("process_error_aux_files: ",
-                               "{sub('\u2192 ', '', conditionMessage(cnd))}"))
-          rlang::cnd_muffle(cnd)
-        },
-        self$output_process_error_aux_files <- process_error_aux_files
-      )
+      self$output_stock_summary <- summary_report
+
+      self$output_process_error_aux_files <- process_error_aux_files
 
       self$output_data_frame <- export_r_data_frame
 
@@ -130,7 +117,17 @@ output_options <- R6Class(
       if(missing(value)) {
         return(private$.output_stock_summary)
       }else{
-        private$.output_stock_summary <- validate_logical_parameter(value)
+        withCallingHandlers(
+          message = function (cnd) {
+            cli::cli_alert(
+              paste0("output_summary_report: ",
+                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
+
+            rlang::cnd_muffle(cnd)
+          },
+
+          private$.output_stock_summary <- validate_logical_parameter(value)
+        )
       }
     },
 
@@ -142,8 +139,18 @@ output_options <- R6Class(
       if(missing(value)) {
         return(private$.output_process_error_aux_files)
       }else {
-        private$.output_process_error_aux_files <-
-          validate_logical_parameter(value)
+        withCallingHandlers(
+          message = function(cnd) {
+            cli::cli_alert(
+              paste0("output_process_error_aux_files: ",
+                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
+
+            rlang::cnd_muffle(cnd)
+          },
+
+          private$.output_process_error_aux_files <-
+            validate_logical_parameter(value)
+        )
       }
     },
 
@@ -156,12 +163,10 @@ output_options <- R6Class(
       if(missing(value)){
         return(private$.output_data_frame)
       }else{
-
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(
-              paste0("export_r_data_frame: ",
-                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
+            cli::cli_alert(paste0("output_data_frame: ",
+                                  "{sub('\u2192 ', '', conditionMessage(cnd))}"))
             rlang::cnd_muffle(cnd)
           },
 
