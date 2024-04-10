@@ -20,6 +20,9 @@ auxiliary output files}
 projection results to R \link[base:data.frame]{data.frame}. Default is
 \code{1} (or TRUE) at initialization.}
 
+\item{\code{enable_percentile_distributions}}{\link[base:logical]{Logical} flag to allow percentile summary of the key
+results in the output file.}
+
 \item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
@@ -47,7 +50,8 @@ Initializes the class
 \if{html}{\out{<div class="r">}}\preformatted{output_options$new(
   summary_report = FALSE,
   process_error_aux_files = FALSE,
-  export_r_data_frame = TRUE
+  export_r_data_frame = TRUE,
+  enable_percentile = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -60,6 +64,9 @@ Initializes the class
 auxiliary files}
 
 \item{\code{export_r_data_frame}}{\link[base:logical]{Logical} flag to enable AGEPRO output to data.frame}
+
+\item{\code{enable_percentile}}{\link[base:logical]{Logical} flag to enable percentile summary of the key
+results in the output file.}
 }
 \if{html}{\out{</div>}}
 }

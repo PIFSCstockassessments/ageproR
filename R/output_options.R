@@ -32,9 +32,14 @@ output_options <- R6Class(
     #' @param export_r_data_frame
     #' [Logical][base::logical] flag to enable AGEPRO output to data.frame
     #'
+    #' @param enable_percentile
+    #' [Logical][base::logical] flag to enable percentile summary of the key
+    #' results in the output file.
+    #'
     initialize = function(summary_report = FALSE,
                           process_error_aux_files = FALSE,
-                          export_r_data_frame = TRUE) {
+                          export_r_data_frame = TRUE,
+                          enable_percentile = FALSE) {
 
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting AGEPRO projection output options ...")
@@ -42,6 +47,7 @@ output_options <- R6Class(
       self$output_stock_summary <- summary_report
       self$output_process_error_aux_files <- process_error_aux_files
       self$output_data_frame <- export_r_data_frame
+      self$enable_percentile_distributions <- enable_percentile
 
     },
 
@@ -148,7 +154,6 @@ output_options <- R6Class(
 
             rlang::cnd_muffle(cnd)
           },
-
           private$.output_process_error_aux_files <-
             validate_logical_parameter(value)
         )
@@ -176,6 +181,31 @@ output_options <- R6Class(
           },
 
           private$.output_data_frame <- validate_logical_parameter(value)
+        )
+
+      }
+    },
+
+    #' @field enable_percentile_distributions
+    #' [Logical][base::logical] flag to allow percentile summary of the key
+    #' results in the output file.
+    #'
+    enable_percentile_distributions = function(value){
+      if(missing(value)){
+        return(private$.enable_percentile_distributions)
+      }else{
+
+        # Calling Handler to wrap field name w/ validate_logical_parameter
+        # message
+        withCallingHandlers(
+          message = function(cnd) {
+            cli::cli_alert(
+              paste0("enable_perenctile_distributions: ",
+                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
+            rlang::cnd_muffle(cnd)
+          },
+          private$.enable_percentile_distributions <-
+            validate_logical_parameter(value)
         )
 
       }
@@ -210,7 +240,8 @@ output_options <- R6Class(
 
     .output_stock_summary = NULL,
     .output_process_error_aux_files = NULL,
-    .output_data_frame = NULL
+    .output_data_frame = NULL,
+    .enable_percentile_distributions = NULL
 
 
 
