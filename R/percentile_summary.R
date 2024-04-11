@@ -1,21 +1,30 @@
 
 
 #' @title
+#' Percentile summary of the key results of AGEPRO projection output
 #'
 #' @description
-#' A short description...
+#' Class Structure that includes user-defined options for setting
+#' a specific percentile for the distributions of outputs.
 #'
-specific_percentile <- R6Class(
-  "specific_percentile",
+#' @template inp_con
+#' @template nline
+#'
+#' @export
+#'
+percentile_summary <- R6Class(
+  "percentile_summary",
   public = list(
 
     #' @description
     #' Initialize the class
     #'
-    #' @param perc User-defined percentile of projected disrubutions
+    #' @param perc User-defined percentile of projected distributions
     #'
     initialize = function(perc = 0){
 
+      div_keyword_header(private$.keyword_name)
+      cli_alert("Setting default report percentile value ...")
 
       self$report_percentile <- perc
     }
@@ -38,7 +47,7 @@ specific_percentile <- R6Class(
         checkmate::assert_numeric(value, lower = 0, upper = 100)
         private$.report_percentile <- value
       }
-    }
+    },
 
     #' @field keyword_name
     #' AGEPRO keyword parameter name

@@ -20,7 +20,7 @@ auxiliary output files}
 projection results to R \link[base:data.frame]{data.frame}. Default is
 \code{1} (or TRUE) at initialization.}
 
-\item{\code{enable_percentile_distributions}}{\link[base:logical]{Logical} flag to allow percentile summary of the key
+\item{\code{enable_percentile_summary}}{\link[base:logical]{Logical} flag to allow percentile summary of the key
 results in the output file.}
 
 \item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
