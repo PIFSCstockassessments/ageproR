@@ -12,8 +12,8 @@
 #' @template nline
 #'
 #'
-agepro_options_container <- R6Class(
-  "agepro_options_container",
+agepro_options_flags <- R6Class(
+  "agepro_options_flags",
   public = list(
 
     #' @description
@@ -27,6 +27,7 @@ agepro_options_container <- R6Class(
 
       self$enable_percentile_summary <- enable_percentile
     }
+
 
   ),
   active = list(
