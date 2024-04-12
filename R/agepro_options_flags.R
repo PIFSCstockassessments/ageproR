@@ -40,20 +40,12 @@ agepro_options_flags <- R6Class(
       if(missing(value)){
         return(private$.enable_percentile_summary)
       }else{
+        checkmate::assert_logical(value)
 
-        # Calling Handler to wrap field name w/ validate_logical_parameter
-        # message
-        withCallingHandlers(
-          message = function(cnd) {
-            cli::cli_alert(
-              paste0("enable_percentile_summary: ",
-                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
-            rlang::cnd_muffle(cnd)
-          },
-          private$.enable_percentile_summary <-
-            validate_logical_parameter(value)
-        )
+        private$.enable_percentile_summary <- value
 
+        cli::cli_alert(paste0("enable_percentile_summary: ",
+                              "{.val {private$.enable_percentile_summary}}"))
       }
     }
 
