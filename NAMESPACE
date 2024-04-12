@@ -3,6 +3,7 @@
 export(agepro_inp_model)
 export(agepro_json_model)
 export(agepro_model)
+export(agepro_options_flags)
 export(beverton_holt_curve_model)
 export(case_id)
 export(deprecated_recruit_model_9)

@@ -14,6 +14,7 @@
 #'
 percentile_summary <- R6Class(
   "percentile_summary",
+  inherit = agepro_options_flags,
   public = list(
 
     #' @description
@@ -27,6 +28,7 @@ percentile_summary <- R6Class(
       cli_alert("Setting default report percentile value ...")
 
       self$report_percentile <- perc
+      private$.enable_percentile_summary <- TRUE
     }
 
 

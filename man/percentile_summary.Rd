@@ -7,6 +7,9 @@
 Class Structure that includes user-defined options for setting
 a specific percentile for the distributions of outputs.
 }
+\section{Super class}{
+\code{\link[ageproR:agepro_options_flags]{ageproR::agepro_options_flags}} -> \code{percentile_summary}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -29,6 +32,13 @@ numbers at age}
 \item \href{#method-percentile_summary-clone}{\code{percentile_summary$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_options_flags" data-id="intialize"><a href='../../ageproR/html/agepro_options_flags.html#method-agepro_options_flags-intialize'><code>ageproR::agepro_options_flags$intialize()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-percentile_summary-new"></a>}}
 \if{latex}{\out{\hypertarget{method-percentile_summary-new}{}}}

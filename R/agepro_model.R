@@ -103,6 +103,8 @@ agepro_model <- R6Class(
       #Assign and verify projection_analyses_type
       self$set_projection_analyses_type(projection_analyses_type)
 
+      private$.agepro_options_flags <- agepro_options_flags$new()
+
       private$.discards_present <- x$discards_present
 
       self$case_id <- case_id$new()
@@ -601,6 +603,13 @@ agepro_model <- R6Class(
                                        "output_data_frame"))
         private$.output_options <- value
       }
+    },
+
+    #' @field agepro_options_flags
+    #' Read-only field that returns what options can be enabled
+    #'
+    agepro_options_flags = function(){
+      return(private$.agepro_options_flags)
     }
 
   ),
@@ -630,7 +639,8 @@ agepro_model <- R6Class(
     .output_options = NULL,
 
     .discards_present = NULL,
-    .projection_analyses_type = NULL
+    .projection_analyses_type = NULL,
+    .agepro_options_flags = NULL
 
   )
 

@@ -11,6 +11,7 @@
 #' @template inp_con
 #' @template nline
 #'
+#' @export
 #'
 agepro_options_flags <- R6Class(
   "agepro_options_flags",
@@ -28,6 +29,7 @@ agepro_options_flags <- R6Class(
       self$enable_percentile_summary <- enable_percentile
     }
 
+    # TODO TODO TODO figure out how to set logicals to these fields (from outside this class)
 
   ),
   active = list(
