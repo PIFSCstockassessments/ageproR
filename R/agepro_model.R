@@ -523,6 +523,26 @@ agepro_model <- R6Class(
      }
     },
 
+
+    #' @field perc
+    #' User-selected percentile summary of the key results in the output file.
+    #'
+    perc = function(value) {
+      if(missing(value)){
+        return(private$.user_percentile)
+      }else{
+
+        if(checkmate::test_null(value)){
+          private$.agepro_options_flags$enable_percentile_summary <- FALSE
+          return(invisible())
+        }
+        checkmate::assert_r6(value, public = c("report_percentile"))
+        private$.agepro_options_flags$enable_percentile_summary <- TRUE
+        private$.user_percentile <- value
+
+      }
+    },
+
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
     #' probability of overfishing in the target year.
@@ -637,6 +657,7 @@ agepro_model <- R6Class(
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
+    .user_percentile = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL,

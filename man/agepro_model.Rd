@@ -58,6 +58,8 @@ Discard Fraction}
 
 \item{\code{recruit}}{AGEPRO Recruitment Model information}
 
+\item{\code{perc}}{User-selected percentile summary of the key results in the output file.}
+
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
 
