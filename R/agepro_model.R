@@ -531,15 +531,21 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.user_percentile)
       }else{
+        tryCatch({
 
-        if(checkmate::test_null(value)){
-          private$.agepro_options_flags$enable_percentile_summary <- FALSE
-          return(invisible())
-        }
-        checkmate::assert_r6(value, public = c("report_percentile"))
-        private$.agepro_options_flags$enable_percentile_summary <- TRUE
-        private$.user_percentile <- value
+          private$.agepro_options_flags$enable_user_percentile_summary <- TRUE
+          checkmate::assert_r6(value, public = c("report_percentile"))
+          private$.user_percentile <- value
 
+          },
+          error = function(err) {
+
+            message("Error :")
+            private$.agepro_options_flags$enable_user_percentile_summary <- FALSE
+
+            stop(err)
+          }
+        )
       }
     },
 

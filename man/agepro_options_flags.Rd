@@ -11,7 +11,7 @@ points, maximum bounds, and retrospective adjustment.
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{enable_percentile_summary}}{\link[base:logical]{Logical} flag to allow percentile summary of the key
+\item{\code{enable_user_percentile_summary}}{\link[base:logical]{Logical} flag to allow percentile summary of the key
 results in the output file.}
 }
 \if{html}{\out{</div>}}

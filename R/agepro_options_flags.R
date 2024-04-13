@@ -26,7 +26,7 @@ agepro_options_flags <- R6Class(
     #'
     initialize = function(enable_percentile = FALSE) {
 
-      self$enable_percentile_summary <- enable_percentile
+      self$enable_user_percentile_summary <- enable_percentile
     }
 
     # TODO TODO TODO figure out how to set logicals to these fields (from outside this class)
@@ -34,27 +34,27 @@ agepro_options_flags <- R6Class(
   ),
   active = list(
 
-    #' @field enable_percentile_summary
+    #' @field enable_user_percentile_summary
     #' [Logical][base::logical] flag to allow percentile summary of the key
     #' results in the output file.
     #'
-    enable_percentile_summary = function(value){
+    enable_user_percentile_summary = function(value){
       if(missing(value)){
-        return(private$.enable_percentile_summary)
+        return(private$.enable_user_percentile_summary)
       }else{
         checkmate::assert_logical(value)
 
-        private$.enable_percentile_summary <- value
+        private$.enable_user_percentile_summary <- value
 
-        cli::cli_alert(paste0("enable_percentile_summary: ",
-                              "{.val {private$.enable_percentile_summary}}"))
+        cli::cli_alert(paste0("enable_user_percentile_summary: ",
+                              "{.val {private$.enable_user_percentile_summary}}"))
       }
     }
 
   ),
   private = list(
 
-    .enable_percentile_summary = NULL,
+    .enable_user_percentile_summary = NULL,
     .enable_reference_points = NULL,
     .enable_scaling_factors = NULL,
     .enable_max_bounds = NULL,
