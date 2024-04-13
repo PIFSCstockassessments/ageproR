@@ -24,7 +24,7 @@ agepro_options_flags <- R6Class(
     #' [Logical][base::logical] flag to enable percentile summary of the key
     #' results in the output file.
     #'
-    intialize = function(enable_percentile = FALSE) {
+    initialize = function(enable_percentile = FALSE) {
 
       self$enable_percentile_summary <- enable_percentile
     }

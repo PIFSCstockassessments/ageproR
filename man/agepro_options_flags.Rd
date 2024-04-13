@@ -19,17 +19,17 @@ results in the output file.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-agepro_options_flags-intialize}{\code{agepro_options_flags$intialize()}}
+\item \href{#method-agepro_options_flags-new}{\code{agepro_options_flags$new()}}
 \item \href{#method-agepro_options_flags-clone}{\code{agepro_options_flags$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_options_flags-intialize"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_options_flags-intialize}{}}}
-\subsection{Method \code{intialize()}}{
+\if{html}{\out{<a id="method-agepro_options_flags-new"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_options_flags-new}{}}}
+\subsection{Method \code{new()}}{
 Initialize the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_options_flags$intialize(enable_percentile = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_options_flags$new(enable_percentile = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

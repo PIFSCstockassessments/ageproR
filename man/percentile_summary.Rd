@@ -32,13 +32,6 @@ numbers at age}
 \item \href{#method-percentile_summary-clone}{\code{percentile_summary$clone()}}
 }
 }
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_options_flags" data-id="intialize"><a href='../../ageproR/html/agepro_options_flags.html#method-agepro_options_flags-intialize'><code>ageproR::agepro_options_flags$intialize()</code></a></span></li>
-</ul>
-</details>
-}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-percentile_summary-new"></a>}}
 \if{latex}{\out{\hypertarget{method-percentile_summary-new}{}}}
