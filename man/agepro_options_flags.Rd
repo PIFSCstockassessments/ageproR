@@ -20,6 +20,7 @@ results in the output file.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-agepro_options_flags-new}{\code{agepro_options_flags$new()}}
+\item \href{#method-agepro_options_flags-set_enable_user_percentile_summary}{\code{agepro_options_flags$set_enable_user_percentile_summary()}}
 \item \href{#method-agepro_options_flags-clone}{\code{agepro_options_flags$clone()}}
 }
 }
@@ -37,6 +38,23 @@ Initialize the class
 \describe{
 \item{\code{enable_percentile}}{\link[base:logical]{Logical} flag to enable percentile summary of the key
 results in the output file.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_options_flags-set_enable_user_percentile_summary"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_options_flags-set_enable_user_percentile_summary}{}}}
+\subsection{Method \code{set_enable_user_percentile_summary()}}{
+Toggles the logical flag to enable user_percentile summary
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_options_flags$set_enable_user_percentile_summary(value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{Logical value}
 }
 \if{html}{\out{</div>}}
 }

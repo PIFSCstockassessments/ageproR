@@ -27,9 +27,24 @@ agepro_options_flags <- R6Class(
     initialize = function(enable_percentile = FALSE) {
 
       self$enable_user_percentile_summary <- enable_percentile
+    },
+
+    #' @description
+    #' Toggles the logical flag to enable user_percentile summary
+    #'
+    #' @param value
+    #' Logical value
+    #'
+    set_enable_user_percentile_summary = function(value) {
+      checkmate::assert_logical(value)
+
+      private$.enable_user_percentile_summary <- value
+
+      cli::cli_alert(paste0("enable_user_percentile_summary: ",
+                            "{.val {private$.enable_user_percentile_summary}}"))
+
     }
 
-    # TODO TODO TODO figure out how to set logicals to these fields (from outside this class)
 
   ),
   active = list(
@@ -39,16 +54,12 @@ agepro_options_flags <- R6Class(
     #' results in the output file.
     #'
     enable_user_percentile_summary = function(value){
-      if(missing(value)){
-        return(private$.enable_user_percentile_summary)
-      }else{
-        checkmate::assert_logical(value)
-
-        private$.enable_user_percentile_summary <- value
-
-        cli::cli_alert(paste0("enable_user_percentile_summary: ",
-                              "{.val {private$.enable_user_percentile_summary}}"))
+      if(isFALSE(missing(value))){
+        stop("active binding is read only", call. = FALSE)
       }
+
+      private$.enable_user_percentile_summary
+
     }
 
   ),
@@ -59,6 +70,7 @@ agepro_options_flags <- R6Class(
     .enable_scaling_factors = NULL,
     .enable_max_bounds = NULL,
     .enable_retrospective_adjustment = NULL
+
 
   )
 )

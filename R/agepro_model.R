@@ -192,6 +192,9 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
+
+     self$perc <- user_percentile_summary$new()
+
     },
 
     #' @description
@@ -529,21 +532,23 @@ agepro_model <- R6Class(
     #'
     perc = function(value) {
       if(missing(value)){
-        return(private$.user_percentile)
+        return(private$.user_percentile_summary)
       }else{
         tryCatch({
 
-          private$.agepro_options_flags$enable_user_percentile_summary <- TRUE
+          self$agepro_options_flags$set_enable_user_percentile_summary(TRUE)
           checkmate::assert_r6(value, public = c("report_percentile"))
-          private$.user_percentile <- value
+          private$.user_percentile_summary <- value
 
           },
           error = function(err) {
 
             message("Error :")
-            private$.agepro_options_flags$enable_user_percentile_summary <- FALSE
+            suppressMessages(
+              self$agepro_options_flags$set_enable_user_percentile_summary(
+                FALSE))
 
-            stop(err)
+            message(err)
           }
         )
       }
@@ -663,7 +668,7 @@ agepro_model <- R6Class(
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
-    .user_percentile = NULL,
+    .user_percentile_summary = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL,

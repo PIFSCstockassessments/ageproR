@@ -19,6 +19,8 @@ spawning stock biomass, stock biomass on January 1st, mean biomass,
 combined catch biomass, landings, fishing mortality, and stock
 numbers at age}
 
+\item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
@@ -29,22 +31,82 @@ numbers at age}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-user_percentile_summary-new}{\code{user_percentile_summary$new()}}
+\item \href{#method-user_percentile_summary-print}{\code{user_percentile_summary$print()}}
+\item \href{#method-user_percentile_summary-read_inp_lines}{\code{user_percentile_summary$read_inp_lines()}}
+\item \href{#method-user_percentile_summary-get_inp_lines}{\code{user_percentile_summary$get_inp_lines()}}
 \item \href{#method-user_percentile_summary-clone}{\code{user_percentile_summary$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_options_flags" data-id="set_enable_user_percentile_summary"><a href='../../ageproR/html/agepro_options_flags.html#method-agepro_options_flags-set_enable_user_percentile_summary'><code>ageproR::agepro_options_flags$set_enable_user_percentile_summary()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-user_percentile_summary-new"></a>}}
 \if{latex}{\out{\hypertarget{method-user_percentile_summary-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{perc}}{User-defined percentile of projected distributions}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-user_percentile_summary-print"></a>}}
+\if{latex}{\out{\hypertarget{method-user_percentile_summary-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out output_option values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-user_percentile_summary-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-user_percentile_summary-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter PERC from the
+AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-user_percentile_summary-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-user_percentile_summary-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns values from the class to the PERC AGEPRO keyword parameter
+formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
