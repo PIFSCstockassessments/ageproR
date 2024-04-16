@@ -22,7 +22,7 @@ agepro_options_flags <- R6Class(
     #'
     #' @param enable_percentile
     #' [Logical][base::logical] flag to enable percentile summary of the key
-    #' results in the output file.
+    #' results in the output file. FALSE by default.
     #'
     initialize = function(enable_percentile = FALSE) {
 
@@ -35,7 +35,7 @@ agepro_options_flags <- R6Class(
     #' @param value
     #' Logical value
     #'
-    set_enable_user_percentile_summary = function(value) {
+    set_flag_user_percentile_summary = function(value) {
       checkmate::assert_logical(value)
 
       private$.enable_user_percentile_summary <- value

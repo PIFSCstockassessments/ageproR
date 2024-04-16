@@ -542,10 +542,10 @@ agepro_model <- R6Class(
 
           #Toggle flag TRUE if report_percentile has value
           if(is.null(private$.user_percentile_summary$report_percentile)){
-            self$agepro_options_flags$set_enable_user_percentile_summary(FALSE)
+            self$agepro_options_flags$set_flag_user_percentile_summary(FALSE)
           } else {
             cli::cli_alert("Setting user percentile value ...")
-            self$agepro_options_flags$set_enable_user_percentile_summary(TRUE)
+            self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
           }
 
 
@@ -554,7 +554,7 @@ agepro_model <- R6Class(
 
             message("Error :")
             suppressMessages(
-              self$agepro_options_flags$set_enable_user_percentile_summary(
+              self$agepro_options_flags$set_flag_user_percentile_summary(
                 FALSE))
 
             message(err)
