@@ -11,7 +11,6 @@
 #'
 user_percentile_summary <- R6Class(
   "user_percentile_summary",
-  inherit = agepro_options_flags,
   public = list(
 
     #' @description
@@ -26,12 +25,6 @@ user_percentile_summary <- R6Class(
                                 null.ok = TRUE, len = 1)
 
       self$report_percentile <- perc
-      #Toggle flag if report_percentile has
-      if(isFALSE(is.null(perc))){
-        cli::cli_alert("Setting user percentile value ...")
-        self$set_enable_user_percentile_summary(TRUE)
-      }
-
 
     },
 

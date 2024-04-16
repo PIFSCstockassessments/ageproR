@@ -536,9 +536,18 @@ agepro_model <- R6Class(
       }else{
         tryCatch({
 
-          self$agepro_options_flags$set_enable_user_percentile_summary(TRUE)
           checkmate::assert_r6(value, public = c("report_percentile"))
+
           private$.user_percentile_summary <- value
+
+          #Toggle flag TRUE if report_percentile has value
+          if(is.null(private$.user_percentile_summary$report_percentile)){
+            self$agepro_options_flags$set_enable_user_percentile_summary(FALSE)
+          } else {
+            cli::cli_alert("Setting user percentile value ...")
+            self$agepro_options_flags$set_enable_user_percentile_summary(TRUE)
+          }
+
 
           },
           error = function(err) {

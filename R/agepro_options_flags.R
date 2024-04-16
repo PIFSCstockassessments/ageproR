@@ -26,7 +26,7 @@ agepro_options_flags <- R6Class(
     #'
     initialize = function(enable_percentile = FALSE) {
 
-      self$enable_user_percentile_summary <- enable_percentile
+      private$.enable_user_percentile_summary <- enable_percentile
     },
 
     #' @description
