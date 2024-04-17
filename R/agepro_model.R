@@ -899,6 +899,9 @@ agepro_inp_model <- R6Class(
         },
         "[OPTIONS]" = {
           rlang::expr(private$read_output_options(inp_con, self$nline))
+        },
+        "[PERC]" = {
+          rlang::expr(private$read_user_percentile_report(inp_con, self$nline))
         }
 
       ))
@@ -1184,6 +1187,11 @@ agepro_inp_model <- R6Class(
     read_output_options = function(con, nline) {
 
       self$nline <- self$options$read_inp_lines(con, nline)
+    },
+
+    read_user_percentile_report = function(con, nline) {
+
+      self$nline <- self$perc$read_inp_lines(con, nline)
     }
 
 
