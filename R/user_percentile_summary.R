@@ -50,11 +50,11 @@ user_percentile_summary <- R6Class(
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
+      self$report_percentile <- inp_line
+
       cli::cli_alert(paste0("Line {nline} : ",
                             "report_percentile: ",
                             "{.val {self$report_percentile}}"))
-
-      self$report_percentile <- inp_line
 
       return(nline)
     },
