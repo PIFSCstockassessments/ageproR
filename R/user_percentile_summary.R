@@ -7,6 +7,13 @@
 #' Class Structure that includes user-defined options for setting
 #' a specific percentile for the distributions of outputs.
 #'
+#' @details
+#' The user_percentile_summary class (or `PERC`) is recognized as a keyword
+#' parameter used in the AGEPRO input file format, but it is optional.
+#' Initialized agepro_models flags the class  as FALSE until  a will be initialize with NULL
+#' report_percentile.
+#'
+#'
 #' @export
 #'
 user_percentile_summary <- R6Class(

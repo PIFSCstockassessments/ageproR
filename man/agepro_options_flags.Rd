@@ -2,11 +2,32 @@
 % Please edit documentation in R/agepro_options_flags.R
 \name{agepro_options_flags}
 \alias{agepro_options_flags}
-\title{Class container that encapsulates AGEPRO user-defined options}
+\title{Class container that encapsulates logical flags to enable AGEPRO
+user-defined options}
 \description{
-Class Structure that encapsulates AGEPRO's user-defined options including
-output options, percentile summary, scaling factors, biological reference
-points, maximum bounds, and retrospective adjustment.
+Encapsulates logical flags indicating that an optional AGEPRO's option can
+be used: these options are percentile summary (PERC), scaling factors
+(SCALE), biological reference points (REFPOINT), maximum bounds (BOUNDS), and
+retrospective adjustment (RETROADJUST).
+}
+\details{
+Associated with AGEPRO's output options (OPTIONS) are additional optional
+options:
+
+\describe{
+\item{PERC}{user_percentile_summary}
+\item{REFPOINT}{reference_points}
+\item{SCALE}{scaling_factors}
+\item{BOUNDS}{max_bounds}
+\item{RETROADJUST}{retrospective_adjustment}
+}
+
+The AGEPRO input file format recognizes these optional keyword parameters.
+At initialization, all option flags will be set to FALSE. To "enable" an
+optional option or set it to TRUE, assign a value to the optional option's
+field. For example, if the flag to enable for percentile summary
+(\code{enable_user_percentile_summary}) is FALSE: set value \code{report_percentile},
+Then it will be TRUE
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
