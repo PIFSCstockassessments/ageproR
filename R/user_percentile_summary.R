@@ -66,6 +66,12 @@ user_percentile_summary <- R6Class(
     #' @template delimiter
     #'
     get_inp_lines = function(delimiter = " ") {
+
+      # Re-check fields before formatting.
+      # In this case, do not allow NULL values to be passed.
+      checkmate::assert_numeric(self$report_percentile,
+                                lower = 0, upper = 100)
+
       return(list(
         self$inp_keyword,
         self$report_percentile

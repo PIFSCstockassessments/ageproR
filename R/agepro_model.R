@@ -1004,7 +1004,10 @@ agepro_inp_model <- R6Class(
             if(self$projection_analyses_type == "rebuild"){
               self$rebuild$get_inp_lines(delimiter)
             },
-            self$options$get_inp_lines(delimiter)
+            self$options$get_inp_lines(delimiter),
+            if(self$agepro_options_flags$enable_user_percentile_summary){
+              self$perc$get_inp_lines(delimiter)
+            }
           )
 
         }
@@ -1269,7 +1272,14 @@ agepro_json_model <- R6Class(
              "harvest" = self$harvest$json_list_object,
              "pstar" = self$pstar$json_list_object,
              "rebuild" = self$rebuild$json_list_object,
-             "options" = self$options$json_list_object
+             "options" = self$options$json_list_object,
+             "perc" = {
+               if(self$agepro_options_flags$enable_user_percentile_summary){
+                 self$perc$json_list_object
+               }else{
+                 NA
+               }
+             }
 
         )
 
