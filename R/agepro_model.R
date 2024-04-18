@@ -536,7 +536,7 @@ agepro_model <- R6Class(
       }else{
         tryCatch({
 
-          checkmate::assert_r6(value, public = c("report_percentile"))
+          assert_perc_active_binding(value)
 
           private$.user_percentile_summary <- value
 
@@ -552,12 +552,13 @@ agepro_model <- R6Class(
           },
           error = function(err) {
 
-            message("Error :")
             suppressMessages(
               self$agepro_options_flags$set_flag_user_percentile_summary(
                 FALSE))
 
-            message(err)
+            message(paste0("Error: ", err,
+                           "Setting enable_user_percentile_summary ",
+                           "to FALSE"))
           }
         )
       }
