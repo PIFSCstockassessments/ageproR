@@ -27,6 +27,7 @@ File Functionality on experimental JSON input file
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_bootstrap_filename"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_bootstrap_filename'><code>ageproR::agepro_model$set_bootstrap_filename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_projection_analyses_type"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_projection_analyses_type'><code>ageproR::agepro_model$set_projection_analyses_type()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproR::agepro_model$set_recruit_model()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_report_percentile"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_report_percentile'><code>ageproR::agepro_model$set_report_percentile()</code></a></span></li>
 </ul>
 </details>
 }}

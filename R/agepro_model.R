@@ -265,6 +265,33 @@ agepro_model <- R6Class(
       self$bootstrap$set_bootstrap_filename(bsnfile)
     },
 
+
+    #' @description
+    #' Wrapper Function to set user_percentile_summary's report percentile. If
+    #' the user percentile option is not enabled, it will enable the
+    #' additional agepro option flag.
+    #'
+    #' The user_percentile_summary class will not accept values until it is
+    #' enable_user_percentile_summary is TRUE.
+    #'
+    #' @param percentile
+    #' User-selected percentile for the percentile report
+    #'
+    set_report_percentile = function(percentile) {
+
+      #validate user_percentile_summaru is not NULL
+      checkmate::assert_r6(self$perc, public = c("report_percentile"))
+
+      if(isFALSE(self$agepro_options_flags$enable_user_percentile_summary)){
+        self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
+      }
+
+      self$perc$report_percentile <- percentile
+
+
+    },
+
+
     #' @description
     #' Helper Function to setup agepro model's projection analyses type. agepro
     #' models use standard projection analyses by default, and do not require
@@ -539,32 +566,23 @@ agepro_model <- R6Class(
           #Validate value as user_percentile_summary R6class
           assert_perc_active_binding(value)
 
-          #Presume initialized class.
-          if(is.null(value$report_percentile)) {
-            return(private$.user_percentile_summary <- value)
-          }
+          if(isTRUE(self$agepro_options_flags$enable_user_percentile_summary)){
 
-
-          if(isFALSE(self$agepro_options_flags$enable_user_percentile_summary)){
             div_keyword_header(value$keyword_name)
-            self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
             cli::cli_alert("Setting user percentile value ...")
+            private$.user_percentile_summary <- value
+
+          }else{
+            stop(paste0("Enable user_percentile_summary option, ",
+                        "via agepro_options_flags function ",
+                        "set_flag_user_percentile_summary",
+                        "to set value.") )
           }
+        },
+        error = function(err) {
 
-          private$.user_percentile_summary <- value
-
-          },
-          error = function(err) {
-
-            suppressMessages(
-              self$agepro_options_flags$set_flag_user_percentile_summary(
-                FALSE))
-
-            message(paste0("Error: ", err,
-                           "Setting enable_user_percentile_summary ",
-                           "to FALSE"))
-          }
-        )
+          message(paste0("Error: ", err))
+        })
       }
     },
 

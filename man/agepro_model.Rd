@@ -82,6 +82,7 @@ mortality (\eqn{M})}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
+\item \href{#method-agepro_model-set_report_percentile}{\code{agepro_model$set_report_percentile()}}
 \item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
@@ -200,6 +201,28 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{bsnfile}}{bootstrap filename}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_model-set_report_percentile"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-set_report_percentile}{}}}
+\subsection{Method \code{set_report_percentile()}}{
+Wrapper Function to set user_percentile_summary's report percentile. If
+the user percentile option is not enabled, it will enable the
+additional agepro option flag.
+
+The user_percentile_summary class will not accept values until it is
+enable_user_percentile_summary is TRUE.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_report_percentile(percentile)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{percentile}}{User-selected percentile for the percentile report}
 }
 \if{html}{\out{</div>}}
 }
