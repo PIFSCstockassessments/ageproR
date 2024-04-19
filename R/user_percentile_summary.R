@@ -36,7 +36,7 @@ user_percentile_summary <- R6Class(
         self$report_percentile <- perc
 
       }else{
-        supressMessages(self$report_percentile <- perc)
+        suppressMessages(self$report_percentile <- perc)
       }
 
 
@@ -48,6 +48,7 @@ user_percentile_summary <- R6Class(
     #' Formatted to print out output_option values
     #'
     print = function(){
+
       cli::cli_alert("report_percentile: {.val {self$report_percentile}}")
     },
 
@@ -106,6 +107,9 @@ user_percentile_summary <- R6Class(
     #'
     report_percentile = function(value) {
       if(missing(value)){
+        if(is.null(private$.report_precentile)){
+          warning("report_percentile is NULL", call. = FALSE)
+        }
         return(private$.report_percentile)
       }else {
         checkmate::assert_numeric(value, null.ok = TRUE, lower = 0, upper = 100)

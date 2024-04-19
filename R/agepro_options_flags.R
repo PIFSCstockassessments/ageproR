@@ -58,7 +58,7 @@ agepro_options_flags <- R6Class(
     print = function() {
       cli::cli_ul(id = "output_options_flags_fields")
       cli::cli_li(paste0("enable_user_percentile_summary: ",
-                         "{.var {private$.enable_user_percentile_summary}}"))
+                         "{.val {private$.enable_user_percentile_summary}}"))
 
       cli::cli_end(id = "output_options_flags_fields")
 

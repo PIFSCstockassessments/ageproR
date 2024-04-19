@@ -193,7 +193,7 @@ agepro_model <- R6Class(
       }
 
 
-     self$perc <- user_percentile_summary$new()
+     suppressWarnings(self$perc <- user_percentile_summary$new())
 
     },
 
@@ -536,18 +536,22 @@ agepro_model <- R6Class(
       }else{
         tryCatch({
 
+          #Validate value as user_percentile_summary R6class
           assert_perc_active_binding(value)
 
-          private$.user_percentile_summary <- value
-
-          #Toggle flag TRUE if report_percentile has value
-          if(is.null(private$.user_percentile_summary$report_percentile)){
-            self$agepro_options_flags$set_flag_user_percentile_summary(FALSE)
-          } else {
-            cli::cli_alert("Setting user percentile value ...")
-            self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
+          #Presume initialized class.
+          if(is.null(value$report_percentile)) {
+            return(private$.user_percentile_summary <- value)
           }
 
+
+          if(isFALSE(self$agepro_options_flags$enable_user_percentile_summary)){
+            div_keyword_header(value$keyword_name)
+            self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
+            cli::cli_alert("Setting user percentile value ...")
+          }
+
+          private$.user_percentile_summary <- value
 
           },
           error = function(err) {
