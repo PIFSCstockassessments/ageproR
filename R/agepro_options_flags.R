@@ -51,6 +51,21 @@ agepro_options_flags <- R6Class(
       private$.enable_user_percentile_summary <- enable_percentile
     },
 
+
+    #' @description
+    #' Prints out agepro_options_flags active bindings
+    #'
+    print = function() {
+      cli::cli_ul(id = "output_options_flags_fields")
+      cli::cli_li(paste0("enable_user_percentile_summary: ",
+                         "{.var {private$.enable_user_percentile_summary}}"))
+
+      cli::cli_end(id = "output_options_flags_fields")
+
+
+    },
+
+
     #' @description
     #' Toggles the logical flag to enable user_percentile summary
     #'

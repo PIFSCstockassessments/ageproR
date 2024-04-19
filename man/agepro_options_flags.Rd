@@ -41,6 +41,7 @@ results in the output file.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-agepro_options_flags-new}{\code{agepro_options_flags$new()}}
+\item \href{#method-agepro_options_flags-print}{\code{agepro_options_flags$print()}}
 \item \href{#method-agepro_options_flags-set_flag_user_percentile_summary}{\code{agepro_options_flags$set_flag_user_percentile_summary()}}
 \item \href{#method-agepro_options_flags-clone}{\code{agepro_options_flags$clone()}}
 }
@@ -62,6 +63,16 @@ results in the output file. FALSE by default.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-agepro_options_flags-print"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_options_flags-print}{}}}
+\subsection{Method \code{print()}}{
+Prints out agepro_options_flags active bindings
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{agepro_options_flags$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_options_flags-set_flag_user_percentile_summary"></a>}}
