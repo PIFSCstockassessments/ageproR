@@ -18,7 +18,12 @@
 #'
 user_percentile_summary <- R6Class(
   "user_percentile_summary",
+  inherit = options_flags,
   public = list(
+
+    #' @field options_flags
+    #' description
+    options_flags = options_flags$new(),
 
     #' @description
     #' Initialize the class
@@ -112,6 +117,7 @@ user_percentile_summary <- R6Class(
         }
         return(private$.report_percentile)
       }else {
+
         checkmate::assert_numeric(value, null.ok = TRUE, lower = 0, upper = 100)
         private$.report_percentile <- value
       }

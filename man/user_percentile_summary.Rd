@@ -13,6 +13,16 @@ parameter used in the AGEPRO input file format, but it is optional.
 Initialized agepro_models flags the class  as FALSE until  a will be initialize with NULL
 report_percentile.
 }
+\section{Super class}{
+\code{\link[ageproR:options_flags]{ageproR::options_flags}} -> \code{user_percentile_summary}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{options_flags}}{description}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

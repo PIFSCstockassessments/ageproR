@@ -71,7 +71,7 @@ mortality (\eqn{M})}
 
 \item{\code{options}}{Options for AGEPRO projection output}
 
-\item{\code{agepro_options_flags}}{Read-only field that returns what options can be enabled}
+\item{\code{options_flags}}{Read-only field that returns what options can be enabled}
 }
 \if{html}{\out{</div>}}
 }

@@ -103,7 +103,7 @@ agepro_model <- R6Class(
       #Assign and verify projection_analyses_type
       self$set_projection_analyses_type(projection_analyses_type)
 
-      private$.agepro_options_flags <- agepro_options_flags$new()
+      self$options_flags <- options_flags$new()
 
       private$.discards_present <- x$discards_present
 
@@ -192,8 +192,10 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
+      suppressMessages(self$perc <- user_percentile_summary$new())
+      self$perc$options_flags$enable_user_percentile_summary <- FALSE
 
-     suppressWarnings(self$perc <- user_percentile_summary$new())
+
 
     },
 
@@ -282,9 +284,6 @@ agepro_model <- R6Class(
       #validate user_percentile_summaru is not NULL
       checkmate::assert_r6(self$perc, public = c("report_percentile"))
 
-      if(isFALSE(self$agepro_options_flags$enable_user_percentile_summary)){
-        self$agepro_options_flags$set_flag_user_percentile_summary(TRUE)
-      }
 
       self$perc$report_percentile <- percentile
 
@@ -565,19 +564,22 @@ agepro_model <- R6Class(
 
           #Validate value as user_percentile_summary R6class
           assert_perc_active_binding(value)
+          #browser()
+          #if(isTRUE(self$options_flags$enable_user_percentile_summary)){
 
-          if(isTRUE(self$agepro_options_flags$enable_user_percentile_summary)){
+          #div_keyword_header(value$keyword_name)
+          self$options_flags$enable_user_percentile_summary <-
+            value$options_flags$enable_user_percentile_summary
+          cli::cli_alert("Setting user percentile value ...")
+          private$.user_percentile_summary <- value
 
-            div_keyword_header(value$keyword_name)
-            cli::cli_alert("Setting user percentile value ...")
-            private$.user_percentile_summary <- value
 
-          }else{
-            stop(paste0("Enable user_percentile_summary option, ",
-                        "via agepro_options_flags function ",
-                        "set_flag_user_percentile_summary",
-                        "to set value.") )
-          }
+          #}else{
+          #  stop(paste0("Enable user_percentile_summary option, ",
+          #              "via options_flags function ",
+          #              "set_flag_user_percentile_summary",
+          #              "to set value.") )
+          #}
         },
         error = function(err) {
 
@@ -668,11 +670,22 @@ agepro_model <- R6Class(
       }
     },
 
-    #' @field agepro_options_flags
+    #' @field options_flags
     #' Read-only field that returns what options can be enabled
     #'
-    agepro_options_flags = function(){
-      return(private$.agepro_options_flags)
+    options_flags = function(value){
+      if(missing(value)){
+        return(private$.options_flags)
+      }else {
+        checkmate::assert_r6(value,
+                             public = c("enable_user_percentile_summary",
+                                        "enable_reference_points",
+                                        "enable_scaling_factors",
+                                        "enable_max_bounds",
+                                        "enable_retrospective_adjustment"))
+        private$.options_flags <- value
+      }
+
     }
 
   ),
@@ -704,7 +717,7 @@ agepro_model <- R6Class(
 
     .discards_present = NULL,
     .projection_analyses_type = NULL,
-    .agepro_options_flags = NULL
+    .options_flags = NULL
 
   )
 
@@ -1028,7 +1041,7 @@ agepro_inp_model <- R6Class(
               self$rebuild$get_inp_lines(delimiter)
             },
             self$options$get_inp_lines(delimiter),
-            if(self$agepro_options_flags$enable_user_percentile_summary){
+            if(self$options_flags$enable_user_percentile_summary){
               self$perc$get_inp_lines(delimiter)
             }
           )
@@ -1297,7 +1310,7 @@ agepro_json_model <- R6Class(
              "rebuild" = self$rebuild$json_list_object,
              "options" = self$options$json_list_object,
              "perc" = {
-               if(self$agepro_options_flags$enable_user_percentile_summary){
+               if(self$options_flags$enable_user_percentile_summary){
                  self$perc$json_list_object
                }else{
                  NA
