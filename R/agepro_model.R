@@ -103,7 +103,9 @@ agepro_model <- R6Class(
       #Assign and verify projection_analyses_type
       self$set_projection_analyses_type(projection_analyses_type)
 
+      # Set NULL option_flags in initialized state
       self$options_flags <- options_flags$new()
+      self$options_flags$enable_user_percentile_summary <- NULL
 
       private$.discards_present <- x$discards_present
 
@@ -284,6 +286,10 @@ agepro_model <- R6Class(
       #validate user_percentile_summaru is not NULL
       checkmate::assert_r6(self$perc, public = c("report_percentile"))
 
+      if(isFALSE(self$perc$options_flags$enable_user_percentile_summary)){
+        stop(paste0("enable_user_percentile_summary flag is FALSE. ",
+                    "Set flag to TRUE to set value."))
+      }
 
       self$perc$report_percentile <- percentile
 
@@ -570,6 +576,7 @@ agepro_model <- R6Class(
           #div_keyword_header(value$keyword_name)
           self$options_flags$enable_user_percentile_summary <-
             value$options_flags$enable_user_percentile_summary
+
           cli::cli_alert("Setting user percentile value ...")
           private$.user_percentile_summary <- value
 

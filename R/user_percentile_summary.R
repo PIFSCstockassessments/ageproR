@@ -118,9 +118,16 @@ user_percentile_summary <- R6Class(
         return(private$.report_percentile)
       }else {
 
-        checkmate::assert_numeric(value, null.ok = TRUE, lower = 0, upper = 100)
+        checkmate::assert_numeric(value, null.ok = TRUE,
+                                  lower = 0, upper = 100)
+        if(isFALSE(self$options_flags$enable_user_percentile_summary)) {
+          stop(paste0("enable_user_percentile_summary flag is FALSE. ",
+                        "Set flag to TRUE to set value.") )
+        }
+
         private$.report_percentile <- value
       }
+
     },
 
 
