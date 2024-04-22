@@ -40,6 +40,8 @@ user_percentile_summary <- R6Class(
         self$report_percentile <- perc
 
       }else{
+        #Reset enable_user_percentile_summary option_flag to NULL
+        private$reset_options_flags()
         div_keyword_header(private$.keyword_name)
         cli::cli_alert("Setting default NULL user percentile value ..")
         suppressMessages(self$report_percentile <- perc)
@@ -158,7 +160,14 @@ user_percentile_summary <- R6Class(
 
     .keyword_name = "perc",
 
-    .report_percentile = NULL
+    .report_percentile = NULL,
+
+    reset_options_flags = function() {
+      #Reset option_flag to NULL at initialization
+      if(isFALSE(is.null(self$options_flags$enable_user_percentile_summary))){
+        self$options_flags$enable_user_percentile_summary <- NULL
+      }
+    }
 
   )
 )
