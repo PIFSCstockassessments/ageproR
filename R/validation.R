@@ -135,9 +135,9 @@ check_perc_active_binding <- function(x) {
 
   if(checkmate::test_numeric(x, len = 1)) {
     return(paste0(
-      "Invalid user_percentile_summary value: \n",
-      "Is Input value for the user_percentile_summary's ",
-      "report_percentile field"
+      "Input value found as a numerical value. \n",
+      "Did you mean to set report_percentile value as a field of the ",
+      "user_percentile_summary class active binding?"
     ))
   }
 
