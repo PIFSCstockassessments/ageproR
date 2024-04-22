@@ -32,15 +32,16 @@ user_percentile_summary <- R6Class(
     #'
     initialize = function(perc = NULL){
 
+      checkmate::assert_numeric(perc, lower = 0, upper = 100,
+                                null.ok = TRUE, len = 1)
+
       if(isFALSE(is.null(perc))){
-
-        div_keyword_header(private$.keyword_name)
-        checkmate::assert_numeric(perc, lower = 0, upper = 100,
-                                  null.ok = TRUE, len = 1)
-
+        cli::cli_alert("Setting user percentile value ..")
         self$report_percentile <- perc
 
       }else{
+        div_keyword_header(private$.keyword_name)
+        cli::cli_alert("Setting default NULL user percentile value ..")
         suppressMessages(self$report_percentile <- perc)
       }
 
