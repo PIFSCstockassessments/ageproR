@@ -194,7 +194,7 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
-      suppressMessages(self$perc <- user_percentile_summary$new())
+      self$perc <- user_percentile_summary$new()
       self$perc$options_flags$enable_user_percentile_summary <- FALSE
 
 
@@ -570,27 +570,16 @@ agepro_model <- R6Class(
 
           #Validate value as user_percentile_summary R6class
           assert_perc_active_binding(value)
-          #browser()
-          #if(isTRUE(self$options_flags$enable_user_percentile_summary)){
 
-          #div_keyword_header(value$keyword_name)
           self$options_flags$enable_user_percentile_summary <-
             value$options_flags$enable_user_percentile_summary
 
-          cli::cli_alert("Setting user percentile value ...")
           private$.user_percentile_summary <- value
 
-
-          #}else{
-          #  stop(paste0("Enable user_percentile_summary option, ",
-          #              "via options_flags function ",
-          #              "set_flag_user_percentile_summary",
-          #              "to set value.") )
-          #}
         },
         error = function(err) {
 
-          message(paste0("Error: ", err))
+          message(paste0("Error: \n", err))
         })
       }
     },
