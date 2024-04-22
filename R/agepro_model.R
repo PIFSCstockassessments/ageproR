@@ -579,7 +579,7 @@ agepro_model <- R6Class(
         },
         error = function(err) {
 
-          message(paste0("Error: \n", conditionMessage(err) ))
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
         })
       }
     },
