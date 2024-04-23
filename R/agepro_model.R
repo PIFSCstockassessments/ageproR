@@ -271,27 +271,25 @@ agepro_model <- R6Class(
 
 
     #' @description
-    #' Wrapper Function to set user_percentile_summary's report percentile. If
-    #' the user percentile option is not enabled, it will enable the
-    #' additional agepro option flag.
+    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
+    #'
     #'
     #' The user_percentile_summary class will not accept values until it is
     #' enable_user_percentile_summary is TRUE.
     #'
-    #' @param percentile
-    #' User-selected percentile for the percentile report
+    #' @param x
+    #' Logical value for enable_user_percentile_summary options_flag
     #'
-    set_report_percentile = function(percentile) {
+    set_flag_user_report_percentile = function(x) {
 
-      #validate user_percentile_summaru is not NULL
-      checkmate::assert_r6(self$perc, public = c("report_percentile"))
+      checkmate::assert_logical(x)
 
-      if(isFALSE(self$perc$options_flags$enable_user_percentile_summary)){
-        stop(paste0("enable_user_percentile_summary flag is FALSE. ",
-                    "Set flag to TRUE to set value."))
-      }
+      self$perc$options_flags$enable_user_percentile_summary <- x
 
-      self$perc$report_percentile <- percentile
+      cli::cli_alert(
+        paste0("enable_user_pecentile_summary : ",
+               "{.val ",
+               "{self$perc$options_flags$enable_user_percentile_summary}}"))
 
 
     },
