@@ -57,7 +57,7 @@ user_percentile_summary <- R6Class(
     #'
     print = function(){
 
-      cli::cli_alert("report_percentile: {.val {self$report_percentile}}")
+      cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
     },
 
     #' @description
