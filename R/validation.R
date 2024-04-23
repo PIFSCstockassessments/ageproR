@@ -136,7 +136,7 @@ check_perc_active_binding <- function(x) {
   if(checkmate::test_numeric(x, len = 1)) {
     return(paste0(
       "Input value found as a numerical value. \n",
-      "Did you mean to set report_percentile value as a field of the ",
+      "Did you mean to set report_percentile as a field of ",
       "user_percentile_summary class active binding?"
     ))
   }
