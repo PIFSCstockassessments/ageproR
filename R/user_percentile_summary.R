@@ -115,7 +115,7 @@ user_percentile_summary <- R6Class(
     #'
     report_percentile = function(value) {
       if(missing(value)){
-        if(is.null(private$.report_precentile)){
+        if(is.null(private$.report_percentile)){
           warning("report_percentile is NULL", call. = FALSE)
         }
         return(private$.report_percentile)
