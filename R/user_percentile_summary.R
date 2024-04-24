@@ -143,7 +143,7 @@ user_percentile_summary <- R6Class(
     #' Returns JSON list object of containing output_options values
     json_list_object = function() {
       return(list(
-        percentile_report_value = self$report_percentile
+        report_percentile_value = self$report_percentile
       ))
     },
 
