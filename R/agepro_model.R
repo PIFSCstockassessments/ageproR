@@ -273,14 +273,13 @@ agepro_model <- R6Class(
     #' @description
     #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
     #'
-    #'
     #' The user_percentile_summary class will not accept values until it is
     #' enable_user_percentile_summary is TRUE.
     #'
     #' @param x
     #' Logical value for enable_user_percentile_summary options_flag
     #'
-    set_flag_user_report_percentile = function(x) {
+    set_flag_enable_user_percentile_summary = function(x) {
 
       checkmate::assert_logical(x)
 
@@ -931,7 +930,7 @@ agepro_inp_model <- R6Class(
           rlang::expr(private$read_output_options(inp_con, self$nline))
         },
         "[PERC]" = {
-          rlang::expr(private$read_user_percentile_report(inp_con, self$nline))
+          rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
         }
 
       ))
@@ -1222,9 +1221,9 @@ agepro_inp_model <- R6Class(
       self$nline <- self$options$read_inp_lines(con, nline)
     },
 
-    read_user_percentile_report = function(con, nline) {
+    read_user_percentile_summary = function(con, nline) {
 
-      self$set_flag_user_report_percentile(TRUE)
+      self$set_flag_enable_user_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
     }
 
