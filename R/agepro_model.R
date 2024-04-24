@@ -1224,6 +1224,7 @@ agepro_inp_model <- R6Class(
 
     read_user_percentile_report = function(con, nline) {
 
+      self$set_flag_user_report_percentile(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
     }
 
