@@ -22,11 +22,16 @@ user_percentile_summary <- R6Class(
   public = list(
 
     #' @field options_flags
-    #' description
+    #' R6class containing
+    #' [flags for optional AGEPRO options][ageproR::options_flags]
     options_flags = options_flags$new(),
 
     #' @description
-    #' Initialize the class
+    #' Initializes the class
+    #'
+    #' When agepro_model is reinitialized, reset the value for this class's
+    #' option_flag enable_user_percentile_summary to NULL to cleanup any values
+    #' it retained previously.
     #'
     #' @param perc User-defined percentile of projected distributions
     #'

@@ -19,7 +19,8 @@ report_percentile.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{options_flags}}{description}
+\item{\code{options_flags}}{R6class containing
+\link[=options_flags]{flags for optional AGEPRO options}}
 }
 \if{html}{\out{</div>}}
 }
@@ -54,7 +55,11 @@ numbers at age}
 \if{html}{\out{<a id="method-user_percentile_summary-new"></a>}}
 \if{latex}{\out{\hypertarget{method-user_percentile_summary-new}{}}}
 \subsection{Method \code{new()}}{
-Initialize the class
+Initializes the class
+
+When agepro_model is reinitialized, reset the value for this class's
+option_flag enable_user_percentile_summary to NULL to cleanup any values
+it retained previously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = NULL)}\if{html}{\out{</div>}}
 }
