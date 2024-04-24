@@ -812,11 +812,11 @@ agepro_inp_model <- R6Class(
 
         },
         error = function(cond) {
-          message("There was an error reading this file.")
+          message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          stop(cond)
-          invisible()
+          self$options_flags$enable_user_percentile_summary <- FALSE
+          return(invisible())
         },
         finally = {
           cli::cli_alert_info("Closing connection to file.")
