@@ -70,6 +70,7 @@ agepro_model <- R6Class(
       ## Helper function to create a new instance of agepro_model
       self$default_agepro_keyword_params(self$general)
 
+      cli::cli_alert_success("Done")
     },
 
     #' @description
@@ -279,7 +280,7 @@ agepro_model <- R6Class(
     #' @param x
     #' Logical value for enable_user_percentile_summary options_flag
     #'
-    set_flag_enable_user_percentile_summary = function(x) {
+    set_enable_user_percentile_summary = function(x) {
 
       checkmate::assert_logical(x)
 
@@ -1223,7 +1224,7 @@ agepro_inp_model <- R6Class(
 
     read_user_percentile_summary = function(con, nline) {
 
-      self$set_flag_enable_user_percentile_summary(TRUE)
+      self$set_enable_user_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
     }
 
