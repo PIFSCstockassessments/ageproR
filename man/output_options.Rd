@@ -50,8 +50,7 @@ Initializes the class
 \if{html}{\out{<div class="r">}}\preformatted{output_options$new(
   summary_report = FALSE,
   process_error_aux_files = FALSE,
-  export_r_data_frame = TRUE,
-  enable_percentile = FALSE
+  export_r_data_frame = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -64,9 +63,6 @@ Initializes the class
 auxiliary files}
 
 \item{\code{export_r_data_frame}}{\link[base:logical]{Logical} flag to enable AGEPRO output to data.frame}
-
-\item{\code{enable_percentile}}{\link[base:logical]{Logical} flag to enable percentile summary of the key
-results in the output file.}
 }
 \if{html}{\out{</div>}}
 }

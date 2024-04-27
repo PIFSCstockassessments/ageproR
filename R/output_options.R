@@ -32,14 +32,9 @@ output_options <- R6Class(
     #' @param export_r_data_frame
     #' [Logical][base::logical] flag to enable AGEPRO output to data.frame
     #'
-    #' @param enable_percentile
-    #' [Logical][base::logical] flag to enable percentile summary of the key
-    #' results in the output file.
-    #'
     initialize = function(summary_report = FALSE,
                           process_error_aux_files = FALSE,
-                          export_r_data_frame = TRUE,
-                          enable_percentile = FALSE) {
+                          export_r_data_frame = TRUE) {
 
       div_keyword_header(private$.keyword_name)
       cli_alert("Setting AGEPRO projection output options ...")
@@ -47,8 +42,6 @@ output_options <- R6Class(
       self$output_stock_summary <- summary_report
       self$output_process_error_aux_files <- process_error_aux_files
       self$output_data_frame <- export_r_data_frame
-      self$enable_percentile_summary <- enable_percentile
-
     },
 
     #' @description
