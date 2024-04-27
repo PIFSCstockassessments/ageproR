@@ -34,24 +34,22 @@ user_percentile_summary <- R6Class(
     #'
     #' @param perc User-defined percentile of projected distributions
     #'
-    initialize = function(perc = NULL){
+    initialize = function(perc = 0){
 
-      checkmate::assert_numeric(perc, lower = 0, upper = 100,
-                                null.ok = TRUE, len = 1)
+      div_keyword_header(private$.keyword_name)
+      #Reset enable_user_percentile_summary option_flag to NULL
+      private$reset_options_flags()
 
-      if(isFALSE(is.null(perc))){
-        cli::cli_alert("Setting user percentile value ..")
-        self$report_percentile <- perc
-
+      # Presume default if perc is 0.
+      if(isTRUE(all.equal(perc,0))){
+        cli::cli_alert("Set default report_percentile value to 0 ..")
       }else{
-        #Reset enable_user_percentile_summary option_flag to NULL
-        private$reset_options_flags()
-        div_keyword_header(private$.keyword_name)
-        cli::cli_alert("Setting default NULL user percentile value ..")
-        suppressMessages(self$report_percentile <- perc)
+        cli::cli_alert("Set report_percentile to {.val {perc}} ..")
       }
 
+      checkmate::assert_numeric(perc, lower = 0, upper = 100, len = 1)
 
+      self$report_percentile <- perc
 
     },
 
@@ -169,6 +167,7 @@ user_percentile_summary <- R6Class(
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$options_flags$enable_user_percentile_summary))){
+        cli::cli_alert("Set enable_user_percentile_summary to FALSE")
         self$options_flags$enable_user_percentile_summary <- NULL
       }
     }

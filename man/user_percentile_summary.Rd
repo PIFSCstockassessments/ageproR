@@ -58,7 +58,7 @@ When agepro_model is reinitialized, reset the value for this class's
 option_flag enable_user_percentile_summary to NULL to cleanup any values
 it retained previously.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
