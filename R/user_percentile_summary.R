@@ -18,7 +18,6 @@
 #'
 user_percentile_summary <- R6Class(
   "user_percentile_summary",
-  inherit = options_flags,
   public = list(
 
     #' @field options_flags

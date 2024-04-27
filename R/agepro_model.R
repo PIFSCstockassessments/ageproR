@@ -104,10 +104,6 @@ agepro_model <- R6Class(
       #Assign and verify projection_analyses_type
       self$set_projection_analyses_type(projection_analyses_type)
 
-      # Set NULL option_flags in initialized state
-      self$options_flags <- options_flags$new()
-      self$options_flags$enable_user_percentile_summary <- NULL
-
       private$.discards_present <- x$discards_present
 
       self$case_id <- case_id$new()
@@ -569,9 +565,6 @@ agepro_model <- R6Class(
           #Validate value as user_percentile_summary R6class
           assert_perc_active_binding(value)
 
-          self$options_flags$enable_user_percentile_summary <-
-            value$options_flags$enable_user_percentile_summary
-
           private$.user_percentile_summary <- value
 
         },
@@ -662,24 +655,6 @@ agepro_model <- R6Class(
                                        "output_data_frame"))
         private$.output_options <- value
       }
-    },
-
-    #' @field options_flags
-    #' Read-only field that returns what options can be enabled
-    #'
-    options_flags = function(value){
-      if(missing(value)){
-        return(private$.options_flags)
-      }else {
-        checkmate::assert_r6(value,
-                             public = c("enable_user_percentile_summary",
-                                        "enable_reference_points",
-                                        "enable_scaling_factors",
-                                        "enable_max_bounds",
-                                        "enable_retrospective_adjustment"))
-        private$.options_flags <- value
-      }
-
     }
 
   ),
@@ -710,8 +685,7 @@ agepro_model <- R6Class(
     .user_percentile_summary = NULL,
 
     .discards_present = NULL,
-    .projection_analyses_type = NULL,
-    .options_flags = NULL
+    .projection_analyses_type = NULL
 
   )
 
@@ -815,7 +789,7 @@ agepro_inp_model <- R6Class(
           message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          self$options_flags$enable_user_percentile_summary <- FALSE
+          self$set_enable_user_percentile_summary(FALSE)
           return(invisible())
         },
         finally = {
@@ -1035,7 +1009,7 @@ agepro_inp_model <- R6Class(
               self$rebuild$get_inp_lines(delimiter)
             },
             self$options$get_inp_lines(delimiter),
-            if(self$options_flags$enable_user_percentile_summary){
+            if(self$perc$options_flags$enable_user_percentile_summary){
               self$perc$get_inp_lines(delimiter)
             }
           )
@@ -1305,7 +1279,7 @@ agepro_json_model <- R6Class(
              "rebuild" = self$rebuild$json_list_object,
              "options" = self$options$json_list_object,
              "perc" = {
-               if(self$options_flags$enable_user_percentile_summary){
+               if(self$perc$options_flags$enable_user_percentile_summary){
                  self$perc$json_list_object
                }else{
                  NA
