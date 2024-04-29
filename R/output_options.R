@@ -179,31 +179,6 @@ output_options <- R6Class(
       }
     },
 
-    #' @field enable_percentile_summary
-    #' [Logical][base::logical] flag to allow percentile summary of the key
-    #' results in the output file.
-    #'
-    enable_percentile_summary = function(value){
-      if(missing(value)){
-        return(private$.enable_percentile_summary)
-      }else{
-
-        # Calling Handler to wrap field name w/ validate_logical_parameter
-        # message
-        withCallingHandlers(
-          message = function(cnd) {
-            cli::cli_alert(
-              paste0("enable_percentile_summary: ",
-                     "{sub('\u2192 ', '', conditionMessage(cnd))}"))
-            rlang::cnd_muffle(cnd)
-          },
-          private$.enable_percentile_summary <-
-            validate_logical_parameter(value)
-        )
-
-      }
-    },
-
     #' @field json_list_object
     #' Returns JSON list object of containing output_options values
     json_list_object = function() {
@@ -233,11 +208,7 @@ output_options <- R6Class(
 
     .output_stock_summary = NULL,
     .output_process_error_aux_files = NULL,
-    .output_data_frame = NULL,
-    .enable_percentile_summary = NULL
-
-
-
+    .output_data_frame = NULL
 
   )
 
