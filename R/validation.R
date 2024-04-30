@@ -110,12 +110,51 @@ check_proj_years_sequence <- function(x) {
 #'
 #' @template assert
 #'
-assert_proj_years_sequence = function(x, .var.name = checkmate::vname(x),
+assert_proj_years_sequence <- function(x, .var.name = checkmate::vname(x),
                                    add = NULL) {
   res = check_proj_years_sequence(x)
   checkmate::makeAssertion(x, res, .var.name, add)
 }
 
+
+#' Validation for PERC active binding in agepro_model
+#'
+#' @description
+#' Custom validation procedure to check if input value matches the structure
+#' of the user_percentile_summary R6Class. It will also catch single numeric
+#' input values presuming that the active binder sets the report_percentile.
+#'
+#' @param x
+#' Object to Check
+#'
+check_perc_active_binding <- function(x) {
+
+  if(checkmate::test_r6(x, public = c("report_percentile"))) {
+    return(TRUE)
+  }
+
+  if(checkmate::test_numeric(x, len = 1)) {
+    return(paste0(
+      "Input value found as a numeric, not a user_percentile_summary class."
+    ))
+  }
+
+  checkmate::assert_r6(x, public = c("report_percentile"))
+
+  return(TRUE)
+}
+
+
+#' @rdname check_perc_active_binding
+#'
+#' @template assert
+#'
+assert_perc_active_binding <- function(x, .var.name = checkmate::vname(x),
+                                       add = NULL) {
+  res = check_perc_active_binding(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+
+}
 
 #' @title
 #' Custom mapping function for error handing

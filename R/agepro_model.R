@@ -70,6 +70,7 @@ agepro_model <- R6Class(
       ## Helper function to create a new instance of agepro_model
       self$default_agepro_keyword_params(self$general)
 
+      cli::cli_alert_success("Done")
     },
 
     #' @description
@@ -190,6 +191,11 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
+      self$perc <- user_percentile_summary$new()
+      self$perc$options_flags$enable_user_percentile_summary <- FALSE
+
+
+
     },
 
     #' @description
@@ -259,6 +265,31 @@ agepro_model <- R6Class(
 
       self$bootstrap$set_bootstrap_filename(bsnfile)
     },
+
+
+    #' @description
+    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
+    #'
+    #' The user_percentile_summary class will not accept values until it is
+    #' enable_user_percentile_summary is TRUE.
+    #'
+    #' @param x
+    #' Logical value for enable_user_percentile_summary options_flag
+    #'
+    set_enable_user_percentile_summary = function(x) {
+
+      checkmate::assert_logical(x)
+
+      self$perc$options_flags$enable_user_percentile_summary <- x
+
+      cli::cli_alert(
+        paste0("enable_user_pecentile_summary : ",
+               "{.val ",
+               "{self$perc$options_flags$enable_user_percentile_summary}}"))
+
+
+    },
+
 
     #' @description
     #' Helper Function to setup agepro model's projection analyses type. agepro
@@ -521,6 +552,29 @@ agepro_model <- R6Class(
      }
     },
 
+
+    #' @field perc
+    #' User-selected percentile summary of the key results in the output file.
+    #'
+    perc = function(value) {
+      if(missing(value)){
+        return(private$.user_percentile_summary)
+      }else{
+        tryCatch({
+
+          #Validate value as user_percentile_summary R6class
+          assert_perc_active_binding(value)
+
+          private$.user_percentile_summary <- value
+
+        },
+        error = function(err) {
+
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
+        })
+      }
+    },
+
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
     #' probability of overfishing in the target year.
@@ -628,6 +682,7 @@ agepro_model <- R6Class(
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
+    .user_percentile_summary = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -731,11 +786,11 @@ agepro_inp_model <- R6Class(
 
         },
         error = function(cond) {
-          message("There was an error reading this file.")
+          message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          stop(cond)
-          invisible()
+          self$set_enable_user_percentile_summary(FALSE)
+          return(invisible())
         },
         finally = {
           cli::cli_alert_info("Closing connection to file.")
@@ -848,6 +903,9 @@ agepro_inp_model <- R6Class(
         },
         "[OPTIONS]" = {
           rlang::expr(private$read_output_options(inp_con, self$nline))
+        },
+        "[PERC]" = {
+          rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
         }
 
       ))
@@ -950,7 +1008,10 @@ agepro_inp_model <- R6Class(
             if(self$projection_analyses_type == "rebuild"){
               self$rebuild$get_inp_lines(delimiter)
             },
-            self$options$get_inp_lines(delimiter)
+            self$options$get_inp_lines(delimiter),
+            if(self$perc$options_flags$enable_user_percentile_summary){
+              self$perc$get_inp_lines(delimiter)
+            }
           )
 
         }
@@ -1133,6 +1194,12 @@ agepro_inp_model <- R6Class(
     read_output_options = function(con, nline) {
 
       self$nline <- self$options$read_inp_lines(con, nline)
+    },
+
+    read_user_percentile_summary = function(con, nline) {
+
+      self$set_enable_user_percentile_summary(TRUE)
+      self$nline <- self$perc$read_inp_lines(con, nline)
     }
 
 
@@ -1210,7 +1277,14 @@ agepro_json_model <- R6Class(
              "harvest" = self$harvest$json_list_object,
              "pstar" = self$pstar$json_list_object,
              "rebuild" = self$rebuild$json_list_object,
-             "options" = self$options$json_list_object
+             "options" = self$options$json_list_object,
+             "perc" = {
+               if(self$perc$options_flags$enable_user_percentile_summary){
+                 self$perc$json_list_object
+               }else{
+                 NA
+               }
+             }
 
         )
 

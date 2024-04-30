@@ -42,7 +42,6 @@ output_options <- R6Class(
       self$output_stock_summary <- summary_report
       self$output_process_error_aux_files <- process_error_aux_files
       self$output_data_frame <- export_r_data_frame
-
     },
 
     #' @description
@@ -148,7 +147,6 @@ output_options <- R6Class(
 
             rlang::cnd_muffle(cnd)
           },
-
           private$.output_process_error_aux_files <-
             validate_logical_parameter(value)
         )
@@ -211,9 +209,6 @@ output_options <- R6Class(
     .output_stock_summary = NULL,
     .output_process_error_aux_files = NULL,
     .output_data_frame = NULL
-
-
-
 
   )
 
