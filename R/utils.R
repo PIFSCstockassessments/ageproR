@@ -10,9 +10,9 @@
 #'
 #' @keywords internal
 #'
-div_keyword_header <- function(keyword, heading_color = "cyan") {
+div_keyword_header <- function(keyword, header_color = "cyan") {
   d <- cli_div(theme = list(rule = list(
-    color = heading_color,
+    color = header_color,
     "line-type" = "double")))
   cli_rule(keyword)
   cli_end(d)
