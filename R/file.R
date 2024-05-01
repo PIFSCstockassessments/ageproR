@@ -127,7 +127,7 @@ save_file_dialog <- function() {
 #' Checks the validity of filetype key-value pair.
 #'
 #' Checks the filetype as a 2 length vector without missing values. If filetype
-#' as not passed in the parameter, it will return the default "{All files} {*}"
+#' as not passed in the parameter, it will return the default `All files (*.*)`
 #' string vector.
 #'
 #' @details

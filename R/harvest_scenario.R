@@ -210,7 +210,7 @@ harvest_scenario <- R6Class(
 
     #' @field harvest_specifications
     #' Contains values the Harvest Specification per projection year
-    #' \itemize{
+    #' \describe{
     #'  \item{"0"}{F-MULT}
     #'  \item{"1"}{LANDINGS}
     #'  \item{"2"}{REMOVALS}

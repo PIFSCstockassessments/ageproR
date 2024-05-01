@@ -11,7 +11,7 @@ Class Structure containing the Harvest values and Harvest Specifications
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{harvest_specifications}}{Contains values the Harvest Specification per projection year
-\itemize{
+\describe{
 \item{"0"}{F-MULT}
 \item{"1"}{LANDINGS}
 \item{"2"}{REMOVALS}
