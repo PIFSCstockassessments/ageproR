@@ -28,10 +28,9 @@
 #' is FALSE: set value `report_percentile`,
 #' Then it will be TRUE
 #'
-#' @export
 #'
-options_flags <- R6Class(
-  "options_flags",
+enable_optional_options <- R6Class(
+  "enable_options_flags",
   public = list(
 
     #' @field enable_user_percentile_summary
@@ -55,3 +54,19 @@ options_flags <- R6Class(
     enable_retrospective_adjustment = NULL
   )
 )
+
+#' @rdname enable_optional_options
+#'
+#' @export
+#'
+options_flags <- R6Class(
+  "options_flags",
+  public = list(
+
+    #' @field flag
+    #' Class container that encapsulates logical flags to enable AGEPRO
+    #' user-defined options
+    flag = enable_optional_options$new()
+  )
+)
+
