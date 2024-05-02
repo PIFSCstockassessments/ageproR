@@ -194,6 +194,8 @@ agepro_model <- R6Class(
       self$perc <- user_percentile_summary$new()
       self$perc$enable$flag$enable_user_percentile_summary <- FALSE
 
+      self$bounds <- max_bounds$new()
+      self$bounds$enable$flag$enable_max_bounds <- FALSE
 
     },
 
@@ -574,6 +576,30 @@ agepro_model <- R6Class(
       }
     },
 
+
+    #' @field bounds
+    #' Bounds on simulated fish weights and natural mortality rates
+    #'
+    bounds = function(value) {
+      if(missing(value)){
+        return(private$.max_bounds)
+      }else{
+        tryCatch({
+
+          #Validate value as user_percentile_summary R6class
+          #assert_perc_active_binding(value)
+
+          private$.max_bounds <- value
+
+        },
+        error = function(err) {
+
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
+        })
+      }
+    },
+
+
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
     #' probability of overfishing in the target year.
@@ -682,6 +708,7 @@ agepro_model <- R6Class(
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
     .user_percentile_summary = NULL,
+    .max_bounds = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
