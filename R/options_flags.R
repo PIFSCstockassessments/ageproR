@@ -29,7 +29,7 @@
 #' Then it will be TRUE
 #'
 #'
-enable_optional_options <- R6Class(
+optional_options <- R6Class(
   "enable_options_flags",
   public = list(
 
@@ -55,7 +55,7 @@ enable_optional_options <- R6Class(
   )
 )
 
-#' @rdname enable_optional_options
+#' @rdname optional_options
 #'
 #' @export
 #'
@@ -63,10 +63,10 @@ options_flags <- R6Class(
   "options_flags",
   public = list(
 
-    #' @field flag
+    #' @field op
     #' Class container that encapsulates logical flags to enable AGEPRO
     #' user-defined options
-    flag = enable_optional_options$new()
+    op = optional_options$new()
   )
 )
 

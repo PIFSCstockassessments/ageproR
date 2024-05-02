@@ -20,10 +20,10 @@ user_percentile_summary <- R6Class(
   "user_percentile_summary",
   public = list(
 
-    #' @field enable
-    #' R6class containing
+    #' @field flag
+    #' A R6class containing
     #' [flags for optional AGEPRO options][ageproR::options_flags]
-    enable = options_flags$new(),
+    flag = options_flags$new(),
 
     #' @description
     #' Initializes the class
@@ -125,7 +125,7 @@ user_percentile_summary <- R6Class(
 
         checkmate::assert_numeric(value, null.ok = TRUE, len = 1,
                                   lower = 0, upper = 100)
-        if(isFALSE(self$flag$enabled$enable_user_percentile_summary)) {
+        if(isFALSE(self$flag$op$enable_user_percentile_summary)) {
           stop(paste0("enable_user_percentile_summary flag is FALSE. ",
                         "Set flag to TRUE to set value.") )
         }
@@ -166,9 +166,9 @@ user_percentile_summary <- R6Class(
 
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$enabled$enable_user_percentile_summary))){
+      if(isFALSE(is.null(self$flag$op$enable_user_percentile_summary))){
         cli::cli_alert("Set enable_user_percentile_summary to FALSE")
-        self$flag$enabled$enable_user_percentile_summary <- NULL
+        self$flag$op$enable_user_percentile_summary <- NULL
       }
     }
 

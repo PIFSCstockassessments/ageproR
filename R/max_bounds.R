@@ -23,9 +23,9 @@ max_bounds <- R6Class(
   "max_bounds",
   public = list(
 
-    #' @field enable
+    #' @field flag
     #' R6class containing option_flags
-    enable = options_flags$new(),
+    flag = options_flags$new(),
 
     #' @description
     #' Initializes the class
@@ -63,7 +63,7 @@ max_bounds <- R6Class(
         return(private$.max_weight)
       }else{
 
-        if(isFALSE(self$enable$flag$enable_max_bounds)) {
+        if(isFALSE(self$flag$op$enable_max_bounds)) {
           stop(paste0("enable_max_bounds flag is FALSE. ",
                       "Set flag to TRUE to set value.") )
         }
@@ -85,14 +85,14 @@ max_bounds <- R6Class(
         }
       }else{
 
-        if(isFALSE(self$enable$flag$enable_max_bounds)) {
+        if(isFALSE(self$flag$op$enable_max_bounds)) {
           stop(paste0("enable_max_bounds flag is FALSE. ",
                       "Set flag to TRUE to set value.") )
         }
 
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
-        private$.max_naturaL_mortality <- value
+        private$.max_natural_mortality <- value
       }
     },
 
@@ -118,9 +118,9 @@ max_bounds <- R6Class(
 
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$enable$flag$enable_max_bounds))){
+      if(isFALSE(is.null(self$flag$op$enable_max_bounds))){
         cli::cli_alert("ReSet enable_max_bounds")
-        self$enable$flag$enable_max_bounds <- NULL
+        self$flag$op$enable_max_bounds <- NULL
         }
     }
 

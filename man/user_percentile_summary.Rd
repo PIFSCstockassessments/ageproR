@@ -16,7 +16,7 @@ report_percentile.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{enable}}{R6class containing
+\item{\code{flag}}{A R6class containing
 \link[=options_flags]{flags for optional AGEPRO options}}
 }
 \if{html}{\out{</div>}}

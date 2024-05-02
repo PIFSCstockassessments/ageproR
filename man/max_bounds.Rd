@@ -17,7 +17,7 @@ this class.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{enable}}{R6class containing option_flags}
+\item{\code{flag}}{R6class containing option_flags}
 }
 \if{html}{\out{</div>}}
 }

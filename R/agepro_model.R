@@ -192,10 +192,10 @@ agepro_model <- R6Class(
       }
 
       self$perc <- user_percentile_summary$new()
-      self$perc$enable$flag$enable_user_percentile_summary <- FALSE
+      self$perc$flag$op$enable_user_percentile_summary <- FALSE
 
       self$bounds <- max_bounds$new()
-      self$bounds$enable$flag$enable_max_bounds <- FALSE
+      self$bounds$flag$op$enable_max_bounds <- FALSE
 
     },
 
@@ -281,12 +281,12 @@ agepro_model <- R6Class(
 
       checkmate::assert_logical(x)
 
-      self$perc$enable$flag$enable_user_percentile_summary <- x
+      self$perc$flag$op$enable_user_percentile_summary <- x
 
       cli::cli_alert(
         paste0("enable_user_pecentile_summary : ",
                "{.val ",
-               "{self$perc$enable$flag$enable_user_percentile_summary}}"))
+               "{self$perc$flag$op$enable_user_percentile_summary}}"))
 
 
     },
@@ -1035,7 +1035,7 @@ agepro_inp_model <- R6Class(
               self$rebuild$get_inp_lines(delimiter)
             },
             self$options$get_inp_lines(delimiter),
-            if(self$perc$enable$flag$enable_user_percentile_summary){
+            if(self$perc$flag$op$enable_user_percentile_summary){
               self$perc$get_inp_lines(delimiter)
             }
           )
@@ -1305,7 +1305,7 @@ agepro_json_model <- R6Class(
              "rebuild" = self$rebuild$json_list_object,
              "options" = self$options$json_list_object,
              "perc" = {
-               if(self$perc$enable$flag$enable_user_percentile_summary){
+               if(self$perc$flag$op$enable_user_percentile_summary){
                  self$perc$json_list_object
                }else{
                  NA
