@@ -14,13 +14,12 @@ retrospective adjustment (RETROADJUST).
 \details{
 Associated with AGEPRO's output options (OPTIONS) are additional optional
 options:
-
-\describe{
-\item{PERC}{user_percentile_summary}
-\item{REFPOINT}{reference_points}
-\item{SCALE}{scaling_factors}
-\item{BOUNDS}{max_bounds}
-\item{RETROADJUST}{retrospective_adjustment}
+\itemize{
+\item \code{PERC} :  user_percentile_summary
+\item \code{REFPOINT} :  reference_points
+\item \code{SCALE} :  scaling_factors
+\item \code{BOUNDS} :  max_bounds
+\item \code{RETROADJUST} :  retrospective_adjustment
 }
 
 The AGEPRO input file format recognizes these optional keyword parameters.

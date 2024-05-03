@@ -13,13 +13,11 @@
 #' Associated with AGEPRO's output options (OPTIONS) are additional optional
 #' options:
 #'
-#' \describe{
-#'   \item{PERC}{user_percentile_summary}
-#'   \item{REFPOINT}{reference_points}
-#'   \item{SCALE}{scaling_factors}
-#'   \item{BOUNDS}{max_bounds}
-#'   \item{RETROADJUST}{retrospective_adjustment}
-#' }
+#' * `PERC` :  user_percentile_summary
+#' * `REFPOINT` :  reference_points
+#' * `SCALE` :  scaling_factors
+#' * `BOUNDS` :  max_bounds
+#' * `RETROADJUST` :  retrospective_adjustment
 #'
 #' The AGEPRO input file format recognizes these optional keyword parameters.
 #' At initialization, all option flags will be set to FALSE. To "enable" an
