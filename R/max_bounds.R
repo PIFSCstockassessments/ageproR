@@ -41,13 +41,54 @@ max_bounds <- R6Class(
 
       div_keyword_header(private$.keyword_name)
       #Reset enable_max_bounds option_flag to NULL
-      #private$reset_options_flags()
+      private$reset_options_flags()
 
       cli::cli_alert("Setting maximum bounds for weight and natural mortality")
+
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
+      self$print()
+    },
+
+    #' @description
+    #' Formatted to print out max_bounds values
+    #'
+    print = function(){
+
+      cli::cli_alert_info(
+        paste0("max_bounds: ",
+               "Specify bounds {.emph (flag$op$enable_max_bounds)}: ",
+               "{.val {self$flag$op$enable_max_bounds}}"))
+      cli::cli_ul(id = "max_bounds_fields")
+      cli::cli_li("max_weight: {.val {self$max_weight}}")
+      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
+      cli::cli_end()
+
+    },
+
+
+    #' @description
+    #' Wrapper Function to toggle enable_max_bounds options_flag.
+    #'
+    #' The class will not accept from max_weight and max_natural_mortality
+    #' values until enable_max_max_bounds is TRUE.
+    #'
+    #' @param x
+    #' Logical value for enable_max_bounds options_flag
+    #'
+    set_enable_max_bounds = function(x) {
+
+      checkmate::assert_logical(x)
+
+      self$flag$op$enable_max_bounds <- x
+
+      cli::cli_alert(
+        paste0("enable_max_bounds : ",
+               "{.val ",
+               "{self$flag$op$enable_max_bounds}}"))
     }
+
   ),
   active = list(
 

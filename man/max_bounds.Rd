@@ -40,6 +40,8 @@ sampling variation for natural mortality at age values}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-max_bounds-new}{\code{max_bounds$new()}}
+\item \href{#method-max_bounds-print}{\code{max_bounds$print()}}
+\item \href{#method-max_bounds-set_enable_max_bounds}{\code{max_bounds$set_enable_max_bounds()}}
 \item \href{#method-max_bounds-clone}{\code{max_bounds$clone()}}
 }
 }
@@ -58,6 +60,36 @@ Initializes the class
 \item{\code{max_weight}}{Maximum bound weight (MT). Default is 10.0}
 
 \item{\code{max_nat_mort}}{Maximum bound of natural mortality. Default is 1.0.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-max_bounds-print"></a>}}
+\if{latex}{\out{\hypertarget{method-max_bounds-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out max_bounds values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{max_bounds$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-max_bounds-set_enable_max_bounds"></a>}}
+\if{latex}{\out{\hypertarget{method-max_bounds-set_enable_max_bounds}{}}}
+\subsection{Method \code{set_enable_max_bounds()}}{
+Wrapper Function to toggle enable_max_bounds options_flag.
+
+The class will not accept from max_weight and max_natural_mortality
+values until enable_max_max_bounds is TRUE.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{max_bounds$set_enable_max_bounds(x)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{Logical value for enable_max_bounds options_flag}
 }
 \if{html}{\out{</div>}}
 }
