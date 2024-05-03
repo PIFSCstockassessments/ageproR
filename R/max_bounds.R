@@ -124,6 +124,7 @@ max_bounds <- R6Class(
         if(is.null(private$.max_natural_mortality)){
           warning("max_natural_morality is NULL", call. = FALSE)
         }
+        return(private$.max_natural_mortality)
       }else{
 
         if(isFALSE(self$flag$op$enable_max_bounds)) {
@@ -134,6 +135,7 @@ max_bounds <- R6Class(
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
         private$.max_natural_mortality <- value
+
       }
     },
 
@@ -160,7 +162,7 @@ max_bounds <- R6Class(
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_max_bounds))){
-        cli::cli_alert("ReSet enable_max_bounds")
+        cli::cli_alert("Reset enable_max_bounds")
         self$flag$op$enable_max_bounds <- NULL
         }
     }
