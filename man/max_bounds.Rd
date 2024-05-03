@@ -30,6 +30,9 @@ sampling variation for weight at age values}
 \item{\code{max_natural_mortality}}{The maximum natural mortality rate, noting that there is lognormal
 sampling variation for natural mortality at age values}
 
+\item{\code{enable_max_bounds}}{Read-only logical field that flags if fields can be edited. To set
+the value use \code{set_enable_max_bounds} or field}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}

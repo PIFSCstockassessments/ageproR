@@ -48,6 +48,8 @@ max_bounds <- R6Class(
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
+      suppressMessages(self$set_enable_max_bounds(FALSE))
+
       self$print()
     },
 
@@ -137,6 +139,21 @@ max_bounds <- R6Class(
         private$.max_natural_mortality <- value
 
       }
+    },
+
+    #' @field enable_max_bounds
+    #' Read-only logical field that flags if fields can be edited. To set
+    #' the value use `set_enable_max_bounds` or field
+    enable_max_bounds = function(value) {
+      if(isFALSE(missing(value))){
+        err_msg <-
+          paste0("active binding is read only. ",
+                 "To set value for enable_max_bounds ",
+                 "use 'set_enable_max_bounds' or ",
+                 "set value to field 'flag$op$enable_max_bounds'")
+        stop(err_msg, call. = FALSE)
+      }
+      return(self$flag$op$enable_max_bounds)
     },
 
     #' @field keyword_name
