@@ -149,8 +149,8 @@ max_bounds <- R6Class(
         err_msg <-
           paste0("active binding is read only. ",
                  "To set value for enable_max_bounds ",
-                 "use 'set_enable_max_bounds' or ",
-                 "set value to field 'flag$op$enable_max_bounds'")
+                 "use max_bounds function 'set_enable_max_bounds' or ",
+                 "set value to max_bounds field 'flag$op$enable_max_bounds'")
         stop(err_msg, call. = FALSE)
       }
       return(self$flag$op$enable_max_bounds)
