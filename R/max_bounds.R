@@ -14,7 +14,7 @@
 #' will be FALSE. The field enable_max_bounds must be set to TRUE to set values
 #' this class.
 #'
-#' @include options_flags.R
+#' @include optional_options_flags.R
 #'
 #' @export
 #' @importFrom R6 R6Class
