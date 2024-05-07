@@ -37,7 +37,7 @@ user_percentile_summary <- R6Class(
     initialize = function(perc = 0){
 
       div_keyword_header(private$.keyword_name)
-      #Reset enable_user_percentile_summary option_flag to NULL
+      # For Initialization, reset enable_user_percentile_summary to NULL
       private$reset_options_flags()
 
       # Presume default if perc is 0.
@@ -51,6 +51,10 @@ user_percentile_summary <- R6Class(
 
       self$report_percentile <- perc
 
+      suppressMessages(self$set_enable_user_percentile_summary(FALSE))
+
+      self$print()
+
     },
 
 
@@ -59,8 +63,37 @@ user_percentile_summary <- R6Class(
     #'
     print = function(){
 
+      cli::cli_alert_info(
+        paste0("user_percentile_summary: ",
+               "Request Percentile Report ",
+               "{.emph (self$flag$op$enable_user_percentile_summary)}: ",
+               "{.val {self$flag$op$enable_user_percentile_summary}}"))
       cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
     },
+
+    #' @description
+    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
+    #'
+    #' The user_percentile_summary class will not accept values until it is
+    #' enable_user_percentile_summary is TRUE.
+    #'
+    #' @param x
+    #' Logical value for enable_user_percentile_summary options_flag
+    #'
+    set_enable_user_percentile_summary = function(x) {
+
+      checkmate::assert_logical(x)
+
+      self$flag$op$enable_user_percentile_summary <- x
+
+      cli::cli_alert(
+        paste0("enable_user_pecentile_summary : ",
+               "{.val ",
+               "{self$flag$op$enable_user_percentile_summary}}"))
+
+
+    },
+
 
     #' @description
     #' Reads in the values from the keyword parameter PERC from the
@@ -133,6 +166,22 @@ user_percentile_summary <- R6Class(
         private$.report_percentile <- value
       }
 
+    },
+
+    #' @field enable_user_percentile_summary
+    #' Read-only logical field that flags if fields can be edited. To set
+    #' the value use `set_enable_user_percentile_summary` or field
+    enable_user_percentile_summary = function(value) {
+      if(isFALSE(missing(value))){
+        err_msg <-
+          paste0("Active binding is read only.\n",
+                 "Use user_percentile_summary class function ",
+                 "'set_enable_user_percentile_summary', or ",
+                 "set value to class field ",
+                 "'flag$op$enable_enable_user_percentile_summary'")
+        stop(err_msg, call. = FALSE)
+      }
+      return(self$flag$op$enable_user_percentile_summary)
     },
 
 

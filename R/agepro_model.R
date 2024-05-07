@@ -192,10 +192,9 @@ agepro_model <- R6Class(
       }
 
       self$perc <- user_percentile_summary$new()
-      self$perc$flag$op$enable_user_percentile_summary <- FALSE
 
       self$bounds <- max_bounds$new()
-      self$bounds$flag$op$enable_max_bounds <- FALSE
+
 
     },
 
@@ -265,30 +264,6 @@ agepro_model <- R6Class(
     set_bootstrap_filename = function(bsnfile) {
 
       self$bootstrap$set_bootstrap_filename(bsnfile)
-    },
-
-
-    #' @description
-    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
-    #'
-    #' The user_percentile_summary class will not accept values until it is
-    #' enable_user_percentile_summary is TRUE.
-    #'
-    #' @param x
-    #' Logical value for enable_user_percentile_summary options_flag
-    #'
-    set_enable_user_percentile_summary = function(x) {
-
-      checkmate::assert_logical(x)
-
-      self$perc$flag$op$enable_user_percentile_summary <- x
-
-      cli::cli_alert(
-        paste0("enable_user_pecentile_summary : ",
-               "{.val ",
-               "{self$perc$flag$op$enable_user_percentile_summary}}"))
-
-
     },
 
 
@@ -815,7 +790,7 @@ agepro_inp_model <- R6Class(
           message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          self$set_enable_user_percentile_summary(FALSE)
+          self$perc$set_enable_user_percentile_summary(FALSE)
           return(invisible())
         },
         finally = {
@@ -1224,7 +1199,7 @@ agepro_inp_model <- R6Class(
 
     read_user_percentile_summary = function(con, nline) {
 
-      self$set_enable_user_percentile_summary(TRUE)
+      self$perc$set_enable_user_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
     }
 

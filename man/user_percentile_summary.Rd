@@ -30,6 +30,9 @@ spawning stock biomass, stock biomass on January 1st, mean biomass,
 combined catch biomass, landings, fishing mortality, and stock
 numbers at age}
 
+\item{\code{enable_user_percentile_summary}}{Read-only logical field that flags if fields can be edited. To set
+the value use \code{set_enable_user_percentile_summary} or field}
+
 \item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
@@ -43,6 +46,7 @@ numbers at age}
 \itemize{
 \item \href{#method-user_percentile_summary-new}{\code{user_percentile_summary$new()}}
 \item \href{#method-user_percentile_summary-print}{\code{user_percentile_summary$print()}}
+\item \href{#method-user_percentile_summary-set_enable_user_percentile_summary}{\code{user_percentile_summary$set_enable_user_percentile_summary()}}
 \item \href{#method-user_percentile_summary-read_inp_lines}{\code{user_percentile_summary$read_inp_lines()}}
 \item \href{#method-user_percentile_summary-get_inp_lines}{\code{user_percentile_summary$get_inp_lines()}}
 \item \href{#method-user_percentile_summary-clone}{\code{user_percentile_summary$clone()}}
@@ -78,6 +82,26 @@ Formatted to print out output_option values
 \if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$print()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-user_percentile_summary-set_enable_user_percentile_summary"></a>}}
+\if{latex}{\out{\hypertarget{method-user_percentile_summary-set_enable_user_percentile_summary}{}}}
+\subsection{Method \code{set_enable_user_percentile_summary()}}{
+Wrapper Function to toggle enable_user_percentile_summary options_flag.
+
+The user_percentile_summary class will not accept values until it is
+enable_user_percentile_summary is TRUE.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$set_enable_user_percentile_summary(x)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{Logical value for enable_user_percentile_summary options_flag}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-user_percentile_summary-read_inp_lines"></a>}}

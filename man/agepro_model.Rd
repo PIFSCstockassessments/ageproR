@@ -82,7 +82,6 @@ mortality (\eqn{M})}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
-\item \href{#method-agepro_model-set_enable_user_percentile_summary}{\code{agepro_model$set_enable_user_percentile_summary()}}
 \item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
@@ -201,26 +200,6 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{bsnfile}}{bootstrap filename}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-set_enable_user_percentile_summary"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-set_enable_user_percentile_summary}{}}}
-\subsection{Method \code{set_enable_user_percentile_summary()}}{
-Wrapper Function to toggle enable_user_percentile_summary options_flag.
-
-The user_percentile_summary class will not accept values until it is
-enable_user_percentile_summary is TRUE.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_enable_user_percentile_summary(x)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{Logical value for enable_user_percentile_summary options_flag}
 }
 \if{html}{\out{</div>}}
 }
