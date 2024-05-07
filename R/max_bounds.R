@@ -89,7 +89,37 @@ max_bounds <- R6Class(
         paste0("enable_max_bounds : ",
                "{.val ",
                "{self$flag$op$enable_max_bounds}}"))
+    },
+
+    #' @description
+    #' Reads in the values from the keyword parameter BOUNDS from the
+    #' AGEPRO Input file
+    #'
+    #' Note: enable_max_bounds must be set to TRUE.
+    #'
+    #' @template inp_con
+    #' @template nline
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      cli::cli_alert("Line {nline}:")
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$max_weight <- inp_line[1]
+      self$max_natural_mortality <- inp_line[2]
+
+      cli::cli_ul(id = "bounds_inp_fields")
+      cli::cli_li("max_weight: {.val {self$max_weight}}")
+      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
+      cli::cli_end()
+
+      return(nline)
     }
+
+
 
   ),
   active = list(
