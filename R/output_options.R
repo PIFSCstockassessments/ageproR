@@ -73,9 +73,9 @@ output_options <- R6Class(
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
-      self$output_stock_summary <- inp_line[1]
-      self$output_process_error_aux_files <- inp_line[2]
-      self$output_data_frame <- inp_line[3]
+      suppressMessages(self$output_stock_summary <- inp_line[1])
+      suppressMessages(self$output_process_error_aux_files <- inp_line[2])
+      suppressMessages(self$output_data_frame <- inp_line[3])
 
       cli::cli_alert(paste0("Line {nline} : ",
                             "Reading AGEPRO projection output options ..."))
