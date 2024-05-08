@@ -17,8 +17,9 @@ open_file_dialog <- function(filetype) {
   # Check Rstudio is used.
   # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
   # implemented. vscode's rstudio version information is set to '0'.
-  # For Rstudio specific code, set version_needed to '1'
-  if (rstudioapi::isAvailable(1)) {
+  # For Rstudio specific code, check for mode "desktop", and version > '0'
+  if (rstudioapi::versionInfo()$mode == "desktop" &&
+      rstudioapi::versionInfo()$version > as.character(0) ) {
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
