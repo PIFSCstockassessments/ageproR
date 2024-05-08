@@ -907,6 +907,9 @@ agepro_inp_model <- R6Class(
         },
         "[PERC]" = {
           rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
+        },
+        "[BOUNDS]" = {
+          rlang::expr(private$read_max_bounds(inp_con, self$nline))
         }
 
       ))
@@ -1201,6 +1204,11 @@ agepro_inp_model <- R6Class(
 
       self$perc$set_enable_user_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
+    },
+
+    read_max_bounds = function(con, nline) {
+      self$bounds$set_enable_max_bounds(TRUE)
+      self$nline <- self$bounds$read_inp_lines(con, nline)
     }
 
 
