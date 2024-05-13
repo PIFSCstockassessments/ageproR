@@ -193,6 +193,17 @@ max_bounds <- R6Class(
       }
     },
 
+
+    #' @field json_list_object
+    #' Returns JSON list object of containing BOUNDS values
+    json_list_object = function() {
+      return(list(
+        max_weight = self$max_weight,
+        max_natural_mortality = self$max_natural_mortality
+      ))
+    },
+
+
     #' @field enable_max_bounds
     #' Read-only logical field that flags if fields can be edited. To set
     #' the value use `set_enable_max_bounds` or field

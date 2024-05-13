@@ -1296,6 +1296,13 @@ agepro_json_model <- R6Class(
                }else{
                  NA
                }
+             },
+             "bounds" = {
+               if(self$bounds$enable_max_bounds){
+                 self$bounds$json_list_object
+               }else{
+                 NA
+               }
              }
 
         )
