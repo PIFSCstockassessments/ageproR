@@ -117,7 +117,29 @@ max_bounds <- R6Class(
       cli::cli_end()
 
       return(nline)
+    },
+
+    #' @description
+    #' Returns values from the class to the BOUNDS AGEPRO keyword parameter
+    #' formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " ") {
+
+      # Re-check fields before formatting.
+      # In this case, do not allow NULL values to be passed.
+      checkmate::assert_numeric(self$max_weight)
+      checkmate::assert_numeric(self$max_natural_mortality)
+
+      return(list(
+        self$inp_keyword,
+        paste(self$max_weight,
+              self$max_natural_mortality,
+              sep = delimiter)
+      ))
     }
+
 
 
 

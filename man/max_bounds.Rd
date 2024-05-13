@@ -46,6 +46,7 @@ the value use \code{set_enable_max_bounds} or field}
 \item \href{#method-max_bounds-print}{\code{max_bounds$print()}}
 \item \href{#method-max_bounds-set_enable_max_bounds}{\code{max_bounds$set_enable_max_bounds()}}
 \item \href{#method-max_bounds-read_inp_lines}{\code{max_bounds$read_inp_lines()}}
+\item \href{#method-max_bounds-get_inp_lines}{\code{max_bounds$get_inp_lines()}}
 \item \href{#method-max_bounds-clone}{\code{max_bounds$clone()}}
 }
 }
@@ -118,6 +119,24 @@ Note: enable_max_bounds must be set to TRUE.
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-max_bounds-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-max_bounds-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns values from the class to the BOUNDS AGEPRO keyword parameter
+formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{max_bounds$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

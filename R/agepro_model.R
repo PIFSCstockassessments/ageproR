@@ -1015,6 +1015,9 @@ agepro_inp_model <- R6Class(
             self$options$get_inp_lines(delimiter),
             if(self$perc$flag$op$enable_user_percentile_summary){
               self$perc$get_inp_lines(delimiter)
+            },
+            if(self$bounds$flag$op$enable_max_bounds){
+              self$bounds$get_inp_lines(delimiter)
             }
           )
 
