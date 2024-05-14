@@ -43,14 +43,22 @@ max_bounds <- R6Class(
       #Reset enable_max_bounds option_flag to NULL
       private$reset_options_flags()
 
-      cli::cli_alert("Setting maximum bounds for weight and natural mortality")
-
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
-      suppressMessages(self$set_enable_max_bounds(FALSE))
+      if(all(c(all.equal(max_weight, 10.0),
+               all.equal(max_nat_mort, 1.0)))) {
+        cli::cli_alert(paste0("Default values set, ",
+                              "options_flag enable_max_bounds to FALSE"))
+        suppressMessages(self$set_enable_max_bounds(FALSE))
+      }else{
+        cli::cli_alert(paste0("Values for max_bounds set. ",
+                              "Enable options_flag enable_max_bounds as TRUE"))
+        self$set_enable_max_bounds(TRUE)
+        self$print()
+      }
 
-      self$print()
+
     },
 
     #' @description
@@ -60,8 +68,8 @@ max_bounds <- R6Class(
 
       cli::cli_alert_info(
         paste0("max_bounds: ",
-               "Specify bounds {.emph (flag$op$enable_max_bounds)}: ",
-               "{.val {self$flag$op$enable_max_bounds}}"))
+               "Specify bounds {.emph (enable_max_bounds)}: ",
+               "{.val {self$enable_max_bounds}}"))
       cli::cli_ul(id = "max_bounds_fields")
       cli::cli_li("max_weight: {.val {self$max_weight}}")
       cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
