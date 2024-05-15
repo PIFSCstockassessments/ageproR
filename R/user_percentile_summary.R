@@ -42,17 +42,25 @@ user_percentile_summary <- R6Class(
 
       # Presume default if perc is 0.
       if(isTRUE(all.equal(perc,0))){
-        cli::cli_alert("Set default report_percentile value to 0 ..")
-      }else{
-        cli::cli_alert("Set report_percentile to {.val {perc}} ..")
+        cli::cli_alert(paste0("Set default values. ",
+                              "options_flag enable_user_percentile_summary ",
+                              "to FALSE"))
+        self$report_percentile <- perc
+
+        suppressMessages(self$set_enable_user_percentile_summary(FALSE))
+
+        return()
+
       }
 
-      checkmate::assert_numeric(perc, lower = 0, upper = 100, len = 1)
+      cli::cli_alert(paste0("Setting for user_percentile_summary values ",
+                            "Enable options_flag ",
+                            "enable_user_percentile_summary as TRUE"))
+      cli::cli_alert("Set report_percentile to {.val {perc}} ..")
 
+      #checkmate::assert_numeric(perc, lower = 0, upper = 100, len = 1)
       self$report_percentile <- perc
-
-      suppressMessages(self$set_enable_user_percentile_summary(FALSE))
-
+      self$set_enable_user_percentile_summary(TRUE)
       self$print()
 
     },
