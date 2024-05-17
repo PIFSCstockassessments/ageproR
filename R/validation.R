@@ -156,6 +156,39 @@ assert_perc_active_binding <- function(x, .var.name = checkmate::vname(x),
 
 }
 
+
+#' Validation for BOUNDS active binding in agepro_model
+#'
+#' @description
+#' Custom validation procedure to check if input value matches the structure
+#' of the max_bounds R6Class.
+#'
+#' @param x
+#' Object to Check
+#'
+check_bounds_active_binding <- function(x) {
+
+  if(is.null(x)){
+    return(paste0("NULL input value"))
+  }
+
+  return(checkmate::check_r6(x, public = names(ageproR::max_bounds$active)) )
+
+}
+
+#' @rdname check_bounds_active_binding
+#'
+#' @template assert
+#'
+assert_bounds_active_binding <- function(x, .var.name = checkmate::vname(x),
+                                       add = NULL) {
+  res = check_bounds_active_binding(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+
+}
+
+
+
 #' @title
 #' Custom mapping function for error handing
 #'

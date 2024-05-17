@@ -32,7 +32,7 @@ sampling variation for natural mortality at age values}
 
 \item{\code{json_list_object}}{Returns JSON list object of containing BOUNDS values}
 
-\item{\code{enable_max_bounds}}{Read-only logical field that flags if fields can be edited. To set
+\item{\code{enable_max_bounds}}{Logical field that flags if fields can be edited. To set
 the value use \code{set_enable_max_bounds} or field}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}

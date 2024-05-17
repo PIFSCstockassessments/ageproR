@@ -213,18 +213,16 @@ max_bounds <- R6Class(
 
 
     #' @field enable_max_bounds
-    #' Read-only logical field that flags if fields can be edited. To set
+    #' Logical field that flags if fields can be edited. To set
     #' the value use `set_enable_max_bounds` or field
     enable_max_bounds = function(value) {
-      if(isFALSE(missing(value))){
-        err_msg <-
-          paste0("active binding is read only. ",
-                 "To set value for enable_max_bounds ",
-                 "use max_bounds function 'set_enable_max_bounds' or ",
-                 "set value to max_bounds field 'flag$op$enable_max_bounds'")
-        stop(err_msg, call. = FALSE)
+      if(isTRUE(missing(value))){
+        return(self$flag$op$enable_max_bounds)
+      } else {
+        #Validate and set value via set_enable_max_bounds
+        self$set_enable_max_bounds(value)
       }
-      return(self$flag$op$enable_max_bounds)
+
     },
 
     #' @field keyword_name
