@@ -539,7 +539,7 @@ agepro_model <- R6Class(
         tryCatch({
 
           #Validate value as user_percentile_summary R6class
-          assert_perc_active_binding(value)
+          assert_perc_active_binding(value, .var.name = "perc")
 
           private$.user_percentile_summary <- value
 
@@ -562,7 +562,7 @@ agepro_model <- R6Class(
         tryCatch({
 
           #Validate value as user_percentile_summary R6class
-          assert_bounds_active_binding(value)
+          assert_bounds_active_binding(value, .var.name = "bounds")
 
           private$.max_bounds <- value
 

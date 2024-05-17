@@ -22,6 +22,6 @@ Collection to store assertion messages. See
 \code{\link[checkmate:AssertCollection]{checkmate::AssertCollection}}}
 }
 \description{
-Custom validation procedure to check if input value matches the structure
-of the max_bounds R6Class.
+Custom validation procedure to check if input value has the public
+methods and active bindings fields of the max_bounds R6Class.
 }
