@@ -74,8 +74,8 @@ user_percentile_summary <- R6Class(
       cli::cli_alert_info(
         paste0("user_percentile_summary: ",
                "Request Percentile Report ",
-               "{.emph (self$flag$op$enable_user_percentile_summary)}: ",
-               "{.val {self$flag$op$enable_user_percentile_summary}}"))
+               "{.emph (self$enable_user_percentile_summary)}: ",
+               "{.val {self$enable_user_percentile_summary}}"))
       cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
     },
 
@@ -92,6 +92,7 @@ user_percentile_summary <- R6Class(
 
       checkmate::assert_logical(x)
 
+      #Set value to options flags field reference "flag"
       self$flag$op$enable_user_percentile_summary <- x
 
       cli::cli_alert(
@@ -180,16 +181,13 @@ user_percentile_summary <- R6Class(
     #' Read-only logical field that flags if fields can be edited. To set
     #' the value use `set_enable_user_percentile_summary` or field
     enable_user_percentile_summary = function(value) {
-      if(isFALSE(missing(value))){
-        err_msg <-
-          paste0("Active binding is read only.\n",
-                 "Use user_percentile_summary class function ",
-                 "'set_enable_user_percentile_summary', or ",
-                 "set value to class field ",
-                 "'flag$op$enable_enable_user_percentile_summary'")
-        stop(err_msg, call. = FALSE)
+      if(isTRUE(missing(value))){
+        return(self$flag$op$enable_user_percentile_summary)
+      }else{
+        #Validate and set value via set_enable_user_percentile_summary
+        self$set_enable_user_percentile_summary(value)
       }
-      return(self$flag$op$enable_user_percentile_summary)
+
     },
 
 
