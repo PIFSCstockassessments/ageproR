@@ -91,6 +91,7 @@ max_bounds <- R6Class(
 
       checkmate::assert_logical(x)
 
+      #Set value to options flags field reference "flag"
       self$flag$op$enable_max_bounds <- x
 
       cli::cli_alert(
