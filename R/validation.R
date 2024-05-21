@@ -129,19 +129,18 @@ assert_proj_years_sequence <- function(x, .var.name = checkmate::vname(x),
 #'
 check_perc_active_binding <- function(x) {
 
-  if(checkmate::test_r6(x, public = c("report_percentile"))) {
-    return(TRUE)
-  }
-
   if(checkmate::test_numeric(x, len = 1)) {
     return(paste0(
-      "Input value found as a numeric, not a user_percentile_summary class."
+      "Input value found as a numeric, not a user_percentile_summary class. ",
+      "Did you mean to set report_percentile field?"
     ))
   }
 
-  checkmate::assert_r6(x, public = c("report_percentile"))
+  r6class_public_slots <- c(ageproR::user_percentile_summary$public_methods,
+                            ageproR::user_percentile_summary$active)
 
-  return(TRUE)
+  return(checkmate::check_r6(x, public = names(r6class_public_slots)) )
+
 }
 
 
@@ -155,6 +154,36 @@ assert_perc_active_binding <- function(x, .var.name = checkmate::vname(x),
   checkmate::makeAssertion(x, res, .var.name, add)
 
 }
+
+
+#' Validation for BOUNDS active binding in agepro_model
+#'
+#' @description
+#' Custom validation procedure to check if input value has the public
+#' methods and active bindings fields of the max_bounds R6Class.
+#'
+#' @param x
+#' Object to Check
+#'
+check_bounds_active_binding <- function(x) {
+
+  r6class_public_slots <- c(ageproR::max_bounds$public_methods,
+                            ageproR::max_bounds$active)
+  return(checkmate::check_r6(x, public = names(r6class_public_slots)) )
+}
+
+#' @rdname check_bounds_active_binding
+#'
+#' @template assert
+#'
+assert_bounds_active_binding <- function(x, .var.name = checkmate::vname(x),
+                                       add = NULL) {
+  res = check_bounds_active_binding(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+
+}
+
+
 
 #' @title
 #' Custom mapping function for error handing

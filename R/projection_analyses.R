@@ -423,7 +423,7 @@ rebuild_projection <- R6Class(
       #' @param target_biomass Target biomass value in units of thousands
       #' of metric tons (MT). Default set to 0.
       #' @param target_type Target population biomass:
-      #' \itemize{
+      #' \describe{
       #'   \item{0}{Spawning Stock Biomass. Set as Default}
       #'   \item{1}{January 1st Stock Biomass}
       #'   \item{2}{Mid-Year (Mean) Biomass}
@@ -532,7 +532,7 @@ rebuild_projection <- R6Class(
 
       #' @field target_biomass_type
       #' Index for the type of population biomass as the target:
-      #' \itemize{
+      #' \describe{
       #'   \item{0}{Spawning Stock Biomass}
       #'   \item{1}{January 1st Stock Biomass}
       #'   \item{2}{Mid-Year (Mean) Biomass}

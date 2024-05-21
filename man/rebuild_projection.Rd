@@ -25,7 +25,7 @@ any existing rebuild and pstar projection objects.
 of metric tons (MT)}
 
 \item{\code{target_biomass_type}}{Index for the type of population biomass as the target:
-\itemize{
+\describe{
 \item{0}{Spawning Stock Biomass}
 \item{1}{January 1st Stock Biomass}
 \item{2}{Mid-Year (Mean) Biomass}
@@ -75,7 +75,7 @@ first to last year of the time projection; or an instance of
 of metric tons (MT). Default set to 0.}
 
 \item{\code{target_type}}{Target population biomass:
-\itemize{
+\describe{
 \item{0}{Spawning Stock Biomass. Set as Default}
 \item{1}{January 1st Stock Biomass}
 \item{2}{Mid-Year (Mean) Biomass}

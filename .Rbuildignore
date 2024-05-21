@@ -3,3 +3,5 @@
 ^man-roxygen$
 ^LICENSE\.md$
 ^README\.Rmd$
+^inst$
+^\.Rhistory$

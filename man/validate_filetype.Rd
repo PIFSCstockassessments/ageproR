@@ -11,7 +11,7 @@ validate_filetype(filetype)
 }
 \description{
 Checks the filetype as a 2 length vector without missing values. If filetype
-as not passed in the parameter, it will return the default "{All files} {*}"
+as not passed in the parameter, it will return the default \verb{All files (*.*)}
 string vector.
 }
 \details{

@@ -192,8 +192,8 @@ agepro_model <- R6Class(
       }
 
       self$perc <- user_percentile_summary$new()
-      self$perc$options_flags$enable_user_percentile_summary <- FALSE
 
+      self$bounds <- max_bounds$new()
 
 
     },
@@ -264,30 +264,6 @@ agepro_model <- R6Class(
     set_bootstrap_filename = function(bsnfile) {
 
       self$bootstrap$set_bootstrap_filename(bsnfile)
-    },
-
-
-    #' @description
-    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
-    #'
-    #' The user_percentile_summary class will not accept values until it is
-    #' enable_user_percentile_summary is TRUE.
-    #'
-    #' @param x
-    #' Logical value for enable_user_percentile_summary options_flag
-    #'
-    set_enable_user_percentile_summary = function(x) {
-
-      checkmate::assert_logical(x)
-
-      self$perc$options_flags$enable_user_percentile_summary <- x
-
-      cli::cli_alert(
-        paste0("enable_user_pecentile_summary : ",
-               "{.val ",
-               "{self$perc$options_flags$enable_user_percentile_summary}}"))
-
-
     },
 
 
@@ -563,7 +539,7 @@ agepro_model <- R6Class(
         tryCatch({
 
           #Validate value as user_percentile_summary R6class
-          assert_perc_active_binding(value)
+          assert_perc_active_binding(value, .var.name = "perc")
 
           private$.user_percentile_summary <- value
 
@@ -574,6 +550,30 @@ agepro_model <- R6Class(
         })
       }
     },
+
+
+    #' @field bounds
+    #' Bounds on simulated fish weights and natural mortality rates
+    #'
+    bounds = function(value) {
+      if(missing(value)){
+        return(private$.max_bounds)
+      }else{
+        tryCatch({
+
+          #Validate value as user_percentile_summary R6class
+          assert_bounds_active_binding(value, .var.name = "bounds")
+
+          private$.max_bounds <- value
+
+        },
+        error = function(err) {
+
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
+        })
+      }
+    },
+
 
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
@@ -683,6 +683,7 @@ agepro_model <- R6Class(
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
     .user_percentile_summary = NULL,
+    .max_bounds = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -789,7 +790,7 @@ agepro_inp_model <- R6Class(
           message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          self$set_enable_user_percentile_summary(FALSE)
+          self$perc$set_enable_user_percentile_summary(FALSE)
           return(invisible())
         },
         finally = {
@@ -906,6 +907,9 @@ agepro_inp_model <- R6Class(
         },
         "[PERC]" = {
           rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
+        },
+        "[BOUNDS]" = {
+          rlang::expr(private$read_max_bounds(inp_con, self$nline))
         }
 
       ))
@@ -1009,8 +1013,11 @@ agepro_inp_model <- R6Class(
               self$rebuild$get_inp_lines(delimiter)
             },
             self$options$get_inp_lines(delimiter),
-            if(self$perc$options_flags$enable_user_percentile_summary){
+            if(self$perc$flag$op$enable_user_percentile_summary){
               self$perc$get_inp_lines(delimiter)
+            },
+            if(self$bounds$flag$op$enable_max_bounds){
+              self$bounds$get_inp_lines(delimiter)
             }
           )
 
@@ -1198,8 +1205,13 @@ agepro_inp_model <- R6Class(
 
     read_user_percentile_summary = function(con, nline) {
 
-      self$set_enable_user_percentile_summary(TRUE)
+      self$perc$set_enable_user_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
+    },
+
+    read_max_bounds = function(con, nline) {
+      self$bounds$set_enable_max_bounds(TRUE)
+      self$nline <- self$bounds$read_inp_lines(con, nline)
     }
 
 
@@ -1279,8 +1291,15 @@ agepro_json_model <- R6Class(
              "rebuild" = self$rebuild$json_list_object,
              "options" = self$options$json_list_object,
              "perc" = {
-               if(self$perc$options_flags$enable_user_percentile_summary){
+               if(self$perc$flag$op$enable_user_percentile_summary){
                  self$perc$json_list_object
+               }else{
+                 NA
+               }
+             },
+             "bounds" = {
+               if(self$bounds$enable_max_bounds){
+                 self$bounds$json_list_object
                }else{
                  NA
                }

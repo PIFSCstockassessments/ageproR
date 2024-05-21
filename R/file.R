@@ -17,8 +17,9 @@ open_file_dialog <- function(filetype) {
   # Check Rstudio is used.
   # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
   # implemented. vscode's rstudio version information is set to '0'.
-  # For Rstudio specific code, set version_needed to '1'
-  if (rstudioapi::isAvailable(1)) {
+  # For Rstudio specific code, check for mode "desktop", and version > '0'
+  if (rstudioapi::versionInfo()$mode == "desktop" &&
+      rstudioapi::versionInfo()$version > as.character(0) ) {
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
@@ -127,7 +128,7 @@ save_file_dialog <- function() {
 #' Checks the validity of filetype key-value pair.
 #'
 #' Checks the filetype as a 2 length vector without missing values. If filetype
-#' as not passed in the parameter, it will return the default "{All files} {*}"
+#' as not passed in the parameter, it will return the default `All files (*.*)`
 #' string vector.
 #'
 #' @details
