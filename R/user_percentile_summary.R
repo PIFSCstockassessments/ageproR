@@ -7,12 +7,19 @@
 #' Class Structure that includes user-defined options for setting
 #' a specific percentile for the distributions of outputs.
 #'
-#' @details
-#' The user_percentile_summary class (or `PERC`) is recognized as a keyword
-#' parameter used in the AGEPRO input file format, but it is optional.
-#' Initialized agepro_models flags the class  as FALSE until  a will be initialize with NULL
-#' report_percentile.
+#' The logical flag `enable_user_percentile_summary` allows the user to
+#' set values to this class field: report_percentile. The flag will also notify
+#' `agepro_model` if this keyword parameter is allowed to be written to
+#' input file.
 #'
+#' If the user_percentile_summary is initialized with default values, it is
+#' presumed that this keyword parameter is not used in the agepro_model.
+#' Therefore, `enable_user_percentile_summary` is flagged as FALSE. Valid non-
+#' default values will set this flag to TRUE.#'
+#'
+#' @details
+#' The user_percentile_summary class (or `PERC`) is an optional keyword
+#' parameter used in the AGEPRO input file format.
 #'
 #' @export
 #'
@@ -28,16 +35,14 @@ user_percentile_summary <- R6Class(
     #' @description
     #' Initializes the class
     #'
-    #' When agepro_model is reinitialized, reset the value for this class's
-    #' option_flag enable_user_percentile_summary to NULL to cleanup any values
-    #' it retained previously.
-    #'
     #' @param perc User-defined percentile of projected distributions
     #'
     initialize = function(perc = 0){
 
       div_keyword_header(private$.keyword_name)
-      # For Initialization, reset enable_user_percentile_summary to NULL
+
+      #' When agepro_model is reinitialized, reset the value for this class's
+      #' option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
       # Presume default if perc is 0.
@@ -58,7 +63,6 @@ user_percentile_summary <- R6Class(
                             "enable_user_percentile_summary as TRUE"))
       cli::cli_alert("Set report_percentile to {.val {perc}} ..")
 
-      #checkmate::assert_numeric(perc, lower = 0, upper = 100, len = 1)
       self$report_percentile <- perc
       self$set_enable_user_percentile_summary(TRUE)
       self$print()

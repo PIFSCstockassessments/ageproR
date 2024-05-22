@@ -6,12 +6,20 @@
 \description{
 Class Structure that includes user-defined options for setting
 a specific percentile for the distributions of outputs.
+
+The logical flag \code{enable_user_percentile_summary} allows the user to
+set values to this class field: report_percentile. The flag will also notify
+\code{agepro_model} if this keyword parameter is allowed to be written to
+input file.
+
+If the user_percentile_summary is initialized with default values, it is
+presumed that this keyword parameter is not used in the agepro_model.
+Therefore, \code{enable_user_percentile_summary} is flagged as FALSE. Valid non-
+default values will set this flag to TRUE.#'
 }
 \details{
-The user_percentile_summary class (or \code{PERC}) is recognized as a keyword
-parameter used in the AGEPRO input file format, but it is optional.
-Initialized agepro_models flags the class  as FALSE until  a will be initialize with NULL
-report_percentile.
+The user_percentile_summary class (or \code{PERC}) is an optional keyword
+parameter used in the AGEPRO input file format.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -57,10 +65,6 @@ the value use \code{set_enable_user_percentile_summary} or field}
 \if{latex}{\out{\hypertarget{method-user_percentile_summary-new}{}}}
 \subsection{Method \code{new()}}{
 Initializes the class
-
-When agepro_model is reinitialized, reset the value for this class's
-option_flag enable_user_percentile_summary to NULL to cleanup any values
-it retained previously.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{user_percentile_summary$new(perc = 0)}\if{html}{\out{</div>}}
 }
@@ -68,7 +72,10 @@ it retained previously.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{perc}}{User-defined percentile of projected distributions}
+\item{\code{perc}}{User-defined percentile of projected distributions
+
+When agepro_model is reinitialized, reset the value for this class's
+option_flag to NULL to cleanup any values it retained previously.}
 }
 \if{html}{\out{</div>}}
 }
