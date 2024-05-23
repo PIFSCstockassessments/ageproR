@@ -5,9 +5,9 @@
 \title{Values to output optional agepro model's reference point threshold report.}
 \description{
 Class Structure that defines biomass thresholds for spawaning biomass
-\eqn{(\bar B_{S,\ THRESHOLD})}, mean biomass \eqn{(B_{T,\ THRESHOLD})},
-and total stock biomass, including the threshold rate for fishing mortality
-\eqn{(F_{THRESHOLD})}.
+\eqn{(B_{S,\ THRESHOLD})}, mean biomass \eqn{(\bar B_{S,\ THRESHOLD})},
+and total stock biomass\eqn{(B_{T,\ THRESHOLD})}, including the threshold
+rate for fishing mortality \eqn{(F_{THRESHOLD})}.
 
 The logical flag \code{enable_reference_points} allows the user to
 set values to this class fields. The flag will also notify \code{agepro_model}
