@@ -37,11 +37,48 @@ reference_points <- R6Class(
     #' @description
     #' Initializes the class
     #'
-    #' @param x Projected year value or vector
+    #' @param ssb_threshold
+    #' Spawning Biomass threshold express in biomass output units (MT).
     #'
-    initalize = function(x) {
+    #' @param stockbio_threshold
+    #' Stock biomass threshold expressed in biomass output units(MT).
+    #'
+    #' @param meanbio_threshold
+    #' Mean biomass threshold expressed in biomass output units (MT)
+    #'
+    #' @param fmort_threshold
+    #' Fishing mortality threshold
+    #'
+    initalize = function(ssb_threshold = 0,
+                         stockbio_threshold = 0,
+                         meanbio_threshold = 0,
+                         fmort_threshold = 0) {
 
+      div_keyword_header(private$.keyword_name)
 
+      # When agepro_model is reinitialized, reset the value for this class's
+      # option_flag to NULL to cleanup any values it retained previously.
+      private$reset_options_flags()
+
+      self$ssb_threshold <- ssb_threshold
+      self$stock_biomass_threshold <- stockbio_threshold
+      self$mean_biomass_threshold <- meanbio_threshold
+      self$fishing_mortality_threshold <- fmort_threshold
+
+      if(all(c(all.equal(ssb_threshold, 0),
+               all.equal(stockbio_threshold, 0),
+               all.equal(meanbio_threshold, 0),
+               all.equal(fmort_threshold,0))))  {
+        cli::cli_alert(paste0("Default values set, ",
+                              "options_flag enable_refernce_points to FALSE"))
+        suppressMessages(self$set_enable_refernce_points(FALSE))
+      }else{
+        cli::cli_alert(paste0("Values for reference_points set. ",
+                              "Enable options_flag enable_reference_points ",
+                              "as TRUE"))
+        self$set_enable_reference_points(TRUE)
+        self$print()
+      }
 
     }
 

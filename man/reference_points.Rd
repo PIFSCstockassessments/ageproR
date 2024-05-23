@@ -60,13 +60,24 @@ mortality calculated across all fleets.}
 \subsection{Method \code{initalize()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{reference_points$initalize(x)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{reference_points$initalize(
+  ssb_threshold = 0,
+  stockbio_threshold = 0,
+  meanbio_threshold = 0,
+  fmort_threshold = 0
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{x}}{Projected year value or vector}
+\item{\code{ssb_threshold}}{Spawning Biomass threshold express in biomass output units (MT).}
+
+\item{\code{stockbio_threshold}}{Stock biomass threshold expressed in biomass output units(MT).}
+
+\item{\code{meanbio_threshold}}{Mean biomass threshold expressed in biomass output units (MT)}
+
+\item{\code{fmort_threshold}}{Fishing mortality threshold}
 }
 \if{html}{\out{</div>}}
 }
