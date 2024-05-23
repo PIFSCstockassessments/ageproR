@@ -95,6 +95,15 @@ reference_points <- R6Class(
         return(private$.ssb_threshold)
       }else{
 
+        if(isFALSE(self$enable_reference_points)) {
+          stop(paste0("enable_reference_points flag is FALSE. ",
+                      "Set flag to TRUE to set value.") )
+        }
+
+        checkmate::assert_numeric(value)
+
+        private$.ssb_threshold <- value
+
       }
     },
 
@@ -107,6 +116,16 @@ reference_points <- R6Class(
         }
         return(private$.stock_biomass_threshold)
       }else{
+
+        if(isFALSE(self$enable_reference_points)) {
+          stop(paste0("enable_reference_points flag is FALSE. ",
+                      "Set flag to TRUE to set value.") )
+        }
+
+        checkmate::assert_numeric(value)
+
+        private$.stock_biomass_threshold <- value
+
 
       }
     },
@@ -122,6 +141,16 @@ reference_points <- R6Class(
         return(private$.mean_biomass_threshold)
       }else{
 
+        if(isFALSE(self$enable_reference_points)) {
+          stop(paste0("enable_reference_points flag is FALSE. ",
+                      "Set flag to TRUE to set value.") )
+        }
+
+        checkmate::assert_numeric(value)
+
+        private$.mean_biomass_threshold <- value
+
+
       }
     },
 
@@ -136,7 +165,30 @@ reference_points <- R6Class(
         return(private$.fishing_mortality_threshold)
       }else {
 
+        if(isFALSE(self$enable_reference_points)) {
+          stop(paste0("enable_reference_points flag is FALSE. ",
+                      "Set flag to TRUE to set value.") )
+        }
+
+        checkmate::assert_numeric(value)
+
+        private$.fishing_mortality_threshold <- value
+
+
       }
+    },
+
+    #' @field enable_reference_points
+    #' Logical field that flags if fields can be edited. This class will not
+    #' accept new values to its fields or allow it to be exported to input file
+    #' until this option flag is TRUE.
+    enable_reference_points = function(value) {
+      if(isTRUE(missing(value))){
+        return(self$flag$op$enable_reference_points)
+      } else {
+        self$set_enable_reference_points(value)
+      }
+
     },
 
     #' @field keyword_name
@@ -161,6 +213,21 @@ reference_points <- R6Class(
     .mean_biomass_threshold = NULL,
     .fishing_mortality_threshold = NULL,
 
+    # Wrapper Function to toggle enable_reference_points options_flag.
+    set_enable_reference_points = function(x) {
+
+      checkmate::assert_logical(x, null.ok = TRUE)
+
+      #Set value to options flags field reference "flag"
+      self$flag$op$enable_reference_points <- x
+
+      cli::cli_alert(
+        paste0("enable_reference_points : ",
+               "{.val ",
+               "{self$flag$op$enable_reference_points}}"))
+
+
+    },
 
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
