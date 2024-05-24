@@ -98,6 +98,8 @@ reference_points <- R6Class(
                          "{.val {self$stock_biomass_threshold}}"))
       cli::cli_li(paste0("stock_biomass_threshold: ",
                          "{.val {self$stock_biomass_threshold}}"))
+      cli::cli_li(paste0("fishing_mortality_threshold: ",
+                         "{.val {self$fishing_mortality_threshold}}"))
       cli::cli_end()
 
     }
