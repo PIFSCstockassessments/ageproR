@@ -55,6 +55,7 @@ until this option flag is TRUE.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-reference_points-initalize}{\code{reference_points$initalize()}}
+\item \href{#method-reference_points-print}{\code{reference_points$print()}}
 \item \href{#method-reference_points-clone}{\code{reference_points$clone()}}
 }
 }
@@ -85,6 +86,16 @@ Initializes the class
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reference_points-print"></a>}}
+\if{latex}{\out{\hypertarget{method-reference_points-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out reference_points values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{reference_points$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-reference_points-clone"></a>}}
