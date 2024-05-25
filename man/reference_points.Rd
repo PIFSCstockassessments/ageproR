@@ -54,18 +54,18 @@ until this option flag is TRUE.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-reference_points-initalize}{\code{reference_points$initalize()}}
+\item \href{#method-reference_points-new}{\code{reference_points$new()}}
 \item \href{#method-reference_points-print}{\code{reference_points$print()}}
 \item \href{#method-reference_points-clone}{\code{reference_points$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reference_points-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-reference_points-initalize}{}}}
-\subsection{Method \code{initalize()}}{
+\if{html}{\out{<a id="method-reference_points-new"></a>}}
+\if{latex}{\out{\hypertarget{method-reference_points-new}{}}}
+\subsection{Method \code{new()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{reference_points$initalize(
+\if{html}{\out{<div class="r">}}\preformatted{reference_points$new(
   ssb_threshold = 0,
   stockbio_threshold = 0,
   meanbio_threshold = 0,

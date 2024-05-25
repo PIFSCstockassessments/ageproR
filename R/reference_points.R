@@ -49,7 +49,7 @@ reference_points <- R6Class(
     #' @param fmort_threshold
     #' Fishing mortality threshold
     #'
-    initalize = function(ssb_threshold = 0,
+    initialize = function(ssb_threshold = 0,
                          stockbio_threshold = 0,
                          meanbio_threshold = 0,
                          fmort_threshold = 0) {
@@ -71,12 +71,12 @@ reference_points <- R6Class(
                all.equal(fmort_threshold,0))))  {
         cli::cli_alert(paste0("Default values set, ",
                               "options_flag enable_refernce_points to FALSE"))
-        suppressMessages(self$set_enable_refernce_points(FALSE))
+        suppressMessages(private$set_enable_reference_points(FALSE))
       }else{
         cli::cli_alert(paste0("Values for reference_points set. ",
                               "Enable options_flag enable_reference_points ",
                               "as TRUE"))
-        self$set_enable_reference_points(TRUE)
+        private$set_enable_reference_points(TRUE)
         self$print()
       }
 
