@@ -209,7 +209,7 @@ reference_points <- R6Class(
       if(isTRUE(missing(value))){
         return(self$flag$op$enable_reference_points)
       } else {
-        self$set_enable_reference_points(value)
+        private$set_enable_reference_points(value)
       }
 
     },
