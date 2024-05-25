@@ -120,7 +120,7 @@ reference_points <- R6Class(
 
         if(isFALSE(self$enable_reference_points)) {
           stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+                      "Set flag to TRUE to set value."), call. = FALSE )
         }
 
         checkmate::assert_numeric(value)
@@ -142,7 +142,7 @@ reference_points <- R6Class(
 
         if(isFALSE(self$enable_reference_points)) {
           stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+                      "Set flag to TRUE to set value."), call. = FALSE )
         }
 
         checkmate::assert_numeric(value)
@@ -166,7 +166,7 @@ reference_points <- R6Class(
 
         if(isFALSE(self$enable_reference_points)) {
           stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+                      "Set flag to TRUE to set value."), call. = FALSE)
         }
 
         checkmate::assert_numeric(value)
@@ -190,7 +190,7 @@ reference_points <- R6Class(
 
         if(isFALSE(self$enable_reference_points)) {
           stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+                      "Set flag to TRUE to set value."), call. = FALSE )
         }
 
         checkmate::assert_numeric(value)
