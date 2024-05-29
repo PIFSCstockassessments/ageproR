@@ -119,8 +119,7 @@ reference_points <- R6Class(
       }else{
 
         if(isFALSE(self$enable_reference_points)) {
-          stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value."), call. = FALSE )
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value)
@@ -141,8 +140,7 @@ reference_points <- R6Class(
       }else{
 
         if(isFALSE(self$enable_reference_points)) {
-          stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value."), call. = FALSE )
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value)
@@ -165,8 +163,7 @@ reference_points <- R6Class(
       }else{
 
         if(isFALSE(self$enable_reference_points)) {
-          stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value."), call. = FALSE)
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value)
@@ -189,8 +186,7 @@ reference_points <- R6Class(
       }else {
 
         if(isFALSE(self$enable_reference_points)) {
-          stop(paste0("enable_reference_points flag is FALSE. ",
-                      "Set flag to TRUE to set value."), call. = FALSE )
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value)
@@ -251,6 +247,16 @@ reference_points <- R6Class(
 
 
     },
+
+    # Error message when setting values to reference_points while
+    # enable_reference_points is FALSE
+    unenabled_options_flag_message = function() {
+      return(invisible(
+        paste0("enable_reference_points is FALSE. ",
+                  "Set flag to TRUE to set value.")
+        ))
+    },
+
 
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
