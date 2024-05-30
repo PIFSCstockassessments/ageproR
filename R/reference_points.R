@@ -262,7 +262,7 @@ reference_points <- R6Class(
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_max_bounds))){
         cli::cli_alert("Reset enable_reference_points")
-        self$flag$op$enable_max_bounds <- NULL
+        self$flag$op$enable_reference_points <- NULL
       }
     }
 
