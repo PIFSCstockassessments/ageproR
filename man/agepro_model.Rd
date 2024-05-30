@@ -62,6 +62,8 @@ Discard Fraction}
 
 \item{\code{bounds}}{Bounds on simulated fish weights and natural mortality rates}
 
+\item{\code{refpoint}}{Reference points for optional AGEPRO output threshold report.}
+
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
 

@@ -195,6 +195,8 @@ agepro_model <- R6Class(
 
       self$bounds <- max_bounds$new()
 
+      self$refpoint <- reference_points$new()
+
 
     },
 
@@ -574,6 +576,24 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field refpoint
+    #' Reference points for optional AGEPRO output threshold report.
+    #'
+    refpoint = function(value) {
+      if(missing(value)) {
+        return(private$.reference_points)
+      }else{
+
+        #validate if input value is reference_points class
+        r6class_public_slots <- c(ageproR::reference_points$public_methods,
+                                  ageproR::reference_points$active)
+        checkmate::assert_r6(value, .var.name = "refpoint")
+
+        private$.reference_points <- value
+
+      }
+    },
+
 
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
@@ -684,6 +704,7 @@ agepro_model <- R6Class(
     .output_options = NULL,
     .user_percentile_summary = NULL,
     .max_bounds = NULL,
+    .reference_points = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -910,6 +931,9 @@ agepro_inp_model <- R6Class(
         },
         "[BOUNDS]" = {
           rlang::expr(private$read_max_bounds(inp_con, self$nline))
+        },
+        "[REFPOINT]"= {
+          rlang::expr(private$read_reference_points(inp_con, self$nline))
         }
 
       ))
@@ -1212,6 +1236,11 @@ agepro_inp_model <- R6Class(
     read_max_bounds = function(con, nline) {
       self$bounds$set_enable_max_bounds(TRUE)
       self$nline <- self$bounds$read_inp_lines(con, nline)
+    },
+
+    read_reference_points = function(con, nline) {
+      self$refpoint$enable_reference_points <- TRUE
+      self$nline <- self$refpoint$read_inp_lines(con, nline)
     }
 
 

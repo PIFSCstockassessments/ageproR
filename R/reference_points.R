@@ -102,6 +102,49 @@ reference_points <- R6Class(
                          "{.val {self$fishing_mortality_threshold}}"))
       cli::cli_end()
 
+    },
+
+    #' @description
+    #' Reads in the values from the keyword parameter REFPOINT from the
+    #' AGEPRO Input file
+    #'
+    #' Note: enable_reference_points must be set to TRUE.
+    #'
+    #' @template inp_con
+    #' @template nline
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      if(isFALSE(self$enable_reference_points)){
+        stop(private$unenabled_options_flag_message())
+      }
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$ssb_threshold <- inp_line[1]
+      self$stock_biomass_threshold <- inp_line[2]
+      self$mean_biomass_threshold <- inp_line[3]
+      self$fishing_mortality_threshold <- inp_line[4]
+
+      cli::cli_alert(paste0("Line {nline}: ",
+                            "Values for Reference Point Thereshold Report"))
+      li_nested <- cli::cli_div(id = "bounds_inp_fields",
+                                theme = list(ul = list("margin-left" = 2)))
+
+      cli::cli_li("ssb_threshold: {.val {self$ssb_threshold}}")
+      cli::cli_li(paste0("stock_biomass_threshold: ",
+                         "{.val {self$stock_biomass_threshold}}"))
+      cli::cli_li(paste0("mean_biomass_threshold: ",
+                         "{.val {self$mean_biomass_threshold}}"))
+      cli::cli_li(paste0("fishing_mortality_threshold: ",
+                         "{.val {self$fishing_mortality_threshold}}"))
+      cli::cli_end("bounds_inp_fields")
+
+      return(nline)
+
     }
 
 
