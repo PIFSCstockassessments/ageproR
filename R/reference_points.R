@@ -145,6 +145,41 @@ reference_points <- R6Class(
 
       return(nline)
 
+    },
+
+    #' @description
+    #' Returns values from the class to the REFOPINTS AGEPRO keyword parameter
+    #' formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " ") {
+
+      # Re-check fields before formatting.
+      # In this case, do not allow NULL values to be passed.
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_numeric(self$ssb_threshold,
+                                lower = 0, len = 1,
+                                add = validation_error)
+      checkmate::assert_numeric(self$stock_biomass_threshold,
+                                lower = 0, len = 1,
+                                add = validation_error)
+      checkmate::assert_numeric(self$mean_biomass_threshold,
+                                lower = 0, len = 1,
+                                add = validation_error)
+      checkmate::assert_numeric(self$fishing_mortality_threshold,
+                                lower = 0, len = 1,
+                                add = validation_error)
+
+
+      return(list(
+        self$inp_keyword,
+        paste(self$ssb_threshold,
+              self$stock_biomass_threshold,
+              self$mean_biomass_threshold,
+              self$fishing_mortality_threshold,
+              sep = delimiter)
+      ))
     }
 
 

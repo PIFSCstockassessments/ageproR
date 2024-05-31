@@ -57,6 +57,7 @@ until this option flag is TRUE.}
 \item \href{#method-reference_points-new}{\code{reference_points$new()}}
 \item \href{#method-reference_points-print}{\code{reference_points$print()}}
 \item \href{#method-reference_points-read_inp_lines}{\code{reference_points$read_inp_lines()}}
+\item \href{#method-reference_points-get_inp_lines}{\code{reference_points$get_inp_lines()}}
 \item \href{#method-reference_points-clone}{\code{reference_points$clone()}}
 }
 }
@@ -118,6 +119,24 @@ Note: enable_reference_points must be set to TRUE.
 \item{\code{nline}}{\cr
 Location of the current line number being read when the file connection to
 the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reference_points-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-reference_points-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
+Returns values from the class to the REFOPINTS AGEPRO keyword parameter
+formatted as AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{reference_points$get_inp_lines(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }
