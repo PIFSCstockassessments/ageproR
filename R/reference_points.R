@@ -200,7 +200,7 @@ reference_points <- R6Class(
           stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
-        checkmate::assert_numeric(value)
+        checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.ssb_threshold <- value
 
@@ -221,7 +221,7 @@ reference_points <- R6Class(
           stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
-        checkmate::assert_numeric(value)
+        checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.stock_biomass_threshold <- value
 
@@ -244,7 +244,7 @@ reference_points <- R6Class(
           stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
-        checkmate::assert_numeric(value)
+        checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.mean_biomass_threshold <- value
 
@@ -267,7 +267,7 @@ reference_points <- R6Class(
           stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
-        checkmate::assert_numeric(value)
+        checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.fishing_mortality_threshold <- value
 
