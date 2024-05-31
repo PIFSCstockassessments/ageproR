@@ -136,10 +136,9 @@ check_perc_active_binding <- function(x) {
     ))
   }
 
-  r6class_public_slots <- c(ageproR::user_percentile_summary$public_methods,
-                            ageproR::user_percentile_summary$active)
+  perc_fields <- c("report_percentile")
 
-  return(checkmate::check_r6(x, public = names(r6class_public_slots)) )
+  return(checkmate::check_r6(x, public = perc_fields) )
 
 }
 
@@ -167,9 +166,9 @@ assert_perc_active_binding <- function(x, .var.name = checkmate::vname(x),
 #'
 check_bounds_active_binding <- function(x) {
 
-  r6class_public_slots <- c(ageproR::max_bounds$public_methods,
-                            ageproR::max_bounds$active)
-  return(checkmate::check_r6(x, public = names(r6class_public_slots)) )
+  bounds_fields <- c("max_weight",
+                     "max_natural_mortality")
+  return(checkmate::check_r6(x, public = bounds_fields) )
 }
 
 #' @rdname check_bounds_active_binding

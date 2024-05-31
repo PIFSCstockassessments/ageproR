@@ -585,9 +585,12 @@ agepro_model <- R6Class(
       }else{
 
         #validate if input value is reference_points class
-        r6class_public_slots <- c(ageproR::reference_points$public_methods,
-                                  ageproR::reference_points$active)
-        checkmate::assert_r6(value, .var.name = "refpoint")
+        refpoint_fields <- c("ssb_threshold",
+                             "stock_biomass_threshold",
+                             "mean_biomass_threshold",
+                             "fishing_mortality_threshold")
+        checkmate::assert_r6(value, public = refpoint_fields,
+                             .var.name = "refpoint")
 
         private$.reference_points <- value
 
