@@ -41,6 +41,8 @@ parameter used in the AGEPRO input file format, but it is optional.
 \item{\code{fishing_mortality_threshold}}{Threshold for the fishing mortality rate for annual total fishing
 mortality calculated across all fleets.}
 
+\item{\code{json_list_object}}{Returns JSON list object of containing REFPOINT values}
+
 \item{\code{enable_reference_points}}{Logical field that flags if fields can be edited. This class will not
 accept new values to its fields or allow it to be exported to input file
 until this option flag is TRUE.}

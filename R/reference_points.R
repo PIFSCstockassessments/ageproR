@@ -275,6 +275,18 @@ reference_points <- R6Class(
       }
     },
 
+    #' @field json_list_object
+    #' Returns JSON list object of containing REFPOINT values
+    json_list_object = function() {
+      return(list(
+        ssb_threshold = self$ssb_threshold,
+        stock_biomass_threshold = self$stock_biomass_threshold,
+        mean_biomass_threshold = self$mean_biomass_threshold,
+        fishing_mortality_threshold = self$fishing_mortality_threshold
+      ))
+    },
+
+
     #' @field enable_reference_points
     #' Logical field that flags if fields can be edited. This class will not
     #' accept new values to its fields or allow it to be exported to input file

@@ -1335,6 +1335,13 @@ agepro_json_model <- R6Class(
                }else{
                  NA
                }
+             },
+             "refpoint" = {
+               if(self$refpoint$enable_reference_points){
+                 self$refpoint$json_list_object
+               }else{
+                 NA
+               }
              }
 
         )
