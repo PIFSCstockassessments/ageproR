@@ -14,12 +14,7 @@ open_file_dialog <- function(filetype) {
   filetype <- validate_filetype(filetype)
   err_msg_dialog_cancelled <- "File choice cancelled"
 
-  # Check Rstudio is used.
-  # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
-  # implemented. vscode's rstudio version information is set to '0'.
-  # For Rstudio specific code, check for mode "desktop", and version > '0'
-  if (rstudioapi::versionInfo()$mode == "desktop" &&
-      rstudioapi::versionInfo()$version > as.character(0) ) {
+  if(is_rstudio_desktop()) {
     path <- rstudioapi::selectFile(caption = "Open File",
                                    existing = TRUE,
                                    filter = paste0(filetype[1],
@@ -76,11 +71,7 @@ save_file_dialog <- function() {
   filetype <- validate_filetype() # Defaults to "All Files (*)"
   err_msg_dialog_cancelled <- "File choice cancelled"
 
-  # Check Rstudio is used.
-  # Note: vscode uses/emulates rstudioapi but not all features rstudioapi are
-  # implemented. vscode's rstudio version information is set to '0'.
-  # For Rstudio specific code, set version_needed to '1'
-  if (rstudioapi::isAvailable(1)) {
+  if(is_rstudio_desktop()) {
     target <- rstudioapi::selectFile(caption = "Save File",
                                      label = "Save",
                                      existing = FALSE,
@@ -125,6 +116,19 @@ save_file_dialog <- function() {
   return(target)
 }
 
+#' Checks Rstudioapi if Rstudio Desktop is used.
+#'
+#' vscode uses/emulates rstudioapi but not all features rstudioapi are
+#' implemented. vscode's rstudio version information is set to '0'.
+#' For Rstudio specific code, check for mode "desktop", and version > '0'
+#'
+is_rstudio_desktop <- function(){
+  return(rstudioapi::versionInfo()$mode == "desktop" &&
+           rstudioapi::versionInfo()$version > as.character(0) )
+}
+
+#TODO: move to validation
+
 #' Checks the validity of filetype key-value pair.
 #'
 #' Checks the filetype as a 2 length vector without missing values. If filetype
@@ -154,6 +158,7 @@ validate_filetype <- function(filetype) {
 
 }
 
+#TODO: Move to validation
 #' Asserts if all substrings of AGEPRO's input data file line can be numeric.
 #'
 #' Validates the string vector via `grepl` if all values match the digit
