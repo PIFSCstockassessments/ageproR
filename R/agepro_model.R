@@ -48,7 +48,8 @@ agepro_model <- R6Class(
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
-      private$.ver_legacy_string = "AGEPRO VERSION 4.0"
+      private$.ver_inpfile_string = "AGEPRO VERSION 4.25"
+      private$.ver_jsonfile_format = 0
       private$.ver_numeric_string = "4.0.0.0"
 
       assert_number(age_begin, lower = 0, upper = 1)
@@ -317,16 +318,27 @@ agepro_model <- R6Class(
   ),
   active = list(
 
-    #' @field ver_legacy_string
+    #' @field ver_inpfile_string
     #' Version string on AGEPRO input files (*.inp) for version compatibility
     #' with Jon Brodiak's AGEPRO calculation engine.
-    ver_legacy_string = function(value){
+    ver_inpfile_string = function(value){
       if(missing(value)){
-        return(private$.ver_legacy_string)
+        return(private$.ver_inpfile_string)
       } else {
         checkmate::assert_character(value,
                                     pattern="AGEPRO VERSION")
-        private$.ver_legacy_string <- value
+        private$.ver_inpfile_string <- value
+      }
+    },
+
+    #' @field ver_json_format
+    #' JSON Input File Format version.
+    ver_json_format = function(value) {
+      if(missing(value)) {
+        return(private$.ver_json_format)
+      }else{
+        checkamate::as.numeric(value)
+        cli::cli_alert("JSON Version:")
       }
     },
 
@@ -683,7 +695,8 @@ agepro_model <- R6Class(
   ),
   private = list(
 
-    .ver_legacy_string = NULL,
+    .ver_inpfile_string = NULL,
+    .ver_jsonfile_format = NULL,
     .ver_numeric_string = NULL,
 
     # AGEPRO keyword parameters
@@ -972,7 +985,7 @@ agepro_inp_model <- R6Class(
 
         cli::cli_alert_info("Version: '{inp_line}'")
         if(inp_line %in% private$.supported_inp_versions){
-          self$ver_legacy_string <- inp_line
+          self$ver_inpfile_string <- inp_line
         }else{
           # Throw Unsupported Version Error Message
           stop(paste0(
@@ -1013,7 +1026,7 @@ agepro_inp_model <- R6Class(
       tryCatch(
         {
           list_inp_lines <- c(
-            self$ver_legacy_string,
+            self$ver_inpfile_string,
             self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
             self$bootstrap$get_inp_lines(delimiter),
@@ -1077,7 +1090,7 @@ agepro_inp_model <- R6Class(
   private = list(
 
     .pre_v4 = FALSE,
-    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.2"),
+    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.25"),
 
     .nline = NULL,
 
@@ -1291,8 +1304,8 @@ agepro_json_model <- R6Class(
 
       version_json <- list(
 
-        legacyVer = self$ver_legacy_string,
-        ver = self$ver_numeric_string
+        inpfile_string = self$ver_inpfile_string,
+        jsonfile_format = self$ver_jsonfile_format
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP

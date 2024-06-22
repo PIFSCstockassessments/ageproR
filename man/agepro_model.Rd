@@ -21,8 +21,10 @@ test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{ver_legacy_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
+\item{\code{ver_inpfile_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
 with Jon Brodiak's AGEPRO calculation engine.}
+
+\item{\code{ver_json_format}}{JSON Input File Format version.}
 
 \item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
 
