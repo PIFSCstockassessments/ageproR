@@ -48,7 +48,8 @@ agepro_model <- R6Class(
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
-      private$.ver_inpfile_string = "AGEPRO VERSION 4.25"
+      #Current Input File Version
+      private$.ver_inpfile_string = private$.currentver_inpfile_string
       private$.ver_jsonfile_format = 0
       private$.ver_numeric_string = "4.0.0.0"
 
@@ -698,6 +699,7 @@ agepro_model <- R6Class(
     .ver_inpfile_string = NULL,
     .ver_jsonfile_format = NULL,
     .ver_numeric_string = NULL,
+    .currentver_inpfile_string = "AGEPRO VERSION 4.25",
 
     # AGEPRO keyword parameters
     .case_id = NULL,
@@ -1010,8 +1012,11 @@ agepro_inp_model <- R6Class(
     #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
     #'
     #' @param inpfile input file path
+    #' @param as_currentver As default, saves to the current version of the
+    #' AGEPRO input file format.
     #'
-    write_inp = function(inpfile, delimiter = "  ") {
+    write_inp = function(inpfile, delimiter = "  ",
+                         as_currentver = TRUE) {
 
       if (missing(inpfile)) {
 
@@ -1022,6 +1027,8 @@ agepro_inp_model <- R6Class(
           return(invisible(NULL))
         }
       }
+
+      private$set_inpfile_version(as_currentver)
 
       tryCatch(
         {
@@ -1257,6 +1264,34 @@ agepro_inp_model <- R6Class(
     read_reference_points = function(con, nline) {
       self$refpoint$enable_reference_points <- TRUE
       self$nline <- self$refpoint$read_inp_lines(con, nline)
+    },
+
+
+    # Set Input File String based on preference on current AGEPRO input file
+    # version. Warn for agepro model's version string doesn't match current
+    # version
+    set_inpfile_version = function(as_current = TRUE){
+
+      is_model_currentver <- identical(self$ver_inpfile_string,
+                                     private$.currentver_inpfile_string)
+
+      if(isFALSE(as_current)){
+        if(isFALSE(is_model_currentver)){
+          warning(paste0("AGEPRO input file version does not match",
+                         "current input file version: ",
+                         private$.currentver_inpfile_string,".")    )
+        }
+        return()
+      }
+
+      if(isFALSE(is_model_currentver)) {
+        cli::cli_alert_info(
+          "Setting input file VERSION to {private$.currentver_inpfile_string}.")
+        self$ver_inpfile_string <- private$.currentver_inpfile_string
+      }
+
+      return()
+
     }
 
 
