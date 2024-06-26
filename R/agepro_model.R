@@ -48,7 +48,9 @@ agepro_model <- R6Class(
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1)) {
 
-      private$.ver_legacy_string = "AGEPRO VERSION 4.0"
+      #Current Input File Version
+      private$.ver_inpfile_string = private$.currentver_inpfile_string
+      private$.ver_jsonfile_format = 0
       private$.ver_numeric_string = "4.0.0.0"
 
       assert_number(age_begin, lower = 0, upper = 1)
@@ -195,6 +197,8 @@ agepro_model <- R6Class(
 
       self$bounds <- max_bounds$new()
 
+      self$refpoint <- reference_points$new()
+
 
     },
 
@@ -315,16 +319,27 @@ agepro_model <- R6Class(
   ),
   active = list(
 
-    #' @field ver_legacy_string
+    #' @field ver_inpfile_string
     #' Version string on AGEPRO input files (*.inp) for version compatibility
     #' with Jon Brodiak's AGEPRO calculation engine.
-    ver_legacy_string = function(value){
+    ver_inpfile_string = function(value){
       if(missing(value)){
-        return(private$.ver_legacy_string)
+        return(private$.ver_inpfile_string)
       } else {
         checkmate::assert_character(value,
                                     pattern="AGEPRO VERSION")
-        private$.ver_legacy_string <- value
+        private$.ver_inpfile_string <- value
+      }
+    },
+
+    #' @field ver_json_format
+    #' JSON Input File Format version.
+    ver_json_format = function(value) {
+      if(missing(value)) {
+        return(private$.ver_json_format)
+      }else{
+        checkamate::as.numeric(value)
+        cli::cli_alert("JSON Version:")
       }
     },
 
@@ -574,6 +589,27 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field refpoint
+    #' Reference points for optional AGEPRO output threshold report.
+    #'
+    refpoint = function(value) {
+      if(missing(value)) {
+        return(private$.reference_points)
+      }else{
+
+        #validate if input value is reference_points class
+        refpoint_fields <- c("ssb_threshold",
+                             "stock_biomass_threshold",
+                             "mean_biomass_threshold",
+                             "fishing_mortality_threshold")
+        checkmate::assert_r6(value, public = refpoint_fields,
+                             .var.name = "refpoint")
+
+        private$.reference_points <- value
+
+      }
+    },
+
 
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
@@ -660,8 +696,10 @@ agepro_model <- R6Class(
   ),
   private = list(
 
-    .ver_legacy_string = NULL,
+    .ver_inpfile_string = NULL,
+    .ver_jsonfile_format = NULL,
     .ver_numeric_string = NULL,
+    .currentver_inpfile_string = "AGEPRO VERSION 4.25",
 
     # AGEPRO keyword parameters
     .case_id = NULL,
@@ -684,6 +722,7 @@ agepro_model <- R6Class(
     .output_options = NULL,
     .user_percentile_summary = NULL,
     .max_bounds = NULL,
+    .reference_points = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -910,6 +949,9 @@ agepro_inp_model <- R6Class(
         },
         "[BOUNDS]" = {
           rlang::expr(private$read_max_bounds(inp_con, self$nline))
+        },
+        "[REFPOINT]"= {
+          rlang::expr(private$read_reference_points(inp_con, self$nline))
         }
 
       ))
@@ -945,7 +987,7 @@ agepro_inp_model <- R6Class(
 
         cli::cli_alert_info("Version: '{inp_line}'")
         if(inp_line %in% private$.supported_inp_versions){
-          self$ver_legacy_string <- inp_line
+          self$ver_inpfile_string <- inp_line
         }else{
           # Throw Unsupported Version Error Message
           stop(paste0(
@@ -970,8 +1012,11 @@ agepro_inp_model <- R6Class(
     #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
     #'
     #' @param inpfile input file path
+    #' @param as_currentver As default, saves to the current version of the
+    #' AGEPRO input file format.
     #'
-    write_inp = function(inpfile, delimiter = "  ") {
+    write_inp = function(inpfile, delimiter = "  ",
+                         as_currentver = TRUE) {
 
       if (missing(inpfile)) {
 
@@ -983,10 +1028,12 @@ agepro_inp_model <- R6Class(
         }
       }
 
+      private$set_inpfile_version(as_currentver)
+
       tryCatch(
         {
           list_inp_lines <- c(
-            self$ver_legacy_string,
+            self$ver_inpfile_string,
             self$case_id$get_inp_lines(),
             self$general$get_inp_lines(delimiter),
             self$bootstrap$get_inp_lines(delimiter),
@@ -1050,7 +1097,7 @@ agepro_inp_model <- R6Class(
   private = list(
 
     .pre_v4 = FALSE,
-    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.2"),
+    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.25"),
 
     .nline = NULL,
 
@@ -1212,6 +1259,39 @@ agepro_inp_model <- R6Class(
     read_max_bounds = function(con, nline) {
       self$bounds$set_enable_max_bounds(TRUE)
       self$nline <- self$bounds$read_inp_lines(con, nline)
+    },
+
+    read_reference_points = function(con, nline) {
+      self$refpoint$enable_reference_points <- TRUE
+      self$nline <- self$refpoint$read_inp_lines(con, nline)
+    },
+
+
+    # Set Input File String based on preference on current AGEPRO input file
+    # version. Warn for agepro model's version string doesn't match current
+    # version
+    set_inpfile_version = function(as_current = TRUE){
+
+      is_model_currentver <- identical(self$ver_inpfile_string,
+                                     private$.currentver_inpfile_string)
+
+      if(isFALSE(as_current)){
+        if(isFALSE(is_model_currentver)){
+          warning(paste0("AGEPRO input file version does not match",
+                         "current input file version: ",
+                         private$.currentver_inpfile_string,".")    )
+        }
+        return()
+      }
+
+      if(isFALSE(is_model_currentver)) {
+        cli::cli_alert_info(
+          "Setting input file VERSION to {private$.currentver_inpfile_string}.")
+        self$ver_inpfile_string <- private$.currentver_inpfile_string
+      }
+
+      return()
+
     }
 
 
@@ -1259,8 +1339,8 @@ agepro_json_model <- R6Class(
 
       version_json <- list(
 
-        legacyVer = self$ver_legacy_string,
-        ver = self$ver_numeric_string
+        inpfile_string = self$ver_inpfile_string,
+        jsonfile_format = self$ver_jsonfile_format
       )
 
       #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
@@ -1300,6 +1380,13 @@ agepro_json_model <- R6Class(
              "bounds" = {
                if(self$bounds$enable_max_bounds){
                  self$bounds$json_list_object
+               }else{
+                 NA
+               }
+             },
+             "refpoint" = {
+               if(self$refpoint$enable_reference_points){
+                 self$refpoint$json_list_object
                }else{
                  NA
                }

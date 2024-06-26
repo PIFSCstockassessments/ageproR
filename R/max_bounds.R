@@ -1,18 +1,25 @@
 
 
 #' @title
-#' Sets maximum bounds of Weight(MT) and natural mortality
+#' Sets the maximum bounds of Weight(MT) and natural mortality
 #'
 #' @description
 #' Class Structure that defines maximum bound for weight and natural mortality.
 #' The values can be used to limit these values.
 #'
+#' The logical flag `enable_max_bounds` allows the user to
+#' set values to this class fields: max_weight, max_natural_mortality. The flag
+#' will also notify `agepro_model` if this keyword parameter is allowed to be
+#' written to input file.
+#'
+#' If this class is initialized with default values, it is presumed that this
+#' keyword parameter is not used in the agepro_model.Therefore,
+#' `enable_max_bounds` is flagged as FALSE. Valid non-default values will
+#' set this flag to TRUE.
+#'
 #' @details
 #' The max_bounds class (or BOUNDS) is recognized as a keyword
 #' parameter used in the AGEPRO input file format, but it is optional.
-#' During agepro_model initialization, the option_flag enable_max_bounds
-#' will be FALSE. The field enable_max_bounds must be set to TRUE to set values
-#' this class.
 #'
 #' @include optional_options_flags.R
 #'
@@ -40,7 +47,9 @@ max_bounds <- R6Class(
                           max_nat_mort = 1.0) {
 
       div_keyword_header(private$.keyword_name)
-      #Reset enable_max_bounds option_flag to NULL
+
+      # When agepro_model is reinitialized, reset the value for this class's
+      # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
       self$max_weight <- max_weight

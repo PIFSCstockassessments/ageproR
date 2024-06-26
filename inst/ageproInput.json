@@ -2,8 +2,8 @@
 {
   "version":
   {
-      "legacyVer": "AGEPRO VERSION 4.0",
-      "ver" : "4.0.0"
+      "inpfile_string": "AGEPRO VERSION 4.25",
+      "jsonfile_format" : 0
   },
 
   "caseId" : "REDFISH - RECRUITMENT MODEL 14",
