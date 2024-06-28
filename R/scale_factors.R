@@ -17,8 +17,23 @@ scale_factors <-R6Class(
   ),
   active = list(
 
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
+    }
+
   ),
   private = list(
+
+    .keyword_name = "scale"
+
 
   )
 )
