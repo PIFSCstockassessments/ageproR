@@ -9,6 +9,12 @@ Input information on scaling factors for biomass, recruitment, and stock size
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{biomass_scale}}{Output units of biomass expressed in thousand metric tons}
+
+\item{\code{recruitment_scale}}{Output units of recruitment numbers}
+
+\item{\code{stock_size_scale}}{Output Units of stock size numbers}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
