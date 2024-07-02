@@ -6,6 +6,13 @@
 \description{
 Input information on scaling factors for biomass, recruitment, and stock size
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{flag}}{R6class containing option_flags}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -24,7 +31,29 @@ Input information on scaling factors for biomass, recruitment, and stock size
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-scale_factors-new}{\code{scale_factors$new()}}
 \item \href{#method-scale_factors-clone}{\code{scale_factors$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-scale_factors-new"></a>}}
+\if{latex}{\out{\hypertarget{method-scale_factors-new}{}}}
+\subsection{Method \code{new()}}{
+Initializes the class
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{scale_factors$new(scale_bio = 0, scale_recruit = 0, scale_stock_size = 0)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{scale_bio}}{Output units of biomass express in thousand metric units}
+
+\item{\code{scale_recruit}}{Output Units of Recruitment Numbers}
+
+\item{\code{scale_stock_size}}{Output Units of Stock Size Numbers}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
