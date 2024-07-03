@@ -10,8 +10,8 @@
 #' @export
 #' @importFrom R6 R6Class
 #'
-scale_factors <-R6Class(
-  "scale_factors",
+scaling_factors <-R6Class(
+  "scaling_factors",
   public = list(
 
     #' @field flag
@@ -49,28 +49,28 @@ scale_factors <-R6Class(
                all.equal(scale_recruit, 0),
                all.equal(scale_stock_size, 0)))) {
         cli::cli_alert(paste0("Default values set, ",
-                              "options_flag enable_scale_factors to FALSE"))
-        suppressMessages(private$set_enable_scale_factors(FALSE))
+                              "options_flag enable_scaling_factors to FALSE"))
+        suppressMessages(private$set_enable_scaling_factors(FALSE))
       } else{
         cli::cli_alert(paste0("Values for reference_points set. ",
-                              "Enable options_flag enable_scale_factors ",
+                              "Enable options_flag enable_scaling_factors ",
                               "as TRUE"))
-        private$set_enable_scale_factors(TRUE)
+        private$set_enable_scaling_factors(TRUE)
         self$print()
       }
     },
 
     #' @description
-    #' Formatted to print out scale_factors values
+    #' Formatted to print out scaling_factors values
     #'
     print = function(){
 
       cli::cli_alert_info(
         paste0("Scaling Factors for Output: ",
                "Specify Scale Factors for Output Report File",
-               "{.emph (enable_scale_factors)}: ",
-               "{.val {self$enable_scale_factors}}"))
-      cli::cli_ul(id = "scale_factors_fields")
+               "{.emph (enable_scaling_factors)}: ",
+               "{.val {self$enable_scaling_factors}}"))
+      cli::cli_ul(id = "scaling_factors_fields")
       cli::cli_li("biomass_scale: {.val {self$biomass_scale}}")
       cli::cli_li("recruitment_scale: {.val {self$recruitment_scale}}")
       cli::cli_li(paste0("stock_size_scale: ",
@@ -109,15 +109,15 @@ scale_factors <-R6Class(
       }
     },
 
-    #' @field enable_scale_factors
+    #' @field enable_scaling_factors
     #' Logical field that flags if fields can be edited. This class will not
     #' accept new values to its fields or allow it to be exported to input file
     #' until this option flag is TRUE.
-    enable_scale_factors = function(value) {
+    enable_scaling_factors = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_scale_factors)
+        return(self$flag$op$enable_scaling_factors)
       } else {
-        private$set_enable_scale_factors(value)
+        private$set_enable_scaling_factors(value)
       }
 
     },
@@ -146,17 +146,17 @@ scale_factors <-R6Class(
     .stock_size_scale = NULL,
 
     # Wrapper Function to toggle enable_reference_points options_flag.
-    set_enable_scale_factors = function(x) {
+    set_enable_scaling_factors = function(x) {
 
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$flag$op$enable_scale_factors <- x
+      self$flag$op$enable_scaling_factors <- x
 
       cli::cli_alert(
-        paste0("enable_scale_factors : ",
+        paste0("enable_scaling_factors : ",
                "{.val ",
-               "{self$flag$op$enable_scale_factors}}"))
+               "{self$flag$op$enable_scaling_factors}}"))
 
     },
 
