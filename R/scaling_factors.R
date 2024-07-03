@@ -34,6 +34,16 @@ scale_factors <-R6Class(
                           scale_recruit = 0,
                           scale_stock_size = 0) {
 
+      div_keyword_header(private$.keyword_name)
+
+      # When agepro_model is reinitialized, reset the value for this class's
+      # option_flag to NULL to cleanup any values it retained previously.
+      private$reset_options_flags()
+
+      self$biomass_scale <- scale_bio
+      self$recruitment_scale <- scale_recruit
+      self$stock_size_scale <- scale_stock_size
+
       #Check for defaults
       if(all(c(all.equal(scale_bio, 0),
                all.equal(scale_recruit, 0),
@@ -46,8 +56,28 @@ scale_factors <-R6Class(
                               "Enable options_flag enable_scale_factors ",
                               "as TRUE"))
         private$set_enable_scale_factors(TRUE)
-        #self$print()
+        self$print()
       }
+    },
+
+    #' @description
+    #' Formatted to print out scale_factors values
+    #'
+    print = function(){
+
+      cli::cli_alert_info(
+        paste0("Scaling Factors for Output: ",
+               "Specify Scale Factors for Output Report File",
+               "{.emph (enable_scale_factors)}: ",
+               "{.val {self$enable_scale_factors}}"))
+      cli::cli_ul(id = "scale_factors_fields")
+      cli::cli_li("biomass_scale: {.val {self$biomass_scale}}")
+      cli::cli_li("recruitment_scale: {.val {self$recruitment_scale}}")
+      cli::cli_li(paste0("stock_size_scale: ",
+                         "{.val {self$stock_size_scale}}"))
+
+      cli::cli_end()
+
     }
 
 
@@ -78,6 +108,20 @@ scale_factors <-R6Class(
         return(private$.stock_size_scale)
       }
     },
+
+    #' @field enable_scale_factors
+    #' Logical field that flags if fields can be edited. This class will not
+    #' accept new values to its fields or allow it to be exported to input file
+    #' until this option flag is TRUE.
+    enable_scale_factors = function(value) {
+      if(isTRUE(missing(value))){
+        return(self$flag$op$enable_scale_factors)
+      } else {
+        private$set_enable_scale_factors(value)
+      }
+
+    },
+
 
 
     #' @field keyword_name
@@ -114,7 +158,6 @@ scale_factors <-R6Class(
                "{.val ",
                "{self$flag$op$enable_scale_factors}}"))
 
-
     },
 
     # Error message when setting values to reference_points while
@@ -124,6 +167,15 @@ scale_factors <-R6Class(
         paste0("enable_reference_points is FALSE. ",
                "Set flag to TRUE to set value.")
       ))
+    },
+
+    #Reset option_flag to NULL at initialization
+    reset_options_flags = function() {
+
+      if(isFALSE(is.null(self$flag$op$enable_scale_options))){
+        cli::cli_alert("Reset enable_scale_options")
+        self$flag$op$enable_scale_options <- NULL
+      }
     }
 
 
