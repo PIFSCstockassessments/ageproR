@@ -89,7 +89,18 @@ scaling_factors <-R6Class(
     #' Output units of biomass expressed in thousand metric tons
     biomass_scale = function(value){
       if(missing(value)){
+        if(is.null(private$.biomass_scale)){
+          warning("biomass_scale is NULL", call. = FALSE)
+        }
         return(private$.biomass_scale)
+      }else{
+        if(isFALSE(self$enable_scaling_factors)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
+        }
+
+        checkmate::assert_numeric(value, lower = 0, len = 1)
+
+        private$.biomass_scale <- value
       }
     },
 
@@ -97,7 +108,18 @@ scaling_factors <-R6Class(
     #' Output units of recruitment numbers
     recruitment_scale = function(value){
       if(missing(value)){
+        if(is.null(private$.recruitment_scale)){
+          warning("recruitment_scale is NULL", call. = FALSE)
+        }
         return(private$.recruitment_scale)
+      }else{
+        if(isFALSE(self$enable_scaling_factors)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
+        }
+
+        checkmate::assert_numeric(value, lower = 0, len = 1)
+
+        private$.recruitment_scale <- value
       }
     },
 
@@ -105,7 +127,18 @@ scaling_factors <-R6Class(
     #' Output Units of stock size numbers
     stock_size_scale = function(value){
       if(missing(value)){
+        if(is.null(private$.stock_size_scale)){
+          warning("stock_size_scale is NULL", call. = FALSE)
+        }
         return(private$.stock_size_scale)
+      }else{
+        if(isFALSE(self$enable_scaling_factors)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
+        }
+
+        checkmate::assert_numeric(value, lower = 0, len = 1)
+
+        private$.stock_size_scale <- value
       }
     },
 
@@ -164,7 +197,7 @@ scaling_factors <-R6Class(
     # enable_reference_points is FALSE
     unenabled_options_flag_message = function() {
       return(invisible(
-        paste0("enable_reference_points is FALSE. ",
+        paste0("enable_scaling_factors is FALSE. ",
                "Set flag to TRUE to set value.")
       ))
     },
@@ -173,7 +206,7 @@ scaling_factors <-R6Class(
     reset_options_flags = function() {
 
       if(isFALSE(is.null(self$flag$op$enable_scale_options))){
-        cli::cli_alert("Reset enable_scale_options")
+        cli::cli_alert("Reset enable_scaling_factors to NULL for initalization")
         self$flag$op$enable_scale_options <- NULL
       }
     }
