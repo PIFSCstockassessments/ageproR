@@ -66,8 +66,7 @@ scaling_factors <-R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("Scaling Factors for Output: ",
-               "Specify Scale Factors for Output Report File",
+        paste0("Specify Scaling Factors for Output Report File ",
                "{.emph (enable_scaling_factors)}: ",
                "{.val {self$enable_scaling_factors}}"))
       cli::cli_ul(id = "scaling_factors_fields")
@@ -77,6 +76,48 @@ scaling_factors <-R6Class(
                          "{.val {self$stock_size_scale}}"))
 
       cli::cli_end()
+
+    },
+
+    #' @description
+    #' Reads in the values from the keyword parameter SCALE from the
+    #' AGEPRO Input file
+    #'
+    #' Note: enable_scaling_factors must be set to TRUE.
+    #'
+    #' @template inp_con
+    #' @template nline
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      if(isFALSE(self$enable_scaling_factors)){
+        stop(private$unenabled_options_flag_message())
+      }
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$biomass_scale <- inp_line[1]
+      self$recruitment_scale <- inp_line[2]
+      self$stock_size_scale <- inp_line[3]
+
+
+      cli::cli_alert(paste0("Line {nline}: ",
+                            "Scaling Factor values"))
+      li_nested <- cli::cli_div(id = "scale_inp_fields",
+                                theme = list(ul = list("margin-left" = 2)))
+
+      cli::cli_li(paste0("biomass_scale: ",
+                         "{.val {self$biomass_scale}}"))
+      cli::cli_li(paste0("recruitment_scale: ",
+                         "{.val {self$recruitment_scale}}"))
+      cli::cli_li(paste0("stock_size_scale: ",
+                         "{.val {self$stock_size_scale}}"))
+      cli::cli_end("scale_inp_fields")
+
+      return(nline)
 
     }
 

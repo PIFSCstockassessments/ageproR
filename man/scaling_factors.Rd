@@ -37,6 +37,7 @@ until this option flag is TRUE.}
 \itemize{
 \item \href{#method-scaling_factors-new}{\code{scaling_factors$new()}}
 \item \href{#method-scaling_factors-print}{\code{scaling_factors$print()}}
+\item \href{#method-scaling_factors-read_inp_lines}{\code{scaling_factors$read_inp_lines()}}
 \item \href{#method-scaling_factors-clone}{\code{scaling_factors$clone()}}
 }
 }
@@ -70,6 +71,30 @@ Formatted to print out scaling_factors values
 \if{html}{\out{<div class="r">}}\preformatted{scaling_factors$print()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-scaling_factors-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-scaling_factors-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter SCALE from the
+AGEPRO Input file
+
+Note: enable_scaling_factors must be set to TRUE.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{scaling_factors$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-scaling_factors-clone"></a>}}

@@ -971,6 +971,9 @@ agepro_inp_model <- R6Class(
         },
         "[REFPOINT]"= {
           rlang::expr(private$read_reference_points(inp_con, self$nline))
+        },
+        "[SCALE]" = {
+          rlang::expr(private$read_scaling_factors(inp_con, self$nline))
         }
 
       ))
@@ -1283,6 +1286,11 @@ agepro_inp_model <- R6Class(
     read_reference_points = function(con, nline) {
       self$refpoint$enable_reference_points <- TRUE
       self$nline <- self$refpoint$read_inp_lines(con, nline)
+    },
+
+    read_scaling_factors = function(con, nline) {
+      self$scale$enable_scaling_factors <- TRUE
+      self$nline <- self$scale$read_inp_lines(con, nline)
     },
 
 
