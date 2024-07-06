@@ -66,6 +66,8 @@ Discard Fraction}
 
 \item{\code{refpoint}}{Reference points for optional AGEPRO output threshold report.}
 
+\item{\code{scale}}{Scaling factors for biomass, recruitment, and stock size}
+
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
 

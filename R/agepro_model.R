@@ -199,6 +199,8 @@ agepro_model <- R6Class(
 
       self$refpoint <- reference_points$new()
 
+      self$scale <- scaling_factors$new()
+
 
     },
 
@@ -610,6 +612,22 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field scale
+    #' Scaling factors for biomass, recruitment, and stock size
+    #'
+    scale = function(value) {
+      if(missing(value)) {
+        return(private$.scaling_factors)
+      }else {
+        scale_fields <- c("biomass_scale",
+                          "recruitment_scale",
+                          "stock_size_scale")
+        checkmate::assert_r6(value, public = scale_fields,
+                             .var.name = "scale")
+
+        private$.scaling_factors <- value
+      }
+    },
 
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
@@ -723,6 +741,7 @@ agepro_model <- R6Class(
     .user_percentile_summary = NULL,
     .max_bounds = NULL,
     .reference_points = NULL,
+    .scaling_factors = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
