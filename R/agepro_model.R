@@ -1087,6 +1087,9 @@ agepro_inp_model <- R6Class(
             },
             if(self$bounds$flag$op$enable_max_bounds){
               self$bounds$get_inp_lines(delimiter)
+            },
+            if(self$scale$flag$op$enable_scaling_factors){
+              self$scale$get_inp_lines(delimiter)
             }
           )
 

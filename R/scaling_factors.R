@@ -119,6 +119,37 @@ scaling_factors <-R6Class(
 
       return(nline)
 
+    },
+
+    #' @description
+    #' Returns values from the class to the SCALE AGEPRO keyword parameter
+    #' formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = " ") {
+
+      # Re-check fields before formatting.
+      # In this case, do not allow NULL values to be passed.
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_numeric(self$biomass_scale,
+                                lower = 0, len = 1,
+                                add = validation_error)
+      checkmate::assert_numeric(self$recruitment_scale,
+                                lower = 0, len = 1,
+                                add = validation_error)
+      checkmate::assert_numeric(self$stock_size_scale,
+                                lower = 0, len = 1,
+                                add = validation_error)
+
+      return(list(
+        self$inp_keyword,
+        paste(self$biomass_scale,
+              self$recruitment_scale,
+              self$stock_size_scale,
+              sep = delimiter)
+      ))
+
     }
 
 
