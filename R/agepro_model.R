@@ -376,11 +376,20 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.case_id)
       }else {
-        # Assert case_id R6class if value includes the "model_name"
-        # (active binding) public field
-        checkmate::assert_r6(value, public = "model_name",
-                             .var.name = "case_id")
-        private$.case_id <- value
+        tryCatch({
+
+          # Validate value as case_id R6class if value includes the "model_name"
+          # (active binding) public field
+          assert_case_id_active_binding(value, .var.name = "case_id")
+
+          private$.case_id <- value
+
+        },
+        error = function(err) {
+
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
+        })
+
       }
     },
 
