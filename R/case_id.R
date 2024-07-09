@@ -25,7 +25,9 @@ case_id <- R6Class(
     #' Prints out Model case id
     #'
     print = function() {
-      div_keyword_header(self$keyword_name)
+      if(is.null(self$model_name)){
+        warning("model_name is NULL", call. = FALSE)
+      }
       cli::cli_text("{symbol$info} model_name: {.val {self$model_name}}")
     },
 
