@@ -1429,6 +1429,13 @@ agepro_json_model <- R6Class(
                }else{
                  NA
                }
+             },
+             "scale" = {
+               if(self$scale$enable_scaling_factors){
+                 self$scale$json_list_object
+               } else{
+                 NA
+               }
              }
 
         )

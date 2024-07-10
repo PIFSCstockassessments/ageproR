@@ -26,6 +26,8 @@ Input information on scaling factors for biomass, recruitment, and stock size
 accept new values to its fields or allow it to be exported to input file
 until this option flag is TRUE.}
 
+\item{\code{json_list_object}}{Returns JSON list object of containing SCALE values}
+
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
