@@ -286,9 +286,9 @@ scaling_factors <-R6Class(
     #Reset option_flag to NULL at initialization
     reset_options_flags = function() {
 
-      if(isFALSE(is.null(self$flag$op$enable_scaling_options))){
+      if(isFALSE(is.null(self$flag$op$enable_scaling_factors))){
         cli::cli_alert("Reset enable_scaling_factors to NULL for initalization")
-        self$flag$op$enable_scale_options <- NULL
+        self$flag$op$enable_scaling_factors <- NULL
       }
     }
 
