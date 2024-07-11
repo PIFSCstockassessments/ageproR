@@ -233,7 +233,7 @@ scaling_factors <-R6Class(
       return(list(
         biomass_scale = self$biomass_scale,
         recruitment_scale = self$recruitment_scale,
-        stock_size_scale = self$stock_size_scale,
+        stock_size_scale = self$stock_size_scale
       ))
     },
 

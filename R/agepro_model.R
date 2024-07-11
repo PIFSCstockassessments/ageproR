@@ -1510,7 +1510,11 @@ agepro_json_model <- R6Class(
                                       "recruit",
                                       "harvest",
                                       "pstar",
-                                      "options"))
+                                      "options",
+                                      "refpoint",
+                                      "bounds",
+                                      "refpoint",
+                                      "scale"))
 
       self$projection_analyses_type <-
         inp_model$projection_analyses_type
@@ -1553,6 +1557,11 @@ agepro_json_model <- R6Class(
 
       }
       self$options <- inp_model$options
+      self$perc <- inp_model$perc
+      self$bounds <- inp_model$bounds
+      self$refpoint <- inp_model$refpoint
+      self$scale <- inp_model$scale
+
 
       invisible(inp_model)
 
