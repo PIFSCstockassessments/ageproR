@@ -155,6 +155,43 @@ assert_perc_active_binding <- function(x, .var.name = checkmate::vname(x),
 }
 
 
+#' Validation for CASEID active binding in agepro_model
+#'
+#' @description
+#' Custom validation procedure to check if input value matches the structure
+#' of the case_id R6Class. It will also catch single character strings
+#' presuming that the input value was intended to set the model_name field.
+#'
+#' @param x
+#' Object to Check
+#'
+check_case_id_active_binding <- function(x) {
+
+  if(checkmate::test_string(x)) {
+    return(paste0(
+      "Input value found as a string, not a case_id class. ",
+      "Did you mean to set model_name field?"
+    ))
+  }
+
+  return(checkmate::check_r6(x, public = "model_name") )
+
+}
+
+
+#' @rdname check_case_id_active_binding
+#'
+#' @template assert
+#'
+assert_case_id_active_binding <- function(x, .var.name = checkmate::vname(x),
+                                       add = NULL) {
+  res = check_case_id_active_binding(x)
+  checkmate::makeAssertion(x, res, .var.name, add)
+
+}
+
+
+
 #' Validation for BOUNDS active binding in agepro_model
 #'
 #' @description

@@ -199,6 +199,8 @@ agepro_model <- R6Class(
 
       self$refpoint <- reference_points$new()
 
+      self$scale <- scaling_factors$new()
+
 
     },
 
@@ -374,11 +376,20 @@ agepro_model <- R6Class(
       if(missing(value)){
         return(private$.case_id)
       }else {
-        # Assert case_id R6class if value includes the "model_name"
-        # (active binding) public field
-        checkmate::assert_r6(value, public = "model_name",
-                             .var.name = "case_id")
-        private$.case_id <- value
+        tryCatch({
+
+          # Validate value as case_id R6class if value includes the "model_name"
+          # (active binding) public field
+          assert_case_id_active_binding(value, .var.name = "case_id")
+
+          private$.case_id <- value
+
+        },
+        error = function(err) {
+
+          message(paste0("Error: \n", gsub("\\.$","",conditionMessage(err)) ))
+        })
+
       }
     },
 
@@ -610,6 +621,22 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field scale
+    #' Scaling factors for biomass, recruitment, and stock size
+    #'
+    scale = function(value) {
+      if(missing(value)) {
+        return(private$.scaling_factors)
+      }else {
+        scale_fields <- c("biomass_scale",
+                          "recruitment_scale",
+                          "stock_size_scale")
+        checkmate::assert_r6(value, public = scale_fields,
+                             .var.name = "scale")
+
+        private$.scaling_factors <- value
+      }
+    },
 
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
@@ -723,6 +750,7 @@ agepro_model <- R6Class(
     .user_percentile_summary = NULL,
     .max_bounds = NULL,
     .reference_points = NULL,
+    .scaling_factors = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -952,6 +980,9 @@ agepro_inp_model <- R6Class(
         },
         "[REFPOINT]"= {
           rlang::expr(private$read_reference_points(inp_con, self$nline))
+        },
+        "[SCALE]" = {
+          rlang::expr(private$read_scaling_factors(inp_con, self$nline))
         }
 
       ))
@@ -1065,6 +1096,9 @@ agepro_inp_model <- R6Class(
             },
             if(self$bounds$flag$op$enable_max_bounds){
               self$bounds$get_inp_lines(delimiter)
+            },
+            if(self$scale$flag$op$enable_scaling_factors){
+              self$scale$get_inp_lines(delimiter)
             }
           )
 
@@ -1266,6 +1300,11 @@ agepro_inp_model <- R6Class(
       self$nline <- self$refpoint$read_inp_lines(con, nline)
     },
 
+    read_scaling_factors = function(con, nline) {
+      self$scale$enable_scaling_factors <- TRUE
+      self$nline <- self$scale$read_inp_lines(con, nline)
+    },
+
 
     # Set Input File String based on preference on current AGEPRO input file
     # version. Warn for agepro model's version string doesn't match current
@@ -1390,6 +1429,13 @@ agepro_json_model <- R6Class(
                }else{
                  NA
                }
+             },
+             "scale" = {
+               if(self$scale$enable_scaling_factors){
+                 self$scale$json_list_object
+               } else{
+                 NA
+               }
              }
 
         )
@@ -1464,12 +1510,18 @@ agepro_json_model <- R6Class(
                                       "recruit",
                                       "harvest",
                                       "pstar",
-                                      "options"))
+                                      "options",
+                                      "refpoint",
+                                      "bounds",
+                                      "refpoint",
+                                      "scale"))
 
+      cli::cli_alert_info("Importing from agepro_inp_model ...")
       self$projection_analyses_type <-
         inp_model$projection_analyses_type
 
       if(as.logical(inp_model$general$discards_present)){
+        cli::cli_alert("Discard and Discard Weights ...")
         self$discard <- inp_mode$discard
         self$disc_weight <- inp_model$disc_weight
       }else {
@@ -1478,8 +1530,14 @@ agepro_json_model <- R6Class(
       }
 
       self$case_id <- inp_model$case_id
+      cli::cli_alert_success("Case ID")
+
       self$general <- inp_model$general
+      cli::cli_alert_success("General AGEPRO Model options")
+
       self$bootstrap <- inp_model$bootstrap
+      cli::cli_alert_success("Bootstrap")
+
       self$natmort <- inp_model$natmort
       self$maturity <- inp_model$maturity
       self$biological <- inp_model$biological
@@ -1488,12 +1546,17 @@ agepro_json_model <- R6Class(
       self$ssb_weight <- inp_model$ssb_weight
       self$mean_weight <- inp_model$mean_weight
       self$catch_weight <- inp_model$catch_weight
+      cli::cli_alert_success("Process Error")
+
       self$recruit <- inp_model$recruit
+      cli::cli_alert_success("Recruitment")
+
       self$harvest <- inp_model$harvest
+      cli::cli_alert_success("Harvest Scenario")
       if(self$projection_analyses_type == "pstar"){
 
         self$set_projection_analyses_type("pstar")
-        cli::cli_alert(paste0("Importing PStar Projection values ",
+        cli::cli_alert_info(paste0("Importing PStar Projection values ",
                               "from AGEPRO Input Data format ..."))
         self$pstar <- inp_model$pstar
 
@@ -1501,12 +1564,20 @@ agepro_json_model <- R6Class(
       if(self$projection_analyses_type == "rebuild"){
 
         self$set_projection_analyses_type("rebuild")
-        cli::cli_alert(paste0("Importing Rebuling Projection values ",
+        cli::cli_alert_info(paste0("Importing Rebuling Projection values ",
                               "from AGEPRO Input Data format ..."))
         self$rebuild <- inp_model$rebuild
 
       }
+
       self$options <- inp_model$options
+      self$perc <- inp_model$perc
+      self$bounds <- inp_model$bounds
+      self$refpoint <- inp_model$refpoint
+      self$scale <- inp_model$scale
+      cli::cli_alert_success("AGEPRO model and output options")
+
+      cli::cli_alert("Done")
 
       invisible(inp_model)
 
