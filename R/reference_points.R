@@ -18,7 +18,7 @@
 #' set this flag to TRUE.
 #'
 #' @details
-#' The reference_points class (`BOUNDS`) is recognized as a keyword
+#' The reference_points class (`REFPOINTS`) is recognized as a keyword
 #' parameter used in the AGEPRO input file format, but it is optional.
 #'
 #' @include optional_options_flags.R
