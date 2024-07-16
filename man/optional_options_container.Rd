@@ -40,7 +40,7 @@ Then it will be TRUE
 
 \item{\code{enable_max_bounds}}{Sets maximum bounds of Weight(MT) and natural mortality}
 
-\item{\code{enable_retrospective_adjustment}}{Allows use of Retrospective Adjustment Factors by Age}
+\item{\code{enable_retrospective_adjustments}}{Allows use of Retrospective Adjustment Factors by Age}
 }
 \if{html}{\out{</div>}}
 }
