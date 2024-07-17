@@ -51,6 +51,7 @@ until this option flag is TRUE.}
 \itemize{
 \item \href{#method-retrospective_adjustments-new}{\code{retrospective_adjustments$new()}}
 \item \href{#method-retrospective_adjustments-print}{\code{retrospective_adjustments$print()}}
+\item \href{#method-retrospective_adjustments-read_inp_lines}{\code{retrospective_adjustments$read_inp_lines()}}
 \item \href{#method-retrospective_adjustments-clone}{\code{retrospective_adjustments$clone()}}
 }
 }
@@ -80,6 +81,33 @@ Formatted to print out retrospective_adjustments values
 \if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$print()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-retrospective_adjustments-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-retrospective_adjustments-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads in the values from the keyword parameter RETROADJUST from the
+AGEPRO Input file
+
+Note: enable_retrospective_adjustments must be set to TRUE.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$read_inp_lines(inp_con, nline, num_ages)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
+
+\item{\code{num_ages}}{Model's number of ages derived from general_params
+num_ages active binding.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-retrospective_adjustments-clone"></a>}}

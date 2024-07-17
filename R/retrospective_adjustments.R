@@ -79,6 +79,48 @@ retrospective_adjustments <- R6Class(
                          "{.val {self$retrospective_coefficients}}"))
       cli::cli_end()
 
+    },
+
+
+    #' @description
+    #' Reads in the values from the keyword parameter RETROADJUST from the
+    #' AGEPRO Input file
+    #'
+    #' Note: enable_retrospective_adjustments must be set to TRUE.
+    #'
+    #' @template inp_con
+    #' @template nline
+    #' @param num_ages Model's number of ages derived from general_params
+    #' num_ages active binding.
+    #'
+    read_inp_lines = function(inp_con, nline, num_ages) {
+
+      if(isFALSE(self[[private$.name_options_flag]])){
+        stop(private$unenabled_options_flag_message())
+      }
+
+      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+
+      nline <- nline + 1
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      self$retrospective_coefficients <- inp_line[1]
+      count_ages <- length(self$retrospective_coefficients)
+
+      #Verify vector length of retrospective_coefficients matches num_ages
+      if(isFALSE(identical(count_ages, num_ages))) {
+        stop(paste0("Length of Retrosepctive coefficeient vector does not ",
+                    "match model's number of ages (", num_ages, ")"))
+      }
+      names(self$retrospective_coefficients) <- paste0("Age", 1:count_ages)
+
+      cli::cli_alert(c("Line {nline}: ",
+                       "Retrospective Coefficients :",
+                       "{.val {inp_line}} ",
+                       "{.emph ({num_ages} Age{?s})}"))
+
+      return(nline)
+
     }
 
 
