@@ -50,6 +50,7 @@ until this option flag is TRUE.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-retrospective_adjustments-new}{\code{retrospective_adjustments$new()}}
+\item \href{#method-retrospective_adjustments-print}{\code{retrospective_adjustments$print()}}
 \item \href{#method-retrospective_adjustments-clone}{\code{retrospective_adjustments$clone()}}
 }
 }
@@ -69,6 +70,16 @@ Initializes the class
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-retrospective_adjustments-print"></a>}}
+\if{latex}{\out{\hypertarget{method-retrospective_adjustments-print}{}}}
+\subsection{Method \code{print()}}{
+Formatted to print out retrospective_adjustments values
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-retrospective_adjustments-clone"></a>}}

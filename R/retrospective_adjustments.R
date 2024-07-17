@@ -62,6 +62,23 @@ retrospective_adjustments <- R6Class(
         #self$print()
       }
 
+    },
+
+    #' @description
+    #' Formatted to print out retrospective_adjustments values
+    #'
+    print = function(){
+
+      cli::cli_alert_info(
+        paste0("retrospective_adjustments: ",
+               "Specify Retrospective Adjustment factors : ",
+               "{.emph (enable_retrospective_adjustmens)}: ",
+               "{.val {self$enable_retrospective_adjustments}}"))
+      cli::cli_ul(id = "retrospective_adjustments_fields")
+      cli::cli_li(paste0("retrospective_coefficients: ",
+                         "{.val {self$retrospective_coefficents}}"))
+      cli::cli_end()
+
     }
 
 
