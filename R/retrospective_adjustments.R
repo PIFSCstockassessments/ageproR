@@ -53,13 +53,13 @@ retrospective_adjustments <- R6Class(
       if(all.equal(retroadjust,0)){
         cli::cli_alert(paste0("Default values set, options_flag ",
                               "{private$.name_options_flag} to FALSE"))
-        suppressMessages(private$set_enable_rretrospective_adjustments(FALSE))
+        suppressMessages(private$set_enable_retrospective_adjustments(FALSE))
       }else {
         cli::cli_alert(paste0("Values for reference_points set. Enable ",
                               "options_flag {private$.name_options_flag} ",
                               "as TRUE"))
         private$set_enable_retrospective_adjustments(TRUE)
-        #self$print()
+        self$print()
       }
 
     },
@@ -76,7 +76,7 @@ retrospective_adjustments <- R6Class(
                "{.val {self$enable_retrospective_adjustments}}"))
       cli::cli_ul(id = "retrospective_adjustments_fields")
       cli::cli_li(paste0("retrospective_coefficients: ",
-                         "{.val {self$retrospective_coefficents}}"))
+                         "{.val {self$retrospective_coefficients}}"))
       cli::cli_end()
 
     }
@@ -100,7 +100,7 @@ retrospective_adjustments <- R6Class(
 
         checkmate::assert_numeric(value, lower = 0)
 
-        private$.retrospective_coefficents <- value
+        private$.retrospective_coefficients <- value
       }
     },
 
@@ -135,7 +135,7 @@ retrospective_adjustments <- R6Class(
     .retrospective_coefficients = NULL,
 
     .keyword_name = "retroadjust",
-    .name_options_flag = " enable_retrospective_adjustments",
+    .name_options_flag = "enable_retrospective_adjustments",
 
 
     # Wrapper Function to toggle enable_retrospective_adjustments options_flag.
