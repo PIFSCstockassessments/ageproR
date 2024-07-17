@@ -30,11 +30,130 @@ retrospective_adjustments <- R6Class(
   "retrospective_adjustments",
   public = list(
 
+    #' @field flag
+    #' R6class containing option_flags
+    flag = options_flags$new(),
+
+    #' @description
+    #' Initializes the class
+    #'
+    #' @param retroadjust
+    #' Vector for retrospective bias adjustment
+    #'
+    initialize = function(retroadjust = 0) {
+
+      div_keyword_header(private$.keyword_name)
+
+      # When agepro_model is reinitialized, reset the value for this class's
+      # option_flag to NULL to cleanup any values it retained previously.
+      private$reset_options_flags()
+
+      self$retrospective_coefficients <- retroadjust
+
+      if(all.equal(retroadjust,0)){
+        cli::cli_alert(paste0("Default values set, options_flag ",
+                              "{private$.name_options_flag} to FALSE"))
+        suppressMessages(private$set_enable_rretrospective_adjustments(FALSE))
+      }else {
+        cli::cli_alert(paste0("Values for reference_points set. Enable ",
+                              "options_flag {private$.name_options_flag} ",
+                              "as TRUE"))
+        private$set_enable_retrospective_adjustments(TRUE)
+        #self$print()
+      }
+
+    }
+
+
   ),
   active = list(
 
+    #' @field retrospective_coefficients
+    #' This is the vector of age-specific numbers at age multipliers for an
+    #' initial population size at age vector if retrospective bias adjustment
+    #' is applied.
+    retrospective_coefficients = function(value) {
+      if(isTRUE(missing(value))){
+        return(private$.retrospective_coefficients)
+      }else {
+
+        if(isFALSE(self$enable_retrospecttive_adjustments)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
+        }
+
+        checkmate::assert_numeric(value, lower = 0)
+
+        private$.retrospective_coefficents <- value
+      }
+    },
+
+    #' @field enable_retrospective_adjustments
+    #' Logical field that flags if fields can be edited. This class will not
+    #' accept new values to its fields or allow it to be exported to input file
+    #' until this option flag is TRUE.
+    enable_retrospective_adjustments = function(value) {
+      if(isTRUE(missing(value))){
+        return(self$flag$op$enable_retrospective_adjustments)
+      } else {
+        private$set_enable_retrospective_adjustments(value)
+      }
+
+    },
+
+    #' @field keyword_name
+    #' AGEPRO keyword parameter name
+    keyword_name = function() {
+      private$.keyword_name
+    },
+
+    #' @field inp_keyword
+    #' Returns AGEPRO input-file formatted Parameter
+    inp_keyword = function() {
+      paste0("[",toupper(private$.keyword_name),"]")
+    }
+
   ),
   private = list(
+
+    .retrospective_coefficients = NULL,
+
+    .keyword_name = "retroadjust",
+    .name_options_flag = " enable_retrospective_adjustments",
+
+
+    # Wrapper Function to toggle enable_retrospective_adjustments options_flag.
+    set_enable_retrospective_adjustments = function(x) {
+
+      checkmate::assert_logical(x, null.ok = TRUE)
+
+      #Set value to options flags field reference "flag"
+      self$flag$op[[private$.name_options_flag]] <- x
+
+      cli::cli_alert(
+        paste0("{private$.name_options_flag} : ",
+               "{.val ",
+               "{self$flag$op[[private$.name_options_flag]]}}"))
+
+
+    },
+
+    reset_options_flags = function() {
+      #Reset option_flag to NULL at initialization
+
+      if(isFALSE(is.null(self$flag$op[[private$.name_options_flag]]))){
+        cli::cli_alert("Reset {private$.name_option_flag}")
+        self$flag$op[[private$.name_options_flag]] <- NULL
+      }
+    },
+
+    # Error message when setting retrospective_coefficient values while
+    # enable_retrospective_adjustments is FALSE
+    unenabled_options_flag_message = function() {
+      return(invisible(
+        paste0(private$.name_options_flag,
+               " is FALSE. Set flag to TRUE to set value.")
+      ))
+    }
 
   )
 )

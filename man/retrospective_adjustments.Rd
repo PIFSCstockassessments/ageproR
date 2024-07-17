@@ -22,10 +22,52 @@ values will set this flag to TRUE.
 The retrospective_adjustments class (\code{RETROADJUST}) is recognized as a keyword
 parameter used in the AGEPRO input file format, but it is optional.
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{flag}}{R6class containing option_flags}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{retrospective_coefficients}}{This is the vector of age-specific numbers at age multipliers for an
+initial population size at age vector if retrospective bias adjustment
+is applied.}
+
+\item{\code{enable_retrospective_adjustments}}{Logical field that flags if fields can be edited. This class will not
+accept new values to its fields or allow it to be exported to input file
+until this option flag is TRUE.}
+
+\item{\code{keyword_name}}{AGEPRO keyword parameter name}
+
+\item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-retrospective_adjustments-new}{\code{retrospective_adjustments$new()}}
 \item \href{#method-retrospective_adjustments-clone}{\code{retrospective_adjustments$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-retrospective_adjustments-new"></a>}}
+\if{latex}{\out{\hypertarget{method-retrospective_adjustments-new}{}}}
+\subsection{Method \code{new()}}{
+Initializes the class
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$new(retroadjust = 0)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{retroadjust}}{Vector for retrospective bias adjustment}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
