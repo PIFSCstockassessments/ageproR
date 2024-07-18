@@ -104,18 +104,19 @@ retrospective_adjustments <- R6Class(
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
-      self$retrospective_coefficients <- inp_line[1]
+      self$retrospective_coefficients <- inp_line
       count_ages <- length(self$retrospective_coefficients)
 
-      #Verify vector length of retrospective_coefficients matches num_ages
-      if(isFALSE(identical(count_ages, num_ages))) {
+      # Throw error if vector length of retrospective_coefficients does not
+      # match num_ages
+      if(!isTRUE(all.equal(count_ages, num_ages))) {
         stop(paste0("Length of Retrosepctive coefficeient vector does not ",
                     "match model's number of ages (", num_ages, ")"))
       }
       names(self$retrospective_coefficients) <- paste0("Age", 1:count_ages)
 
       cli::cli_alert(c("Line {nline}: ",
-                       "Retrospective Coefficients :",
+                       "retrospective_coefficients: ",
                        "{.val {inp_line}} ",
                        "{.emph ({num_ages} Age{?s})}"))
 

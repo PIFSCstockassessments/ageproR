@@ -201,6 +201,8 @@ agepro_model <- R6Class(
 
       self$scale <- scaling_factors$new()
 
+      self$retroadjust <- retrospective_adjustments$new()
+
 
     },
 
@@ -638,6 +640,19 @@ agepro_model <- R6Class(
       }
     },
 
+    #' @field retroadjust
+    #' Retrospective bias Adjustment
+    retroadjust = function(value) {
+      if(missing(value)) {
+        return(private$.retrospective_adjustments)
+      }else {
+        checkmate::assert_r6(value, public = c("retrospective_coefficients"),
+                             .var.name = "retroadjust")
+
+        private$.retrospective_adjustments <- value
+      }
+    },
+
     #' @field pstar
     #' Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
     #' probability of overfishing in the target year.
@@ -751,6 +766,7 @@ agepro_model <- R6Class(
     .max_bounds = NULL,
     .reference_points = NULL,
     .scaling_factors = NULL,
+    .retrospective_adjustments = NULL,
 
     .discards_present = NULL,
     .projection_analyses_type = NULL
@@ -983,6 +999,10 @@ agepro_inp_model <- R6Class(
         },
         "[SCALE]" = {
           rlang::expr(private$read_scaling_factors(inp_con, self$nline))
+        },
+        "[RETROADJUST]" = {
+          rlang::expr(private$read_retrospective_adjustments(inp_con,
+                                                             self$nline))
         }
 
       ))
@@ -1303,6 +1323,12 @@ agepro_inp_model <- R6Class(
     read_scaling_factors = function(con, nline) {
       self$scale$enable_scaling_factors <- TRUE
       self$nline <- self$scale$read_inp_lines(con, nline)
+    },
+    read_retrospective_adjustments = function(con, nline) {
+      self$retroadjust$enable_retrospective_adjustments <- TRUE
+      self$nline <- self$retroadjust$read_inp_lines(con,
+                                                    nline,
+                                                    self$general$num_ages)
     },
 
 
