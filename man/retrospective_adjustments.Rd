@@ -61,13 +61,19 @@ until this option flag is TRUE.}
 \subsection{Method \code{new()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$new(retroadjust = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$new(retroadjust = 0, enable_cat_print = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{retroadjust}}{Vector for retrospective bias adjustment}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
@@ -78,9 +84,22 @@ Initializes the class
 \subsection{Method \code{print()}}{
 Formatted to print out retrospective_adjustments values
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$print()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$print(enable_cat_print = TRUE, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-retrospective_adjustments-read_inp_lines"></a>}}

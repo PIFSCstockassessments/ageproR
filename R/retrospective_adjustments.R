@@ -37,10 +37,12 @@ retrospective_adjustments <- R6Class(
     #' @description
     #' Initializes the class
     #'
+    #' @template enable_cat_print
     #' @param retroadjust
     #' Vector for retrospective bias adjustment
     #'
-    initialize = function(retroadjust = 0) {
+    initialize = function(retroadjust = 0,
+                          enable_cat_print = TRUE) {
 
       div_keyword_header(private$.keyword_name)
 
@@ -59,7 +61,7 @@ retrospective_adjustments <- R6Class(
                               "options_flag {private$.name_options_flag} ",
                               "as TRUE"))
         private$set_enable_retrospective_adjustments(TRUE)
-        self$print()
+        self$print(enable_cat_print)
       }
 
     },
@@ -67,16 +69,32 @@ retrospective_adjustments <- R6Class(
     #' @description
     #' Formatted to print out retrospective_adjustments values
     #'
-    print = function(){
+    #' @template enable_cat_print
+    #' @template elipses
+    #'
+    print = function(enable_cat_print = TRUE, ...){
 
       cli::cli_alert_info(
         paste0("retrospective_adjustments: ",
-               "Specify Retrospective Adjustment factors : ",
-               "{.emph (enable_retrospective_adjustmens)}: ",
+               "Specify Retrospective Adjustment factors: ",
+               "{.emph (enable_retrospective_adjustments)}: ",
                "{.val {self$enable_retrospective_adjustments}}"))
       cli::cli_ul(id = "retrospective_adjustments_fields")
-      cli::cli_li(paste0("retrospective_coefficients: ",
-                         "{.val {self$retrospective_coefficients}}"))
+      #cli::cli_li(paste0("retrospective_coefficients: ",
+      #                   "{.val {self$retrospective_coefficients}}"))
+
+      cli::cli_text("{symbol$bullet} retrospective_coefficients")
+      #Verbose flag check
+      if(enable_cat_print){
+        #Allow `cli::cat_print` message
+        private$cli_print_retrospective_coefficients(
+          self$retrospective_coefficients, ...)
+      }else {
+        #Suppress `cli::cat_print` message
+        capture.output( x <- private$cli_print_retrospective_coefficients(
+          self$retrospective_coefficients, ...))
+      }
+
       cli::cli_end()
 
     },
@@ -213,6 +231,23 @@ retrospective_adjustments <- R6Class(
         paste0(private$.name_options_flag,
                " is FALSE. Set flag to TRUE to set value.")
       ))
+    },
+
+
+    # Helper function to print out retrospective_coefficients to console.
+    cli_print_retrospective_coefficients = function (x, omit_rows=FALSE){
+
+      if(omit_rows) {
+
+        omitted_num_rows <- pmax(0, nrow(x)-6)
+
+        cli::cat_print(head(x)) #first 6 rows
+        cli::cli_text(
+          paste0("{symbol$info} ","Total of {nrow(x)} row{?s}; ",
+                 "{no(omitted_num_rows)} row{?s} omitted"))
+      }else{
+        cli::cat_print(x)
+      }
     }
 
   )
