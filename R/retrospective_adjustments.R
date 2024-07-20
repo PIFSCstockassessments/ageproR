@@ -140,7 +140,23 @@ retrospective_adjustments <- R6Class(
 
       return(nline)
 
+    },
+
+    #' @description
+    #' Returns values from the class to the RETROADJUST AGEPRO keyword parameter
+    #' formatted as AGEPRO input file lines.
+    #'
+    #' @template delimiter
+    #'
+    get_inp_lines = function(delimiter = "  ") {
+
+      return(list(
+        self$inp_keyword,
+        paste(self$retrospective_coefficients, collapse = "  ")
+      ))
+
     }
+
 
 
   ),
