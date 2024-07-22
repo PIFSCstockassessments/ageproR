@@ -1454,6 +1454,13 @@ agepro_json_model <- R6Class(
                  NA
                }
              },
+             "retroadjust" = {
+               if(self$retroadjust$enable_retrospective_adjustments){
+                 self$retroadjust$json_list_object
+               }else{
+                 NA
+               }
+             },
              "refpoint" = {
                if(self$refpoint$enable_reference_points){
                  self$refpoint$json_list_object
@@ -1544,6 +1551,7 @@ agepro_json_model <- R6Class(
                                       "options",
                                       "refpoint",
                                       "bounds",
+                                      "retroadjust",
                                       "refpoint",
                                       "scale"))
 
@@ -1604,6 +1612,7 @@ agepro_json_model <- R6Class(
       self$options <- inp_model$options
       self$perc <- inp_model$perc
       self$bounds <- inp_model$bounds
+      self$retroadjust <- inp_model$retroadjust
       self$refpoint <- inp_model$refpoint
       self$scale <- inp_model$scale
       cli::cli_alert_success("AGEPRO model and output options")

@@ -194,6 +194,14 @@ retrospective_adjustments <- R6Class(
 
     },
 
+    #' @field json_list_object
+    #' Returns JSON list object of containing SCALE values
+    json_list_object = function() {
+      return(list(
+        retrospective_coefficients = self$retrospective_coefficients
+      ))
+    },
+
     #' @field keyword_name
     #' AGEPRO keyword parameter name
     keyword_name = function() {
