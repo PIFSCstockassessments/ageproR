@@ -1413,70 +1413,69 @@ agepro_json_model <- R6Class(
         jsonfile_format = self$ver_jsonfile_format
       )
 
-      #Get VERSION, GENERAL, RECRUIT, and BOOTSTRAP
-      agepro_json <-
-        list("version" = version_json,
-             "case_id" = self$case_id$model_name,
-             "general" = self$general$json_list_object,
-             "bootstrap" = self$bootstrap$json_list_object,
-             "natmort" = self$natmort$json_list_object,
-             "maturity" = self$maturity$json_list_object,
-             "biological" = self$biological$json_list_object,
-             "fishery" = self$fishery$json_list_object,
-             "discard" =
-               ifelse(!is.null(self$discard),
-                      self$discard$json_list_object,
-                      NA),
-             "stock_weight" = self$stock_weight$json_list_object,
-             "ssb_weight" = self$ssb_weight$json_list_object,
-             "mean_weight" = self$mean_weight$json_list_object,
-             "catch_weight" = self$catch_weight$json_list_object,
-             "disc_weight" =
-               ifelse(!is.null(self$disc_weight),
-                      self$disc_weight$json_list_object,
-                      NA),
-             "recruit" = self$recruit$json_list_object,
-             "harvest" = self$harvest$json_list_object,
-             "pstar" = self$pstar$json_list_object,
-             "rebuild" = self$rebuild$json_list_object,
-             "options" = self$options$json_list_object,
-             "perc" = {
-               if(self$perc$flag$op$enable_user_percentile_summary){
-                 self$perc$json_list_object
-               }else{
-                 NA
-               }
-             },
-             "bounds" = {
-               if(self$bounds$enable_max_bounds){
-                 self$bounds$json_list_object
-               }else{
-                 NA
-               }
-             },
-             "retroadjust" = {
-               if(self$retroadjust$enable_retrospective_adjustments){
-                 self$retroadjust$json_list_object
-               }else{
-                 NA
-               }
-             },
-             "refpoint" = {
-               if(self$refpoint$enable_reference_points){
-                 self$refpoint$json_list_object
-               }else{
-                 NA
-               }
-             },
-             "scale" = {
-               if(self$scale$enable_scaling_factors){
-                 self$scale$json_list_object
-               } else{
-                 NA
-               }
-             }
+      agepro_json <- list(
+        "version" = version_json,
+        "case_id" = self$case_id$model_name,
+        "general" = self$general$json_list_object,
+        "bootstrap" = self$bootstrap$json_list_object,
+        "natmort" = self$natmort$json_list_object,
+        "maturity" = self$maturity$json_list_object,
+        "biological" = self$biological$json_list_object,
+        "fishery" = self$fishery$json_list_object,
+        "discard" =
+            ifelse(!is.null(self$discard),
+                  self$discard$json_list_object,
+                  NA),
+        "stock_weight" = self$stock_weight$json_list_object,
+        "ssb_weight" = self$ssb_weight$json_list_object,
+        "mean_weight" = self$mean_weight$json_list_object,
+        "catch_weight" = self$catch_weight$json_list_object,
+        "disc_weight" =
+            ifelse(!is.null(self$disc_weight),
+                  self$disc_weight$json_list_object,
+                  NA),
+        "recruit" = self$recruit$json_list_object,
+        "harvest" = self$harvest$json_list_object,
+        "pstar" = self$pstar$json_list_object,
+        "rebuild" = self$rebuild$json_list_object,
+        "options" = self$options$json_list_object,
+        "perc" = {
+          if(self$perc$flag$op$enable_user_percentile_summary){
+            self$perc$json_list_object
+          }else{
+            NA
+          }
+        },
+        "bounds" = {
+          if(self$bounds$enable_max_bounds){
+            self$bounds$json_list_object
+          }else{
+            NA
+          }
+        },
+        "retroadjust" = {
+          if(self$retroadjust$enable_retrospective_adjustments){
+            self$retroadjust$json_list_object
+           }else{
+             NA
+           }
+         },
+         "refpoint" = {
+           if(self$refpoint$enable_reference_points){
+             self$refpoint$json_list_object
+           }else{
+             NA
+           }
+         },
+         "scale" = {
+           if(self$scale$enable_scaling_factors){
+             self$scale$json_list_object
+           }else{
+             NA
+           }
+         }
+      )
 
-        )
 
 
       toJSON(agepro_json,
