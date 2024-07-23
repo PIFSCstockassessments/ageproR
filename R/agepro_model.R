@@ -1558,65 +1558,77 @@ agepro_json_model <- R6Class(
       self$projection_analyses_type <-
         inp_model$projection_analyses_type
 
-      if(as.logical(inp_model$general$discards_present)){
-        cli::cli_alert("Discard and Discard Weights ...")
-        self$discard <- inp_mode$discard
-        self$disc_weight <- inp_model$disc_weight
-      }else {
-        self$discard <- NULL
-        self$disc_weight <- NULL
-      }
+      tryCatch(
+        {
+          if(as.logical(inp_model$general$discards_present)){
+            cli::cli_alert("Discard and Discard Weights ...")
+            self$discard <- inp_mode$discard
+            self$disc_weight <- inp_model$disc_weight
+          }else {
+            self$discard <- NULL
+            self$disc_weight <- NULL
+          }
 
-      self$case_id <- inp_model$case_id
-      cli::cli_alert_success("Case ID")
+          self$case_id <- inp_model$case_id
+          cli::cli_alert_success("Case ID")
 
-      self$general <- inp_model$general
-      cli::cli_alert_success("General AGEPRO Model options")
+          self$general <- inp_model$general
+          cli::cli_alert_success("General AGEPRO Model options")
 
-      self$bootstrap <- inp_model$bootstrap
-      cli::cli_alert_success("Bootstrap")
+          self$bootstrap <- inp_model$bootstrap
+          cli::cli_alert_success("Bootstrap")
 
-      self$natmort <- inp_model$natmort
-      self$maturity <- inp_model$maturity
-      self$biological <- inp_model$biological
-      self$fishery <- inp_model$fishery
-      self$stock_weight <- inp_model$stock_weight
-      self$ssb_weight <- inp_model$ssb_weight
-      self$mean_weight <- inp_model$mean_weight
-      self$catch_weight <- inp_model$catch_weight
-      cli::cli_alert_success("Process Error")
+          self$natmort <- inp_model$natmort
+          self$maturity <- inp_model$maturity
+          self$biological <- inp_model$biological
+          self$fishery <- inp_model$fishery
+          self$stock_weight <- inp_model$stock_weight
+          self$ssb_weight <- inp_model$ssb_weight
+          self$mean_weight <- inp_model$mean_weight
+          self$catch_weight <- inp_model$catch_weight
+          cli::cli_alert_success("Process Error")
 
-      self$recruit <- inp_model$recruit
-      cli::cli_alert_success("Recruitment")
+          self$recruit <- inp_model$recruit
+          cli::cli_alert_success("Recruitment")
 
-      self$harvest <- inp_model$harvest
-      cli::cli_alert_success("Harvest Scenario")
-      if(self$projection_analyses_type == "pstar"){
+          self$harvest <- inp_model$harvest
+          cli::cli_alert_success("Harvest Scenario")
+          if(self$projection_analyses_type == "pstar"){
 
-        self$set_projection_analyses_type("pstar")
-        cli::cli_alert_info(paste0("Importing PStar Projection values ",
-                              "from AGEPRO Input Data format ..."))
-        self$pstar <- inp_model$pstar
+            self$set_projection_analyses_type("pstar")
+            cli::cli_alert_info(paste0("Importing PStar Projection values ",
+                                       "from AGEPRO Input Data format ..."))
+            self$pstar <- inp_model$pstar
 
-      }
-      if(self$projection_analyses_type == "rebuild"){
+          }
+          if(self$projection_analyses_type == "rebuild"){
 
-        self$set_projection_analyses_type("rebuild")
-        cli::cli_alert_info(paste0("Importing Rebuling Projection values ",
-                              "from AGEPRO Input Data format ..."))
-        self$rebuild <- inp_model$rebuild
+            self$set_projection_analyses_type("rebuild")
+            cli::cli_alert_info(paste0("Importing Rebuling Projection values ",
+                                       "from AGEPRO Input Data format ..."))
+            self$rebuild <- inp_model$rebuild
 
-      }
+          }
 
-      self$options <- inp_model$options
-      self$perc <- inp_model$perc
-      self$bounds <- inp_model$bounds
-      self$retroadjust <- inp_model$retroadjust
-      self$refpoint <- inp_model$refpoint
-      self$scale <- inp_model$scale
-      cli::cli_alert_success("AGEPRO model and output options")
+          self$options <- inp_model$options
+          self$perc <- inp_model$perc
+          self$bounds <- inp_model$bounds
+          self$retroadjust <- inp_model$retroadjust
+          self$refpoint <- inp_model$refpoint
+          self$scale <- inp_model$scale
+          cli::cli_alert_success("AGEPRO model and output options")
 
-      cli::cli_alert("Done")
+        },
+        error = function(err){
+          message(conditionMessage(err))
+
+        },
+        finally ={
+          cli::cli_alert("Done")
+        }
+      )
+
+
 
       invisible(inp_model)
 
