@@ -51,7 +51,7 @@ agepro_model <- R6Class(
       #Current Input File Version
       private$.ver_inpfile_string = private$.currentver_inpfile_string
       private$.ver_jsonfile_format = 0
-      private$.ver_numeric_string = "4.0.0.0"
+      private$.ver_rpackage = utils::packageVersion("ageproR")
 
       assert_number(age_begin, lower = 0, upper = 1)
       assert_number(num_fleets, lower = 1)
@@ -348,15 +348,15 @@ agepro_model <- R6Class(
       }
     },
 
-    #' @field ver_numeric_string
-    #' Numeric character string based by Semantic-like versioning format.
-    ver_numeric_string = function(value){
+    #' @field ver_rpackage
+    #' Returns ageproR r package version.
+    ver_rpackage = function(value){
       if(missing(value)){
-        return(private$.ver_numeric_string)
+        return(private$.ver_rpackage)
       }else{
         #use as.numeric_version to validate
         cli::cli_alert_info("Version: {as.numeric_version(value)}")
-        private$.ver_numeric_string <- value
+        private$.ver_rpackage <- value
       }
     },
 
@@ -741,7 +741,7 @@ agepro_model <- R6Class(
 
     .ver_inpfile_string = NULL,
     .ver_jsonfile_format = NULL,
-    .ver_numeric_string = NULL,
+    .ver_rpackage = NULL,
     .currentver_inpfile_string = "AGEPRO VERSION 4.25",
 
     # AGEPRO keyword parameters

@@ -26,7 +26,7 @@ with Jon Brodiak's AGEPRO calculation engine.}
 
 \item{\code{ver_json_format}}{JSON Input File Format version.}
 
-\item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
+\item{\code{ver_rpackage}}{Returns ageproR r package version.}
 
 \item{\code{projection_analyses_type}}{Type of projection analyses: standard, rebuilding, pstar.}
 
