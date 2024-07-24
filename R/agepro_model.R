@@ -904,7 +904,7 @@ agepro_inp_model <- R6Class(
       }
       div_line1_alert()
 
-      self$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
+      private$assert_inpfile_version(readLines(inp_con, n = 1, warn = FALSE))
 
       #loop through inpfile to read in value fore each parameter keyword
       while (TRUE) {
@@ -1030,27 +1030,6 @@ agepro_inp_model <- R6Class(
       }
 
     },
-
-    #' @description
-    #' Check Input File Version
-    #'
-    assert_inpfile_version = function(inp_line) {
-      assert_character(inp_line, len = 1)
-
-        cli::cli_alert_info("Version: '{inp_line}'")
-        if(inp_line %in% private$.supported_inp_versions){
-          self$ver_inpfile_string <- inp_line
-        }else{
-          # Throw Unsupported Version Error Message
-          stop(paste0(
-            "This version of this input file is not supported: ",inp_line,
-            "\n - Supported verion(s): ",
-            paste(private$.supported_inp_versions,collapse=", ")),
-            call.= FALSE)
-        }
-
-    },
-
 
     #' @description
     #' Throws a Not Implemented exception message. Placeholder function.
@@ -1334,6 +1313,25 @@ agepro_inp_model <- R6Class(
       self$nline <- self$retroadjust$read_inp_lines(con,
                                                     nline,
                                                     self$general$num_ages)
+    },
+
+
+    # Helper function to check AGEPRO Input File Version
+    assert_inpfile_version = function(inp_line) {
+      assert_character(inp_line, len = 1)
+
+      cli::cli_alert_info("Version: '{inp_line}'")
+      if(inp_line %in% private$.supported_inp_versions){
+        self$ver_inpfile_string <- inp_line
+      }else{
+        # Throw Unsupported Version Error Message
+        stop(paste0(
+          "This version of this input file is not supported: ",inp_line,
+          "\n - Supported verion(s): ",
+          paste(private$.supported_inp_versions,collapse=", ")),
+          call.= FALSE)
+      }
+
     },
 
 
