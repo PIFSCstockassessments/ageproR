@@ -19,7 +19,7 @@ keyword parameter is not used in the agepro_model. Therefore,
 set this flag to TRUE.
 }
 \details{
-The reference_points class (\code{BOUNDS}) is recognized as a keyword
+The reference_points class (\code{REFPOINTS}) is recognized as a keyword
 parameter used in the AGEPRO input file format, but it is optional.
 }
 \section{Public fields}{

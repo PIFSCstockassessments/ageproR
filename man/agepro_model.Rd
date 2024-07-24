@@ -68,6 +68,8 @@ Discard Fraction}
 
 \item{\code{scale}}{Scaling factors for biomass, recruitment, and stock size}
 
+\item{\code{retroadjust}}{Retrospective bias Adjustment}
+
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
 

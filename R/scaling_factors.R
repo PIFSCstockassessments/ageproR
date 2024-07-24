@@ -5,6 +5,21 @@
 #' @description
 #' Input information on scaling factors for biomass, recruitment, and stock size
 #'
+#' The logical flag `enable_scaling_factors` allows the user to
+#' set values to this class active binding fields: `biomass_scale`,
+#' `recruitment_scale`, and `stock_size_scale`. The flag
+#' will also notify `agepro_model` that this keyword parameter is allowed
+#' to be written to input file.
+#'
+#' If this class is initialized with default values, it is presumed that this
+#' keyword parameter is not used in the agepro_model. Therefore,
+#' `enable_scaling_factors` is flagged as FALSE. Valid non-default values will
+#' set this flag to TRUE.
+#'
+#' @details
+#' The scaling_factors class (or SCALE) is recognized as a keyword
+#' parameter used in the AGEPRO input file format, but it is optional.
+#'
 #' @include optional_options_flags.R
 #'
 #' @export

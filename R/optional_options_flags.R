@@ -47,9 +47,9 @@ optional_options_container <- R6Class(
     #' Sets maximum bounds of Weight(MT) and natural mortality
     enable_max_bounds = NULL,
 
-    #' @field enable_retrospective_adjustment
+    #' @field enable_retrospective_adjustments
     #' Allows use of Retrospective Adjustment Factors by Age
-    enable_retrospective_adjustment = NULL
+    enable_retrospective_adjustments = NULL
   )
 )
 
