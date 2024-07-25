@@ -51,7 +51,7 @@ agepro_model <- R6Class(
       #Current Input File Version
       private$.ver_inpfile_string = private$.currentver_inpfile_string
       private$.ver_jsonfile_format = 0
-      private$.ver_rpackage = utils::packageVersion("ageproR")
+      private$setup_ver_rpackage()
 
       assert_number(age_begin, lower = 0, upper = 1)
       assert_number(num_fleets, lower = 1)
@@ -770,7 +770,11 @@ agepro_model <- R6Class(
     .retrospective_adjustments = NULL,
 
     .discards_present = NULL,
-    .projection_analyses_type = NULL
+    .projection_analyses_type = NULL,
+
+    setup_ver_rpackage = function() {
+      private$.ver_rpackage = utils::packageVersion("ageproR")
+    }
 
   )
 
@@ -818,7 +822,7 @@ agepro_inp_model <- R6Class(
 
       private$.pre_v4 <- FALSE
       private$.nline <- 0
-
+      private$setup_ver_rpackage()
 
       cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
 
