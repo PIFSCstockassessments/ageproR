@@ -23,7 +23,20 @@ output_options <- R6Class(
     #' Initializes the class
     #'
     #' @param summary_report
-    #' [Logical][base::logical] flag to enable stock summary output.
+    #' [Logical][base::numeric] flag to enable Stock Distribution Summary file
+    #' and auxiliary data. The following options allow the user to select which
+    #' output from the AGEPRO calculation engine is returned:
+    #' \describe{
+    #'  \item{0}{Do not output Stock Distribution Summary File, but output
+    #'  all auxiliary data files.}
+    #'  \item{1}{Output Stock Distribution Summary File and all auxiliary data
+    #'  files.}
+    #'  \item{2}{Output Stock Distribution Summary, but discard all auxiliary
+    #'  files for output.}
+    #'  \item{3}{Output Stock Distribution summary and auxiliary files, except
+    #'  large Auxiliary files, such as the Auxiliary Stock Distribution
+    #'  dataset.}
+    #' }
     #'
     #' @param process_error_aux_files
     #' [Logical][base::logical] flag to enable output of process_error
@@ -32,7 +45,7 @@ output_options <- R6Class(
     #' @param export_r_data_frame
     #' [Logical][base::logical] flag to enable AGEPRO output to data.frame
     #'
-    initialize = function(summary_report = FALSE,
+    initialize = function(summary_report = 0,
                           process_error_aux_files = FALSE,
                           export_r_data_frame = TRUE) {
 
@@ -49,15 +62,21 @@ output_options <- R6Class(
     #'
     print = function() {
       cli::cli_ul(id = "output_options_fields")
-      cli::cli_li(paste0("output_stock_summary: ",
-                    "{.val {private$.output_stock_summary}} ",
-                    "{.emph ({as.logical(private$.output_stock_summary)})}"))
-      cli::cli_li(paste0("output_process_error_aux_files: ",
-                    "{.val {private$.output_process_error_aux_files}} ",
-                    "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
-      cli::cli_li(paste0("output_data_frame (export AGEPRO output as data.frame): ",
-                    "{.val {private$.output_data_frame}} ",
-                    "{.emph ({as.logical(private$.output_data_frame)})}"))
+      cli::cli_li(
+        paste0(
+          "output_stock_summary: ",
+          "{.val {private$.output_stock_summary}} ",
+          "{.emph ({private$aux_flag_string(private$.output_stock_summary)})}"))
+      cli::cli_li(
+        paste0(
+          "output_process_error_aux_files: ",
+          "{.val {private$.output_process_error_aux_files}} ",
+          "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
+      cli::cli_li(
+        paste0(
+          "output_data_frame (export AGEPRO output as data.frame): ",
+          "{.val {private$.output_data_frame}} ",
+          "{.emph ({as.logical(private$.output_data_frame)})}"))
       cli::cli_end(id = "output_options_fields")
 
     },
@@ -208,7 +227,23 @@ output_options <- R6Class(
 
     .output_stock_summary = NULL,
     .output_process_error_aux_files = NULL,
-    .output_data_frame = NULL
+    .output_data_frame = NULL,
+
+    aux_flag_string = function(value) {
+
+      #Validation
+      checkmate::assert_choice(value, choices = c(0,1,2,3))
+
+      list_aux_flag <- list("No Stock Distribution Summary, All Auxiliary Files",
+                            "Stock Distribution Summary and All Auxiliary Files",
+                            "Stock Distribution Summary, NO Auxiliary Files",
+                            "Stock Distribution Summary, and Auxiliary Files EXCEPT Auxiliary Stock File")
+
+      #Add 1 to value to match up with list_aux_flag indexing
+      return(list_aux_flag[[value+1]])
+
+    }
+
 
   )
 

@@ -45,7 +45,7 @@ projection results to R \link[base:data.frame]{data.frame}. Default is
 Initializes the class
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{output_options$new(
-  summary_report = FALSE,
+  summary_report = 0,
   process_error_aux_files = FALSE,
   export_r_data_frame = TRUE
 )}\if{html}{\out{</div>}}
@@ -54,7 +54,20 @@ Initializes the class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{summary_report}}{\link[base:logical]{Logical} flag to enable stock summary output.}
+\item{\code{summary_report}}{\link[base:numeric]{Logical} flag to enable Stock Distribution Summary file
+and auxiliary data. The following options allow the user to select which
+output from the AGEPRO calculation engine is returned:
+\describe{
+\item{0}{Do not output Stock Distribution Summary File, but output
+all auxiliary data files.}
+\item{1}{Output Stock Distribution Summary File and all auxiliary data
+files.}
+\item{2}{Output Stock Distribution Summary, but discard all auxiliary
+files for output.}
+\item{3}{Output Stock Distribution summary and auxiliary files, except
+large Auxiliary files, such as the Auxiliary Stock Distribution
+dataset.}
+}}
 
 \item{\code{process_error_aux_files}}{\link[base:logical]{Logical} flag to enable output of process_error
 auxiliary files}
