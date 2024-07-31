@@ -23,7 +23,7 @@ output_options <- R6Class(
     #' Initializes the class
     #'
     #' @param summary_report
-    #' [Logical][base::numeric] flag to enable Stock Distribution Summary file
+    #' [Numeric][base::numeric] flag to enable Stock Distribution Summary file
     #' and auxiliary data. The following options allow the user to select which
     #' output from the AGEPRO calculation engine is returned:
     #' \describe{

@@ -54,7 +54,7 @@ Initializes the class
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{summary_report}}{\link[base:numeric]{Logical} flag to enable Stock Distribution Summary file
+\item{\code{summary_report}}{\link[base:numeric]{Numeric} flag to enable Stock Distribution Summary file
 and auxiliary data. The following options allow the user to select which
 output from the AGEPRO calculation engine is returned:
 \describe{
