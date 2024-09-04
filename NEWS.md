@@ -1,37 +1,33 @@
 # ageproR 0.7.0 9-4-2024
 
-- Added AGEPRO optput_options (OPTIONS) 
+- Added AGEPRO **optput_options** (**OPTIONS**) 
   - Added optional options keyword parameters:
-    - user_percentile_summary (PERC)
-    - max_bounds (BOUNDS)
-    - reference_points (REFPOINTS)
-    - scaling_factors (SCALE)
-    - retrospective_adjustments (RETROADJUST)
-  - optional_options_flag: a shared Reference class for optional options.
-    - Contains logical flags to allow user to edit optional options fields: `enable_user_percentile_summary`, `enable_reference points`, `enable_scaling_factors`, `enable_max_bounds`, `enable_retrospective adjustments`.
-      - Flag (re)set to NULL during output options classes is initialization. 
-      - If initialized with default values, set it to FALSE. otherwise, set to TRUE.
-      - Optional options imported from AGEPRO Input File sets the flag to TRUE. 
-    - Due to its shared references with optional options classes, collate optional_options_flags.R to load first in DESCRIPTION. 
+    - user_percentile_summary (**PERC**)
+    - max_bounds (**BOUNDS**)
+    - reference_points (**REFPOINTS**)
+    - scaling_factors (**SCALE**)
+    - retrospective_adjustments (**RETROADJUST**)
   - Data can be imported/exported to AGEPRO Input File and/or Experimental JSON Input File. 
-  - Current AGEPRO Input File version is now AGEPRO VERSION 4.25 (`currentver_inpfile_string`): Reflecting changes in OPTIONS **StockSummaryFlag** to the new release the AGEPRO calculation engine.
-    - AGEPRO input files now written to file under `AGERPRO VERSION 4.25`. 
-    - Supported AGEPRO Input file versions is now: `AGEPRO VERSION 4.0`, `AGEPRO VERSION 4.25`
-      - Changed version of Toy Example AGEPRO Input File to `AGEPRO VERSION 4.0`
-      - Imported older supported versions will be resaved to current version format.
-    - Changed version json list format Experimental JSON Input File:
-      - Renamed `version.leagcyVer` -> `version.inpfile_string` : Reflects AGEPRO input file version string
-      - Replace `version.ver` with `version.jsonfile_format` : Numeric for JSON Input File format. Marked JSON format to 0 until AGEPRO Keyword Parameters is implemented on JSON Input File.
-  - Added diagnostic value `ver_rpackage` to return the ageproR version the agepro model was created.
-- Added PERC OUTPUT data to toy Example Agepro Input File
-- Added validation function validate_logical_parameter to validate input to output_options active_binding fields.
-  - Checks for logical values and converts it as its numerical equivalent, which will be noted in Rconsole output.
+  - `optional_options_flag`: a shared Reference class for optional options.
+    - Contains logical flags to allow user to edit optional options fields: `enable_user_percentile_summary`, `enable_reference points`, `enable_scaling_factors`, `enable_max_bounds`, `enable_retrospective adjustments`.
+      - (Re)set to NULL when output options classes is initialized. By default, using initialized default values, set flag to FALSE. Otherwise, set to TRUE. If read from AGEPRO Input File, set to TRUE.     
+      - Due to its shared references nature, explicitly collate `optional_options_flags.R` to load before the optional options class R files in DESCRIPTION.
+  - Current AGEPRO Input File version is now **`AGEPRO VERSION 4.25`** (`currentver_inpfile_string`): Reflecting changes in **OPTIONS** **StockSummaryFlag** to the new release the AGEPRO calculation engine.
+    - AGEPRO input files now written to file under `AGERPRO VERSION 4.25`; Input data imported from `AGEPRO VERSION 4.0` input files will be saved to current version format. 
+    - Remove supported AGEPRO Input file version `AGEPRO VERSION 4.2`
+- Changed version json list format Experimental JSON Input File:
+    - Renamed `version.leagcyVer` -> `version.inpfile_string`: Reflects AGEPRO input file version string
+    - Replace `version.ver` with `version.jsonfile_format`: Numeric for JSON Input File format. Marked JSON format to 0 until AGEPRO Keyword Parameters is implemented on JSON Input File.
+- Added diagnostic value `ver_rpackage` to return the ageproR version the agepro model was created.
+- Toy Example AGEPRO Input File 
+  - Changed version of Toy Example AGEPRO Input File to `AGEPRO VERSION 4.0`
+  - Added `PERC` and `OUTPUT` data to toy Example Agepro Input File
+- Added validation function `validate_logical_parameter` to validate, handle, and convert potential logical values as numerical values to **output_options** active binding fields.
 - Fixes:
   - Fixup/Clarify AGEPRO Input file import error messages
-  - Fix **rstudioapi** dependencies to check if rstudio API is used to call save file dialog. Refactor redundant check functions.
-    - updated **rstudioAPI** to determine VScode is used by checking character version strings and mode 
-  - Add cli prompts to **import_agepro_inp_model** to indicate importing agepro_inp_model's fields to agepro_json_model.
-  - README: ageproR package instruction examples shows remote::install_github and alternative pak::pkg_install methods
+  - Fix/updated **rstudioapi** checking character version strings to see if VSCode is currently used when opening save file dialog. Refactor redundant check functions.
+  - Added cli prompts when **import_agepro_inp_model** is used
+  - Added alternative package install method `pak::pkg_install` example to README.
 
 # ageproR 0.6.2 2024-03-20
 
