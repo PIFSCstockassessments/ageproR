@@ -1,4 +1,4 @@
-# ageproR 0.7.0
+# ageproR 0.7.0 9-4-2024
 
 - Added AGEPRO optput_options (OPTIONS) 
   - Added optional options keyword parameters:
@@ -14,20 +14,20 @@
       - Optional options imported from AGEPRO Input File sets the flag to TRUE. 
     - Due to its shared references with optional options classes, collate optional_options_flags.R to load first in DESCRIPTION. 
   - Data can be imported/exported to AGEPRO Input File and/or Experimental JSON Input File. 
-  - Current AGEPRO Input File version is now AGEPRO VERSION 4.25 (`currentver_inpfile_string`): Reflecting changes to Jon Brodziak's AGEPRO program with OPTIONS **StockSummaryFlag**.
+  - Current AGEPRO Input File version is now AGEPRO VERSION 4.25 (`currentver_inpfile_string`): Reflecting changes in OPTIONS **StockSummaryFlag** to the new release the AGEPRO calculation engine.
     - AGEPRO input files now written to file under `AGERPRO VERSION 4.25`. 
     - Supported AGEPRO Input file versions is now: `AGEPRO VERSION 4.0`, `AGEPRO VERSION 4.25`
       - Changed version of Toy Example AGEPRO Input File to `AGEPRO VERSION 4.0`
       - Imported older supported versions will be resaved to current version format.
-    - **StockSummaryFlag**
     - Changed version json list format Experimental JSON Input File:
       - Renamed `version.leagcyVer` -> `version.inpfile_string` : Reflects AGEPRO input file version string
-      - Replace `version.ver` with `version.jsonfile_format` : Numeric for JSON Input File format. Marked JSON format to 0 until AGEPRO Keyword Parameters is implemented on JSON Input File. 
+      - Replace `version.ver` with `version.jsonfile_format` : Numeric for JSON Input File format. Marked JSON format to 0 until AGEPRO Keyword Parameters is implemented on JSON Input File.
+  - Added diagnostic value `ver_rpackage` to return the ageproR version the agepro model was created.
 - Added PERC OUTPUT data to toy Example Agepro Input File
 - Added validation function validate_logical_parameter to validate input to output_options active_binding fields.
   - Checks for logical values and converts it as its numerical equivalent, which will be noted in Rconsole output.
 - Fixes:
-  - Fixup error messages when importing AGEPRO Input files 
+  - Fixup/Clarify AGEPRO Input file import error messages
   - Fix **rstudioapi** dependencies to check if rstudio API is used to call save file dialog. Refactor redundant check functions.
     - updated **rstudioAPI** to determine VScode is used by checking character version strings and mode 
   - Add cli prompts to **import_agepro_inp_model** to indicate importing agepro_inp_model's fields to agepro_json_model.
