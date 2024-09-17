@@ -1075,7 +1075,7 @@ agepro_inp_model <- R6Class(
         }
       }
 
-      private$set_inpfile_version(as_currentver)
+      private$write_inpfile_version(as_currentver)
 
       tryCatch(
         {
@@ -1329,7 +1329,8 @@ agepro_inp_model <- R6Class(
     },
 
 
-    # Helper function to check AGEPRO Input File Version
+    # Helper function to validate AGEPRO Input File Version format is
+    # supported_inpfile_version
     assert_inpfile_version = function(inp_line) {
       assert_character(inp_line, len = 1)
 
@@ -1351,7 +1352,9 @@ agepro_inp_model <- R6Class(
     # Set Input File String based on preference on current AGEPRO input file
     # version. Warn for agepro model's version string doesn't match current
     # version
-    set_inpfile_version = function(as_current = TRUE){
+    write_inpfile_version = function(as_current = TRUE){
+
+
 
       is_model_currentver <- identical(self$ver_inpfile_string,
                                      private$.currentver_inpfile_string)
