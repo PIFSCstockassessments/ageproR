@@ -734,7 +734,17 @@ agepro_model <- R6Class(
                                        "output_data_frame"))
         private$.output_options <- value
       }
+    },
+
+    #' @field supported_inpfile_versions
+    #' Supported AGEPRO Input File formats
+    #'
+    supported_inpfile_versions = function(){
+      return(c(private$.currentver_inpfile_string,
+               "AGEPRO VERSION 4.0",
+               "AGEPRO VERSION 4.25"))
     }
+
 
   ),
   private = list(
@@ -742,7 +752,10 @@ agepro_model <- R6Class(
     .ver_inpfile_string = NULL,
     .ver_jsonfile_format = NULL,
     .ver_rpackage = NULL,
-    .currentver_inpfile_string = "AGEPRO VERSION 4.25",
+
+    #AGEPRO Input File version
+    .currentver_inpfile_string = "AGEPRO VERSION 4.0",
+
 
     # AGEPRO keyword parameters
     .case_id = NULL,
@@ -820,7 +833,6 @@ agepro_inp_model <- R6Class(
     #'
     initialize = function(enable_cat_print = FALSE) {
 
-      private$.pre_v4 <- FALSE
       private$.nline <- 0
       private$setup_ver_rpackage()
 
@@ -1138,9 +1150,6 @@ agepro_inp_model <- R6Class(
   ),
   private = list(
 
-    .pre_v4 = FALSE,
-    .supported_inp_versions = c("AGEPRO VERSION 4.0", "AGEPRO VERSION 4.25"),
-
     .nline = NULL,
 
     read_case_id = function(con, nline) {
@@ -1325,14 +1334,14 @@ agepro_inp_model <- R6Class(
       assert_character(inp_line, len = 1)
 
       cli::cli_alert_info("Version: '{inp_line}'")
-      if(inp_line %in% private$.supported_inp_versions){
+      if(inp_line %in% self$supported_inpfile_versions){
         self$ver_inpfile_string <- inp_line
       }else{
         # Throw Unsupported Version Error Message
         stop(paste0(
           "This version of this input file is not supported: ",inp_line,
           "\n - Supported verion(s): ",
-          paste(private$.supported_inp_versions,collapse=", ")),
+          paste(self$supported_inpfile_versions,collapse=", ")),
           call.= FALSE)
       }
 

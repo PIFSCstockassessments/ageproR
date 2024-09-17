@@ -80,6 +80,8 @@ calculated across all fleets with the rebuild spawning biomass.}
 mortality (\eqn{M})}
 
 \item{\code{options}}{Options for AGEPRO projection output}
+
+\item{\code{supported_inpfile_versions}}{Supported AGEPRO Input File formats}
 }
 \if{html}{\out{</div>}}
 }
