@@ -1375,7 +1375,7 @@ agepro_inp_model <- R6Class(
       if(isFALSE(is_model_currentver)) {
         cli::cli_alert_info(paste0(
           "Setting input file format (ver_inpfile_string) VERSION to",
-          " {private$.currentver_inpfile_string}."))
+          " {.val {private$.currentver_inpfile_string}}"))
         self$ver_inpfile_string <- private$.currentver_inpfile_string
 
         return()
