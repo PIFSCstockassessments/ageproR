@@ -1354,24 +1354,27 @@ agepro_inp_model <- R6Class(
     # version
     write_inpfile_version = function(as_current = TRUE){
 
-
-
+      # Check agepro_model VERSION string matches "current version"
+      # of input file version format
       is_model_currentver <- identical(self$ver_inpfile_string,
                                      private$.currentver_inpfile_string)
 
-      if(isFALSE(as_current)){
-        if(isFALSE(is_model_currentver)){
-          warning(paste0("AGEPRO input file version does not match",
-                         "current input file version: ",
-                         private$.currentver_inpfile_string,".")    )
-        }
+      if(isFALSE(is_model_currentver)) {
+        cli::cli_alert_info(paste0(
+          "Setting input file format (ver_inpfile_string) VERSION to",
+          " {private$.currentver_inpfile_string}."))
+        self$ver_inpfile_string <- private$.currentver_inpfile_string
+
         return()
       }
 
-      if(isFALSE(is_model_currentver)) {
-        cli::cli_alert_info(
-          "Setting input file VERSION to {private$.currentver_inpfile_string}.")
-        self$ver_inpfile_string <- private$.currentver_inpfile_string
+      if(isFALSE(as_current)){
+        warning(paste0("AGEPRO input file version does not match",
+                       "current input file version: ",
+                       private$.currentver_inpfile_string,".")    )
+      }else{
+        cli::cli_alert_info(paste0("Input file format (ver_inpfile_string): ",
+                                   "{.val {self$ver_inpfile_string}}"))
       }
 
       return()
