@@ -939,11 +939,6 @@ agepro_inp_model <- R6Class(
     #'
     match_keyword = function(inp_line, inp_con) {
 
-      # TODO: ~~CASEID~~, ~~GENERAL~~, ~~RECRUIT~~, ~~STOCK_WEIGHT~~,
-      # ~~SSB_WEIGHT~~, ~~MEAN_WEIGHT~~, ~~CATCH_WEIGHT~~, ~~DISC_WEIGHT~~,
-      # ~~NATMORT~~, ~~MATURITY~~, ~~FISHERY~~, ~~DISCARD~~, ~~BIOLOGICAL~~,
-      # ~~BOOTSTRAP~~, ~~HARVEST~~, ~~REBUILD~~, ~~PSTAR~~
-
       #Tidy evaluation evaluate wrapper functions
       keyword_dict <- dict(list(
         "[CASEID]" = {
