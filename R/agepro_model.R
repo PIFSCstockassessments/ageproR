@@ -1070,7 +1070,7 @@ agepro_inp_model <- R6Class(
 
       private$write_inpfile_version(as_currentver)
 
-      tryCatch(
+      withCallingHandlers(
         {
           list_inp_lines <- c(
             self$ver_inpfile_string,
@@ -1115,6 +1115,9 @@ agepro_inp_model <- R6Class(
 
           )
 
+        },
+        error = function(cond) {
+          message("There was an error writing this file. \n", cond)
         }
 
       )
