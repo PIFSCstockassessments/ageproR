@@ -1052,11 +1052,11 @@ agepro_inp_model <- R6Class(
     #' Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
     #'
     #' @param inpfile input file path
-    #' @param as_currentver As default, saves to the current version of the
-    #' AGEPRO input file format.
+    #' @param overwrite_as_currentver As default, overwrites version value to
+    #' to the current version of the AGEPRO input file format.
     #'
     write_inp = function(inpfile, delimiter = "  ",
-                         as_currentver = TRUE) {
+                         overwrite_as_currentver = TRUE) {
 
       if (missing(inpfile)) {
 
@@ -1068,7 +1068,7 @@ agepro_inp_model <- R6Class(
         }
       }
 
-      private$write_inpfile_version(as_currentver)
+      private$write_inpfile_version(overwrite_as_currentver)
 
       withCallingHandlers(
         {
@@ -1363,7 +1363,7 @@ agepro_inp_model <- R6Class(
     # Set Input File String based on preference on current AGEPRO input file
     # version. Warn for agepro model's version string doesn't match current
     # version
-    write_inpfile_version = function(as_current = TRUE){
+    write_inpfile_version = function(overwrite_as_currentver = TRUE){
 
       # Check agepro_model VERSION string matches "current version"
       # of input file version format
@@ -1371,22 +1371,34 @@ agepro_inp_model <- R6Class(
                                      private$.currentver_inpfile_string)
 
       if(isFALSE(is_model_currentver)) {
+
+
+        cli::cli_alert_warning(paste0(
+          "Model's input file format ",
+          "{.strong {self$ver_inpfile_string}} does not match ",
+          "{.emph current version} ",
+          "{.strong {private$.currentver_inpfile_string}} "))
+
+
+        if(isFALSE(overwrite_as_currentver)){
+          #Return/Escape function and send warning
+          warning(paste0("AGEPRO input file version does not match",
+                         "current input file version ",
+                         private$.currentver_inpfile_string,".")    )
+          return()
+        }
+
+        #Otherwise, set model's input file string to "current version"
         cli::cli_alert_info(paste0(
-          "Setting input file format (ver_inpfile_string) VERSION to",
+          "Overwiting model's input file format (ver_inpfile_string) to ",
+          "{.emph current version} ",
           " {.val {private$.currentver_inpfile_string}}"))
         self$ver_inpfile_string <- private$.currentver_inpfile_string
 
-        return()
       }
 
-      if(isFALSE(as_current)){
-        warning(paste0("AGEPRO input file version does not match",
-                       "current input file version: ",
-                       private$.currentver_inpfile_string,".")    )
-      }else{
-        cli::cli_alert_info(paste0("Input file format (ver_inpfile_string): ",
+      cli::cli_alert_info(paste0("Input file format (ver_inpfile_string): ",
                                    "{.val {self$ver_inpfile_string}}"))
-      }
 
       return()
 
