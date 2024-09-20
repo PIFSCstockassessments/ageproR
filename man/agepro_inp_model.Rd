@@ -148,7 +148,11 @@ Throws a Not Implemented exception message. Placeholder function.
 \subsection{Method \code{write_inp()}}{
 Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = "  ", as_currentver = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(
+  inpfile,
+  delimiter = "  ",
+  overwrite_as_currentver = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -158,8 +162,8 @@ Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 
 \item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 
-\item{\code{as_currentver}}{As default, saves to the current version of the
-AGEPRO input file format.}
+\item{\code{overwrite_as_currentver}}{As default, overwrites version value to
+to the current version of the AGEPRO input file format.}
 }
 \if{html}{\out{</div>}}
 }
