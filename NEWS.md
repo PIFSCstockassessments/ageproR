@@ -1,4 +1,14 @@
-# ageproR 0.7.0 9-4-2024
+# ageproR 0.7.1 2024-09-23
+
+- Revert to `AGEPRO VERSION 4.0` as `currentver_inpfile_string` . Input files will be written to `AGEPRO VERSION 4.0`
+  - Supported_inpfile_versions are: `currentver_inpfile_string`, `AGEPRO VERSION 4.0` , `AGEPRO VERSION 4.25`
+  - `write_inp(overwrite_as_currentver = FALSE)` save to AGEPRO Input File and keep the supported version of input file (`AGEPRO VERSION 4.25`)
+- `write_inp`: Use **withCallingHandlers** to properly handle errors when retrieving AGEPRO Input File formatted Strings from keyword parameter classes (`get_inp_lines`) 
+- Rename **agepro_inp_model** private helper function `set_inpfile_version -> write_inpfile_version` 
+  - Includes warning if (Supported) AGEPRO Input File Version is not the "current version"
+- Updated Roxygen
+
+# ageproR 0.7.0 2024-09-04
 
 - Added AGEPRO **optput_options** (**OPTIONS**) 
   - Added optional options keyword parameters:
