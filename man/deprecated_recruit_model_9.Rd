@@ -22,6 +22,7 @@ Handles an instance for deprecated recruitment model #9.
 \itemize{
 \item \href{#method-deprecated_recruit_model_9-new}{\code{deprecated_recruit_model_9$new()}}
 \item \href{#method-deprecated_recruit_model_9-print}{\code{deprecated_recruit_model_9$print()}}
+\item \href{#method-deprecated_recruit_model_9-inp_lines_recruit_data}{\code{deprecated_recruit_model_9$inp_lines_recruit_data()}}
 \item \href{#method-deprecated_recruit_model_9-clone}{\code{deprecated_recruit_model_9$clone()}}
 }
 }
@@ -48,6 +49,25 @@ Prints out the error
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-deprecated_recruit_model_9-inp_lines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-deprecated_recruit_model_9-inp_lines_recruit_data}{}}}
+\subsection{Method \code{inp_lines_recruit_data()}}{
+Function container to export recruitment model data to AGEPRO input model
+file lines, but since this model is DEPRECATED; not a valid recruitment
+model type for the AGEPRO calculation engine, an error will thrown.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{deprecated_recruit_model_9$inp_lines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

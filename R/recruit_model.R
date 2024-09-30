@@ -101,8 +101,12 @@ recruit_model <- R6Class(
 
 
 #' Null Recruitment UI Fallback Default
+#'
 #' @inherit recruit_model description
+#'
 #' @template elipses
+#' @template delimiter
+#'
 #' @export
 null_recruit_model <- R6Class(
   "null_recruit_model",
@@ -126,7 +130,19 @@ null_recruit_model <- R6Class(
       cli_text("{private$.model_name}")
       cli_alert_warning(c("Replace with a valid recruitment model before ",
                           "processing to AGEPRO calcualtion engine"))
+    },
+
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since NULL recruitment is not a valid recruitment model
+    #' type for the AGEPRO calculation engine, an error will thrown to indicate
+    #' NuLL recruitment
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop("Found invalid NULL Recruruitment recruitment model data.",
+          call. = FALSE)
     }
+
   )
 )
 
@@ -136,6 +152,7 @@ null_recruit_model <- R6Class(
 #' Handles an instance for deprecated recruitment model #9.
 #'
 #' @template elipses
+#' @template delimiter
 #' @export
 #'
 deprecated_recruit_model_9 <- R6Class(
@@ -162,7 +179,20 @@ deprecated_recruit_model_9 <- R6Class(
                               "Time-Varying Empirical Distribution."),
            call. = FALSE)
 
+    },
+
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since this model is DEPRECATED; not a valid recruitment
+    #' model type for the AGEPRO calculation engine, an error will thrown.
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop(paste0("Recruitment Model #9 is DEPRECATED. ",
+                  "Please use the Empirical Recruitment Distribution Model ",
+                  "(#3) with Time-Variance."),
+           call. = FALSE)
     }
+
 
   ),
   private = list(
