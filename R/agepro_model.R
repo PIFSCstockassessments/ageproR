@@ -1345,7 +1345,7 @@ agepro_inp_model <- R6Class(
 
       # Throw Warning if (supported) VERSION string doesn't match
       # "current version" AGEPRO Input file format
-      if(isFALSE(identical(self$ver_inpfile_string,
+      if(isFALSE(identical(inp_line,
                     private$.currentver_inpfile_string))){
         warning(paste0(inp_line,
                        " (Line 1 read from input file),",
