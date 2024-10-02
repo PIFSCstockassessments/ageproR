@@ -1271,8 +1271,10 @@ agepro_inp_model <- R6Class(
     read_pstar_projection = function(con, nline) {
 
       if(self$projection_analyses_type == "rebuild"){
-        stop(paste0("Reading PSTAR projection data but ",
-                    "projection_analyses_type is 'rebuild'"))
+        stop(paste0("Read REBUILD projection data prevents ",
+                    "PSTAR projections to be read from file. ",
+                    "(current projection_analyses_type is 'rebuild')"),
+             call. = FALSE)
       }
 
       self$set_projection_analyses_type("pstar")
@@ -1283,8 +1285,10 @@ agepro_inp_model <- R6Class(
     read_rebuild_projection = function(con, nline) {
 
       if(self$projection_analyses_type == "pstar"){
-        stop(paste0("Reading REBUILD projection data but ",
-                    "projection_analyses_type is 'pstar'"))
+        stop(paste0("Read PSTAR projection data prevents ",
+                    "REBUILD projection data to be read from file. ",
+                    "(current projection_analyses_type is 'pstar')"),
+             call. = FALSE)
       }
 
       self$set_projection_analyses_type("rebuild")
