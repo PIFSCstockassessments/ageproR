@@ -92,7 +92,7 @@ mortality (\eqn{M})}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
-\item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
+\item \href{#method-agepro_model-setup_projection_analyses_values}{\code{agepro_model$setup_projection_analyses_values()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -215,9 +215,9 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-set_projection_analyses_type"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-set_projection_analyses_type}{}}}
-\subsection{Method \code{set_projection_analyses_type()}}{
+\if{html}{\out{<a id="method-agepro_model-setup_projection_analyses_values"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-setup_projection_analyses_values}{}}}
+\subsection{Method \code{setup_projection_analyses_values()}}{
 Helper Function to setup agepro model's projection analyses type. agepro
 models use standard projection analyses by default, and do not require
 additional keyword parameter setup. "pstar" and  "rebuild" projection
@@ -227,7 +227,7 @@ However, they are not created during model initialization.
 AGEPRO models must can not have both pstar and rebuilder projection
 analyses,
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_projection_analyses_type(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$setup_projection_analyses_values(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
