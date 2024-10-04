@@ -409,6 +409,17 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #'
     json_list_object = function() {
 
+    recruit_json_list_object <- list(
+      recFac = self$recruit_scaling_factor,
+      ssbFac = self$ssb_scaling_factor,
+      maxRecObs = private$.max_recruit_obs,
+      #list of model numbers
+      type = unlist(self$recruit_model_num_list),
+      prob = self$recruit_probability
+    )
+
+    #recruitData
+
     tryCatch({
         #Gather Recruit Model Data
         recruit_model_data_list <-
@@ -419,19 +430,20 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
             self$recruit_data[[recruit]][["json_recruit_data"]]
         }
 
-        return(list(
-          recFac = self$recruit_scaling_factor,
-          ssbFac = self$ssb_scaling_factor,
-          maxRecObs = private$.max_recruit_obs,
-          #list of model numbers
-          type = unlist(self$recruit_model_num_list),
-          prob = self$recruit_probability,
+        return(c(
+          recruit_json_list_object,
           recruitData = recruit_model_data_list))
-
 
       },
       error = function(cond) {
 
+        message(paste0("Invalid Recruitment Model or model data Found, ",
+                       "returning NULL recruitData."))
+        #Nullify for JSON output
+        return(c(
+          recruit_json_list_object,
+          recruitData = list(NULL)
+        ))
       }
     )
 

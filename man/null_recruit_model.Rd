@@ -9,6 +9,15 @@ Recruitment Model Description
 \section{Super class}{
 \code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{null_recruit_model}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{json_recruit_data}}{Function container to export recruitment model data to experimental
+jSon input model file. However, NULL recruitment is not a
+valid recruitment model type, an error will thrown.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

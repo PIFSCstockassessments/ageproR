@@ -143,6 +143,18 @@ null_recruit_model <- R6Class(
           call. = FALSE)
     }
 
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. However, NULL recruitment is not a
+    #' valid recruitment model type, an error will thrown.
+    json_recruit_data = function() {
+      stop("NULL Recruitment model data is invalid JSON data.",
+           call. = FALSE)
+    }
+
   )
 )
 
@@ -184,6 +196,17 @@ deprecated_recruit_model_9 <- R6Class(
     #' model type for the AGEPRO calculation engine, an error will thrown.
     #'
     inp_lines_recruit_data = function(delimiter= " ") {
+      stop(private$.err_model_deprecated, call. = FALSE)
+    }
+
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. Because recruitment model #9 is DEPRECATED, and
+    #' not used in the AGEPRO calculation engine, an error will thrown.
+    json_recruit_data = function() {
       stop(private$.err_model_deprecated, call. = FALSE)
     }
 
