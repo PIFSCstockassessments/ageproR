@@ -9,11 +9,21 @@ Recruitment Model Description
 \section{Super class}{
 \code{\link[ageproR:recruit_model]{ageproR::recruit_model}} -> \code{null_recruit_model}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{json_recruit_data}}{Function container to export recruitment model data to experimental
+jSon input model file. However, NULL recruitment is not a
+valid recruitment model type, an error will thrown.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-null_recruit_model-new}{\code{null_recruit_model$new()}}
 \item \href{#method-null_recruit_model-print}{\code{null_recruit_model$print()}}
+\item \href{#method-null_recruit_model-inp_lines_recruit_data}{\code{null_recruit_model$inp_lines_recruit_data()}}
 \item \href{#method-null_recruit_model-clone}{\code{null_recruit_model$clone()}}
 }
 }
@@ -40,6 +50,26 @@ Prints out NULL Recruiment Model Data
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-null_recruit_model-inp_lines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-null_recruit_model-inp_lines_recruit_data}{}}}
+\subsection{Method \code{inp_lines_recruit_data()}}{
+Function container to export recruitment model data to AGEPRO input model
+file lines, but since NULL recruitment is not a valid recruitment model
+type for the AGEPRO calculation engine, an error will thrown to indicate
+NuLL recruitment
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{null_recruit_model$inp_lines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
 }
 \if{html}{\out{</div>}}
 }

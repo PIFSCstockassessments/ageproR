@@ -101,8 +101,12 @@ recruit_model <- R6Class(
 
 
 #' Null Recruitment UI Fallback Default
+#'
 #' @inherit recruit_model description
+#'
 #' @template elipses
+#' @template delimiter
+#'
 #' @export
 null_recruit_model <- R6Class(
   "null_recruit_model",
@@ -126,7 +130,31 @@ null_recruit_model <- R6Class(
       cli_text("{private$.model_name}")
       cli_alert_warning(c("Replace with a valid recruitment model before ",
                           "processing to AGEPRO calcualtion engine"))
+    },
+
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since NULL recruitment is not a valid recruitment model
+    #' type for the AGEPRO calculation engine, an error will thrown to indicate
+    #' NuLL recruitment
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop("NULL Recruitment model is invalid for AGEPRO input.",
+          call. = FALSE)
     }
+
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. However, NULL recruitment is not a
+    #' valid recruitment model type, an error will thrown.
+    json_recruit_data = function() {
+      stop("NULL Recruitment model data is invalid JSON data.",
+           call. = FALSE)
+    }
+
   )
 )
 
@@ -136,6 +164,7 @@ null_recruit_model <- R6Class(
 #' Handles an instance for deprecated recruitment model #9.
 #'
 #' @template elipses
+#' @template delimiter
 #' @export
 #'
 deprecated_recruit_model_9 <- R6Class(
@@ -157,15 +186,37 @@ deprecated_recruit_model_9 <- R6Class(
     #' Prints out the error
     print = function(...) {
       private$cli_recruit_danger()
-      stop(paste0("Recruitment model #9 has been deperecated. ",
-                              "Please use recruitment model #3 to implement ",
-                              "Time-Varying Empirical Distribution."),
-           call. = FALSE)
+      stop(private$.err_model_deprecated, call. = FALSE)
 
+    },
+
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since this model is DEPRECATED; not a valid recruitment
+    #' model type for the AGEPRO calculation engine, an error will thrown.
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop(private$.err_model_deprecated, call. = FALSE)
+    }
+
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. Because recruitment model #9 is DEPRECATED, and
+    #' not used in the AGEPRO calculation engine, an error will thrown.
+    json_recruit_data = function() {
+      stop(private$.err_model_deprecated, call. = FALSE)
     }
 
   ),
   private = list(
+
+    .err_model_deprecated =
+      paste0("Recruitment Model #9 is DEPRECATED",
+             "Please use the Empirical Recruitment Distribution Model ",
+             "(#3) with Time-Variance."),
 
     cli_recruit_danger = function() {
       d <- cli_div(class = "tmp", theme = list(.tmp = list(
