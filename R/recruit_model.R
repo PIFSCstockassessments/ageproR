@@ -174,10 +174,7 @@ deprecated_recruit_model_9 <- R6Class(
     #' Prints out the error
     print = function(...) {
       private$cli_recruit_danger()
-      stop(paste0("Recruitment model #9 has been deperecated. ",
-                              "Please use recruitment model #3 to implement ",
-                              "Time-Varying Empirical Distribution."),
-           call. = FALSE)
+      stop(private$.err_model_deprecated, call. = FALSE)
 
     },
 
@@ -187,15 +184,16 @@ deprecated_recruit_model_9 <- R6Class(
     #' model type for the AGEPRO calculation engine, an error will thrown.
     #'
     inp_lines_recruit_data = function(delimiter= " ") {
-      stop(paste0("Recruitment Model #9 is DEPRECATED. ",
-                  "Please use the Empirical Recruitment Distribution Model ",
-                  "(#3) with Time-Variance."),
-           call. = FALSE)
+      stop(private$.err_model_deprecated, call. = FALSE)
     }
-
 
   ),
   private = list(
+
+    .err_model_deprecated =
+      paste0("Recruitment Model #9 is DEPRECATED",
+             "Please use the Empirical Recruitment Distribution Model ",
+             "(#3) with Time-Variance."),
 
     cli_recruit_danger = function() {
       d <- cli_div(class = "tmp", theme = list(.tmp = list(
