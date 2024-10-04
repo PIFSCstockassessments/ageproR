@@ -139,7 +139,7 @@ null_recruit_model <- R6Class(
     #' NuLL recruitment
     #'
     inp_lines_recruit_data = function(delimiter= " ") {
-      stop("Found invalid NULL Recruruitment recruitment model data.",
+      stop("NULL Recruitment model is invalid for AGEPRO input.",
           call. = FALSE)
     }
 
