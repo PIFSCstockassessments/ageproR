@@ -1,3 +1,13 @@
+# ageproR 0.7.2 2024-10-07
+
+- Use version string (line 1) from AGEPRO Input File to correctly check input file version format against the "current version" input file string (`currentver_inpfile_string`)
+- Validation checks for Invalid recruitment model data from NULL or Deprecated Recruitment model 9, when importing and exporting to AGEPRO Input File and JSON Input file (#54)
+  - Interrupts export to AGEPRO Input File, if invalid recruitment model data found.
+  - JSON input file: Nullify `recruitData`, if invalid recruitment model data found.
+- rename `set_projection_analyses -> setup_projection_analyses_value`
+  - Function now checks input 'type' parameter value before assigning to projection_analyses_type
+- Error message clarifications
+
 # ageproR 0.7.1 2024-09-23
 
 - Revert to `AGEPRO VERSION 4.0` as `currentver_inpfile_string` . Input files will be written to `AGEPRO VERSION 4.0`
