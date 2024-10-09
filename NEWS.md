@@ -1,3 +1,109 @@
+# ageproR 0.7.2 2024-10-07
+
+- Use version string (line 1) from AGEPRO Input File to correctly check input file version format against the "current version" input file string (`currentver_inpfile_string`)
+- Validation checks for Invalid recruitment model data from NULL or Deprecated Recruitment model 9, when importing and exporting to AGEPRO Input File and JSON Input file (#54)
+  - Interrupts export to AGEPRO Input File, if invalid recruitment model data found.
+  - JSON input file: Nullify `recruitData`, if invalid recruitment model data found.
+- rename `set_projection_analyses -> setup_projection_analyses_value`
+  - Function now checks input 'type' parameter value before assigning to projection_analyses_type
+- Error message clarifications
+
+# ageproR 0.7.1 2024-09-23
+
+- Revert to `AGEPRO VERSION 4.0` as `currentver_inpfile_string` . Input files will be written to `AGEPRO VERSION 4.0`
+  - Supported_inpfile_versions are: `currentver_inpfile_string`, `AGEPRO VERSION 4.0` , `AGEPRO VERSION 4.25`
+  - `write_inp(overwrite_as_currentver = FALSE)` save to AGEPRO Input File and keep the supported version of input file (`AGEPRO VERSION 4.25`)
+- `write_inp`: Use **withCallingHandlers** to properly handle errors when retrieving AGEPRO Input File formatted Strings from keyword parameter classes (`get_inp_lines`) 
+- Rename **agepro_inp_model** private helper function `set_inpfile_version -> write_inpfile_version` 
+  - Includes warning if (Supported) AGEPRO Input File Version is not the "current version"
+- Updated Roxygen
+
+# ageproR 0.7.0 2024-09-04
+
+- Added AGEPRO **optput_options** (**OPTIONS**) 
+  - Added optional options keyword parameters:
+    - user_percentile_summary (**PERC**)
+    - max_bounds (**BOUNDS**)
+    - reference_points (**REFPOINTS**)
+    - scaling_factors (**SCALE**)
+    - retrospective_adjustments (**RETROADJUST**)
+  - Data can be imported/exported to AGEPRO Input File and/or Experimental JSON Input File. 
+  - `optional_options_flag`: a shared Reference class for optional options.
+    - Contains logical flags to allow user to edit optional options fields: `enable_user_percentile_summary`, `enable_reference points`, `enable_scaling_factors`, `enable_max_bounds`, `enable_retrospective adjustments`.
+      - (Re)set to NULL when output options classes is initialized. By default, using initialized default values, set flag to FALSE. Otherwise, set to TRUE. If read from AGEPRO Input File, set to TRUE.     
+      - Due to its shared references nature, explicitly collate `optional_options_flags.R` to load before the optional options class R files in DESCRIPTION.
+  - Current AGEPRO Input File version is now **`AGEPRO VERSION 4.25`** (`currentver_inpfile_string`): Reflecting changes in **OPTIONS** **StockSummaryFlag** to the new release the AGEPRO calculation engine.
+    - AGEPRO input files now written to file under `AGERPRO VERSION 4.25`; Input data imported from `AGEPRO VERSION 4.0` input files will be saved to current version format. 
+    - Remove supported AGEPRO Input file version `AGEPRO VERSION 4.2`
+- Changed version json list format Experimental JSON Input File:
+    - Renamed `version.leagcyVer` -> `version.inpfile_string`: Reflects AGEPRO input file version string
+    - Replace `version.ver` with `version.jsonfile_format`: Numeric for JSON Input File format. Marked JSON format to 0 until AGEPRO Keyword Parameters is implemented on JSON Input File.
+- Added diagnostic value `ver_rpackage` to return the ageproR version the agepro model was created.
+- Toy Example AGEPRO Input File 
+  - Changed version of Toy Example AGEPRO Input File to `AGEPRO VERSION 4.0`
+  - Added `PERC` and `OUTPUT` data to toy Example Agepro Input File
+- Added validation function `validate_logical_parameter` to validate, handle, and convert potential logical values as numerical values to **output_options** active binding fields.
+- Fixes:
+  - Fixup/Clarify AGEPRO Input file import error messages
+  - Fix/updated **rstudioapi** checking character version strings to see if VSCode is currently used when opening save file dialog. Refactor redundant check functions.
+  - Added cli prompts when **import_agepro_inp_model** is used
+  - Added alternative package install method `pak::pkg_install` example to README.
+
+# ageproR 0.6.2 2024-03-20
+
+- Revise R6 class method order to: public, active, private for maintainability  
+
+# ageproR 0.6.1 2024-03-18
+
+- Rename inplines -> inp_lines for consistency (#37)
+- Rename general, bootstrap, process_error, and recruitment json_list active binding functions to `json_list_object`
+- process_error (#47)
+  - Cleanup proj_years validation code
+  - Moved `setup_projection_tables` as a private helper method.
+- Resolved `tibble::as_tibble` column name deprecation (#44)
+- Updated Roxygen Dependency to 7.3.1
+
+# ageproR 0.6.0 2024-03-11
+
+- Added `mortality_fraction_prior_spawn`
+  - Data can be imported/exported to AGEPRO Input File/Experimental JSON Input File
+  - added `BIOLOGICAL` data to toy Example Agepro Input File
+  - changing `time_varying` creates a new `proportion_total_mortality_matrix` with default values and the number of columns depends on the `time_varying` state. The behavior is similar to AGEPRO-GUI  
+  - Explicitly state *natural_mortality* and *fishing_mortailty* to `proportion_total_mortality_matrix` to avoid ambiguity with gender abbreviations
+- Improved projection_years validation: multiple assertions (from the checkmate package) can be prompted to Rconsole. 
+  - Integrated sequence validation error check wrapped as a custom checkmate assertion. 
+- Fixed multi recruitment model number support for agepro_model `set_recruit_model` (#49)
+  - Included multiple assertions (from checkmate) to check `set_recruit_model` argument is a numeric vector that matches a list of valid AGEPRO recruitment model numbers.
+  - Added custom checkmate assertion wrapper to check `set_recruit_model` argument is empty or has multiple arguments.
+- Update DESCRIPTION
+
+# ageproR 0.5.1 2024-01-31
+
+* recruitment 
+  - Fixed an issue (#39) where a difference of number of recruitment models using the agepro_model function `set_recruit_model` only changed the Recruit Data collection object structure but did not change recruitment probability nor the `num_rec_models` general_param field.
+    - Assert that the count of *recruitment model number(s)* (`model_num`) parameter matches `num_recruit_models` parameter at initialization and when importing recruitment data (`read_inp_lines`) from AGEPRO input files. 
+      - Added `num_recruit_models` parameter to recruitment initialization
+      - Added Sequence years (`seq_years`) parameter to `read_inp_files` to update number of recruit models
+    - `agepro_model$set_recruit_model` : This now initializes a new instance of the recruitment class, using the general_params field *number of recruitment models* (`num_rec_models`) value.
+    - Use `purrr::map` to validate input for valid recruitment probabilities within the time projection year horizon for each recruitment model in ***Recruitment Probability*** (`recruit_probability`) active binding setter. Recruitment probabilities can be set after Recruitment 
+    - Use `purrr::map` to get (and validate) recruitment model numbers from ***Recruitment Model Data*** (`recruit_data`) input and update the ***Recruitment Model Number Vector*** in the `recruit_data` active binding setter.
+  - Setter access to general **recruitment** active binding fields: `recruit_scaling_factor`, `ssb_scaling_factor`, `max_recruit_obs`, `recruit_model_num_list`, is set to private. These values can be set using methods of the **recruitment** class, such as during initialization.
+  - Improved Recruitment Model Number Validation using the **agepro_model** function `set_recruit_model` 
+  - Code cleanup for consistency and clarity
+    - Modularize setups for *Recruitment probability*(`recruit_probability`), *Recruitment Model Number vector* (`recruit_model_num_list`), and the *Recruitment Model Data* (`recruit_data`) into private helper functions. 
+    - Renamed field `model_collection_list -> recruit_data` for clarity. 
+     - Renamed common **recruit_model** active binding `recruit_data -> json_recruit_data`
+    - Replaced `observed_years` to `sequence_projection_years` field.
+    - Renamed recruitment's `set_recruit_model` function to `initialize_recruit_model` to reflect its intended functionality and set it as a private helper function.
+    - Renamed field `max_rec_obs -> max_recruit_obs`
+    - Renamed recruitment function `inplines_recruit` (and `inplines_general` from **general_params**) to `get_inp_lines` (#37)
+    - Renamed recruitment parameter `cat_verbose -> enable_cat_print`
+* Setter access to **general_params** active binding fields: `yr_begin`, `yr_end`, `age_begin`, `age_end`, `num_pop_sims`, `num_fleets`, `num_rec_models`, `discards_present`, `seed` is set to private. These values can be set using methods of the **general_params** class, such as during initialization. This behavior matches AGEPRO-GUI 
+* Simplified projection years validation checks to check for numeric 
+* Updated roxygen dependency to version 7.3.0
+  - Replaced deprecated doctype package in with  **\_PACKAGE\_** roxygen package documentation (`ageproR.R -> ageproR-package.R`)
+
+
 # ageproR 0.5.0 2024-01-10
 
 * Added `harvest_scenario`

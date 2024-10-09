@@ -11,13 +11,22 @@ of fleets, recruitment, and uncertainties
 AGEPRO performs stochastic projections on exploited fisheries stock to
 determine age-structured population over a time period. Brodziak, 2022
 }
+\examples{
+\dontrun{
+# General parameters for 2019-2026 Uku Projections Base (Example 4)
+test <- agepro_model$new(2019,2026,1,32,1000,4,3,0,300)
+}
+
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{ver_legacy_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
+\item{\code{ver_inpfile_string}}{Version string on AGEPRO input files (*.inp) for version compatibility
 with Jon Brodiak's AGEPRO calculation engine.}
 
-\item{\code{ver_numeric_string}}{Numeric character string based by Semantic-like versioning format.}
+\item{\code{ver_json_format}}{JSON Input File Format version.}
+
+\item{\code{ver_rpackage}}{Returns ageproR r package version.}
 
 \item{\code{projection_analyses_type}}{Type of projection analyses: standard, rebuilding, pstar.}
 
@@ -51,11 +60,28 @@ Discard Fraction}
 
 \item{\code{recruit}}{AGEPRO Recruitment Model information}
 
+\item{\code{perc}}{User-selected percentile summary of the key results in the output file.}
+
+\item{\code{bounds}}{Bounds on simulated fish weights and natural mortality rates}
+
+\item{\code{refpoint}}{Reference points for optional AGEPRO output threshold report.}
+
+\item{\code{scale}}{Scaling factors for biomass, recruitment, and stock size}
+
+\item{\code{retroadjust}}{Retrospective bias Adjustment}
+
 \item{\code{pstar}}{Calculating Total Allowable Catch \eqn{TAC} to produce \eqn{P*}, the
 probability of overfishing in the target year.}
 
 \item{\code{rebuild}}{calculation of the constant total Fishing Mortality \eqn{F}
 calculated across all fleets with the rebuild spawning biomass.}
+
+\item{\code{biological}}{Seasonal spawning timing for fishing mortality (\eqn{F}) and natural
+mortality (\eqn{M})}
+
+\item{\code{options}}{Options for AGEPRO projection output}
+
+\item{\code{supported_inpfile_versions}}{Supported AGEPRO Input File formats}
 }
 \if{html}{\out{</div>}}
 }
@@ -66,7 +92,7 @@ calculated across all fleets with the rebuild spawning biomass.}
 \item \href{#method-agepro_model-default_agepro_keyword_params}{\code{agepro_model$default_agepro_keyword_params()}}
 \item \href{#method-agepro_model-set_recruit_model}{\code{agepro_model$set_recruit_model()}}
 \item \href{#method-agepro_model-set_bootstrap_filename}{\code{agepro_model$set_bootstrap_filename()}}
-\item \href{#method-agepro_model-set_projection_analyses_type}{\code{agepro_model$set_projection_analyses_type()}}
+\item \href{#method-agepro_model-setup_projection_analyses_values}{\code{agepro_model$setup_projection_analyses_values()}}
 \item \href{#method-agepro_model-clone}{\code{agepro_model$clone()}}
 }
 }
@@ -150,16 +176,23 @@ messages to be seen on console.}
 \if{html}{\out{<a id="method-agepro_model-set_recruit_model"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_model-set_recruit_model}{}}}
 \subsection{Method \code{set_recruit_model()}}{
-Set model's Recruitment model
+Setup recruitment with a recruitment model collection list with default
+data using current AGEPRO model's number of recruits and sequence of
+projection years.
+
+To establish multiple recruit models, pass multiple valid AGERPRO
+Recruitment Model numbers as vector to the \code{model_num} parameter. If
+the vector length of \code{model_num} doesn't match current AGEPRO
+\link[=general_params]{general parameter's} \code{num_rec_models}
+value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(model_num)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{model_num}}{\cr
-AGEPRO Recruitment Model Number}
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
@@ -182,9 +215,9 @@ Wrapper function to call bootstrap's set_bootstrap_filename
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_model-set_projection_analyses_type"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_model-set_projection_analyses_type}{}}}
-\subsection{Method \code{set_projection_analyses_type()}}{
+\if{html}{\out{<a id="method-agepro_model-setup_projection_analyses_values"></a>}}
+\if{latex}{\out{\hypertarget{method-agepro_model-setup_projection_analyses_values}{}}}
+\subsection{Method \code{setup_projection_analyses_values()}}{
 Helper Function to setup agepro model's projection analyses type. agepro
 models use standard projection analyses by default, and do not require
 additional keyword parameter setup. "pstar" and  "rebuild" projection
@@ -194,7 +227,7 @@ However, they are not created during model initialization.
 AGEPRO models must can not have both pstar and rebuilder projection
 analyses,
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_projection_analyses_type(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$setup_projection_analyses_values(type, enable_cat_print = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

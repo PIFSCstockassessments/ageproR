@@ -34,7 +34,7 @@ error of the average population or fishery process parameter's at age
 
 \item{\code{inp_keyword}}{Returns AGEPRO input-file formatted Parameter name}
 
-\item{\code{json_list_process_error}}{Returns JSON list object with Process Error Parameter values}
+\item{\code{json_list_object}}{Returns JSON list object with Process Error Parameter values}
 }
 \if{html}{\out{</div>}}
 }
@@ -42,14 +42,13 @@ error of the average population or fishery process parameter's at age
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-process_error-new}{\code{process_error$new()}}
-\item \href{#method-process_error-setup_parameter_tables}{\code{process_error$setup_parameter_tables()}}
 \item \href{#method-process_error-create_parameter_table}{\code{process_error$create_parameter_table()}}
 \item \href{#method-process_error-print}{\code{process_error$print()}}
 \item \href{#method-process_error-cli_print_process_error_table}{\code{process_error$cli_print_process_error_table()}}
 \item \href{#method-process_error-read_inp_lines}{\code{process_error$read_inp_lines()}}
-\item \href{#method-process_error-read_inplines_parameter_tables}{\code{process_error$read_inplines_parameter_tables()}}
-\item \href{#method-process_error-read_inplines_cv_table}{\code{process_error$read_inplines_cv_table()}}
-\item \href{#method-process_error-inplines_process_error}{\code{process_error$inplines_process_error()}}
+\item \href{#method-process_error-read_inp_lines_parameter_tables}{\code{process_error$read_inp_lines_parameter_tables()}}
+\item \href{#method-process_error-read_inp_lines_cv_table}{\code{process_error$read_inp_lines_cv_table()}}
+\item \href{#method-process_error-get_inp_lines}{\code{process_error$get_inp_lines()}}
 \item \href{#method-process_error-clone}{\code{process_error$clone()}}
 }
 }
@@ -91,37 +90,6 @@ to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
 vector will cover "all years" of the projection. Default is TRUE.}
 
 \item{\code{...}}{further arguments passed to or from other methods}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-setup_parameter_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-setup_parameter_tables}{}}}
-\subsection{Method \code{setup_parameter_tables()}}{
-Initialize Parameter and CV tables
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$setup_parameter_tables(
-  projection_years,
-  num_ages,
-  num_fleets = 1,
-  time_varying = FALSE
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{projection_years}}{\link[=projection_years]{Projection years}
-value}
-
-\item{\code{num_ages}}{Number of Ages}
-
-\item{\code{num_fleets}}{Number of Fleets. Defaults to 1}
-
-\item{\code{time_varying}}{Logical flag that enables the stochastic parameter
-to use as a time-varying array if TRUE (or 1). Otherwise, FALSE the
-vector will cover "all years" of the projection. Default is TRUE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -224,14 +192,14 @@ projection or the number of years in the time projection.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-read_inplines_parameter_tables"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-read_inplines_parameter_tables}{}}}
-\subsection{Method \code{read_inplines_parameter_tables()}}{
+\if{html}{\out{<a id="method-process_error-read_inp_lines_parameter_tables"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-read_inp_lines_parameter_tables}{}}}
+\subsection{Method \code{read_inp_lines_parameter_tables()}}{
 Helper function to set population or fishery process parameter
 tables from AGEPRO input files. Reads in an additional line (or lines)
 from the file connection to assign to the \code{parameter_table}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_parameter_tables(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inp_lines_parameter_tables(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -247,14 +215,14 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-read_inplines_cv_table"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-read_inplines_cv_table}{}}}
-\subsection{Method \code{read_inplines_cv_table()}}{
+\if{html}{\out{<a id="method-process_error-read_inp_lines_cv_table"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-read_inp_lines_cv_table}{}}}
+\subsection{Method \code{read_inp_lines_cv_table()}}{
 Internal helper function to set cv tables from
 AGEPRO input files. Reads in an additional line (or lines) from the
 file connection to assign to the \code{cv_table}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inplines_cv_table(inp_con, nline)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$read_inp_lines_cv_table(inp_con, nline)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -270,13 +238,13 @@ the AGEPRO input file is open.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-process_error-inplines_process_error"></a>}}
-\if{latex}{\out{\hypertarget{method-process_error-inplines_process_error}{}}}
-\subsection{Method \code{inplines_process_error()}}{
+\if{html}{\out{<a id="method-process_error-get_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-process_error-get_inp_lines}{}}}
+\subsection{Method \code{get_inp_lines()}}{
 Returns the values for the Process Error parameter formatted
 to the AGEPRO input file format.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{process_error$inplines_process_error(delimiter = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{process_error$get_inp_lines(delimiter = "  ")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -21,7 +21,7 @@ Empirical Recruitment Distribution (Model #3)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="inplines_recruit_data"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-inplines_recruit_data'><code>ageproR::empirical_recruit$inplines_recruit_data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="inp_lines_recruit_data"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-inp_lines_recruit_data'><code>ageproR::empirical_recruit$inp_lines_recruit_data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproR::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>

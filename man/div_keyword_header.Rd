@@ -4,7 +4,7 @@
 \alias{div_keyword_header}
 \title{Command-line interface header for AGEPRO Keyword parameters}
 \usage{
-div_keyword_header(keyword, heading_color = "cyan")
+div_keyword_header(keyword, header_color = "cyan")
 }
 \arguments{
 \item{keyword}{Text of the header}

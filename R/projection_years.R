@@ -12,11 +12,6 @@
 #'
 projection_years <- R6Class(
   "projection_years",
-  private = list(
-
-    .count = NULL,
-    .sequence = NULL
-  ),
   public = list(
 
     #' @description
@@ -26,11 +21,8 @@ projection_years <- R6Class(
     #'
     initialize = function (x) {
 
-      # Handle potential "Factor" types, and return its levels: the intended
-      # values assigned to this field.
-      if(is.factor(x)) {
-        x <- as.numeric(levels(x))[x]
-      }
+      # Validation
+      checkmate::assert_numeric(x)
 
       #Handle as single int or a vector of sequential values
       if (checkmate::test_int(x)) {
@@ -75,15 +67,22 @@ projection_years <- R6Class(
       if(missing(value)){
         private$.sequence
       } else {
+        # Validate input
+        validation_error <- checkmate::makeAssertCollection()
         checkmate::assert_numeric(value, unique = TRUE, sorted = TRUE,
-                                  .var.name = "projection_years sequence")
-        if(all(diff(value) != 1)){
-          stop(paste0("Invalid projection_years Sequence: ",
-                      "Sequence does not increment by 1"), call. = FALSE)
-        }
+                                  add = validation_error)
+        assert_proj_years_sequence(value, add = validation_error)
+        checkmate::reportAssertions(validation_error)
+
         private$.sequence <- value
       }
     }
+
+  ),
+  private = list(
+
+    .count = NULL,
+    .sequence = NULL
 
   )
 )

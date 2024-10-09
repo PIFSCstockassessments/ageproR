@@ -28,7 +28,6 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \item \href{#method-agepro_inp_model-read_inp}{\code{agepro_inp_model$read_inp()}}
 \item \href{#method-agepro_inp_model-read_inpfile_values}{\code{agepro_inp_model$read_inpfile_values()}}
 \item \href{#method-agepro_inp_model-match_keyword}{\code{agepro_inp_model$match_keyword()}}
-\item \href{#method-agepro_inp_model-assert_inpfile_version}{\code{agepro_inp_model$assert_inpfile_version()}}
 \item \href{#method-agepro_inp_model-not_implemented}{\code{agepro_inp_model$not_implemented()}}
 \item \href{#method-agepro_inp_model-write_inp}{\code{agepro_inp_model$write_inp()}}
 \item \href{#method-agepro_inp_model-clone}{\code{agepro_inp_model$clone()}}
@@ -39,8 +38,8 @@ File Functionality is based on AGEPRO-CoreLib implementation
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="default_agepro_keyword_params"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-default_agepro_keyword_params'><code>ageproR::agepro_model$default_agepro_keyword_params()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_bootstrap_filename"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_bootstrap_filename'><code>ageproR::agepro_model$set_bootstrap_filename()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_projection_analyses_type"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_projection_analyses_type'><code>ageproR::agepro_model$set_projection_analyses_type()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="set_recruit_model"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-set_recruit_model'><code>ageproR::agepro_model$set_recruit_model()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="agepro_model" data-id="setup_projection_analyses_values"><a href='../../ageproR/html/agepro_model.html#method-agepro_model-setup_projection_analyses_values'><code>ageproR::agepro_model$setup_projection_analyses_values()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -127,23 +126,6 @@ Match Keyword
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-agepro_inp_model-assert_inpfile_version"></a>}}
-\if{latex}{\out{\hypertarget{method-agepro_inp_model-assert_inpfile_version}{}}}
-\subsection{Method \code{assert_inpfile_version()}}{
-Check Input File Version
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$assert_inpfile_version(inp_line)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{inp_line}}{Line read from the AGEPRO Input File}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-agepro_inp_model-not_implemented"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-not_implemented}{}}}
 \subsection{Method \code{not_implemented()}}{
@@ -166,7 +148,11 @@ Throws a Not Implemented exception message. Placeholder function.
 \subsection{Method \code{write_inp()}}{
 Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(inpfile, delimiter = "  ")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$write_inp(
+  inpfile,
+  delimiter = "  ",
+  overwrite_as_currentver = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -175,6 +161,9 @@ Writes AGEPRO keyword parameter data as a AGEPRO input file (*.inp)
 \item{\code{inpfile}}{input file path}
 
 \item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
+
+\item{\code{overwrite_as_currentver}}{As default, overwrites version value to
+to the current version of the AGEPRO input file format.}
 }
 \if{html}{\out{</div>}}
 }

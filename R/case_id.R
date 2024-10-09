@@ -12,12 +12,6 @@
 #' @importFrom R6 R6Class
 case_id <- R6Class(
   "case_id",
-  private = list(
-
-    .keyword_name = "caseid",
-
-    .model_name = NULL
-  ),
   public = list(
 
     #' @description
@@ -31,7 +25,9 @@ case_id <- R6Class(
     #' Prints out Model case id
     #'
     print = function() {
-      div_keyword_header(self$keyword_name)
+      if(is.null(self$model_name)){
+        warning("model_name is NULL", call. = FALSE)
+      }
       cli::cli_text("{symbol$info} model_name: {.val {self$model_name}}")
     },
 
@@ -52,7 +48,7 @@ case_id <- R6Class(
     #' Returns the values for the CASEID keyword parameter formatted
     #' to the AGEPRO input file format.description
     #'
-    inplines_case_id = function() {
+    get_inp_lines = function() {
       return(list(
         self$inp_keyword,
         self$model_name
@@ -83,5 +79,12 @@ case_id <- R6Class(
     inp_keyword = function() {
       paste0("[",toupper(private$.keyword_name),"]")
     }
+
+  ),
+  private = list(
+
+    .keyword_name = "caseid",
+
+    .model_name = NULL
   )
 )

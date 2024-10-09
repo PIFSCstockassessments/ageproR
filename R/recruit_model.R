@@ -11,17 +11,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom checkmate assert_character assert_numeric
 #'
-#' @export
 recruit_model <- R6Class(
   "recruit_model",
-  private = list(
-    .model_num = NULL,
-    .model_group = NULL,
-    .model_name = NULL,
-    .projected_years = NULL,
-    .length_projected_years = NULL
-
-  ),
   public = list(
 
     #' @description
@@ -96,14 +87,27 @@ recruit_model <- R6Class(
       }
     }
 
+  ),
+  private = list(
+    .model_num = NULL,
+    .model_group = NULL,
+    .model_name = NULL,
+    .projected_years = NULL,
+    .length_projected_years = NULL
 
   )
+
 )
 
 
 #' Null Recruitment UI Fallback Default
+#'
 #' @inherit recruit_model description
+#'
 #' @template elipses
+#' @template delimiter
+#'
+#' @export
 null_recruit_model <- R6Class(
   "null_recruit_model",
   inherit = recruit_model,
@@ -126,7 +130,31 @@ null_recruit_model <- R6Class(
       cli_text("{private$.model_name}")
       cli_alert_warning(c("Replace with a valid recruitment model before ",
                           "processing to AGEPRO calcualtion engine"))
+    },
+
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since NULL recruitment is not a valid recruitment model
+    #' type for the AGEPRO calculation engine, an error will thrown to indicate
+    #' NuLL recruitment
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop("NULL Recruitment model is invalid for AGEPRO input.",
+          call. = FALSE)
     }
+
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. However, NULL recruitment is not a
+    #' valid recruitment model type, an error will thrown.
+    json_recruit_data = function() {
+      stop("NULL Recruitment model data is invalid JSON data.",
+           call. = FALSE)
+    }
+
   )
 )
 
@@ -136,20 +164,12 @@ null_recruit_model <- R6Class(
 #' Handles an instance for deprecated recruitment model #9.
 #'
 #' @template elipses
+#' @template delimiter
+#' @export
 #'
 deprecated_recruit_model_9 <- R6Class(
   "deprecated_recruit_model_9",
   inherit = recruit_model,
-  private = list(
-
-    cli_recruit_danger = function() {
-      d <- cli_div(class = "tmp", theme = list(.tmp = list(
-        color = "red")))
-      cli_text("{symbol$cross} {private$.model_name}")
-      cli_end(d)
-    }
-
-  ),
   public = list(
     #' @description
     #' Initializes the class
@@ -166,13 +186,43 @@ deprecated_recruit_model_9 <- R6Class(
     #' Prints out the error
     print = function(...) {
       private$cli_recruit_danger()
-      stop(paste0("Recruitment model #9 has been deperecated. ",
-                              "Please use recruitment model #3 to implement ",
-                              "Time-Varying Empirical Distribution."),
-           call. = FALSE)
+      stop(private$.err_model_deprecated, call. = FALSE)
 
+    },
 
+    #' @description
+    #' Function container to export recruitment model data to AGEPRO input model
+    #' file lines, but since this model is DEPRECATED; not a valid recruitment
+    #' model type for the AGEPRO calculation engine, an error will thrown.
+    #'
+    inp_lines_recruit_data = function(delimiter= " ") {
+      stop(private$.err_model_deprecated, call. = FALSE)
+    }
 
+  ),
+  active = list(
+
+    #' @field json_recruit_data
+    #' Function container to export recruitment model data to experimental
+    #' jSon input model file. Because recruitment model #9 is DEPRECATED, and
+    #' not used in the AGEPRO calculation engine, an error will thrown.
+    json_recruit_data = function() {
+      stop(private$.err_model_deprecated, call. = FALSE)
+    }
+
+  ),
+  private = list(
+
+    .err_model_deprecated =
+      paste0("Recruitment Model #9 is DEPRECATED",
+             "Please use the Empirical Recruitment Distribution Model ",
+             "(#3) with Time-Variance."),
+
+    cli_recruit_danger = function() {
+      d <- cli_div(class = "tmp", theme = list(.tmp = list(
+        color = "red")))
+      cli_text("{symbol$cross} {private$.model_name}")
+      cli_end(d)
     }
 
   )
@@ -191,19 +241,10 @@ deprecated_recruit_model_9 <- R6Class(
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
 #' @importFrom tibble as_tibble
-#' @export
+#'
 empirical_recruit <- R6Class(
   "empirical_recruit",
   inherit = recruit_model,
-  private = list(
-
-    .low_bound = 0.0001,
-    .with_ssb = FALSE,
-    .model_group = 1,
-    .observed_points = 0,
-    .observations = NULL
-
-  ),
   public = list(
 
     #'@description
@@ -265,8 +306,8 @@ empirical_recruit <- R6Class(
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
       cli_alert_info("Observations:")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$observations))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$observations, .name_repair = "minimal"))))
       cli_end()
 
 
@@ -337,12 +378,6 @@ empirical_recruit <- R6Class(
         self$observations <- cbind(recruit = inp_recruit)
       }
 
-      ##Note: Printing first 10 rows to console
-      #print(as_tibble(self$observations), n = 10)
-
-
-
-
       return(nline)
     },
 
@@ -350,7 +385,7 @@ empirical_recruit <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for empirical recruitment types
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
 
       #Observation Matrix columns are labeled "recruit" and "ssb"
       if(self$with_ssb){
@@ -388,9 +423,9 @@ empirical_recruit <- R6Class(
       private$.low_bound
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(points = self$observed_points,
                   recruits = subset(self$observations,
                                     select = "recruit", drop = TRUE) ))
@@ -429,16 +464,22 @@ empirical_recruit <- R6Class(
       super
     }
 
+  ),
+  private = list(
 
+    .low_bound = 0.0001,
+    .with_ssb = FALSE,
+    .model_group = 1,
+    .observed_points = 0,
+    .observations = NULL
 
   )
-  #TODO: Set MaxRecObs
 )
 
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations
-#'
+#' @export
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
   inherit = empirical_recruit,
@@ -459,6 +500,7 @@ empirical_distribution_model <- R6Class(
 #' Empirical CDF of Recruitment (Model #14)
 #'
 #' @template num_observations
+#' @export
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
   inherit = empirical_recruit,
@@ -492,20 +534,12 @@ empirical_cdf_model <- R6Class(
 #' @template delimiter
 #'
 #' @importFrom checkmate assert_numeric
+#' @export
 #'
 two_stage_empirical_recruit <- R6Class(
   "two_stage_empirical_recruit",
   inherit = empirical_recruit,
-  private = list(
-
-    .num_low_recruits = NULL,
-    .num_high_recruits = NULL,
-    .ssb_cutoff = NULL,
-    .low_recruitment = NULL,
-    .high_recruitment = NULL,
-    .with_ssb = FALSE
-
-  ), public = list(
+  public = list(
 
     #' @description
     #' Initialize the Empirical CDF Model
@@ -591,7 +625,8 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
-      cat_line(capture.output(as_tibble(self$low_recruitment)))
+      cat_line(capture.output(
+        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal")))
 
 
       ## high_recruitment
@@ -602,7 +637,8 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
-      cat_line(capture.output(as_tibble(self$high_recruitment)))
+      cat_line(capture.output(
+        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal")))
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -620,7 +656,7 @@ two_stage_empirical_recruit <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for two-stage empirical recruitment types
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
       return(list(
         paste(self$num_low_recruits,self$num_high_recruits),
         paste(self$low_recruitment, collapse =  delimiter),
@@ -644,11 +680,11 @@ two_stage_empirical_recruit <- R6Class(
       cli_end(a)
       cli_alert_info("Observations:")
       cli_text("Low recruitment")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$low_recruitment))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
       cli_text("High recruitment")
-      cat_line(paste0("  ",
-                      capture.output(as_tibble(self$high_recruitment))))
+      cat_line(paste0("  ", capture.output(
+        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
       cli_end()
 
 
@@ -713,9 +749,9 @@ two_stage_empirical_recruit <- R6Class(
       }
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -724,6 +760,16 @@ two_stage_empirical_recruit <- R6Class(
         ssbCutoff = self$ssb_cutoff
       ))
     }
+
+  ),
+  private = list(
+
+    .num_low_recruits = NULL,
+    .num_high_recruits = NULL,
+    .ssb_cutoff = NULL,
+    .low_recruitment = NULL,
+    .high_recruitment = NULL,
+    .with_ssb = FALSE
 
   )
 
@@ -755,11 +801,12 @@ two_stage_empirical_ssb <- R6Class(
                        with_ssb = TRUE)
     }
 
-  ), active = list(
+  ),
+  active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -782,6 +829,7 @@ two_stage_empirical_ssb <- R6Class(
 #'(Recruit #15)
 #'
 #' @template two_stage_empirical_parameters
+#' @export
 #'
 two_stage_empirical_cdf <- R6Class(
   "two_stage_empirical_cdf",
@@ -804,11 +852,12 @@ two_stage_empirical_cdf <- R6Class(
                        with_ssb = FALSE)
     }
 
-  ), active = list(
+  ),
+  active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' gets JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         numLowRecruits = self$num_low_recruits,
         numHighRecruits = self$num_high_recruits,
@@ -836,24 +885,95 @@ two_stage_empirical_cdf <- R6Class(
 #'
 #' @importFrom checkmate assert_numeric
 #'
-#' @export
 parametric_curve <- R6Class(
   "parametric_curve",
   inherit = recruit_model,
-  private = list(
+  public = list(
 
-    .alpha = 0,
-    .beta = 0,
-    .variance = 0,
-    .model_group = 2
+    #'@description
+    #'Instantiate Parametric Recruitment Curve Model
+    #'
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0) {
+
+      #Set to Active Bindings
+      if (!missing(alpha)) {
+        private$.alpha <- alpha
+      }
+
+      if (!missing(beta)) {
+        private$.beta <- beta
+      }
+
+      if (!missing(variance)) {
+        private$.variance <- variance
+      }
+
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for parametric curve recruitment
+    #' to AGEPRO input file lines.
+    #'
+    inp_lines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        sep = delimiter)))
+    },
+
+    #' @description
+    #' Prints out Parametric Data
+    #'
+    print = function(...) {
+
+      #Model Name
+      cli::cli_alert_info("{self$model_name}")
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
+    },
+
+    #' @description
+    #' Reads Parametric Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      cli::cli_text("{.emph {.field {self$model_name}}}")
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+
+      #self$print()
+      cli_ul()
+      cli_li("Alpha: {.val {private$.alpha}}")
+      cli_li("Beta: {.val {private$.beta}}")
+      cli_li("Variance: {.val {private$.variance}}")
+      cli_end()
+
+      return(nline)
+    }
 
   ),
   active = list(
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' Returns JSON-ready Recruit Model Data'
     #'
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         alpha = self$alpha,
         beta = self$beta,
@@ -911,96 +1031,22 @@ parametric_curve <- R6Class(
     }
 
   ),
-  public = list(
+  private = list(
 
-
-    #'@description
-    #'Instantiate Parametric Recruitment Curve Model
-    #'
-    initialize = function(alpha = 0,
-                           beta = 0,
-                           variance = 0) {
-
-      #Set to Active Bindings
-      if (!missing(alpha)) {
-        private$.alpha <- alpha
-      }
-
-      if (!missing(beta)) {
-        private$.beta <- beta
-      }
-
-      if (!missing(variance)) {
-        private$.variance <- variance
-      }
-
-
-
-    },
-
-    #' @description
-    #' Exports RECRUIT submodel data for parametric curve recruitment
-    #' to AGEPRO input file lines.
-    #'
-    inplines_recruit_data = function(delimiter = " ") {
-      return(list(paste(self$alpha,
-                        self$beta,
-                        self$variance,
-                        sep = delimiter)))
-    },
-
-    #' @description
-    #' Prints out Parametric Data
-    #'
-    print = function(...) {
-
-      #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-    },
-
-    #' @description
-    #' Reads Parametric Curve model data from AGEPRO Input file
-    #'
-    read_inp_lines = function(inp_con, nline) {
-
-      #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
-
-      # Read an additional line from the file connection and split the string
-      # into substrings by whitespace
-      inp_line <- read_inp_numeric_line(inp_con)
-
-      nline <- nline + 1
-      cli_alert("Line {nline} ...")
-
-      # Assign substrings
-      self$alpha <- inp_line[1]
-      self$beta <- inp_line[2]
-      self$variance <- inp_line[3]
-
-      #self$print()
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-
-      return(nline)
-    }
+    .alpha = 0,
+    .beta = 0,
+    .variance = 0,
+    .model_group = 2
 
   )
+
 
 )
 
 #' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
 #' @template parametric_parameters
-#'
+#' @export
 beverton_holt_curve_model <- R6Class(
   "beverton_holt_curve_model",
   inherit = parametric_curve,
@@ -1021,7 +1067,8 @@ beverton_holt_curve_model <- R6Class(
 
 #'Ricker Curve #/ Lognormal Error (Model #6)
 #'
-#'@template parametric_parameters
+#' @template parametric_parameters
+#' @export
 #'
 ricker_curve_model <- R6Class(
   "ricker_curve_model",
@@ -1049,18 +1096,11 @@ ricker_curve_model <- R6Class(
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @export
 #'
 shepherd_curve_model <- R6Class(
   "shepherd_curve_model",
   inherit = parametric_curve,
-  private = list(
-
-    .alpha = 0.1,
-    .beta = 0.1,
-    .kpar = 0.1,
-    .variance = 0.1
-
-  ),
   public = list(
 
 
@@ -1137,7 +1177,7 @@ shepherd_curve_model <- R6Class(
     #' @description
     #' Exports RECRUIT submodel data for shepherd curve recruitment
     #' to AGEPRO input file lines.
-    inplines_recruit_data = function(delimiter = " ") {
+    inp_lines_recruit_data = function(delimiter = " ") {
       return(list(paste(self$alpha,
                         self$beta,
                         self$kpar,
@@ -1165,9 +1205,9 @@ shepherd_curve_model <- R6Class(
       }
     },
 
-    #' @field recruit_data
+    #' @field json_recruit_data
     #' Returns JSON-ready Recruit Model Data
-    recruit_data = function() {
+    json_recruit_data = function() {
       return(list(
         alpha = self$alpha,
         beta = self$beta,
@@ -1176,7 +1216,13 @@ shepherd_curve_model <- R6Class(
       ))
     }
 
+  ),
+  private = list(
 
+    .alpha = 0.1,
+    .beta = 0.1,
+    .kpar = 0.1,
+    .variance = 0.1
 
   )
 )

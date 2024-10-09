@@ -21,7 +21,7 @@ Ricker Curve #/ Lognormal Error (Model #6)
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="inplines_recruit_data"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-inplines_recruit_data'><code>ageproR::parametric_curve$inplines_recruit_data()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="inp_lines_recruit_data"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-inp_lines_recruit_data'><code>ageproR::parametric_curve$inp_lines_recruit_data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="print"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-print'><code>ageproR::parametric_curve$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="read_inp_lines"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-read_inp_lines'><code>ageproR::parametric_curve$read_inp_lines()</code></a></span></li>
 </ul>
