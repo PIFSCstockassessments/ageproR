@@ -60,12 +60,41 @@ parameter values, by using the default
 \item Pseudo-Randomly generated \code{seed}
 }
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$new(enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_inp_model$new(
+  yr_start = 0,
+  yr_end = 2,
+  age_begin = 1,
+  age_end = 6,
+  num_pop_sims = 1000,
+  num_fleets = 1,
+  num_rec_models = 1,
+  discards_present = 0,
+  seed = sample.int(1e+08, 1),
+  enable_cat_print = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{yr_start}}{First Year of Projection}
+
+\item{\code{yr_end}}{Last Year of Projection}
+
+\item{\code{age_begin}}{Age begin}
+
+\item{\code{age_end}}{Age end}
+
+\item{\code{num_pop_sims}}{Number of population simulations}
+
+\item{\code{num_fleets}}{Number of fleets}
+
+\item{\code{num_rec_models}}{Number of Recruit Modules}
+
+\item{\code{discards_present}}{Are Discards present? FALSE by default}
+
+\item{\code{seed}}{Random Number seed. By Default, generates a pesdorandom number.}
+
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console. In this instance, this is set to FALSE.}
 }

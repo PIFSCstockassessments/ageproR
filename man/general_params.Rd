@@ -72,7 +72,8 @@ Starts an instances of the AGEPRO Model
   num_fleets = 1,
   num_rec_models = 1,
   discards_present = FALSE,
-  seed = sample.int(1e+08, 1)
+  seed = sample.int(1e+08, 1),
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -96,6 +97,9 @@ Starts an instances of the AGEPRO Model
 \item{\code{discards_present}}{discards_present}
 
 \item{\code{seed}}{Random Number seed}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's messages on console.
+By Default, set to TRUE.}
 }
 \if{html}{\out{</div>}}
 }
