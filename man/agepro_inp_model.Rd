@@ -70,7 +70,7 @@ parameter values, by using the default
   num_rec_models = 1,
   discards_present = 0,
   seed = sample.int(1e+08, 1),
-  enable_cat_print = FALSE
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -96,7 +96,7 @@ parameter values, by using the default
 \item{\code{seed}}{Random Number seed. By Default, generates a pesdorandom number.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console. In this instance, this is set to FALSE.}
+messages to be seen on console. In this instance, this is set to TRUE}
 }
 \if{html}{\out{</div>}}
 }

@@ -852,8 +852,7 @@ agepro_inp_model <- R6Class(
     #' @template model_general_params
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli** [`cat_print`][cli::cat_print]
-    #' messages to be seen on console. In this instance, this is set to FALSE.
-    #'
+    #' messages to be seen on console. In this instance, this is set to TRUE
     #'
     initialize = function(yr_start = 0,
                           yr_end = 2,
@@ -864,12 +863,20 @@ agepro_inp_model <- R6Class(
                           num_rec_models = 1,
                           discards_present = 0,
                           seed =  sample.int(1e8, 1),
-                          enable_cat_print = FALSE) {
+                          enable_cat_print = TRUE) {
 
-      # private$.nline <- 0
-      # private$setup_ver_rpackage()
 
-      cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
+      if(all(isTRUE(c(
+        missing(yr_start),
+        missing(yr_end),
+        missing(age_begin),
+        missing(age_end),
+        missing(num_pop_sims),
+        missing(num_fleets),
+        missing(num_rec_models)
+      )))){
+        cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
+      }
 
       super$initialize(yr_start,
                        yr_end,
@@ -882,21 +889,6 @@ agepro_inp_model <- R6Class(
                        seed,
                        enable_cat_print = enable_cat_print)
 
-#
-#       if(isFALSE(enable_cat_print)) {
-#         self$general <- suppressMessages(general_params$new())
-#
-#         suppressMessages(
-#           self$default_agepro_keyword_params(self$general,
-#                                              enable_cat_print =
-#                                                enable_cat_print))
-#       } else {
-#         self$general <- general_params$new()
-#         self$default_agepro_keyword_params(self$general,
-#                                            enable_cat_print = TRUE)
-#       }
-#
-#       cli::cli_text("Done")
     },
 
     #' @description
