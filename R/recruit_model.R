@@ -127,9 +127,13 @@ null_recruit_model <- R6Class(
     #' @description
     #' Prints out NULL Recruiment Model Data
     print = function(...) {
+      warn_null_recruit <-
+        paste0("NULL Recrumitment model found. ",
+               "Replace with a valid recruitment model before ",
+               "saving to input file")
       cli_text("{private$.model_name}")
-      cli_alert_warning(c("Replace with a valid recruitment model before ",
-                          "processing to AGEPRO calcualtion engine"))
+
+      warning(warn_null_recruit, call. = FALSE)
     },
 
     #' @description
