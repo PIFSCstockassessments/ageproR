@@ -114,11 +114,9 @@ bootstrap <- R6Class(
       cli_li(paste0("pop_scale_factor (BootFac): ",
                "{.val {self$pop_scale_factor}}"))
       cli_alert_info("bootstrap_file:")
-      ifelse(test_file_exists(self$bootstrap_file),
-             cli_li("{.val {self$bootstrap_file}}"),
-             cli_alert_warning(c("Replace with a valid Bootstrap file before ",
-                            "processing to AGEPRO calcualtion engine"))
-             )
+
+      private$validate_bootstrap_file(self$bootstrap)
+
       cli_end()
     }
 
@@ -206,7 +204,7 @@ bootstrap <- R6Class(
 
       }else if (is.null(value)) {
         #Warn if file path is NULL,
-        warning(paste0("NULL Bootstrap file path. \n",
+        warning(paste0("NULL Bootstrap file path. ",
                        "Please provide a vaild bootstrap filepath when saving ",
                        "to input file for the AGEPRO calcuation engine."),
                 call. = FALSE)
