@@ -255,10 +255,13 @@ max_bounds <- R6Class(
     .max_weight = NULL,
     .max_natural_mortality = NULL,
 
+    .name_options_flag = "enable_max_bounds",
+
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_max_bounds))){
-        cli::cli_alert("Reset enable_max_bounds")
+        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
+                              "for initialization"))
         self$flag$op$enable_max_bounds <- NULL
         }
     }

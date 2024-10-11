@@ -243,7 +243,8 @@ retrospective_adjustments <- R6Class(
       #Reset option_flag to NULL at initialization
 
       if(isFALSE(is.null(self$flag$op[[private$.name_options_flag]]))){
-        cli::cli_alert("Reset {private$.name_option_flag}")
+        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
+                              "for initalization"))
         self$flag$op[[private$.name_options_flag]] <- NULL
       }
     },
