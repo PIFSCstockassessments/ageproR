@@ -17,8 +17,10 @@ case_id <- R6Class(
     #' @description
     #' Initialize Class
     #'
-    initalize = function() {
-      self$model_name <- NULL
+    #' @param model_name Character string that describes the projection model
+    #'
+    initialize = function(model_name = NULL) {
+      self$model_name <- model_name
     },
 
     #' @description

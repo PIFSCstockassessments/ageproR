@@ -116,7 +116,7 @@ agepro_model <- R6Class(
 
       private$.discards_present <- x$discards_present
 
-      self$case_id <- case_id$new()
+      self$case_id <- case_id$new("Unnamed AGEPRO model")
 
       #TODO: rename cat_verbose to enable_cat_print
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
