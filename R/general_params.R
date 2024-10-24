@@ -31,6 +31,9 @@ general_params <- R6Class(
     #' @param num_rec_models Number of Recruit Modeles
     #' @param discards_present discards_present
     #' @param seed Random Number seed
+    #' @param enable_cat_print
+    #' Logical flag to show target function's messages on console.
+    #' By Default, set to TRUE.
     #'
     initialize = function(yr_start = 0,
                           yr_end = 2,
@@ -40,10 +43,13 @@ general_params <- R6Class(
                           num_fleets = 1,
                           num_rec_models = 1,
                           discards_present = FALSE,
-                          seed = sample.int(1e8, 1)) {
+                          seed = sample.int(1e8, 1),
+                          enable_cat_print = TRUE) {
 
 
-      div_keyword_header(self$keyword_name)
+      if(enable_cat_print){
+        div_keyword_header(self$keyword_name)
+      }
       # Discards: Assert numeric format
       if (test_logical(discards_present)) {
         discards_present <- as.numeric(discards_present)
@@ -59,8 +65,9 @@ general_params <- R6Class(
       private$set_discards_present(discards_present)
       private$set_seed(as.numeric(seed))
 
-      self$print()
-
+      if(enable_cat_print){
+        self$print()
+      }
 
     },
 

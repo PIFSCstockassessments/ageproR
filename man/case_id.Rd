@@ -20,7 +20,7 @@ Input title identifying model attributes
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-case_id-initalize}{\code{case_id$initalize()}}
+\item \href{#method-case_id-new}{\code{case_id$new()}}
 \item \href{#method-case_id-print}{\code{case_id$print()}}
 \item \href{#method-case_id-read_inp_lines}{\code{case_id$read_inp_lines()}}
 \item \href{#method-case_id-get_inp_lines}{\code{case_id$get_inp_lines()}}
@@ -28,14 +28,21 @@ Input title identifying model attributes
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-case_id-initalize"></a>}}
-\if{latex}{\out{\hypertarget{method-case_id-initalize}{}}}
-\subsection{Method \code{initalize()}}{
+\if{html}{\out{<a id="method-case_id-new"></a>}}
+\if{latex}{\out{\hypertarget{method-case_id-new}{}}}
+\subsection{Method \code{new()}}{
 Initialize Class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{case_id$initalize()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{case_id$new(model_name = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{model_name}}{Character string that describes the projection model}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-case_id-print"></a>}}

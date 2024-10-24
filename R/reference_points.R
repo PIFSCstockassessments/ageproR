@@ -70,11 +70,11 @@ reference_points <- R6Class(
                all.equal(meanbio_threshold, 0),
                all.equal(fmort_threshold,0))))  {
         cli::cli_alert(paste0("Default values set, ",
-                              "options_flag enable_refernce_points to FALSE"))
+                              "options_flag {private$.name_options_flag} to FALSE"))
         suppressMessages(private$set_enable_reference_points(FALSE))
       }else{
         cli::cli_alert(paste0("Values for reference_points set. ",
-                              "Enable options_flag enable_reference_points ",
+                              "Enable options_flag {private$.name_options_flag} ",
                               "as TRUE"))
         private$set_enable_reference_points(TRUE)
         self$print()
@@ -322,6 +322,8 @@ reference_points <- R6Class(
     .mean_biomass_threshold = NULL,
     .fishing_mortality_threshold = NULL,
 
+    .name_options_flag = "enable_reference_points",
+
     # Wrapper Function to toggle enable_reference_points options_flag.
     set_enable_reference_points = function(x) {
 
@@ -331,7 +333,7 @@ reference_points <- R6Class(
       self$flag$op$enable_reference_points <- x
 
       cli::cli_alert(
-        paste0("enable_reference_points : ",
+        paste0("{private$.name_options_flag} : ",
                "{.val ",
                "{self$flag$op$enable_reference_points}}"))
 
@@ -342,7 +344,7 @@ reference_points <- R6Class(
     # enable_reference_points is FALSE
     unenabled_options_flag_message = function() {
       return(invisible(
-        paste0("enable_reference_points is FALSE. ",
+        paste0("{private$.name_options.flag} is FALSE. ",
                   "Set flag to TRUE to set value.")
         ))
     },
@@ -351,7 +353,8 @@ reference_points <- R6Class(
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_reference_points))){
-        cli::cli_alert("Reset enable_reference_points")
+        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
+                              "for initialization"))
         self$flag$op$enable_reference_points <- NULL
       }
     }

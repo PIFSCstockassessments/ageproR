@@ -48,7 +48,7 @@ user_percentile_summary <- R6Class(
       # Presume default if perc is 0.
       if(isTRUE(all.equal(perc,0))){
         cli::cli_alert(paste0("Set default values. ",
-                              "options_flag enable_user_percentile_summary ",
+                              "options_flag {private$.name_options_flag} ",
                               "to FALSE"))
         self$report_percentile <- perc
 
@@ -60,7 +60,7 @@ user_percentile_summary <- R6Class(
 
       cli::cli_alert(paste0("Setting for user_percentile_summary values ",
                             "Enable options_flag ",
-                            "enable_user_percentile_summary as TRUE"))
+                            "{private$.name_options_flag} as TRUE"))
       cli::cli_alert("Set report_percentile to {.val {perc}} ..")
 
       self$report_percentile <- perc
@@ -100,7 +100,7 @@ user_percentile_summary <- R6Class(
       self$flag$op$enable_user_percentile_summary <- x
 
       cli::cli_alert(
-        paste0("enable_user_pecentile_summary : ",
+        paste0("{private$.name_options_flag} : ",
                "{.val ",
                "{self$flag$op$enable_user_percentile_summary}}"))
 
@@ -172,7 +172,7 @@ user_percentile_summary <- R6Class(
         checkmate::assert_numeric(value, null.ok = TRUE, len = 1,
                                   lower = 0, upper = 100)
         if(isFALSE(self$flag$op$enable_user_percentile_summary)) {
-          stop(paste0("enable_user_percentile_summary flag is FALSE. ",
+          stop(paste0("{private$.name_options_flag} flag is FALSE. ",
                         "Set flag to TRUE to set value.") )
         }
 
@@ -223,10 +223,13 @@ user_percentile_summary <- R6Class(
 
     .report_percentile = NULL,
 
+    .name_options_flag = "enable_user_percentile_summary",
+
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_user_percentile_summary))){
-        cli::cli_alert("Set enable_user_percentile_summary to FALSE")
+        cli::cli_alert(paste0("Reset {private$.name_options_flag}",
+                              "for initialization"))
         self$flag$op$enable_user_percentile_summary <- NULL
       }
     }

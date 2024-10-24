@@ -28,15 +28,11 @@ agepro_model <- R6Class(
     #' @description
     #' Initializes the instance of the AGEPRO Model
     #'
-    #' @param yr_start First Year of Projection
-    #' @param yr_end Last Year of Projection
-    #' @param age_begin Age begin
-    #' @param age_end Age end
-    #' @param num_pop_sims Number of population simulations
-    #' @param num_fleets Number of fleets
-    #' @param num_rec_models Number of Recruit Modules
-    #' @param discards_present Are Discards present? FALSE by default
-    #' @param seed Random Number seed. A pesdorandom number is set as default.
+    #' @template model_general_params
+    #' @param enable_cat_print
+    #' Logical flag to show target function's **cli**
+    #' [`cat_print`][cli::cat_print] messages to be seen on console. By default,
+    #' this is set to TRUE.
     #'
     initialize = function(yr_start,
                            yr_end,
@@ -46,7 +42,8 @@ agepro_model <- R6Class(
                            num_fleets,
                            num_rec_models,
                            discards_present = FALSE,
-                           seed = sample.int(1e8, 1)) {
+                           seed = sample.int(1e8, 1),
+                          enable_cat_print = TRUE) {
 
       #Current Input File Version
       private$.ver_inpfile_string = private$.currentver_inpfile_string
@@ -60,17 +57,28 @@ agepro_model <- R6Class(
 
       #Set GENERAL
       self$general <- general_params$new(yr_start,
-                                        yr_end,
-                                        age_begin,
-                                        age_end,
-                                        num_pop_sims,
-                                        num_fleets,
-                                        num_rec_models,
-                                        discards_present,
-                                        seed)
+                                         yr_end,
+                                         age_begin,
+                                         age_end,
+                                         num_pop_sims,
+                                         num_fleets,
+                                         num_rec_models,
+                                         discards_present,
+                                         seed,
+                                         enable_cat_print = enable_cat_print)
 
       ## Helper function to create a new instance of agepro_model
-      self$default_agepro_keyword_params(self$general)
+      if(enable_cat_print){
+
+        self$default_agepro_keyword_params(self$general,
+                                           enable_cat_print = enable_cat_print)
+      }else{
+
+        suppressMessages(
+          self$default_agepro_keyword_params(self$general,
+                                           enable_cat_print = enable_cat_print))
+      }
+
 
       cli::cli_alert_success("Done")
     },
@@ -108,7 +116,7 @@ agepro_model <- R6Class(
 
       private$.discards_present <- x$discards_present
 
-      self$case_id <- case_id$new()
+      self$case_id <- case_id$new("Unnamed AGEPRO model")
 
       #TODO: rename cat_verbose to enable_cat_print
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
@@ -828,9 +836,11 @@ agepro_inp_model <- R6Class(
   public = list(
 
     #' @description
-    #' Initializes an instance of the AGEPRO model with default blank keyword
-    #' parameter values, by using the default
-    #' [general_params][ageproR::general_params] values:
+    #' Initializes an instance of the AGEPRO model with AGEPRO input file
+    #' format functions. A default model can be initialized without setting
+    #' [general_params][ageproR::general_params] parameter values. The default
+    #' values for the default model is:
+    #'
     #' \itemize{
     #'  \item Projection years: From `yr_start` 0 to `yr_end` 2
     #'  \item Ages: From `age_begin` 1 to `age_end` 6
@@ -841,33 +851,46 @@ agepro_inp_model <- R6Class(
     #'  \item Pseudo-Randomly generated `seed`
     #' }
     #'
+    #' @template model_general_params
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli** [`cat_print`][cli::cat_print]
-    #' messages to be seen on console. In this instance, this is set to FALSE.
+    #' messages to be seen on console. In this instance, this is set to TRUE
     #'
-    #'
-    initialize = function(enable_cat_print = FALSE) {
+    initialize = function(yr_start = 0,
+                          yr_end = 2,
+                          age_begin = 1,
+                          age_end = 6,
+                          num_pop_sims = 1000,
+                          num_fleets = 1,
+                          num_rec_models = 1,
+                          discards_present = 0,
+                          seed =  sample.int(1e8, 1),
+                          enable_cat_print = TRUE) {
 
-      private$.nline <- 0
-      private$setup_ver_rpackage()
 
-      cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
-
-
-      if(isFALSE(enable_cat_print)) {
-        self$general <- suppressMessages(general_params$new())
-
-        suppressMessages(
-          self$default_agepro_keyword_params(self$general,
-                                             enable_cat_print =
-                                               enable_cat_print))
-      } else {
-        self$general <- general_params$new()
-        self$default_agepro_keyword_params(self$general,
-                                           enable_cat_print = TRUE)
+      if(all(isTRUE(c(
+        missing(yr_start),
+        missing(yr_end),
+        missing(age_begin),
+        missing(age_end),
+        missing(num_pop_sims),
+        missing(num_fleets),
+        missing(num_rec_models)
+      )))){
+        cli::cli_alert("Setting up defualt AGEPRO model w/ default values")
       }
 
-      cli::cli_text("Done")
+      super$initialize(yr_start,
+                       yr_end,
+                       age_begin,
+                       age_end,
+                       num_pop_sims,
+                       num_fleets,
+                       num_rec_models,
+                       discards_present,
+                       seed,
+                       enable_cat_print = enable_cat_print)
+
     },
 
     #' @description

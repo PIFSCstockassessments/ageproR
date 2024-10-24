@@ -111,7 +111,8 @@ Initializes the instance of the AGEPRO Model
   num_fleets,
   num_rec_models,
   discards_present = FALSE,
-  seed = sample.int(1e+08, 1)
+  seed = sample.int(1e+08, 1),
+  enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -134,7 +135,11 @@ Initializes the instance of the AGEPRO Model
 
 \item{\code{discards_present}}{Are Discards present? FALSE by default}
 
-\item{\code{seed}}{Random Number seed. A pesdorandom number is set as default.}
+\item{\code{seed}}{Random Number seed. By Default, generates a pesdorandom number.}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli}
+\code{\link[cli:cat_line]{cat_print}} messages to be seen on console. By default,
+this is set to TRUE.}
 }
 \if{html}{\out{</div>}}
 }
