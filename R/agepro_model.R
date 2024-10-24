@@ -836,9 +836,11 @@ agepro_inp_model <- R6Class(
   public = list(
 
     #' @description
-    #' Initializes an instance of the AGEPRO model with default blank keyword
-    #' parameter values, by using the default
-    #' [general_params][ageproR::general_params] values:
+    #' Initializes an instance of the AGEPRO model with AGEPRO input file
+    #' format functions. A default model can be initialized without setting
+    #' [general_params][ageproR::general_params] parameter values. The default
+    #' values for the default model is:
+    #'
     #' \itemize{
     #'  \item Projection years: From `yr_start` 0 to `yr_end` 2
     #'  \item Ages: From `age_begin` 1 to `age_end` 6

@@ -47,9 +47,11 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{<a id="method-agepro_inp_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-agepro_inp_model-new}{}}}
 \subsection{Method \code{new()}}{
-Initializes an instance of the AGEPRO model with default blank keyword
-parameter values, by using the default
-\link[=general_params]{general_params} values:
+Initializes an instance of the AGEPRO model with AGEPRO input file
+format functions. A default model can be initialized without setting
+\link[=general_params]{general_params} parameter values. The default
+values for the default model is:
+
 \itemize{
 \item Projection years: From \code{yr_start} 0 to \code{yr_end} 2
 \item Ages: From \code{age_begin} 1 to \code{age_end} 6
