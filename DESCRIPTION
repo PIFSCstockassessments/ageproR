@@ -54,3 +54,6 @@ Collate:
     'user_percentile_summary.R'
     'utils.R'
     'validation.R'
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
