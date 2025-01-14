@@ -50,11 +50,6 @@ agepro_model <- R6Class(
       private$.ver_jsonfile_format = 0
       private$setup_ver_rpackage()
 
-      assert_number(age_begin, lower = 0, upper = 1)
-      assert_number(num_fleets, lower = 1)
-      assert_number(num_rec_models, lower = 1)
-      assert_number(num_pop_sims, lower = 1)
-
       #Set GENERAL
       self$general <- general_params$new(yr_start,
                                          yr_end,
@@ -81,6 +76,7 @@ agepro_model <- R6Class(
 
 
       cli::cli_alert_success("Done")
+      invisible(self)
     },
 
     #' @description
@@ -910,7 +906,7 @@ agepro_inp_model <- R6Class(
       }
 
       ##Verify that input file location is valid
-      assert_file_exists(inpfile, access = "r", extension = "inp")
+      checkmate::assert_file_exists(inpfile, access = "r", extension = "inp")
 
       tryCatch(
         {
