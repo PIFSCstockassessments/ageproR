@@ -25,6 +25,7 @@ Imports:
   purrr,
   rstudioapi,
   utils,
+  withr,
   R6
 License: GPL (>= 3)
 Encoding: UTF-8
