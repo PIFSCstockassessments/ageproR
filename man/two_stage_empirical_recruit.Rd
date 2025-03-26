@@ -44,6 +44,7 @@ Two-Stage Empirical Recruitment Base
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="set_obs_table_from_df"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-set_obs_table_from_df'><code>ageproR::empirical_recruit$set_obs_table_from_df()</code></a></span></li>
 </ul>
 </details>
 }}

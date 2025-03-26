@@ -256,8 +256,11 @@ empirical_recruit <- R6Class(
     #'
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
+    #' @param observations_table Data Frame containing empirical recruitment
+    #' observations.
     #'
-    initialize = function(num_observations = 1, with_ssb = FALSE) {
+    initialize = function(num_observations = 1, with_ssb = FALSE,
+                          observations_table = NULL) {
 
       super$model_group <- 1
 
@@ -270,7 +273,14 @@ empirical_recruit <- R6Class(
         private$.with_ssb <- with_ssb
       }
 
-      self$new_obs_table()
+      # By default, default recruitment observation data is created on initialization.
+      if(is.null(observations_table)){
+        self$new_obs_table()
+      }else{
+        self$set_obs_table_from_df(observations_table)
+      }
+
+
     },
 
     #'@description
@@ -296,6 +306,32 @@ empirical_recruit <- R6Class(
         colnames(self$observations) <- "recruit"
       }
 
+    },
+
+    #' @description
+    #' Input data frame to set empirical recruitment observation data table.
+    #' Typically used at initialization.
+    #'
+    #' @param df Input data frame
+    #'
+    set_obs_table_from_df = function(df) {
+
+      # Validate input empirical recruitment observation data
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_data_frame(df, nrows = self$observed_points,
+                                   add = validation_error)
+      # Check colnames
+      if(self$with_ssb){
+        checkmate::assert_subset(names(df),c("recruit","ssb"),
+                                 add = validation_error)
+      }else{
+        checkmate::assert_subset(names(df),"recruit",
+                                 add = validation_error)
+      }
+
+      checkmate::reportAssertions(validation_error)
+
+      self$observations <- df
 
     },
 
