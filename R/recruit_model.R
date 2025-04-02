@@ -256,11 +256,11 @@ empirical_recruit <- R6Class(
     #'
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
-    #' @param observations_table Data Frame containing empirical recruitment
+    #' @param obs_table Data Frame containing empirical recruitment
     #' observations.
     #'
     initialize = function(num_observations = 1, with_ssb = FALSE,
-                          observations_table = NULL) {
+                          obs_table = NULL) {
 
       super$model_group <- 1
 
@@ -274,10 +274,10 @@ empirical_recruit <- R6Class(
       }
 
       # By default, default recruitment observation data is created on initialization.
-      if(is.null(observations_table)){
+      if(is.null(obs_table)){
         self$new_obs_table()
       }else{
-        self$set_obs_table_from_df(observations_table)
+        self$set_obs_table_from_df(obs_table)
       }
 
 

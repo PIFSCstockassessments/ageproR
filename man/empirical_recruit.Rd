@@ -45,11 +45,7 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(
-  num_observations = 1,
-  with_ssb = FALSE,
-  observations_table = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(num_observations = 1, with_ssb = FALSE, obs_table = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -61,7 +57,7 @@ Number of Empirical Observation Records}
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}
 
-\item{\code{observations_table}}{Data Frame containing empirical recruitment
+\item{\code{obs_table}}{Data Frame containing empirical recruitment
 observations.}
 }
 \if{html}{\out{</div>}}
