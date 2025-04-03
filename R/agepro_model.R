@@ -227,6 +227,7 @@ agepro_model <- R6Class(
     set_recruit_model = function(...) {
 
       validation_error <- checkmate::makeAssertCollection()
+      # Custom Validation check to input format
       assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
@@ -237,7 +238,8 @@ agepro_model <- R6Class(
 
         #Combines lists elements as a vector
         model_num <- purrr::list_c(list(...))
-
+        # Throw informative error if model_num count doesn't match
+        # num_recruit_models
         assert_model_num_vector_count(model_num, self$general$num_rec_models,
                                       add = validation_error)
 
