@@ -36,7 +36,7 @@ Empirical Recruitment Distribution (Model #3)
 \subsection{Method \code{new()}}{
 Initialize the Empirical Recruitment Distribution Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(num_observations)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_distribution_model$new(num_observations, obs_table = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -44,6 +44,9 @@ Initialize the Empirical Recruitment Distribution Model
 \describe{
 \item{\code{num_observations}}{\cr
 Number of Empirical Observation Records}
+
+\item{\code{obs_table}}{Data Frame containing empirical recruitment
+observation table. If NULL, set to default values.}
 }
 \if{html}{\out{</div>}}
 }

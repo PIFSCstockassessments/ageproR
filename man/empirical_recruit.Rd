@@ -58,7 +58,7 @@ Number of Empirical Observation Records}
 Stock Biomass (SSB)}
 
 \item{\code{obs_table}}{Data Frame containing empirical recruitment
-observations.}
+observation table. If NULL, set to default values.}
 }
 \if{html}{\out{</div>}}
 }

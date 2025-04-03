@@ -241,6 +241,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @template obs_table
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
@@ -256,8 +257,6 @@ empirical_recruit <- R6Class(
     #'
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
-    #' @param obs_table Data Frame containing empirical recruitment
-    #' observations.
     #'
     initialize = function(num_observations = 1, with_ssb = FALSE,
                           obs_table = NULL) {
@@ -519,6 +518,8 @@ empirical_recruit <- R6Class(
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations
+#' @template obs_table
+#'
 #' @export
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -526,12 +527,14 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(num_observations) {
+    initialize = function(num_observations,
+                          obs_table = NULL) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )
@@ -540,6 +543,7 @@ empirical_distribution_model <- R6Class(
 #' Empirical CDF of Recruitment (Model #14)
 #'
 #' @template num_observations
+#' @template obs_table
 #' @export
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
@@ -547,7 +551,8 @@ empirical_cdf_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 2) {
+    initialize = function(num_observations = 2,
+                          obs_table = NULL) {
 
       self$observed_points <- num_observations
 
@@ -555,7 +560,8 @@ empirical_cdf_model <- R6Class(
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )

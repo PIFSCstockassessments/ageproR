@@ -36,7 +36,7 @@ Empirical CDF of Recruitment (Model #14)
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(num_observations = 2)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(num_observations = 2, obs_table = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -44,6 +44,9 @@ Initialize the Empirical CDF Model
 \describe{
 \item{\code{num_observations}}{\cr
 Number of Empirical Observation Records}
+
+\item{\code{obs_table}}{Data Frame containing empirical recruitment
+observation table. If NULL, set to default values.}
 }
 \if{html}{\out{</div>}}
 }
