@@ -1,3 +1,14 @@
+# ageproR 0.7.3 2025-04-03
+
+- `agepro_inp_model` can be initialized with general agepro model parameters. This change will be consistent with `agepro_model` and `agepro_json_model`. (#64)
+  - The default method to generate **agepro_inp_model** remains the same.
+  - Fixup/Improve WARNING messages for NULL Recruitment Model Data and Invalid Bootstrap File
+- Added `testthat` for basic `agepro_model` unit testing scripts (#48)
+  - added **withr** dependency to help with testthat scripts
+- Added `model_name` parameter when initializing **case_id**. New agepro_model passes "Unnamed AGEPRO model".
+- Updated README
+- removed redundant `general_params` parameter checks during agepro_model initialization
+
 # ageproR 0.7.2 2024-10-07
 
 - Use version string (line 1) from AGEPRO Input File to correctly check input file version format against the "current version" input file string (`currentver_inpfile_string`)
