@@ -112,6 +112,7 @@ Initializes the instance of the AGEPRO Model
   num_rec_models,
   discards_present = FALSE,
   seed = sample.int(1e+08, 1),
+  show_general_params = TRUE,
   enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
 }
@@ -137,9 +138,13 @@ Initializes the instance of the AGEPRO Model
 
 \item{\code{seed}}{Random Number seed. By Default, generates a pesdorandom number.}
 
+\item{\code{show_general_params}}{Logical flag to show AGEPRO model's general parameters on R console.
+TRUE, by default.}
+
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli}
-\code{\link[cli:cat_line]{cat_print}} messages to be seen on console. By default,
-this is set to TRUE.}
+\code{\link[cli:cat_line]{cat_print}} messages to be seen on console. This is
+also used to print verbose information about the the initialized object.
+By default, this is set to TRUE.}
 }
 \if{html}{\out{</div>}}
 }

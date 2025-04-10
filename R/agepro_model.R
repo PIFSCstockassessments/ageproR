@@ -29,10 +29,14 @@ agepro_model <- R6Class(
     #' Initializes the instance of the AGEPRO Model
     #'
     #' @template model_general_params
+    #' @param show_general_params
+    #' Logical flag to show AGEPRO model's general parameters on R console.
+    #' TRUE, by default.
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli**
-    #' [`cat_print`][cli::cat_print] messages to be seen on console. By default,
-    #' this is set to TRUE.
+    #' [`cat_print`][cli::cat_print] messages to be seen on console. This is
+    #' also used to print verbose information about the the initialized object.
+    #' By default, this is set to TRUE.
     #'
     initialize = function(yr_start,
                            yr_end,
@@ -43,6 +47,7 @@ agepro_model <- R6Class(
                            num_rec_models,
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1),
+                          show_general_params = TRUE,
                           enable_cat_print = TRUE) {
 
       #Current Input File Version
@@ -60,7 +65,7 @@ agepro_model <- R6Class(
                                          num_rec_models,
                                          discards_present,
                                          seed,
-                                         enable_cat_print = enable_cat_print)
+                                         enable_cat_print = show_general_params)
 
       ## Helper function to create a new instance of agepro_model
       if(enable_cat_print){
