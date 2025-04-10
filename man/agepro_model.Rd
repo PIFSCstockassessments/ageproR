@@ -170,9 +170,6 @@ Default is \code{"standard"}.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console.}
-
-\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
@@ -191,13 +188,16 @@ the vector length of \code{model_num} doesn't match current AGEPRO
 \link[=general_params]{general parameter's} \code{num_rec_models}
 value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(..., enable_cat_print = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+
+\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
+messages to be seen on console.}
 }
 \if{html}{\out{</div>}}
 }
@@ -239,9 +239,6 @@ analyses,
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{type}}{projection_analyses_type}
-
-\item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
-messages to be seen on console.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console.}

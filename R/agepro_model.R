@@ -224,7 +224,7 @@ agepro_model <- R6Class(
     #'
     #' @template elipses
     #'
-    set_recruit_model = function(...) {
+    set_recruit_model = function(..., enable_cat_print = FALSE) {
 
       validation_error <- checkmate::makeAssertCollection()
       # Custom Validation check to input format
@@ -266,7 +266,8 @@ agepro_model <- R6Class(
 
       self$recruit <- recruitment$new(model_num,
                       seq_years = self$general$seq_years,
-                      num_recruit_models = self$general$num_rec_models)
+                      num_recruit_models = self$general$num_rec_models,
+                      enable_cat_print = enable_cat_print)
 
 
 
@@ -294,7 +295,7 @@ agepro_model <- R6Class(
     #'
     #' @param type projection_analyses_type
     #'
-    #' @template enable_cat_print
+    #'
     #'
     setup_projection_analyses_values = function(type,
                                             enable_cat_print = FALSE) {

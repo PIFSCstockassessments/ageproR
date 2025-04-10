@@ -338,6 +338,13 @@ empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
+      args <- list(...)
+      #Default to TRUE if NULL
+      verbose <- ifelse(is.null(args[["enable_cat_print"]]),
+                        TRUE,
+                        args[["enable_cat_print"]])
+
+
       #Model Name
       cli::cli_alert_info("{self$model_name}")
       cli_ul()
@@ -345,8 +352,14 @@ empirical_recruit <- R6Class(
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
       cli_alert_info("Observations:")
+
+      if(verbose){
       cat_line(paste0("  ", capture.output(
         tibble::as_tibble(self$observations, .name_repair = "minimal"))))
+      }else{
+        tibble::as_tibble(self$obersvations) |> invisible()
+      }
+
       cli_end()
 
 
