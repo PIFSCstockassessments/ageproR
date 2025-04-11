@@ -19,13 +19,14 @@ Empirical CDF of Recruitment (Model #14)
 }
 }
 \if{html}{\out{
-<details open><summary>Inherited methods</summary>
+<details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="inp_lines_recruit_data"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-inp_lines_recruit_data'><code>ageproR::empirical_recruit$inp_lines_recruit_data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="new_obs_table"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-new_obs_table'><code>ageproR::empirical_recruit$new_obs_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print'><code>ageproR::empirical_recruit$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="print_json"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-print_json'><code>ageproR::empirical_recruit$print_json()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="read_inp_lines"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-read_inp_lines'><code>ageproR::empirical_recruit$read_inp_lines()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ageproR" data-topic="empirical_recruit" data-id="set_obs_table_from_df"><a href='../../ageproR/html/empirical_recruit.html#method-empirical_recruit-set_obs_table_from_df'><code>ageproR::empirical_recruit$set_obs_table_from_df()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -35,7 +36,7 @@ Empirical CDF of Recruitment (Model #14)
 \subsection{Method \code{new()}}{
 Initialize the Empirical CDF Model
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(num_observations = 2)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_cdf_model$new(num_observations = 2, obs_table = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -43,6 +44,9 @@ Initialize the Empirical CDF Model
 \describe{
 \item{\code{num_observations}}{\cr
 Number of Empirical Observation Records}
+
+\item{\code{obs_table}}{Data Frame containing empirical recruitment
+observation table. If NULL, set to default values.}
 }
 \if{html}{\out{</div>}}
 }

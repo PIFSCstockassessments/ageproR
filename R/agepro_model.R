@@ -29,10 +29,14 @@ agepro_model <- R6Class(
     #' Initializes the instance of the AGEPRO Model
     #'
     #' @template model_general_params
+    #' @param show_general_params
+    #' Logical flag to show AGEPRO model's general parameters on R console.
+    #' TRUE, by default.
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli**
-    #' [`cat_print`][cli::cat_print] messages to be seen on console. By default,
-    #' this is set to TRUE.
+    #' [`cat_print`][cli::cat_print] messages to be seen on console. This is
+    #' also used to print verbose information about the the initialized object.
+    #' By default, this is set to TRUE.
     #'
     initialize = function(yr_start,
                            yr_end,
@@ -43,6 +47,7 @@ agepro_model <- R6Class(
                            num_rec_models,
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1),
+                          show_general_params = TRUE,
                           enable_cat_print = TRUE) {
 
       #Current Input File Version
@@ -60,7 +65,7 @@ agepro_model <- R6Class(
                                          num_rec_models,
                                          discards_present,
                                          seed,
-                                         enable_cat_print = enable_cat_print)
+                                         enable_cat_print = show_general_params)
 
       ## Helper function to create a new instance of agepro_model
       if(enable_cat_print){
@@ -224,9 +229,10 @@ agepro_model <- R6Class(
     #'
     #' @template elipses
     #'
-    set_recruit_model = function(...) {
+    set_recruit_model = function(..., enable_cat_print = FALSE) {
 
       validation_error <- checkmate::makeAssertCollection()
+      # Custom Validation check to input format
       assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
@@ -237,7 +243,8 @@ agepro_model <- R6Class(
 
         #Combines lists elements as a vector
         model_num <- purrr::list_c(list(...))
-
+        # Throw informative error if model_num count doesn't match
+        # num_recruit_models
         assert_model_num_vector_count(model_num, self$general$num_rec_models,
                                       add = validation_error)
 
@@ -264,7 +271,8 @@ agepro_model <- R6Class(
 
       self$recruit <- recruitment$new(model_num,
                       seq_years = self$general$seq_years,
-                      num_recruit_models = self$general$num_rec_models)
+                      num_recruit_models = self$general$num_rec_models,
+                      enable_cat_print = enable_cat_print)
 
 
 
@@ -292,7 +300,7 @@ agepro_model <- R6Class(
     #'
     #' @param type projection_analyses_type
     #'
-    #' @template enable_cat_print
+    #'
     #'
     setup_projection_analyses_values = function(type,
                                             enable_cat_print = FALSE) {

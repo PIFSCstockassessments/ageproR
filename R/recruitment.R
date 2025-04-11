@@ -122,8 +122,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
         #Verify class inherits from "recruit_model"
         assert_r6(self$recruit_data[[recruit]], "recruit_model")
+        self$recruit_data[[recruit]]$print(enable_cat_print = enable_cat_print)
 
-        self$recruit_data[[recruit]]$print()
         cli::cli_end(par_recruit)
       }
 
@@ -505,6 +505,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.max_recruit_obs <- value
     },
 
+    # Validate and set input Recruitment Model Number to
+    # recruit model number list
     set_recruit_model_num_list_item = function(value, index){
       checkmate::assert_choice(value,
                                choice = private$.valid_recruit_model_num)

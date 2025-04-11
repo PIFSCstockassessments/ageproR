@@ -241,6 +241,7 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @template obs_table
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
@@ -257,7 +258,8 @@ empirical_recruit <- R6Class(
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(num_observations = 1, with_ssb = FALSE) {
+    initialize = function(num_observations = 1, with_ssb = FALSE,
+                          obs_table = NULL) {
 
       super$model_group <- 1
 
@@ -270,7 +272,14 @@ empirical_recruit <- R6Class(
         private$.with_ssb <- with_ssb
       }
 
-      self$new_obs_table()
+      # By default, default recruitment observation data is created on initialization.
+      if(is.null(obs_table)){
+        self$new_obs_table()
+      }else{
+        self$set_obs_table_from_df(obs_table)
+      }
+
+
     },
 
     #'@description
@@ -296,12 +305,45 @@ empirical_recruit <- R6Class(
         colnames(self$observations) <- "recruit"
       }
 
+    },
+
+    #' @description
+    #' Input data frame to set empirical recruitment observation data table.
+    #' Typically used at initialization.
+    #'
+    #' @param df Input data frame
+    #'
+    set_obs_table_from_df = function(df) {
+
+      # Validate input empirical recruitment observation data
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_data_frame(df, nrows = self$observed_points,
+                                   add = validation_error)
+      # Check colnames
+      if(self$with_ssb){
+        checkmate::assert_subset(names(df),c("recruit","ssb"),
+                                 add = validation_error)
+      }else{
+        checkmate::assert_subset(names(df),"recruit",
+                                 add = validation_error)
+      }
+
+      checkmate::reportAssertions(validation_error)
+
+      self$observations <- df
 
     },
 
     #' @description
     #' Prints out Recruitment Model
     print = function(...) {
+
+      args <- list(...)
+      #Default to TRUE if NULL
+      verbose <- ifelse(is.null(args[["enable_cat_print"]]),
+                        TRUE,
+                        args[["enable_cat_print"]])
+
 
       #Model Name
       cli::cli_alert_info("{self$model_name}")
@@ -310,8 +352,14 @@ empirical_recruit <- R6Class(
       cli_li(paste0("Number of Recruitment Data Points: ",
                "{.val {self$observed_points}}"))
       cli_alert_info("Observations:")
+
+      if(verbose){
       cat_line(paste0("  ", capture.output(
         tibble::as_tibble(self$observations, .name_repair = "minimal"))))
+      }else{
+        tibble::as_tibble(self$obersvations) |> invisible()
+      }
+
       cli_end()
 
 
@@ -483,6 +531,8 @@ empirical_recruit <- R6Class(
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations
+#' @template obs_table
+#'
 #' @export
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -490,12 +540,14 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(num_observations) {
+    initialize = function(num_observations,
+                          obs_table = NULL) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )
@@ -504,6 +556,7 @@ empirical_distribution_model <- R6Class(
 #' Empirical CDF of Recruitment (Model #14)
 #'
 #' @template num_observations
+#' @template obs_table
 #' @export
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
@@ -511,7 +564,8 @@ empirical_cdf_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 2) {
+    initialize = function(num_observations = 2,
+                          obs_table = NULL) {
 
       self$observed_points <- num_observations
 
@@ -519,7 +573,8 @@ empirical_cdf_model <- R6Class(
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )
