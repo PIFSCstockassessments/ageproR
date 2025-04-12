@@ -59,6 +59,8 @@ Initializes the Recruitment Class
   model_num,
   seq_years,
   num_recruit_models = 1,
+  recruit_scaling_factor = 1000,
+  ssb_scaling_factor = 1,
   max_recruit_obs = 10000,
   enable_cat_print = TRUE
 )}\if{html}{\out{</div>}}
@@ -74,6 +76,11 @@ AGEPRO Recruitment Model Number}
 Array representing the Projection Time Horizon}
 
 \item{\code{num_recruit_models}}{Number of Recruitment Models in AGEPRO model. Default is 1.}
+
+\item{\code{recruit_scaling_factor}}{Recruit model's multiplier to convert units to absolute numbers of fish.}
+
+\item{\code{ssb_scaling_factor}}{Recruit model's multiplier to convert SSB to absolute
+spawning weight of fish in kilograms (kg)}
 
 \item{\code{max_recruit_obs}}{Max limit of recruitment observations. Default is 10000.}
 

@@ -113,7 +113,8 @@ Initializes the instance of the AGEPRO Model
   discards_present = FALSE,
   seed = sample.int(1e+08, 1),
   show_general_params = TRUE,
-  enable_cat_print = TRUE
+  enable_cat_print = TRUE,
+  ...
 )}\if{html}{\out{</div>}}
 }
 
@@ -145,6 +146,8 @@ TRUE, by default.}
 \code{\link[cli:cat_line]{cat_print}} messages to be seen on console. This is
 also used to print verbose information about the the initialized object.
 By default, this is set to TRUE.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
@@ -161,7 +164,8 @@ weight may be created, if enabled.
 \if{html}{\out{<div class="r">}}\preformatted{agepro_model$default_agepro_keyword_params(
   x,
   projection_analyses_type = "standard",
-  enable_cat_print = TRUE
+  enable_cat_print = TRUE,
+  ...
 )}\if{html}{\out{</div>}}
 }
 
@@ -175,6 +179,8 @@ Default is \code{"standard"}.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }

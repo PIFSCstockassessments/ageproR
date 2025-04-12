@@ -10,6 +10,7 @@
 #' determine age-structured population over a time period. Brodziak, 2022
 #'
 #' @template model_num
+#' @template elipses
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -48,7 +49,8 @@ agepro_model <- R6Class(
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1),
                           show_general_params = TRUE,
-                          enable_cat_print = TRUE) {
+                          enable_cat_print = TRUE,
+                          ...) {
 
       #Current Input File Version
       private$.ver_inpfile_string = private$.currentver_inpfile_string
@@ -71,12 +73,14 @@ agepro_model <- R6Class(
       if(enable_cat_print){
 
         self$default_agepro_keyword_params(self$general,
-                                           enable_cat_print = enable_cat_print)
+                                           enable_cat_print = enable_cat_print,
+                                           ...)
       }else{
 
         suppressMessages(
           self$default_agepro_keyword_params(self$general,
-                                           enable_cat_print = enable_cat_print))
+                                           enable_cat_print = enable_cat_print,
+                                           ...))
       }
 
 
@@ -98,7 +102,8 @@ agepro_model <- R6Class(
     #'
     default_agepro_keyword_params = function (x, projection_analyses_type =
                                                 "standard",
-                                              enable_cat_print = TRUE) {
+                                              enable_cat_print = TRUE,
+                                              ...) {
 
       #Verify general param
       checkmate::assert_r6(x, public = c("yr_start",
@@ -123,7 +128,8 @@ agepro_model <- R6Class(
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
                                       x$seq_years,
                                       num_recruit_models = x$num_rec_models,
-                                      enable_cat_print = enable_cat_print)
+                                      enable_cat_print = enable_cat_print,
+                                      ...)
 
       self$bootstrap <- bootstrap$new()
 
@@ -227,7 +233,6 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    #' @template elipses
     #'
     set_recruit_model = function(..., enable_cat_print = FALSE) {
 
@@ -828,6 +833,7 @@ agepro_model <- R6Class(
 #' @template inp_line
 #' @template inp_con
 #' @template delimiter
+#' @template elipses
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -859,6 +865,9 @@ agepro_inp_model <- R6Class(
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli** [`cat_print`][cli::cat_print]
     #' messages to be seen on console. In this instance, this is set to TRUE
+    #' @param show_general_params
+    #' Logical flag to show AGEPRO model's general parameters on R console.
+    #' TRUE, by default.
     #'
     initialize = function(yr_start = 0,
                           yr_end = 2,
@@ -868,8 +877,10 @@ agepro_inp_model <- R6Class(
                           num_fleets = 1,
                           num_rec_models = 1,
                           discards_present = 0,
-                          seed =  sample.int(1e8, 1),
-                          enable_cat_print = TRUE) {
+                          seed = sample.int(1e8, 1),
+                          enable_cat_print = TRUE,
+                          show_general_params = TRUE,
+                          ...) {
 
 
       if(all(isTRUE(c(
@@ -893,7 +904,9 @@ agepro_inp_model <- R6Class(
                        num_rec_models,
                        discards_present,
                        seed,
-                       enable_cat_print = enable_cat_print)
+                       enable_cat_print = enable_cat_print,
+                       show_general_params = show_general_params,
+                       ...)
 
     },
 

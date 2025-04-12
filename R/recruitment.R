@@ -32,6 +32,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Initializes the Recruitment Class
     #'
+    #' @param num_recruit_models
+    #' Number of Recruitment Models in AGEPRO model. Default is 1.
+    #'
+    #' @param recruit_scaling_factor
+    #' Recruit model's multiplier to convert units to absolute numbers of fish.
+    #'
+    #' @param ssb_scaling_factor
+    #' Recruit model's multiplier to convert SSB to absolute
+    #' spawning weight of fish in kilograms (kg)
+    #'
     #' @param max_recruit_obs
     #' Max limit of recruitment observations. Default is 10000.
     #'
@@ -39,11 +49,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Flag to print out `cat` based cli messages printed on console. Default
     #' is TRUE.
     #'
-    #' @param num_recruit_models
-    #' Number of Recruitment Models in AGEPRO model. Default is 1.
     #'
     initialize = function(model_num, seq_years,
                           num_recruit_models = 1,
+                          recruit_scaling_factor = 1000,
+                          ssb_scaling_factor = 1,
                           max_recruit_obs = 10000,
                           enable_cat_print = TRUE) {
 
@@ -66,8 +76,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$.number_recruit_models <- length(model_num)
 
       # Setup Recruitment Model data
-      private$set_recruit_scaling_factor(1000)
-      private$set_ssb_scaling_factor(0)
+      private$set_recruit_scaling_factor(recruit_scaling_factor)
+      private$set_ssb_scaling_factor(ssb_scaling_factor)
       private$set_max_recruit_obs(max_recruit_obs)
       private$setup_recruitment_probability()
       private$setup_recruit_model_num_list(model_num)

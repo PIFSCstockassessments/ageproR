@@ -72,7 +72,9 @@ values for the default model is:
   num_rec_models = 1,
   discards_present = 0,
   seed = sample.int(1e+08, 1),
-  enable_cat_print = TRUE
+  enable_cat_print = TRUE,
+  show_general_params = TRUE,
+  ...
 )}\if{html}{\out{</div>}}
 }
 
@@ -99,6 +101,11 @@ values for the default model is:
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console. In this instance, this is set to TRUE}
+
+\item{\code{show_general_params}}{Logical flag to show AGEPRO model's general parameters on R console.
+TRUE, by default.}
+
+\item{\code{...}}{further arguments passed to or from other methods}
 }
 \if{html}{\out{</div>}}
 }
