@@ -346,12 +346,12 @@ empirical_recruit <- R6Class(
 
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li(paste0("Number of Recruitment Data Points: ",
-               "{.val {self$observed_points}}"))
-      cli_alert_info("Observations:")
+      cli::cli_text("{symbol$info} {.field {self$model_name}}")
+      cli_alert_info("with_ssb: {.val {self$with_ssb}}")
+      cli_alert_info(paste0("observed_points ",
+                    "{.emph (Number of Recruitment Data Points)}: ",
+                    "{.val {self$observed_points}}"))
+      cli_alert_info("observations:")
 
       if(verbose){
       cat_line(paste0("  ", capture.output(
@@ -360,7 +360,7 @@ empirical_recruit <- R6Class(
         tibble::as_tibble(self$obersvations) |> invisible()
       }
 
-      cli_end()
+
 
 
     },
