@@ -346,7 +346,7 @@ empirical_recruit <- R6Class(
 
 
       #Model Name
-      cli::cli_text("{symbol$info} {.field {self$model_name}}")
+      cli::cli_text("{.field {self$model_name}}")
       cli_alert_info("with_ssb: {.val {self$with_ssb}}")
       cli_alert_info(paste0("observed_points ",
                     "{.emph (Number of Recruitment Data Points)}: ",
@@ -987,12 +987,10 @@ parametric_curve <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      cli::cli_text("{.field {self$model_name}}")
+      cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli_alert_info("beta: {.val {private$.beta}}")
+      cli_alert_info("variance: {.val {private$.variance}}")
     },
 
     #' @description
@@ -1190,13 +1188,12 @@ shepherd_curve_model <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("k: {.val {private$.kpar}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      cli::cli_alert_info("{.field {self$model_name}}")
+      cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli_alert_info("beta: {.val {private$.beta}}")
+      cli_alert_info("kpar: {.val {private$.kpar}}")
+      cli_alert_info("variance: {.val {private$.variance}}")
+
 
     },
 
