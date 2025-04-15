@@ -312,7 +312,7 @@ agepro_model <- R6Class(
 
       previous_projection_type <- self$projection_analyses_type
 
-      cli::cli_alert_info(paste0("AGEPRO Model Projection analyses type set ",
+      cli::cli_alert(paste0("AGEPRO Model Projection analyses type set ",
                                  "to {.field {type}}"))
       tryCatch({
 
