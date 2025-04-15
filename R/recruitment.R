@@ -102,6 +102,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #verify private fields are numeric
       checkmate::assert_numeric(private$.number_recruit_models)
       checkmate::assert_numeric(private$.number_projection_years)
+      #verify recruit_prob list
+      checkmate::assert_list(private$.recruit_probability)
 
       cli::cli_par()
       cli::cli_alert(c("{private$.number_recruit_models} recruitment model{?s}",
@@ -113,7 +115,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      cli::cli_par()
       if(enable_cat_print){
         #Allow Recruitment Probability 'cat' cli message
         private$cli_recruit_probability()
@@ -121,9 +122,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         #Suppress Recruitment Probability 'cat' cli message
         capture.output(x <- private$cli_recruit_probability())
       }
-      cli::cli_end()
 
-      cli::cli_alert_info("recruit_data")
+      cli::cli_alert_info("recruit_data:")
       for (recruit in 1:private$.number_recruit_models){
         par_recruit <-  cli::cli_par()
         cli::cli_text("[[{recruit}]]")
@@ -544,10 +544,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
-      cli::cli_alert_info("recruitment_probability")
-      #verify recruit_prob list
-      checkmate::assert_list(private$.recruit_probability)
-
+      cli::cli_alert_info("recruitment_probability:")
       cli::cat_print(private$.recruit_probability)
     },
 
