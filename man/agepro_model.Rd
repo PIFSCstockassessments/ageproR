@@ -199,7 +199,7 @@ the vector length of \code{model_num} doesn't match current AGEPRO
 \link[=general_params]{general parameter's} \code{num_rec_models}
 value, it will throw an error.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(..., enable_cat_print = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{agepro_model$set_recruit_model(..., enable_cat_print = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

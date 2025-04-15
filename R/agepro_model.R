@@ -234,7 +234,7 @@ agepro_model <- R6Class(
     #' value, it will throw an error.
     #'
     #'
-    set_recruit_model = function(..., enable_cat_print = FALSE) {
+    set_recruit_model = function(..., enable_cat_print = TRUE) {
 
       validation_error <- checkmate::makeAssertCollection()
       # Custom Validation check to input format
@@ -270,9 +270,9 @@ agepro_model <- R6Class(
 
       checkmate::reportAssertions(validation_error)
 
-      div_keyword_header(self$recruit$keyword_name)
-      cli_alert("Recruitment Data Setup")
-      cli_alert("Using Model Number {.field {model_num}}")
+
+      cli_alert("{.emph Recruitment Data Setup}")
+      cli_alert("{.emph Using Model Number {.field {model_num}}}")
 
       self$recruit <- recruitment$new(model_num,
                       seq_years = self$general$seq_years,
