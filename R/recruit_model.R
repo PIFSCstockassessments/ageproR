@@ -728,23 +728,22 @@ two_stage_empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
-      cli_text("{self$model_name}")
-      cli_ul()
-      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
-      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
-      cli_li("Number of Recruitment Data Points: ")
-      a <- cli_ul()
-      cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
-      cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
-      cli_end(a)
-      cli_alert_info("Observations:")
-      cli_text("Low recruitment")
+      cli::cli_text("{.field {self$model_name}}")
+
+      cli_alert_info(paste0("with_ssb ",
+                            "{.emph (Include state SSB vector)}? ",
+                            "{.val {self$with_ssb}}"))
+      cli_alert_info(paste0("ssb_cutoff ",
+                            "{.emph (SSB cutoff level)}: ",
+                            "{.val {self$ssb_cutoff}}"))
+      cli_alert_info("num_low_recruits: {.val {self$num_low_recruits}}")
+      cli_alert_info("num_high_recruits: {.val {self$num_high_recruits}}")
+      cli_alert_info("low_recruitment:")
       cat_line(paste0("  ", capture.output(
         tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
-      cli_text("High recruitment")
+      cli_alert_info("high_recruitment:")
       cat_line(paste0("  ", capture.output(
         tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
-      cli_end()
 
 
 
