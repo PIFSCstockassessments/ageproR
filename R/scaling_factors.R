@@ -20,7 +20,7 @@
 #' The scaling_factors class (or SCALE) is recognized as a keyword
 #' parameter used in the AGEPRO input file format, but it is optional.
 #'
-#' @include optional_options_flags.R
+#' @include options_flags.R
 #'
 #' @export
 #' @importFrom R6 R6Class

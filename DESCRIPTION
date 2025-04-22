@@ -40,7 +40,7 @@ Collate:
     'file.R'
     'general_params.R'
     'harvest_scenario.R'
-    'optional_options_flags.R'
+    'options_flags.R'
     'max_bounds.R'
     'mortality_fraction.R'
     'output_options.R'
