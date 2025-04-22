@@ -208,7 +208,7 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
-      self$perc <- user_percentile_summary$new()
+      self$perc <- percentile_summary$new()
 
       self$bounds <- max_bounds$new()
 
@@ -595,14 +595,14 @@ agepro_model <- R6Class(
     #'
     perc = function(value) {
       if(missing(value)){
-        return(private$.user_percentile_summary)
+        return(private$.percentile_summary)
       }else{
         tryCatch({
 
-          #Validate value as user_percentile_summary R6class
+          #Validate value as percentile_summary R6class
           assert_perc_active_binding(value, .var.name = "perc")
 
-          private$.user_percentile_summary <- value
+          private$.percentile_summary <- value
 
         },
         error = function(err) {
@@ -622,7 +622,7 @@ agepro_model <- R6Class(
       }else{
         tryCatch({
 
-          #Validate value as user_percentile_summary R6class
+          #Validate value as percentile_summary R6class
           assert_bounds_active_binding(value, .var.name = "bounds")
 
           private$.max_bounds <- value
@@ -808,7 +808,7 @@ agepro_model <- R6Class(
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
     .output_options = NULL,
-    .user_percentile_summary = NULL,
+    .percentile_summary = NULL,
     .max_bounds = NULL,
     .reference_points = NULL,
     .scaling_factors = NULL,
@@ -945,7 +945,7 @@ agepro_inp_model <- R6Class(
           message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          self$perc$set_enable_user_percentile_summary(FALSE)
+          self$perc$set_enable_percentile_summary(FALSE)
           return(invisible())
         },
         finally = {
@@ -1054,7 +1054,7 @@ agepro_inp_model <- R6Class(
           rlang::expr(private$read_output_options(inp_con, self$nline))
         },
         "[PERC]" = {
-          rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
+          rlang::expr(private$read_percentile_summary(inp_con, self$nline))
         },
         "[BOUNDS]" = {
           rlang::expr(private$read_max_bounds(inp_con, self$nline))
@@ -1164,7 +1164,7 @@ agepro_inp_model <- R6Class(
             if(self$scale$flag$op$enable_scaling_factors){
               self$scale$get_inp_lines(delimiter)
             },
-            if(self$perc$flag$op$enable_user_percentile_summary){
+            if(self$perc$flag$op$enable_percentile_summary){
               self$perc$get_inp_lines(delimiter)
             }
 
@@ -1356,9 +1356,9 @@ agepro_inp_model <- R6Class(
       self$nline <- self$options$read_inp_lines(con, nline)
     },
 
-    read_user_percentile_summary = function(con, nline) {
+    read_percentile_summary = function(con, nline) {
 
-      self$perc$set_enable_user_percentile_summary(TRUE)
+      self$perc$set_enable_percentile_summary(TRUE)
       self$nline <- self$perc$read_inp_lines(con, nline)
     },
 
@@ -1539,7 +1539,7 @@ agepro_json_model <- R6Class(
         "rebuild" = self$rebuild$json_list_object,
         "options" = self$options$json_list_object,
         "perc" = {
-          if(self$perc$flag$op$enable_user_percentile_summary){
+          if(self$perc$flag$op$enable_percentile_summary){
             self$perc$json_list_object
           }else{
             NA

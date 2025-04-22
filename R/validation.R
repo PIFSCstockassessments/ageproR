@@ -121,7 +121,7 @@ assert_proj_years_sequence <- function(x, .var.name = checkmate::vname(x),
 #'
 #' @description
 #' Custom validation procedure to check if input value matches the structure
-#' of the user_percentile_summary R6Class. It will also catch single numeric
+#' of the percentile_summary R6Class. It will also catch single numeric
 #' input values presuming that the active binder sets the report_percentile.
 #'
 #' @param x
@@ -131,7 +131,7 @@ check_perc_active_binding <- function(x) {
 
   if(checkmate::test_numeric(x, len = 1)) {
     return(paste0(
-      "Input value found as a numeric, not a user_percentile_summary class. ",
+      "Input value found as a numeric, not a percentile_summary class. ",
       "Did you mean to set report_percentile field?"
     ))
   }

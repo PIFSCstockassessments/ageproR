@@ -15,7 +15,7 @@ retrospective adjustment (RETROADJUST).
 Associated with AGEPRO's output options (OPTIONS) are additional optional
 options:
 \itemize{
-\item \code{PERC} :  user_percentile_summary
+\item \code{PERC} :  percentile_summary
 \item \code{REFPOINT} :  reference_points
 \item \code{SCALE} :  scaling_factors
 \item \code{BOUNDS} :  max_bounds
@@ -32,7 +32,7 @@ Then it will be TRUE
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{enable_user_percentile_summary}}{Enables output summary report of specific Percentile}
+\item{\code{enable_percentile_summary}}{Enables output summary report of specific Percentile}
 
 \item{\code{enable_reference_points}}{Enables biological reference points threshold report}
 

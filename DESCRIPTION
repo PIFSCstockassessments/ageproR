@@ -43,6 +43,7 @@ Collate:
     'mortality_fraction.R'
     'options_flags.R'
     'options_max_bounds.R'
+    'options_percentile_summary.R'
     'output_options.R'
     'process_error.R'
     'projection_analyses.R'
@@ -52,7 +53,6 @@ Collate:
     'reference_points.R'
     'retrospective_adjustments.R'
     'scaling_factors.R'
-    'user_percentile_summary.R'
     'utils.R'
     'validation.R'
 Suggests: 

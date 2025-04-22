@@ -7,24 +7,24 @@
 #' Class Structure that includes user-defined options for setting
 #' a specific percentile for the distributions of outputs.
 #'
-#' The logical flag `enable_user_percentile_summary` allows the user to
+#' The logical flag `enable_percentile_summary` allows the user to
 #' set values to this class field: report_percentile. The flag will also notify
 #' `agepro_model` if this keyword parameter is allowed to be written to
 #' input file.
 #'
-#' If the user_percentile_summary is initialized with default values, it is
+#' If percentile_summary is initialized with default values, it is
 #' presumed that this keyword parameter is not used in the agepro_model.
-#' Therefore, `enable_user_percentile_summary` is flagged as FALSE. Valid non-
+#' Therefore, `enable_percentile_summary` is flagged as FALSE. Valid non-
 #' default values will set this flag to TRUE.#'
 #'
 #' @details
-#' The user_percentile_summary class (or `PERC`) is an optional keyword
+#' The percentile_summary class (or `PERC`) is an optional keyword
 #' parameter used in the AGEPRO input file format.
 #'
 #' @export
 #'
-user_percentile_summary <- R6Class(
-  "user_percentile_summary",
+percentile_summary <- R6Class(
+  "percentile_summary",
   public = list(
 
     #' @field flag
@@ -52,19 +52,19 @@ user_percentile_summary <- R6Class(
                               "to FALSE"))
         self$report_percentile <- perc
 
-        suppressMessages(self$set_enable_user_percentile_summary(FALSE))
+        suppressMessages(self$set_enable_percentile_summary(FALSE))
 
         return()
 
       }
 
-      cli::cli_alert(paste0("Setting for user_percentile_summary values ",
+      cli::cli_alert(paste0("Setting for percentile_summary values ",
                             "Enable options_flag ",
                             "{private$.name_options_flag} as TRUE"))
       cli::cli_alert("Set report_percentile to {.val {perc}} ..")
 
       self$report_percentile <- perc
-      self$set_enable_user_percentile_summary(TRUE)
+      self$set_enable_percentile_summary(TRUE)
       self$print()
 
     },
@@ -76,33 +76,33 @@ user_percentile_summary <- R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("user_percentile_summary: ",
+        paste0("percentile_summary: ",
                "Request Percentile Report ",
-               "{.emph (self$enable_user_percentile_summary)}: ",
-               "{.val {self$enable_user_percentile_summary}}"))
+               "{.emph (self$enable_percentile_summary)}: ",
+               "{.val {self$enable_percentile_summary}}"))
       cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
     },
 
     #' @description
-    #' Wrapper Function to toggle enable_user_percentile_summary options_flag.
+    #' Wrapper Function to toggle enable_percentile_summary options_flag.
     #'
-    #' The user_percentile_summary class will not accept values until it is
-    #' enable_user_percentile_summary is TRUE.
+    #' The percentile_summary class will not accept values until it is
+    #' enable_percentile_summary is TRUE.
     #'
     #' @param x
-    #' Logical value for enable_user_percentile_summary options_flag
+    #' Logical value for enable_percentile_summary options_flag
     #'
-    set_enable_user_percentile_summary = function(x) {
+    set_enable_percentile_summary = function(x) {
 
       checkmate::assert_logical(x)
 
       #Set value to options flags field reference "flag"
-      self$flag$op$enable_user_percentile_summary <- x
+      self$flag$op$enable_percentile_summary <- x
 
       cli::cli_alert(
         paste0("{private$.name_options_flag} : ",
                "{.val ",
-               "{self$flag$op$enable_user_percentile_summary}}"))
+               "{self$flag$op$enable_percentile_summary}}"))
 
 
     },
@@ -171,7 +171,7 @@ user_percentile_summary <- R6Class(
 
         checkmate::assert_numeric(value, null.ok = TRUE, len = 1,
                                   lower = 0, upper = 100)
-        if(isFALSE(self$flag$op$enable_user_percentile_summary)) {
+        if(isFALSE(self$flag$op$enable_percentile_summary)) {
           stop(paste0("{private$.name_options_flag} flag is FALSE. ",
                         "Set flag to TRUE to set value.") )
         }
@@ -181,15 +181,15 @@ user_percentile_summary <- R6Class(
 
     },
 
-    #' @field enable_user_percentile_summary
+    #' @field enable_percentile_summary
     #' Read-only logical field that flags if fields can be edited. To set
-    #' the value use `set_enable_user_percentile_summary` or field
-    enable_user_percentile_summary = function(value) {
+    #' the value use `set_enable_percentile_summary` or field
+    enable_percentile_summary = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_user_percentile_summary)
+        return(self$flag$op$enable_percentile_summary)
       }else{
-        #Validate and set value via set_enable_user_percentile_summary
-        self$set_enable_user_percentile_summary(value)
+        #Validate and set value via set_enable_percentile_summary
+        self$set_enable_percentile_summary(value)
       }
 
     },
@@ -223,14 +223,14 @@ user_percentile_summary <- R6Class(
 
     .report_percentile = NULL,
 
-    .name_options_flag = "enable_user_percentile_summary",
+    .name_options_flag = "enable_percentile_summary",
 
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$op$enable_user_percentile_summary))){
+      if(isFALSE(is.null(self$flag$op$enable_percentile_summary))){
         cli::cli_alert(paste0("Reset {private$.name_options_flag}",
                               "for initialization"))
-        self$flag$op$enable_user_percentile_summary <- NULL
+        self$flag$op$enable_percentile_summary <- NULL
       }
     }
 

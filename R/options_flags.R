@@ -13,7 +13,7 @@
 #' Associated with AGEPRO's output options (OPTIONS) are additional optional
 #' options:
 #'
-#' * `PERC` :  user_percentile_summary
+#' * `PERC` :  percentile_summary
 #' * `REFPOINT` :  reference_points
 #' * `SCALE` :  scaling_factors
 #' * `BOUNDS` :  max_bounds
@@ -31,9 +31,9 @@ optional_options_container <- R6Class(
   "optional_options_container",
   public = list(
 
-    #' @field enable_user_percentile_summary
+    #' @field enable_percentile_summary
     #' Enables output summary report of specific Percentile
-    enable_user_percentile_summary = NULL,
+    enable_percentile_summary = NULL,
 
     #' @field enable_reference_points
     #' Enables biological reference points threshold report
