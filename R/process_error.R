@@ -90,15 +90,13 @@ process_error <- R6Class(
     print = function(enable_cat_print = TRUE, ...) {
       #TODO: If (a valid) input_option is -1, -2, -3, or -4 say that
       #this parameter used a "weight-of-age"
-      cli::cli_ul()
-      cli::cli_li("input_option: {.val {self$input_option}}")
+      cli::cli_alert_info("input_option: {.val {self$input_option}}")
       private$print_input_option_name()
-      cli::cli_li("time_varying: {.val {self$time_varying}}")
-      cli::cli_end()
+      cli::cli_alert_info("time_varying: {.val {self$time_varying}}")
 
       cli::cli_par()
       cli::cli_alert_info("parameter_table:")
-      cli::cli_text("{symbol$bullet} {self$parameter_title}")
+      cli::cli_text("{.emph {self$parameter_title}}")
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
@@ -112,7 +110,7 @@ process_error <- R6Class(
 
       cli::cli_par()
       cli::cli_alert_info("cv_table: ")
-      cli::cli_text("{symbol$bullet} Coefficient of Variation")
+      cli::cli_text("{.emph Coefficient of Variation}")
       if(enable_cat_print) {
         #Allow `cli::cat_print` message
         self$cli_print_process_error_table(self$cv_table, ...)
@@ -581,7 +579,7 @@ process_error <- R6Class(
 
       li_nested <- cli::cli_div(class = "input_field",
                                 theme = list(.input_field =
-                                               list("margin-left" = 2)))
+                                               list("margin-left" = 0)))
       cli::cli_text("{.emph {.field {input_option_name}}}")
       cli::cli_end(li_nested)
 
