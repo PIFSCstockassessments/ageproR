@@ -27,8 +27,8 @@
 #' Then it will be TRUE
 #'
 #'
-optional_options_container <- R6Class(
-  "optional_options_container",
+options_flag_container <- R6Class(
+  "options_flag_container",
   public = list(
 
     #' @field enable_percentile_summary
@@ -53,7 +53,7 @@ optional_options_container <- R6Class(
   )
 )
 
-#' @rdname optional_options_container
+#' @rdname options_flag_container
 #'
 #' @export
 #'
@@ -64,7 +64,7 @@ options_flags <- R6Class(
     #' @field op
     #' Class container that encapsulates logical flags to enable AGEPRO
     #' user-defined options
-    op = optional_options_container$new()
+    op = options_flag_container$new()
   )
 )
 
