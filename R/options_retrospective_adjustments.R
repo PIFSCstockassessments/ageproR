@@ -53,13 +53,15 @@ retrospective_adjustments <- R6Class(
       self$retrospective_coefficients <- retroadjust
 
       if(all.equal(retroadjust,0)){
-        cli::cli_alert(paste0("Default values set, options_flag ",
-                              "{private$.name_options_flag} to FALSE"))
+        cli::cli_alert(paste0("All retrospective_adjustments values ",
+                              "are default: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "to {.val {FALSE}}"))
         suppressMessages(private$set_enable_retrospective_adjustments(FALSE))
       }else {
-        cli::cli_alert(paste0("Values for reference_points set. Enable ",
-                              "options_flag {private$.name_options_flag} ",
-                              "as TRUE"))
+        cli::cli_alert(paste0("Setting retrospective_adjustments values: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "to {.val {TRUE}}"))
         private$set_enable_retrospective_adjustments(TRUE)
         self$print(enable_cat_print)
       }
