@@ -45,6 +45,7 @@ Collate:
     'options_max_bounds.R'
     'options_percentile_summary.R'
     'options_reference_points.R'
+    'options_retrospective_adjustments.R'
     'options_scaling_factors.R'
     'output_options.R'
     'process_error.R'
@@ -52,7 +53,6 @@ Collate:
     'projection_years.R'
     'recruit_model.R'
     'recruitment.R'
-    'retrospective_adjustments.R'
     'utils.R'
     'validation.R'
 Suggests: 
