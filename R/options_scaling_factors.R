@@ -63,13 +63,14 @@ scaling_factors <-R6Class(
       if(all(c(all.equal(scale_bio, 0),
                all.equal(scale_recruit, 0),
                all.equal(scale_stock_size, 0)))) {
-        cli::cli_alert(paste0("Default values set, ",
-                              "options_flag enable_scaling_factors to FALSE"))
+        cli::cli_alert(paste0("All scaling factor values are default: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "to {.val {FALSE}}"))
         suppressMessages(private$set_enable_scaling_factors(FALSE))
       } else{
-        cli::cli_alert(paste0("Values for reference_points set. ",
-                              "Enable options_flag enable_scaling_factors ",
-                              "as TRUE"))
+        cli::cli_alert(paste0("Setting scaling factor values: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "as {.val {TRUE}}"))
         private$set_enable_scaling_factors(TRUE)
         self$print()
       }
@@ -273,6 +274,8 @@ scaling_factors <-R6Class(
     .biomass_scale = NULL,
     .recruitment_scale = NULL,
     .stock_size_scale = NULL,
+
+    .name_options_flag = "enable_scaling_factors",
 
     # Wrapper Function to toggle enable_reference_points options_flag.
     set_enable_scaling_factors = function(x) {
