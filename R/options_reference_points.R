@@ -69,13 +69,14 @@ reference_points <- R6Class(
                all.equal(stockbio_threshold, 0),
                all.equal(meanbio_threshold, 0),
                all.equal(fmort_threshold,0))))  {
-        cli::cli_alert(paste0("Default values set, ",
-                              "options_flag {private$.name_options_flag} to FALSE"))
+        cli::cli_alert(paste0("All Reference Points values are default: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "to {.val {FALSE}}"))
         suppressMessages(private$set_enable_reference_points(FALSE))
       }else{
-        cli::cli_alert(paste0("Values for reference_points set. ",
-                              "Enable options_flag {private$.name_options_flag} ",
-                              "as TRUE"))
+        cli::cli_alert(paste0("Setting reference_points values: ",
+                              "{symbol$info} {private$.name_options_flag} ",
+                              "to {.val {TRUE}}"))
         private$set_enable_reference_points(TRUE)
         self$print()
       }
