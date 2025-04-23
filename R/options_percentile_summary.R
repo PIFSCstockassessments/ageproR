@@ -47,7 +47,7 @@ percentile_summary <- R6Class(
 
       # Presume default if perc is 0.
       if(isTRUE(all.equal(perc,0))){
-        cli::cli_alert(paste0("Default values set: ",
+        cli::cli_alert(paste0("All percentile_summary values are default: ",
                               "{symbol$info} {private$.name_options_flag} ",
                               "to {.val {FALSE}}"))
         self$report_percentile <- perc
@@ -58,9 +58,9 @@ percentile_summary <- R6Class(
 
       }
 
-      cli::cli_alert(paste0("Setting for percentile_summary values ",
-                            "Enable options_flag ",
-                            "{private$.name_options_flag} as TRUE"))
+      cli::cli_alert(paste0("Setting percentile_summary values: ",
+                            "{symbol$info} {private$.name_options_flag} ",
+                            "to {.val {TRUE}}"))
       cli::cli_alert("Set report_percentile to {.val {perc}} ..")
 
       self$report_percentile <- perc
