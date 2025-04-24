@@ -77,15 +77,12 @@ retrospective_adjustments <- R6Class(
     print = function(enable_cat_print = TRUE, ...){
 
       cli::cli_alert_info(
-        paste0("retrospective_adjustments: ",
-               "Specify Retrospective Adjustment factors: ",
-               "{.emph (enable_retrospective_adjustments)}: ",
+        paste0("enable_retrospective_adjustments: ",
+               "{.emph (Specify Retrospective Adjustment factors)}: ",
                "{.val {self$enable_retrospective_adjustments}}"))
       cli::cli_ul(id = "retrospective_adjustments_fields")
-      #cli::cli_li(paste0("retrospective_coefficients: ",
-      #                   "{.val {self$retrospective_coefficients}}"))
+      cli::cli_alert_info("retrospective_coefficients: ")
 
-      cli::cli_text("{symbol$bullet} retrospective_coefficients")
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message

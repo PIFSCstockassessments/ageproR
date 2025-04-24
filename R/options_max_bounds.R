@@ -78,13 +78,12 @@ max_bounds <- R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("max_bounds: ",
-               "Specify bounds {.emph (enable_max_bounds)}: ",
+        paste0("enable_max_bounds ",
+               "{.emph (Specify bounds)}: ",
                "{.val {self$enable_max_bounds}}"))
-      cli::cli_ul(id = "max_bounds_fields")
-      cli::cli_li("max_weight: {.val {self$max_weight}}")
-      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
-      cli::cli_end()
+      cli::cli_alert_info("max_weight: {.val {self$max_weight}}")
+      cli::cli_alert_info("max_natural_mortality: {.val {self$max_natural_mortality}}")
+
 
     },
 

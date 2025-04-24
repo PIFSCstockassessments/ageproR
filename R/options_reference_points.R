@@ -89,19 +89,16 @@ reference_points <- R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("reference_points: ",
-               "Enable Reference Point Threshold Report ",
-               "{.emph (enable_reference_points)}: ",
+        paste0("enable_reference_points ",
+               "{.emph (Enable Reference Point Threshold Report)}: ",
                "{.val {self$enable_reference_points}}"))
-      cli::cli_ul(id = "reference_points_fields")
-      cli::cli_li("ssb_threshold: {.val {self$ssb_threshold}}")
-      cli::cli_li(paste0("stock_biomass_threshold: ",
+      cli::cli_alert_info("ssb_threshold: {.val {self$ssb_threshold}}")
+      cli::cli_alert_info(paste0("stock_biomass_threshold: ",
                          "{.val {self$stock_biomass_threshold}}"))
-      cli::cli_li(paste0("mean_biomass_threshold: ",
+      cli::cli_alert_info(paste0("mean_biomass_threshold: ",
                          "{.val {self$mean_biomass_threshold}}"))
-      cli::cli_li(paste0("fishing_mortality_threshold: ",
+      cli::cli_alert_info(paste0("fishing_mortality_threshold: ",
                          "{.val {self$fishing_mortality_threshold}}"))
-      cli::cli_end()
 
     },
 

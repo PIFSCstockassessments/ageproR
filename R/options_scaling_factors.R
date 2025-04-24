@@ -82,16 +82,16 @@ scaling_factors <-R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("Specify Scaling Factors for Output Report File ",
-               "{.emph (enable_scaling_factors)}: ",
+        paste0("enable_scaling_factors ",
+               "{.emph (Specify Scaling Factors for Output Report File)}: ",
                "{.val {self$enable_scaling_factors}}"))
-      cli::cli_ul(id = "scaling_factors_fields")
-      cli::cli_li("biomass_scale: {.val {self$biomass_scale}}")
-      cli::cli_li("recruitment_scale: {.val {self$recruitment_scale}}")
-      cli::cli_li(paste0("stock_size_scale: ",
+
+      cli::cli_alert_info("biomass_scale: {.val {self$biomass_scale}}")
+      cli::cli_alert_info("recruitment_scale: {.val {self$recruitment_scale}}")
+      cli::cli_alert_info(paste0("stock_size_scale: ",
                          "{.val {self$stock_size_scale}}"))
 
-      cli::cli_end()
+
 
     },
 

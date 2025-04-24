@@ -76,9 +76,8 @@ percentile_summary <- R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("percentile_summary: ",
-               "Request Percentile Report ",
-               "{.emph (self$enable_percentile_summary)}: ",
+        paste0("enable_percentile_summary ",
+               "{.emph (Request Percentile Report)}: ",
                "{.val {self$enable_percentile_summary}}"))
       cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
     },
