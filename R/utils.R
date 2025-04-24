@@ -19,7 +19,7 @@ div_keyword_header <- function(keyword, header_color = "cyan") {
 }
 
 
-#' Print AGEPRO table-like values to the console
+#' Use cli commands to display AGEPRO table-like values
 #'
 #' Helper function to print out AGEPRO keyword parameter's table-like matrix or
 #' vector variables to console. Includes an option to show the first few rows
