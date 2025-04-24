@@ -679,7 +679,7 @@ agepro_model <- R6Class(
       if(missing(value)) {
         return(private$.retrospective_adjustments)
       }else {
-        checkmate::assert_r6(value, public = c("retrospective_coefficients"),
+        checkmate::assert_r6(value, public = c("retro_adjust"),
                              .var.name = "retroadjust")
 
         private$.retrospective_adjustments <- value

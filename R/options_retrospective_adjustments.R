@@ -38,10 +38,10 @@ retrospective_adjustments <- R6Class(
     #' Initializes the class
     #'
     #' @template enable_cat_print
-    #' @param retroadjust
+    #' @param retro_adjust
     #' Vector for retrospective bias adjustment
     #'
-    initialize = function(retroadjust = 0,
+    initialize = function(retro_adjust = 0,
                           enable_cat_print = TRUE) {
 
       div_keyword_header(private$.keyword_name)
@@ -50,9 +50,9 @@ retrospective_adjustments <- R6Class(
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
-      self$retrospective_coefficients <- retroadjust
+      self$retro_adjust <- retro_adjust
 
-      if(all.equal(retroadjust,0)){
+      if(all.equal(retro_adjust,0)){
         cli::cli_alert(paste0("All retrospective_adjustments values ",
                               "are default: ",
                               "{symbol$info} {private$.name_options_flag} ",
@@ -81,17 +81,17 @@ retrospective_adjustments <- R6Class(
                "{.emph (Specify Retrospective Adjustment factors)}: ",
                "{.val {self$enable_retrospective_adjustments}}"))
       cli::cli_ul(id = "retrospective_adjustments_fields")
-      cli::cli_alert_info("retrospective_coefficients: ")
+      cli::cli_alert_info("retro_adjust: ")
 
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
-        private$cli_print_retrospective_coefficients(
-          self$retrospective_coefficients, ...)
+        private$cli_print_retro_adjust(
+          self$retro_adjust, ...)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output( x <- private$cli_print_retrospective_coefficients(
-          self$retrospective_coefficients, ...))
+        capture.output( x <- private$cli_print_retro_adjust(
+          self$retro_adjust, ...))
       }
 
       cli::cli_end()
@@ -121,19 +121,19 @@ retrospective_adjustments <- R6Class(
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
-      self$retrospective_coefficients <- inp_line
-      count_ages <- length(self$retrospective_coefficients)
+      self$retro_adjust <- inp_line
+      count_ages <- length(self$retro_adjust)
 
-      # Throw error if vector length of retrospective_coefficients does not
+      # Throw error if vector length of retro_adjust does not
       # match num_ages
       if(!isTRUE(all.equal(count_ages, num_ages))) {
         stop(paste0("Length of Retrosepctive coefficeient vector does not ",
                     "match model's number of ages (", num_ages, ")"))
       }
-      names(self$retrospective_coefficients) <- paste0("Age", 1:count_ages)
+      names(self$retro_adjust) <- paste0("Age", 1:count_ages)
 
       cli::cli_alert(c("Line {nline}: ",
-                       "retrospective_coefficients: ",
+                       "retro_adjust: ",
                        "{.val {inp_line}} ",
                        "{.emph ({num_ages} Age{?s})}"))
 
@@ -151,7 +151,7 @@ retrospective_adjustments <- R6Class(
 
       return(list(
         self$inp_keyword,
-        paste(self$retrospective_coefficients, collapse = "  ")
+        paste(self$retro_adjust, collapse = "  ")
       ))
 
     }
@@ -161,13 +161,13 @@ retrospective_adjustments <- R6Class(
   ),
   active = list(
 
-    #' @field retrospective_coefficients
+    #' @field retro_adjust
     #' This is the vector of age-specific numbers at age multipliers for an
     #' initial population size at age vector if retrospective bias adjustment
     #' is applied.
-    retrospective_coefficients = function(value) {
+    retro_adjust = function(value) {
       if(isTRUE(missing(value))){
-        return(private$.retrospective_coefficients)
+        return(private$.retro_adjust)
       }else {
 
         if(isFALSE(self$enable_retrospecttive_adjustments)) {
@@ -176,7 +176,7 @@ retrospective_adjustments <- R6Class(
 
         checkmate::assert_numeric(value, lower = 0)
 
-        private$.retrospective_coefficients <- value
+        private$.retro_adjust <- value
       }
     },
 
@@ -197,7 +197,7 @@ retrospective_adjustments <- R6Class(
     #' Returns JSON list object of containing SCALE values
     json_list_object = function() {
       return(list(
-        retrospective_coefficients = self$retrospective_coefficients
+        retro_adjust = self$retro_adjust
       ))
     },
 
@@ -216,7 +216,7 @@ retrospective_adjustments <- R6Class(
   ),
   private = list(
 
-    .retrospective_coefficients = NULL,
+    .retro_adjust = NULL,
 
     .keyword_name = "retroadjust",
     .name_options_flag = "enable_retrospective_adjustments",
@@ -258,8 +258,8 @@ retrospective_adjustments <- R6Class(
     },
 
 
-    # Helper function to print out retrospective_coefficients to console.
-    cli_print_retrospective_coefficients = function (x, omit_rows=FALSE){
+    # Helper function to print out retro_adjust to console.
+    cli_print_retro_adjust = function (x, omit_rows=FALSE){
 
       if(omit_rows) {
 
