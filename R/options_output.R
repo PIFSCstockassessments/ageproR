@@ -61,23 +61,22 @@ options_output <- R6Class(
     #' Formatted to print out output_option values
     #'
     print = function() {
-      cli::cli_ul(id = "options_output_fields")
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
           "output_stock_summary: ",
           "{.val {private$.output_stock_summary}} ",
           "{.emph ({private$aux_flag_string(private$.output_stock_summary)})}"))
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
           "output_process_error_aux_files: ",
           "{.val {private$.output_process_error_aux_files}} ",
           "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
           "output_data_frame (export AGEPRO output as data.frame): ",
           "{.val {private$.output_data_frame}} ",
           "{.emph ({as.logical(private$.output_data_frame)})}"))
-      cli::cli_end(id = "options_output_fields")
+
 
     },
 
@@ -135,7 +134,7 @@ options_output <- R6Class(
         # message
         withCallingHandlers(
           message = function (cnd) {
-            cli::cli_alert(
+            cli::cli_alert_info(
               paste0("output_summary_report: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
 
@@ -160,8 +159,9 @@ options_output <- R6Class(
         # message
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(
-              paste0("output_process_error_aux_files: ",
+            cli::cli_alert_info(
+              paste0("output_process_error_aux_files ",
+                     "{.emph (Auxillary output files)}: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
 
             rlang::cnd_muffle(cnd)
@@ -186,8 +186,9 @@ options_output <- R6Class(
         # message
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(
-              paste0("output_data_frame: ",
+            cli::cli_alert_info(
+              paste0("output_data_frame ",
+                     "{.emph (AGEPRO output as data.frame)}: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
             rlang::cnd_muffle(cnd)
           },

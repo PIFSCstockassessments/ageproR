@@ -303,9 +303,9 @@ validate_logical_parameter <- function(x) {
   if(checkmate::test_logical(x)){
     logical_x <- x
     x <- as.numeric(x)
-    cli::cli_alert(c("{.val {logical_x}} set as ","{.val {x}}."))
+    cli::cli_alert(c("{.val {x}}"," ({.val {logical_x}})"))
   }else{
-    cli::cli_alert("set as {.val {x}}")
+    cli::cli_alert("{.val {x}}")
   }
 
   validation_error <- checkmate::makeAssertCollection()
