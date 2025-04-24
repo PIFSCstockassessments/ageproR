@@ -62,7 +62,7 @@ max_bounds <- R6Class(
                               "to {.val {FALSE}}"))
         suppressMessages(self$set_enable_max_bounds(FALSE))
       }else{
-        cli::cli_alert(paste0("Setting for max_bounds values: ",
+        cli::cli_alert(paste0("Setting max_bounds values: ",
                               "{symbol$info} {private$.name_options_flag} ",
                               "to {.val {TRUE}}"))
         self$set_enable_max_bounds(TRUE)

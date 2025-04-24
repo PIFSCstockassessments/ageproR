@@ -63,12 +63,12 @@ scaling_factors <-R6Class(
       if(all(c(all.equal(scale_bio, 0),
                all.equal(scale_recruit, 0),
                all.equal(scale_stock_size, 0)))) {
-        cli::cli_alert(paste0("All scaling factor values are default: ",
+        cli::cli_alert(paste0("All scaling_factor values are default: ",
                               "{symbol$info} {private$.name_options_flag} ",
                               "to {.val {FALSE}}"))
         suppressMessages(private$set_enable_scaling_factors(FALSE))
       } else{
-        cli::cli_alert(paste0("Setting scaling factor values: ",
+        cli::cli_alert(paste0("Setting scaling_factor values: ",
                               "{symbol$info} {private$.name_options_flag} ",
                               "as {.val {TRUE}}"))
         private$set_enable_scaling_factors(TRUE)
