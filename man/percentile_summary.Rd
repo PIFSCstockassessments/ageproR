@@ -41,7 +41,7 @@ numbers at age}
 \item{\code{enable_percentile_summary}}{Read-only logical field that flags if fields can be edited. To set
 the value use \code{set_enable_percentile_summary} or field}
 
-\item{\code{json_list_object}}{Returns JSON list object of containing output_options values}
+\item{\code{json_list_object}}{Returns JSON list object of containing options_output values}
 
 \item{\code{keyword_name}}{AGEPRO keyword parameter name}
 

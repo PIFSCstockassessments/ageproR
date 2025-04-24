@@ -15,8 +15,8 @@
 #'
 #' @export
 #'
-output_options <- R6Class(
-  "output_options",
+options_output <- R6Class(
+  "options_output",
   public = list(
 
     #' @description
@@ -61,7 +61,7 @@ output_options <- R6Class(
     #' Formatted to print out output_option values
     #'
     print = function() {
-      cli::cli_ul(id = "output_options_fields")
+      cli::cli_ul(id = "options_output_fields")
       cli::cli_li(
         paste0(
           "output_stock_summary: ",
@@ -77,7 +77,7 @@ output_options <- R6Class(
           "output_data_frame (export AGEPRO output as data.frame): ",
           "{.val {private$.output_data_frame}} ",
           "{.emph ({as.logical(private$.output_data_frame)})}"))
-      cli::cli_end(id = "output_options_fields")
+      cli::cli_end(id = "options_output_fields")
 
     },
 
@@ -106,7 +106,7 @@ output_options <- R6Class(
     },
 
     #' @description
-    #' Returns values from the output_options (OPTIONS)
+    #' Returns values from the options_output (OPTIONS)
     #' AGEPRO keyword parameter formatted as AGEPRO input file lines.
     #'
     #' @template delimiter
@@ -199,7 +199,7 @@ output_options <- R6Class(
     },
 
     #' @field json_list_object
-    #' Returns JSON list object of containing output_options values
+    #' Returns JSON list object of containing options_output values
     json_list_object = function() {
       return(list(
         stock_summary_flag = self$output_stock_summary,
