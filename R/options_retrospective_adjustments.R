@@ -183,6 +183,8 @@ retrospective_adjustments <- R6Class(
         checkmate::assert_numeric(value, lower = 0)
 
         private$.retro_adjust <- value
+        names(private$.retro_adjust) <- paste0("Age",
+                                               1:length(private$.retro_adjust))
       }
     },
 
