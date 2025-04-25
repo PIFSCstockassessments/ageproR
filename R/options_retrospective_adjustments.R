@@ -40,11 +40,19 @@ retrospective_adjustments <- R6Class(
     #' @template enable_cat_print
     #' @param retro_adjust
     #' Vector for retrospective bias adjustment
+    #' @param num_ages
+    #' Model's number of ages derived from general_params
+    #' num_ages active binding.
     #'
-    initialize = function(retro_adjust = 0,
+    initialize = function(retro_adjust,
+                          num_ages,
                           enable_cat_print = TRUE) {
 
       div_keyword_header(private$.keyword_name)
+
+      if(missing(retro_adjust)){
+        retro_adjust <- 0
+      }
 
       # When agepro_model is reinitialized, reset the value for this class's
       # option_flag to NULL to cleanup any values it retained previously.
