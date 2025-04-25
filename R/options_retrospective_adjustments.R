@@ -53,10 +53,10 @@ retrospective_adjustments <- R6Class(
       self$retro_adjust <- retro_adjust
 
       if(all.equal(retro_adjust,0)){
-        cli::cli_alert(paste0("All retrospective_adjustments values ",
-                              "are default: ",
-                              "{symbol$info} {private$.name_options_flag} ",
-                              "to {.val {FALSE}}"))
+        cli::cli_alert(paste0("retrospective_adjustments fields ",
+                              "(retro_adjust) ",
+                              "are default: "))
+        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         suppressMessages(private$set_enable_retrospective_adjustments(FALSE))
       }else {
         cli::cli_alert(paste0("Setting retrospective_adjustments values: ",

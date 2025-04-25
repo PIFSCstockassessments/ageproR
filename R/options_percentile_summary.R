@@ -47,9 +47,10 @@ percentile_summary <- R6Class(
 
       # Presume default if perc is 0.
       if(isTRUE(all.equal(perc,0))){
-        cli::cli_alert(paste0("All percentile_summary values are default: ",
-                              "{symbol$info} {private$.name_options_flag} ",
-                              "to {.val {FALSE}}"))
+        cli::cli_alert(paste0("percentile_summary fields ",
+                              "(report_percentile) ",
+                              "are default: "))
+        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         self$report_percentile <- perc
 
         suppressMessages(self$set_enable_percentile_summary(FALSE))
