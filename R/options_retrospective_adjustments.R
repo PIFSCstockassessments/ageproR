@@ -86,12 +86,10 @@ retrospective_adjustments <- R6Class(
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
-        private$cli_print_retro_adjust(
-          self$retro_adjust, ...)
+        print_parameter_table(self$retro_adjust, ...)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output( x <- private$cli_print_retro_adjust(
-          self$retro_adjust, ...))
+        capture.output( x <- print_parameter_table(self$retro_adjust, ...))
       }
 
       cli::cli_end()
@@ -255,23 +253,6 @@ retrospective_adjustments <- R6Class(
         paste0(private$.name_options_flag,
                " is FALSE. Set flag to TRUE to set value.")
       ))
-    },
-
-
-    # Helper function to print out retro_adjust to console.
-    cli_print_retro_adjust = function (x, omit_rows=FALSE){
-
-      if(omit_rows) {
-
-        omitted_num_rows <- pmax(0, nrow(x)-6)
-
-        cli::cat_print(head(x)) #first 6 rows
-        cli::cli_text(
-          paste0("{symbol$info} ","Total of {nrow(x)} row{?s}; ",
-                 "{no(omitted_num_rows)} row{?s} omitted"))
-      }else{
-        cli::cat_print(x)
-      }
     }
 
   )
