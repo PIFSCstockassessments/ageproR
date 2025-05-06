@@ -62,7 +62,7 @@ max_bounds <- R6Class(
       default_max_weight <- formals(self$initialize)[["max_weight"]]
       default_max_nat_mort <- formals(self$initialize)[["max_nat_mort"]]
       if(all(c(all.equal(max_weight, default_max_weight),
-               all.equal(max_nat_mort, 1.0)))) {
+               all.equal(max_nat_mort, default_max_nat_mort)))) {
 
         cli::cli_alert(paste0("max_bounds fields ",
                               "(max_weight={default_max_weight}, ",
