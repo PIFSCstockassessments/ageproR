@@ -12,10 +12,12 @@ set values to this class fields: max_weight, max_natural_mortality. The flag
 will also notify \code{agepro_model} if this keyword parameter is allowed to be
 written to input file.
 
-If this class is initialized with default values, it is presumed that this
-keyword parameter is not used in the agepro_model.Therefore,
-\code{enable_max_bounds} is flagged as FALSE. Valid non-default values will
-set this flag to TRUE.
+Setting maximum bounds is an optional option for agepro models. It will check
+if the max_bound class was initialized with values equal to the default
+value for \code{max_weight} and \code{max_nat_mort}. If both values match the defaults,
+then \code{enable_max_bounds} is flagged as FALSE; this keyword parameter is not
+used in the agepro_model. Setting non-default values for all of its
+parameters will set this flag to TRUE.
 }
 \details{
 The max_bounds class (or BOUNDS) is recognized as a keyword

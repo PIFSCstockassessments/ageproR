@@ -12,10 +12,12 @@
 #' will also notify `agepro_model` if this keyword parameter is allowed to be
 #' written to input file.
 #'
-#' If this class is initialized with default values, it is presumed that this
-#' keyword parameter is not used in the agepro_model.Therefore,
-#' `enable_max_bounds` is flagged as FALSE. Valid non-default values will
-#' set this flag to TRUE.
+#' Setting maximum bounds is an optional option for agepro models. It will check
+#' if the max_bound class was initialized with values equal to the default
+#' value for `max_weight` and `max_nat_mort`. If both values match the defaults,
+#' then `enable_max_bounds` is flagged as FALSE; this keyword parameter is not
+#' used in the agepro_model. Setting non-default values for all of its
+#' parameters will set this flag to TRUE.
 #'
 #' @details
 #' The max_bounds class (or BOUNDS) is recognized as a keyword
@@ -55,10 +57,16 @@ max_bounds <- R6Class(
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
-      if(all(c(all.equal(max_weight, 10.0),
+      #If all max_bounds parameters are non-default values set the flag
+      #set_enable_max_bounds to FALSE.
+      default_max_weight <- formals(self$initialize)[["max_weight"]]
+      default_max_nat_mort <- formals(self$initialize)[["max_nat_mort"]]
+      if(all(c(all.equal(max_weight, default_max_weight),
                all.equal(max_nat_mort, 1.0)))) {
+
         cli::cli_alert(paste0("max_bounds fields ",
-                              "(max_weight, max_nat_mort) ",
+                              "(max_weight={default_max_weight}, ",
+                              "max_nat_mort={default_max_nat_mort}) ",
                               "are default: "))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         suppressMessages(self$set_enable_max_bounds(FALSE))
