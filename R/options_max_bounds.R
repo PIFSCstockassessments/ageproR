@@ -127,19 +127,14 @@ max_bounds <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
-      cli::cli_alert("Line {nline}:")
+      cli::cli_alert("Line {nline} ...")
       inp_line <- read_inp_numeric_line(inp_con)
 
       self$max_weight <- inp_line[1]
       self$max_natural_mortality <- inp_line[2]
-
-      cli::cli_ul(id = "bounds_inp_fields")
-      cli::cli_li("max_weight: {.val {self$max_weight}}")
-      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
-      cli::cli_end()
 
       return(nline)
     },
@@ -191,6 +186,12 @@ max_bounds <- R6Class(
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
         private$.max_weight <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info("max_weight: {.val {private$.max_weight}}")
+        )
 
       }
     },
@@ -214,6 +215,14 @@ max_bounds <- R6Class(
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
         private$.max_natural_mortality <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(
+            paste0("max_natural_mortality: ",
+                   "{.val {private$.max_natural_mortality}}"))
+        )
 
       }
     },
