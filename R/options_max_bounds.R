@@ -54,9 +54,6 @@ max_bounds <- R6Class(
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
-      self$max_weight <- max_weight
-      self$max_natural_mortality <- max_nat_mort
-
       #If all max_bounds parameters are non-default values set the flag
       #set_enable_max_bounds to FALSE.
       default_max_weight <- formals(self$initialize)[["max_weight"]]
@@ -65,15 +62,24 @@ max_bounds <- R6Class(
                all.equal(max_nat_mort, default_max_nat_mort)))) {
 
         cli::cli_alert(paste0("All max_bounds parameters are default: "))
-        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
-        suppressMessages(self$set_enable_max_bounds(FALSE))
-      }else{
-        cli::cli_alert(paste0("Setting max_bounds values: ",
-                              "{symbol$info} {private$.name_options_flag} ",
-                              "to {.val {TRUE}}"))
-        self$set_enable_max_bounds(TRUE)
-        self$print()
+
+        self$max_weight <- max_weight
+        self$max_natural_mortality <- max_nat_mort
+
+        self$set_enable_max_bounds(FALSE)
+
+        return()
       }
+
+      cli::cli_alert("Setting max_bounds values ... ")
+
+      self$max_weight <- max_weight
+      self$max_natural_mortality <- max_nat_mort
+
+      self$set_enable_max_bounds(TRUE)
+
+
+
 
 
     },
@@ -110,8 +116,8 @@ max_bounds <- R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op$enable_max_bounds <- x
 
-      cli::cli_alert(
-        paste0("enable_max_bounds : ",
+      cli::cli_alert_info(
+        paste0("enable_max_bounds to ",
                "{.val ",
                "{self$flag$op$enable_max_bounds}}"))
     },
