@@ -217,7 +217,6 @@ agepro_model <- R6Class(
       self$scale <- scaling_factors$new()
 
       self$retroadjust <- retrospective_adjustments$new(
-        num_ages = x$num_ages,
         enable_cat_print = enable_cat_print)
 
 

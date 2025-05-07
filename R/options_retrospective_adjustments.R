@@ -40,12 +40,8 @@ retrospective_adjustments <- R6Class(
     #' @template enable_cat_print
     #' @param retro_adjust
     #' Vector for retrospective bias adjustment
-    #' @param num_ages
-    #' Model's number of ages derived from general_params
-    #' num_ages active binding.
     #'
     initialize = function(retro_adjust,
-                          num_ages,
                           enable_cat_print = TRUE) {
 
       div_keyword_header(private$.keyword_name)

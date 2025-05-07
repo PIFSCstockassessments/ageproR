@@ -64,16 +64,13 @@ until this option flag is TRUE.}
 \subsection{Method \code{new()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$new(retro_adjust, num_ages, enable_cat_print = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{retrospective_adjustments$new(retro_adjust, enable_cat_print = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{retro_adjust}}{Vector for retrospective bias adjustment}
-
-\item{\code{num_ages}}{Model's number of ages derived from general_params
-num_ages active binding.}
 
 \item{\code{enable_cat_print}}{Logical flag to show target function's \strong{cli} \code{\link[cli:cat_line]{cat_print}}
 messages to be seen on console.}
