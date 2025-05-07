@@ -46,18 +46,14 @@ retrospective_adjustments <- R6Class(
 
       div_keyword_header(private$.keyword_name)
 
-      if(missing(retro_adjust)){
-        retro_adjust <- 0
-      }
-
       # When agepro_model is reinitialized, reset the value for this class's
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
-      self$retro_adjust <- retro_adjust
+      #If retro_adjust is missing, assume default values.
+      if(missing(retro_adjust)){
+        self$retro_adjust <- 0
 
-      #Check for default value
-      if(all.equal(retro_adjust,formals(self$initialize)[["retro_adjust"]])){
         cli::cli_alert(paste0("All retrospective_adjustments parameters ",
                               "are default: "))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
@@ -66,6 +62,8 @@ retrospective_adjustments <- R6Class(
         cli::cli_alert(paste0("Setting retrospective_adjustments values: ",
                               "{symbol$info} {private$.name_options_flag} ",
                               "to {.val {TRUE}}"))
+        self$retro_adjust <- retro_adjust
+
         private$set_enable_retrospective_adjustments(TRUE)
         self$print(enable_cat_print)
       }
