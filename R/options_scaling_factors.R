@@ -60,12 +60,14 @@ scaling_factors <-R6Class(
       self$stock_size_scale <- scale_stock_size
 
       #Check for defaults
-      if(all(c(all.equal(scale_bio, 0),
-               all.equal(scale_recruit, 0),
-               all.equal(scale_stock_size, 0)))) {
-        cli::cli_alert(paste0("scaling_factor fields ",
-                              "(scale_bio, scale_recruit, scale_stock_size) ",
-                              "are default: "))
+      default_scale_bio <- formals(self$initialize)[["scale_bio"]]
+      default_scale_recruit <- formals(self$initialize)[["scale_recruit"]]
+      default_scale_stock_size <- formals(self$initialize)[["scale_stock_size"]]
+
+      if(all(c(all.equal(scale_bio, default_scale_bio),
+               all.equal(scale_recruit, default_scale_recruit),
+               all.equal(scale_stock_size, default_scale_stock_size)))) {
+        cli::cli_alert(paste0("All scaling_factor parameters are default: "))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         suppressMessages(private$set_enable_scaling_factors(FALSE))
       } else{

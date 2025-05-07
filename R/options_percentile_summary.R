@@ -46,10 +46,10 @@ percentile_summary <- R6Class(
       private$reset_options_flags()
 
       # Presume default if perc is 0.
-      if(isTRUE(all.equal(perc,0))){
-        cli::cli_alert(paste0("percentile_summary fields ",
-                              "(report_percentile) ",
-                              "are default: "))
+      # If all parameters are non-default values set the flag to FALSE.
+      default_perc <- formals(self$initialize)[["perc"]]
+      if(isTRUE(all.equal(perc,default_perc))){
+        cli::cli_alert(paste0("All percentile_summary parameters are default:"))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         self$report_percentile <- perc
 
@@ -228,7 +228,7 @@ percentile_summary <- R6Class(
     reset_options_flags = function() {
       #Reset option_flag to NULL at initialization
       if(isFALSE(is.null(self$flag$op$enable_percentile_summary))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag}",
+        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
                               "for initialization"))
         self$flag$op$enable_percentile_summary <- NULL
       }

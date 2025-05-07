@@ -65,14 +65,21 @@ reference_points <- R6Class(
       self$mean_biomass_threshold <- meanbio_threshold
       self$fishing_mortality_threshold <- fmort_threshold
 
-      if(all(c(all.equal(ssb_threshold, 0),
-               all.equal(stockbio_threshold, 0),
-               all.equal(meanbio_threshold, 0),
-               all.equal(fmort_threshold,0))))  {
-        cli::cli_alert(paste0("reference_points fields ",
-                              "(ssb_threshold, stockbio_threshold, ",
-                              "meanbio_threshold, fmort_threshold) ",
-                              "are default: "))
+      # If all parameters are non-default values set the flag to FALSE.
+      default_ssb_threshold <-
+        formals(self$initialize)[["ssb_threshold"]]
+      default_stockbio_threshold <-
+        formals(self$initialize)[["stockbio_threshold"]]
+      default_meanbio_threshold <-
+        formals(self$initialize)[["meanbio_threshold"]]
+      default_fmort_threshold <-
+        formals(self$initialize)[["fmort_threshold"]]
+
+      if(all(c(all.equal(ssb_threshold, default_ssb_threshold),
+               all.equal(stockbio_threshold, default_stockbio_threshold),
+               all.equal(meanbio_threshold, default_meanbio_threshold),
+               all.equal(fmort_threshold, default_fmort_threshold))))  {
+        cli::cli_alert(paste0("All reference_points parameters are default:"))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         suppressMessages(private$set_enable_reference_points(FALSE))
       }else{

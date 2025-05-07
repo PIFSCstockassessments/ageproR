@@ -64,10 +64,7 @@ max_bounds <- R6Class(
       if(all(c(all.equal(max_weight, default_max_weight),
                all.equal(max_nat_mort, default_max_nat_mort)))) {
 
-        cli::cli_alert(paste0("max_bounds fields ",
-                              "(max_weight, max_nat_mort) are default ",
-                              "({default_max_weight}, ",
-                              "{default_max_nat_mort}): "))
+        cli::cli_alert(paste0("All max_bounds parameters are default: "))
         cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
         suppressMessages(self$set_enable_max_bounds(FALSE))
       }else{
