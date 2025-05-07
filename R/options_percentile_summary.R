@@ -50,23 +50,19 @@ percentile_summary <- R6Class(
       default_perc <- formals(self$initialize)[["perc"]]
       if(isTRUE(all.equal(perc,default_perc))){
         cli::cli_alert(paste0("All percentile_summary parameters are default:"))
-        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
+
         self$report_percentile <- perc
 
-        suppressMessages(self$set_enable_percentile_summary(FALSE))
+        self$set_enable_percentile_summary(FALSE)
 
         return()
 
       }
 
-      cli::cli_alert(paste0("Setting percentile_summary values: ",
-                            "{symbol$info} {private$.name_options_flag} ",
-                            "to {.val {TRUE}}"))
-      cli::cli_alert("Set report_percentile to {.val {perc}} ..")
+      cli::cli_alert("Setting percentile_summary values ... ")
 
       self$report_percentile <- perc
       self$set_enable_percentile_summary(TRUE)
-      self$print()
 
     },
 
@@ -99,8 +95,8 @@ percentile_summary <- R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op$enable_percentile_summary <- x
 
-      cli::cli_alert(
-        paste0("{private$.name_options_flag} : ",
+      cli::cli_alert_info(
+        paste0("{private$.name_options_flag} to ",
                "{.val ",
                "{self$flag$op$enable_percentile_summary}}"))
 
@@ -177,6 +173,15 @@ percentile_summary <- R6Class(
         }
 
         private$.report_percentile <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(paste0("report_percentile: ",
+                                     "{.val {private$.report_percentile}}"))
+        )
+
+
       }
 
     },
