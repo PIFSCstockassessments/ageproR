@@ -136,11 +136,18 @@ max_bounds <- R6Class(
       cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
-      cli::cli_alert("Line {nline} ...")
+      cli::cli_alert("Line {nline}: Specify Bounds ...")
       inp_line <- read_inp_numeric_line(inp_con)
+
+      li_nested <-
+        cli::cli_div(id = "bounds_inp_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
 
       self$max_weight <- inp_line[1]
       self$max_natural_mortality <- inp_line[2]
+
+      cli::cli_end("max_bounds_fields")
+
 
       return(nline)
     },

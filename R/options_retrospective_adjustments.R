@@ -116,7 +116,7 @@ retrospective_adjustments <- R6Class(
         stop(private$unenabled_options_flag_message())
       }
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
@@ -132,10 +132,10 @@ retrospective_adjustments <- R6Class(
       }
       names(self$retro_adjust) <- paste0("Age", 1:count_ages)
 
-      cli::cli_alert(c("Line {nline}: ",
-                       "retro_adjust: ",
-                       "{.val {inp_line}} ",
-                       "{.emph ({num_ages} Age{?s})}"))
+      cli::cli_alert_info(c("Line {nline}: ",
+                            "retro_adjust: ",
+                            "{.val {inp_line}} ",
+                            "{.emph ({num_ages} Age{?s})}"))
 
       return(nline)
 
@@ -233,7 +233,7 @@ retrospective_adjustments <- R6Class(
       self$flag$op[[private$.name_options_flag]] <- x
 
       cli::cli_alert(
-        paste0("{private$.name_options_flag} : ",
+        paste0("{private$.name_options_flag} to ",
                "{.val ",
                "{self$flag$op[[private$.name_options_flag]]}}"))
 

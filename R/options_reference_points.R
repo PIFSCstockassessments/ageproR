@@ -60,11 +60,6 @@ reference_points <- R6Class(
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
-      self$ssb_threshold <- ssb_threshold
-      self$stock_biomass_threshold <- stockbio_threshold
-      self$mean_biomass_threshold <- meanbio_threshold
-      self$fishing_mortality_threshold <- fmort_threshold
-
       # If all parameters are non-default values set the flag to FALSE.
       default_ssb_threshold <-
         formals(self$initialize)[["ssb_threshold"]]
@@ -80,15 +75,26 @@ reference_points <- R6Class(
                all.equal(meanbio_threshold, default_meanbio_threshold),
                all.equal(fmort_threshold, default_fmort_threshold))))  {
         cli::cli_alert(paste0("All reference_points parameters are default:"))
-        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
-        suppressMessages(private$set_enable_reference_points(FALSE))
-      }else{
-        cli::cli_alert(paste0("Setting reference_points values: ",
-                              "{symbol$info} {private$.name_options_flag} ",
-                              "to {.val {TRUE}}"))
-        private$set_enable_reference_points(TRUE)
-        self$print()
+
+        self$ssb_threshold <- ssb_threshold
+        self$stock_biomass_threshold <- stockbio_threshold
+        self$mean_biomass_threshold <- meanbio_threshold
+        self$fishing_mortality_threshold <- fmort_threshold
+
+        private$set_enable_reference_points(FALSE)
+
+        return()
       }
+
+      cli::cli_alert("Setting reference_points values ... ")
+
+      self$ssb_threshold <- ssb_threshold
+      self$stock_biomass_threshold <- stockbio_threshold
+      self$mean_biomass_threshold <- meanbio_threshold
+      self$fishing_mortality_threshold <- fmort_threshold
+
+      private$set_enable_reference_points(TRUE)
+
 
     },
 
@@ -126,28 +132,22 @@ reference_points <- R6Class(
         stop(private$unenabled_options_flag_message())
       }
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
+
+      cli::cli_alert(paste0("Line {nline}: ",
+                            "Values for Reference Point Thereshold Report"))
+      li_nested <-
+        cli::cli_div(id = "bounds_inp_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
 
       self$ssb_threshold <- inp_line[1]
       self$stock_biomass_threshold <- inp_line[2]
       self$mean_biomass_threshold <- inp_line[3]
       self$fishing_mortality_threshold <- inp_line[4]
 
-      cli::cli_alert(paste0("Line {nline}: ",
-                            "Values for Reference Point Thereshold Report"))
-      li_nested <- cli::cli_div(id = "bounds_inp_fields",
-                                theme = list(ul = list("margin-left" = 2)))
-
-      cli::cli_li("ssb_threshold: {.val {self$ssb_threshold}}")
-      cli::cli_li(paste0("stock_biomass_threshold: ",
-                         "{.val {self$stock_biomass_threshold}}"))
-      cli::cli_li(paste0("mean_biomass_threshold: ",
-                         "{.val {self$mean_biomass_threshold}}"))
-      cli::cli_li(paste0("fishing_mortality_threshold: ",
-                         "{.val {self$fishing_mortality_threshold}}"))
       cli::cli_end("bounds_inp_fields")
 
       return(nline)
@@ -210,6 +210,12 @@ reference_points <- R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.ssb_threshold <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info("ssb_threshold: {.val {private$.ssb_threshold}}")
+        )
 
       }
     },
@@ -231,6 +237,14 @@ reference_points <- R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.stock_biomass_threshold <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(
+            paste0("stock_biomass_threshold: ",
+                   "{.val {private$.stock_biomass_threshold}}"))
+        )
 
 
       }
@@ -254,6 +268,14 @@ reference_points <- R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.mean_biomass_threshold <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(
+            paste0("mean_biomass_threshold: ",
+                   "{.val {private$.mean_biomass_threshold}}"))
+        )
 
 
       }
@@ -277,6 +299,14 @@ reference_points <- R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.fishing_mortality_threshold <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(
+            paste0("fishing_mortality_threshold: ",
+                   "{.val {private$.fishing_mortality_threshold}}"))
+        )
 
 
       }
@@ -339,8 +369,8 @@ reference_points <- R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op$enable_reference_points <- x
 
-      cli::cli_alert(
-        paste0("{private$.name_options_flag} : ",
+      cli::cli_alert_info(
+        paste0("{private$.name_options_flag} to ",
                "{.val ",
                "{self$flag$op$enable_reference_points}}"))
 

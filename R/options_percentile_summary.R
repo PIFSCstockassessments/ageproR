@@ -113,16 +113,20 @@ percentile_summary <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
+      cli::cli_alert("Line {nline} ... ")
+
+      li_nested <-
+        cli::cli_div(id = "report_perc_field",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
       self$report_percentile <- inp_line
 
-      cli::cli_alert(paste0("Line {nline} : ",
-                            "report_percentile: ",
-                            "{.val {self$report_percentile}}"))
+      cli::cli_end("report_perc_field")
+
 
       return(nline)
     },
