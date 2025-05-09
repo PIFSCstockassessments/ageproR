@@ -52,20 +52,18 @@ retrospective_adjustments <- R6Class(
 
       #If retro_adjust is missing, assume default values.
       if(missing(retro_adjust)){
+        cli::cli_alert(paste0("Setting retrospective_adjustments ",
+                              "default values ... "))
+
         self$retro_adjust <- 0
 
-        cli::cli_alert(paste0("All retrospective_adjustments parameters ",
-                              "are default: "))
-        cli::cli_alert_info("{private$.name_options_flag} to {.val {FALSE}}")
-        suppressMessages(private$set_enable_retrospective_adjustments(FALSE))
+        private$set_enable_retrospective_adjustments(FALSE)
       }else {
-        cli::cli_alert(paste0("Setting retrospective_adjustments values: ",
-                              "{symbol$info} {private$.name_options_flag} ",
-                              "to {.val {TRUE}}"))
+        cli::cli_alert("Setting retrospective_adjustments values: ")
         self$retro_adjust <- retro_adjust
 
         private$set_enable_retrospective_adjustments(TRUE)
-        self$print(enable_cat_print)
+
       }
 
     },
@@ -121,21 +119,24 @@ retrospective_adjustments <- R6Class(
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
 
-      self$retro_adjust <- inp_line
-      count_ages <- length(self$retro_adjust)
-
-      # Throw error if vector length of retro_adjust does not
+      # Throw error if vector length of input line for retro_adjust does not
       # match num_ages
+      count_ages <- length(inp_line)
+
       if(!isTRUE(all.equal(count_ages, num_ages))) {
         stop(paste0("Length of Retrosepctive coefficeient vector does not ",
                     "match model's number of ages (", num_ages, ")"))
       }
-      names(self$retro_adjust) <- paste0("Age", 1:count_ages)
 
-      cli::cli_alert_info(c("Line {nline}: ",
-                            "retro_adjust: ",
-                            "{.val {inp_line}} ",
-                            "{.emph ({num_ages} Age{?s})}"))
+      # Roundabout way to suppress 'print' and cli messages for retro_adjust
+      # active binding
+      suppressMessages(invisible(capture.output(self$retro_adjust <- inp_line)))
+
+
+      cli::cli_alert(c("Line {nline}: ",
+                       "retro_adjust: ",
+                       "{.val {inp_line}} ",
+                       "{.emph ({num_ages} Age{?s})}"))
 
       return(nline)
 
@@ -179,6 +180,13 @@ retrospective_adjustments <- R6Class(
         private$.retro_adjust <- value
         names(private$.retro_adjust) <- paste0("Age",
                                                1:length(private$.retro_adjust))
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          print(private$.retro_adjust),
+          cli::cli_alert_info("retro_adjust: ")
+        )
       }
     },
 
@@ -232,7 +240,7 @@ retrospective_adjustments <- R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op[[private$.name_options_flag]] <- x
 
-      cli::cli_alert(
+      cli::cli_alert_info(
         paste0("{private$.name_options_flag} to ",
                "{.val ",
                "{self$flag$op[[private$.name_options_flag]]}}"))
