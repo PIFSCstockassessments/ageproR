@@ -86,7 +86,7 @@ options_output <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
