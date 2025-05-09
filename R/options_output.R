@@ -73,7 +73,7 @@ options_output <- R6Class(
           "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
       cli::cli_alert_info(
         paste0(
-          "output_data_frame (export AGEPRO output as data.frame): ",
+          "output_data_frame {.emph (export output as data.frame)}: ",
           "{.val {private$.output_data_frame}} ",
           "{.emph ({as.logical(private$.output_data_frame)})}"))
 
