@@ -3,7 +3,7 @@
 #' options:
 #'
 #' \describe{
-#'   \item{PERC}{user_percentile_summary}
+#'   \item{PERC}{percentile_summary}
 #'   \item{REFPOINT}{reference_points}
 #'   \item{SCALE}{scaling_factors}
 #'   \item{BOUNDS}{max_bounds}

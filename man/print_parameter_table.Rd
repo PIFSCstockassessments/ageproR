@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{print_parameter_table}
 \alias{print_parameter_table}
-\title{Print AGEPRO table-like values to the console}
+\title{Use cli commands to display AGEPRO table-like values}
 \usage{
 print_parameter_table(tbl, omit_rows = FALSE)
 }

@@ -12,16 +12,18 @@
 #' will also notify `agepro_model` if this keyword parameter is allowed to be
 #' written to input file.
 #'
-#' If this class is initialized with default values, it is presumed that this
-#' keyword parameter is not used in the agepro_model.Therefore,
-#' `enable_max_bounds` is flagged as FALSE. Valid non-default values will
-#' set this flag to TRUE.
+#' Setting maximum bounds is an optional option for agepro models. It will check
+#' if the max_bound class was initialized with values equal to the default
+#' value for `max_weight` and `max_nat_mort`. If both values match the defaults,
+#' then `enable_max_bounds` is flagged as FALSE; this keyword parameter is not
+#' used in the agepro_model. Setting non-default values for all of its
+#' parameters will set this flag to TRUE.
 #'
 #' @details
 #' The max_bounds class (or BOUNDS) is recognized as a keyword
 #' parameter used in the AGEPRO input file format, but it is optional.
 #'
-#' @include optional_options_flags.R
+#' @include options_flags.R
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -52,20 +54,32 @@ max_bounds <- R6Class(
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
+      #If all max_bounds parameters are non-default values set the flag
+      #set_enable_max_bounds to FALSE.
+      default_max_weight <- formals(self$initialize)[["max_weight"]]
+      default_max_nat_mort <- formals(self$initialize)[["max_nat_mort"]]
+      if(all(c(all.equal(max_weight, default_max_weight),
+               all.equal(max_nat_mort, default_max_nat_mort)))) {
+
+        cli::cli_alert(paste0("All max_bounds parameters are default: "))
+
+        self$max_weight <- max_weight
+        self$max_natural_mortality <- max_nat_mort
+
+        self$set_enable_max_bounds(FALSE)
+
+        return()
+      }
+
+      cli::cli_alert("Setting max_bounds values ... ")
+
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
-      if(all(c(all.equal(max_weight, 10.0),
-               all.equal(max_nat_mort, 1.0)))) {
-        cli::cli_alert(paste0("Default values set, ",
-                              "options_flag enable_max_bounds to FALSE"))
-        suppressMessages(self$set_enable_max_bounds(FALSE))
-      }else{
-        cli::cli_alert(paste0("Values for max_bounds set. ",
-                              "Enable options_flag enable_max_bounds as TRUE"))
-        self$set_enable_max_bounds(TRUE)
-        self$print()
-      }
+      self$set_enable_max_bounds(TRUE)
+
+
+
 
 
     },
@@ -76,13 +90,12 @@ max_bounds <- R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("max_bounds: ",
-               "Specify bounds {.emph (enable_max_bounds)}: ",
+        paste0("enable_max_bounds ",
+               "{.emph (Specify bounds)}: ",
                "{.val {self$enable_max_bounds}}"))
-      cli::cli_ul(id = "max_bounds_fields")
-      cli::cli_li("max_weight: {.val {self$max_weight}}")
-      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
-      cli::cli_end()
+      cli::cli_alert_info("max_weight: {.val {self$max_weight}}")
+      cli::cli_alert_info("max_natural_mortality: {.val {self$max_natural_mortality}}")
+
 
     },
 
@@ -103,8 +116,8 @@ max_bounds <- R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op$enable_max_bounds <- x
 
-      cli::cli_alert(
-        paste0("enable_max_bounds : ",
+      cli::cli_alert_info(
+        paste0("enable_max_bounds to ",
                "{.val ",
                "{self$flag$op$enable_max_bounds}}"))
     },
@@ -120,19 +133,21 @@ max_bounds <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
-      cli::cli_alert("Line {nline}:")
+      cli::cli_alert("Line {nline}: Specify Bounds ...")
       inp_line <- read_inp_numeric_line(inp_con)
+
+      li_nested <-
+        cli::cli_div(id = "bounds_inp_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
 
       self$max_weight <- inp_line[1]
       self$max_natural_mortality <- inp_line[2]
 
-      cli::cli_ul(id = "bounds_inp_fields")
-      cli::cli_li("max_weight: {.val {self$max_weight}}")
-      cli::cli_li("max_natural_mortality: {.val {self$max_natural_mortality}}")
-      cli::cli_end()
+      cli::cli_end("max_bounds_fields")
+
 
       return(nline)
     },
@@ -184,6 +199,12 @@ max_bounds <- R6Class(
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
         private$.max_weight <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info("max_weight: {.val {private$.max_weight}}")
+        )
 
       }
     },
@@ -207,6 +228,14 @@ max_bounds <- R6Class(
         checkmate::assert_numeric(value, len = 1, lower = 0)
 
         private$.max_natural_mortality <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(
+            paste0("max_natural_mortality: ",
+                   "{.val {private$.max_natural_mortality}}"))
+        )
 
       }
     },

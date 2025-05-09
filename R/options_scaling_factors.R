@@ -20,7 +20,7 @@
 #' The scaling_factors class (or SCALE) is recognized as a keyword
 #' parameter used in the AGEPRO input file format, but it is optional.
 #'
-#' @include optional_options_flags.R
+#' @include options_flags.R
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -55,24 +55,34 @@ scaling_factors <-R6Class(
       # option_flag to NULL to cleanup any values it retained previously.
       private$reset_options_flags()
 
+      #Check for defaults
+      default_scale_bio <- formals(self$initialize)[["scale_bio"]]
+      default_scale_recruit <- formals(self$initialize)[["scale_recruit"]]
+      default_scale_stock_size <- formals(self$initialize)[["scale_stock_size"]]
+
+      if(all(c(all.equal(scale_bio, default_scale_bio),
+               all.equal(scale_recruit, default_scale_recruit),
+               all.equal(scale_stock_size, default_scale_stock_size)))) {
+        cli::cli_alert(paste0("All scaling_factor parameters are default: "))
+
+        self$biomass_scale <- scale_bio
+        self$recruitment_scale <- scale_recruit
+        self$stock_size_scale <- scale_stock_size
+
+        private$set_enable_scaling_factors(FALSE)
+
+        return()
+      }
+
+      cli::cli_alert("Setting scaling_factor values: ")
+
       self$biomass_scale <- scale_bio
       self$recruitment_scale <- scale_recruit
       self$stock_size_scale <- scale_stock_size
 
-      #Check for defaults
-      if(all(c(all.equal(scale_bio, 0),
-               all.equal(scale_recruit, 0),
-               all.equal(scale_stock_size, 0)))) {
-        cli::cli_alert(paste0("Default values set, ",
-                              "options_flag enable_scaling_factors to FALSE"))
-        suppressMessages(private$set_enable_scaling_factors(FALSE))
-      } else{
-        cli::cli_alert(paste0("Values for reference_points set. ",
-                              "Enable options_flag enable_scaling_factors ",
-                              "as TRUE"))
-        private$set_enable_scaling_factors(TRUE)
-        self$print()
-      }
+      private$set_enable_scaling_factors(TRUE)
+
+
     },
 
     #' @description
@@ -81,16 +91,16 @@ scaling_factors <-R6Class(
     print = function(){
 
       cli::cli_alert_info(
-        paste0("Specify Scaling Factors for Output Report File ",
-               "{.emph (enable_scaling_factors)}: ",
+        paste0("enable_scaling_factors ",
+               "{.emph (Specify Scaling Factors for Output Report File)}: ",
                "{.val {self$enable_scaling_factors}}"))
-      cli::cli_ul(id = "scaling_factors_fields")
-      cli::cli_li("biomass_scale: {.val {self$biomass_scale}}")
-      cli::cli_li("recruitment_scale: {.val {self$recruitment_scale}}")
-      cli::cli_li(paste0("stock_size_scale: ",
+
+      cli::cli_alert_info("biomass_scale: {.val {self$biomass_scale}}")
+      cli::cli_alert_info("recruitment_scale: {.val {self$recruitment_scale}}")
+      cli::cli_alert_info(paste0("stock_size_scale: ",
                          "{.val {self$stock_size_scale}}"))
 
-      cli::cli_end()
+
 
     },
 
@@ -109,27 +119,21 @@ scaling_factors <-R6Class(
         stop(private$unenabled_options_flag_message())
       }
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
+
+      cli::cli_alert("Line {nline}: Scaling Factor values")
+
+      li_nested <-
+        cli::cli_div(id = "scale_inp_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
 
       self$biomass_scale <- inp_line[1]
       self$recruitment_scale <- inp_line[2]
       self$stock_size_scale <- inp_line[3]
 
-
-      cli::cli_alert(paste0("Line {nline}: ",
-                            "Scaling Factor values"))
-      li_nested <- cli::cli_div(id = "scale_inp_fields",
-                                theme = list(ul = list("margin-left" = 2)))
-
-      cli::cli_li(paste0("biomass_scale: ",
-                         "{.val {self$biomass_scale}}"))
-      cli::cli_li(paste0("recruitment_scale: ",
-                         "{.val {self$recruitment_scale}}"))
-      cli::cli_li(paste0("stock_size_scale: ",
-                         "{.val {self$stock_size_scale}}"))
       cli::cli_end("scale_inp_fields")
 
       return(nline)
@@ -188,6 +192,15 @@ scaling_factors <-R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.biomass_scale <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(paste0("biomass_scale: ",
+                                     "{.val {private$.biomass_scale}}"))
+        )
+
+
       }
     },
 
@@ -207,6 +220,13 @@ scaling_factors <-R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.recruitment_scale <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(paste0("recruitment_scale: ",
+                                     "{.val {private$.recruitment_scale}}"))
+        )
       }
     },
 
@@ -226,6 +246,13 @@ scaling_factors <-R6Class(
         checkmate::assert_numeric(value, lower = 0, len = 1)
 
         private$.stock_size_scale <- value
+        withCallingHandlers(
+          message = function(cnd) {
+
+          },
+          cli::cli_alert_info(paste0("stock_size_scale: ",
+                                     "{.val {private$.stock_size_scale}}"))
+        )
       }
     },
 
@@ -274,6 +301,8 @@ scaling_factors <-R6Class(
     .recruitment_scale = NULL,
     .stock_size_scale = NULL,
 
+    .name_options_flag = "enable_scaling_factors",
+
     # Wrapper Function to toggle enable_reference_points options_flag.
     set_enable_scaling_factors = function(x) {
 
@@ -282,8 +311,8 @@ scaling_factors <-R6Class(
       #Set value to options flags field reference "flag"
       self$flag$op$enable_scaling_factors <- x
 
-      cli::cli_alert(
-        paste0("enable_scaling_factors : ",
+      cli::cli_alert_info(
+        paste0("enable_scaling_factors to ",
                "{.val ",
                "{self$flag$op$enable_scaling_factors}}"))
 
