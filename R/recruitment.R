@@ -312,30 +312,30 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' The multiplier to convert recruitment submodel's recruitment units to
     #' absolute numbers of fish
     recruit_scaling_factor = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.recruit_scaling_factor)
       }
-      private$.recruit_scaling_factor
+      private$set_recruit_scaling_factor(value)
     },
 
     #' @field ssb_scaling_factor
     #' The multiplier to convert recruitment submodel's SSB to absolute
     #' spawning weight of fish in kilograms (kg)
     ssb_scaling_factor = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.ssb_scaling_factor)
       }
-      private$.ssb_scaling_factor
+      private$set_ssb_scaling_factor(value)
     },
 
 
     #' @field max_recruit_obs
     #' Recruitment submodel's maximum number of observations
     max_recruit_obs = function(value) {
-      if(isFALSE(missing(value))){
-          stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.max_recruit_obs)
       }
-      private$.max_recruit_obs
+      private$set_max_recruit_obs(value)
     },
 
     #' @field recruit_model_num_list
