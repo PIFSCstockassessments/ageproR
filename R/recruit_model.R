@@ -1014,11 +1014,14 @@ parametric_curve <- R6Class(
       self$variance <- inp_line[3]
 
       #self$print()
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("parametric_fields")
 
       return(nline)
     }
@@ -1217,13 +1220,14 @@ shepherd_curve_model <- R6Class(
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
 
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("K: {.val {private$.kpar}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("shepherd_curve_fields")
 
 
       return(nline)
