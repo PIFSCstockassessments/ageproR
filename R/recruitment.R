@@ -178,9 +178,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      #TODO: return recruit_model_num_list
-      cli_alert(c("Line {nline}: Reading recruitment model number ",
-                  "{.val {inp_line}} ..."))
+      #TODO: Refactor recruit_model_num_list to a function
+      cli_alert(c("Line {nline}: Reading recruitment model number ..."))
+                  #"{.val {inp_line}} ..."))
 
       # Validate length Recruitment's recruit_model_num_list matches
       # Check if input model number matches the number of observed years
@@ -201,12 +201,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$setup_recruitment_probability()
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
+      div_model_num <-
+        cli::cli_div(class = "input_field",
+                     theme = list(.input_field = list("margin-left" = 2)))
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
         private$set_recruit_model_num_list_item(inp_line[recruit], recruit)
+        cli::cli_text(
+          paste0("{symbol$info} recruit_model_num_list[[", recruit, "]]: ",
+                 "{.val {private$.recruit_model_num_list[[recruit]]}}"))
       }
+      cli::cli_end(div_model_num)
 
-      cli_alert_info("Reading Recruitment Probabaility ... ")
+      cli::cli_alert("Reading Recruitment Probabaility ... ")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
       for (year in private$.sequence_projection_years){
@@ -242,17 +249,18 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                  "recruit model{?s})"))
 
         #Nest Recruitment model read_inp_lines Output per model
-        li_nested <- cli::cli_div(class = "input_field",
-                                  theme = list(.input_field =
-                                                 list("margin-left" = 2)))
-        cli::cli_alert_info(
+        div_recruit_model <-
+          cli::cli_div(class = "input_field",
+                       theme = list(.input_field = list("margin-left" = 2)))
+
+        cli::cli_alert(
           paste0("Reading recruitment model ",
                  "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$recruit_data[[recruit]]$read_inp_lines(inp_con, nline)
 
-        cli::cli_end(li_nested)
+        cli::cli_end(div_recruit_model)
 
       }
 
