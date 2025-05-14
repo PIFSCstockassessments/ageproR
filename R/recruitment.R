@@ -558,7 +558,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
       cli::cli_alert_info("recruitment_probability:")
-      cli::cat_print(private$.recruit_probability)
+      capture_output_as_message(cli::cat_print(private$.recruit_probability))
     },
 
 
