@@ -353,11 +353,12 @@ empirical_recruit <- R6Class(
                     "{.val {self$observed_points}}"))
       cli_alert_info("observations:")
 
-      if(verbose){
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$observations, .name_repair = "minimal"))))
+      if(verbose) {
+        print_parameter_table(self$observations, omit_rows = TRUE)
       }else{
-        tibble::as_tibble(self$obersvations) |> invisible()
+        #suppresses output
+        capture.output(
+          x <- print_parameter_table(self$observations, omit_rows = TRUE))
       }
 
 
