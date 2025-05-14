@@ -245,7 +245,6 @@ deprecated_recruit_model_9 <- R6Class(
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
-#' @importFrom tibble as_tibble
 #'
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -685,8 +684,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
 
 
       ## high_recruitment
@@ -697,8 +695,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -740,11 +737,9 @@ two_stage_empirical_recruit <- R6Class(
       cli_alert_info("num_low_recruits: {.val {self$num_low_recruits}}")
       cli_alert_info("num_high_recruits: {.val {self$num_high_recruits}}")
       cli_alert_info("low_recruitment:")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
       cli_alert_info("high_recruitment:")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
 
 
