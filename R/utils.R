@@ -32,6 +32,7 @@ div_keyword_header <- function(keyword, header_color = "cyan") {
 #' the matrix or vector prints normally.
 #'
 #' @importFrom utils head
+#' @export
 #'
 print_parameter_table = function (tbl, omit_rows=FALSE) {
 
@@ -39,7 +40,8 @@ print_parameter_table = function (tbl, omit_rows=FALSE) {
 
     omitted_num_rows <- pmax(0, nrow(tbl)-6)
 
-    cli::cat_print(head(tbl)) #first 6 rows
+    #cli::cat_print(head(tbl)) #first 6 rows
+    capture_output_as_message(cli::cat_print(head(tbl))) #first 6 rows
     cli::cli_text(
       paste0("{symbol$info} ","Total of {nrow(tbl)} row{?s}; ",
              "{no(omitted_num_rows)} row{?s} omitted"))
@@ -68,6 +70,22 @@ create_blank_parameter_table = function(num_rows, num_cols,
                 nrow = num_rows,
                 ncol = num_cols,
                 dimnames = dimnames))
+
+}
+
+
+#' converts output as messages
+#'
+#' Helper function to format vector output, such as data.frames, matrices. or
+#' lists to message format.
+#'
+#' @param x Vector output object
+#'
+#' @importFrom utils capture.output
+#'
+capture_output_as_message <- function(x) {
+
+  paste(capture.output(x), collapse = "\n") |> message()
 
 }
 
