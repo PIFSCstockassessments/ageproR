@@ -131,8 +131,6 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       for (recruit in 1:private$.number_recruit_models){
         par_recruit <-  cli::cli_par()
         cli::cli_text("[[{recruit}]]")
-        cli::cli_alert(paste0("Recruitment Model #",
-                              "{self$recruit_model_num_list[[recruit]]} "))
 
         #Verify class inherits from "recruit_model"
         assert_r6(self$recruit_data[[recruit]], "recruit_model")

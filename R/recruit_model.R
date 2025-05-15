@@ -93,7 +93,13 @@ recruit_model <- R6Class(
     .model_group = NULL,
     .model_name = NULL,
     .projected_years = NULL,
-    .length_projected_years = NULL
+    .length_projected_years = NULL,
+
+    print_model_num_name= function() {
+      cli::cli_alert(paste0("Recruitment Model #",
+                            "{private$.model_num}: ",
+                            "{.emph {.field {private$.model_name}}}"))
+    }
 
   )
 
@@ -131,7 +137,7 @@ null_recruit_model <- R6Class(
         paste0("NULL Recrumitment model found. ",
                "Replace with a valid recruitment model before ",
                "saving to input file")
-      cli_text("{private$.model_name}")
+      private$print_model_num_name()
 
       warning(warn_null_recruit, call. = FALSE)
     },
@@ -345,7 +351,7 @@ empirical_recruit <- R6Class(
 
 
       #Model Name
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("with_ssb: {.val {self$with_ssb}}")
       cli_alert_info(paste0("observed_points ",
                     "{.emph (Number of Recruitment Data Points)}: ",
@@ -382,7 +388,7 @@ empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -663,7 +669,7 @@ two_stage_empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -726,7 +732,7 @@ two_stage_empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
 
       cli_alert_info(paste0("with_ssb ",
                             "{.emph (Include state SSB vector)}? ",
@@ -983,7 +989,7 @@ parametric_curve <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("alpha: {.val {private$.alpha}}")
       cli_alert_info("beta: {.val {private$.beta}}")
       cli_alert_info("variance: {.val {private$.variance}}")
@@ -995,7 +1001,7 @@ parametric_curve <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -1187,7 +1193,7 @@ shepherd_curve_model <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("alpha: {.val {private$.alpha}}")
       cli_alert_info("beta: {.val {private$.beta}}")
       cli_alert_info("kpar: {.val {private$.kpar}}")
@@ -1201,7 +1207,7 @@ shepherd_curve_model <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
