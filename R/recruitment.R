@@ -177,8 +177,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       nline <- nline + 1
       #TODO: Refactor recruit_model_num_list to a function
-      cli_alert(c("Line {nline}: Reading recruitment model number ..."))
-                  #"{.val {inp_line}} ..."))
+      cli_alert("Line {nline}: Reading recruitment model number ...")
+
 
       # Validate length Recruitment's recruit_model_num_list matches
       # Check if input model number matches the number of observed years
@@ -241,10 +241,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.recruit_data[[recruit]] <-
           private$initialize_recruit_model(self$recruit_model_num_list[[recruit]])
 
-        cli::cli_alert_info(
-          paste0("{.strong recruit_data} ({recruit} of ",
-                 "{length(self$recruit_data)} ",
-                 "recruit model{?s})"))
+        cli::cli_alert_info("{.strong recruit_data[[{recruit}]]}:")
 
         #Nest Recruitment model read_inp_lines Output per model
         div_recruit_model <-
@@ -252,8 +249,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
                        theme = list(.input_field = list("margin-left" = 2)))
 
         cli::cli_alert(
-          paste0("Reading recruitment model ",
-                 "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
+          paste0("Reading {.strong recruit_model_num_list[[{recruit}]]}: ",
+                 "{.val {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$recruit_data[[recruit]]$read_inp_lines(inp_con, nline)
