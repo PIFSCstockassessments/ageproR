@@ -39,8 +39,8 @@ mortality_fraction_prior_spawn <- R6Class(
                           enable_cat_print = TRUE) {
 
       div_keyword_header(private$.keyword_name)
-      cli_alert(paste0("Setting up values for total proportion of mortality ",
-                       "prior to spawn ..."))
+      cli_alert(paste0("Setting values for total proportion of mortality ",
+                       "prior to spawn ... "))
       #setup
       private$set_projection_years(proj_years_vector)
       #validate time_varying field
@@ -63,8 +63,9 @@ mortality_fraction_prior_spawn <- R6Class(
 
       if(enable_cat_print){
         cli::cli_alert_info(paste0("proportion_total_mortality_matrix ",
-                              "(Fraction Mortality prior to spawn)"))
-        cli::cat_print(private$.proportion_total_mortality_matrix)
+                              "{.emph (Fraction Mortality prior to spawn)}"))
+        capture_output_as_message(
+          cli::cat_print(private$.proportion_total_mortality_matrix))
 
       }
       cli::cli_end()
@@ -290,11 +291,7 @@ mortality_fraction_prior_spawn <- R6Class(
 
       if(field_changed){
 
-        cli::cli_alert(c("{.val time_varying} is set as ",
-                         "{.val {private$.time_varying}} ",
-                         "{.emph ({as.logical(private$.time_varying)})}"))
         private$set_default_fraction_mortality_matrix(...)
-        cli::cli_alert("New {.val proportion_total_mortality_matrix} created")
 
       }
 

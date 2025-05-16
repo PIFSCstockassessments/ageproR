@@ -98,8 +98,10 @@ options_output <- R6Class(
       cli::cli_alert(paste0("Line {nline} : ",
                             "Reading AGEPRO projection output options ..."))
 
-      cli::cli_div(theme= list(ul = list(`margin-left` = 2, before = "")))
+      cli::cli_div(id = "options_fields",
+                   theme = list(".alert-info" = list("margin-left" = 2)))
       self$print()
+      cli::cli_end("options_fields")
 
       return(nline)
     },
