@@ -127,7 +127,12 @@ general_params <- R6Class(
       private$set_discards_present(inp_line[8])
       private$set_seed(inp_line[9])
 
+      div_general_fields <-
+        cli::cli_div(class = "input_field",
+                     theme = list(.input_field = list("margin-left" = 2)))
       self$print()
+
+      cli::cli_end(div_general_fields)
 
       return(nline)
     },
