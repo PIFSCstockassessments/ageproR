@@ -21,7 +21,6 @@ options \link[=general_params]{discards_present field}.
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="cli_print_process_error_table"><a href='../../ageproR/html/process_error.html#method-process_error-cli_print_process_error_table'><code>ageproR::process_error$cli_print_process_error_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="create_parameter_table"><a href='../../ageproR/html/process_error.html#method-process_error-create_parameter_table'><code>ageproR::process_error$create_parameter_table()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="get_inp_lines"><a href='../../ageproR/html/process_error.html#method-process_error-get_inp_lines'><code>ageproR::process_error$get_inp_lines()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="ageproR" data-topic="process_error" data-id="print"><a href='../../ageproR/html/process_error.html#method-process_error-print'><code>ageproR::process_error$print()</code></a></span></li>

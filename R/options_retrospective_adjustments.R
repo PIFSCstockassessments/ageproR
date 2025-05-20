@@ -44,6 +44,8 @@ retrospective_adjustments <- R6Class(
     initialize = function(retro_adjust,
                           enable_cat_print = TRUE) {
 
+      #TODO: Include private (max) num_ages parameter to limit
+
       div_keyword_header(private$.keyword_name)
 
       # When agepro_model is reinitialized, reset the value for this class's
@@ -86,10 +88,11 @@ retrospective_adjustments <- R6Class(
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
-        print_parameter_table(self$retro_adjust, ...)
+        print_parameter_table(self$retro_adjust, omit_rows = FALSE)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output( x <- print_parameter_table(self$retro_adjust, ...))
+        capture.output(
+          x <- print_parameter_table(self$retro_adjust, omit_rows = FALSE))
       }
 
       cli::cli_end()
@@ -181,11 +184,8 @@ retrospective_adjustments <- R6Class(
         names(private$.retro_adjust) <- paste0("Age",
                                                1:length(private$.retro_adjust))
         withCallingHandlers(
-          message = function(cnd) {
-
-          },
-          print(private$.retro_adjust),
-          cli::cli_alert_info("retro_adjust: ")
+          message = function(cnd) cli::cli_alert_info("retro_adjust: "),
+          capture_output_as_message(private$.retro_adjust)
         )
       }
     },

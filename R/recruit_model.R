@@ -93,7 +93,13 @@ recruit_model <- R6Class(
     .model_group = NULL,
     .model_name = NULL,
     .projected_years = NULL,
-    .length_projected_years = NULL
+    .length_projected_years = NULL,
+
+    print_model_num_name= function() {
+      cli::cli_alert(paste0("Recruitment Model #",
+                            "{private$.model_num}: ",
+                            "{.emph {.field {private$.model_name}}}"))
+    }
 
   )
 
@@ -131,7 +137,7 @@ null_recruit_model <- R6Class(
         paste0("NULL Recrumitment model found. ",
                "Replace with a valid recruitment model before ",
                "saving to input file")
-      cli_text("{private$.model_name}")
+      private$print_model_num_name()
 
       warning(warn_null_recruit, call. = FALSE)
     },
@@ -245,7 +251,6 @@ deprecated_recruit_model_9 <- R6Class(
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
-#' @importFrom tibble as_tibble
 #'
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -346,18 +351,19 @@ empirical_recruit <- R6Class(
 
 
       #Model Name
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("with_ssb: {.val {self$with_ssb}}")
       cli_alert_info(paste0("observed_points ",
                     "{.emph (Number of Recruitment Data Points)}: ",
                     "{.val {self$observed_points}}"))
       cli_alert_info("observations:")
 
-      if(verbose){
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$observations, .name_repair = "minimal"))))
+      if(verbose) {
+        print_parameter_table(self$observations, omit_rows = TRUE)
       }else{
-        tibble::as_tibble(self$obersvations) |> invisible()
+        #suppresses output
+        capture.output(
+          x <- print_parameter_table(self$observations, omit_rows = TRUE))
       }
 
 
@@ -382,7 +388,7 @@ empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -663,7 +669,7 @@ two_stage_empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -684,8 +690,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
 
 
       ## high_recruitment
@@ -696,8 +701,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -728,7 +732,7 @@ two_stage_empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
 
       cli_alert_info(paste0("with_ssb ",
                             "{.emph (Include state SSB vector)}? ",
@@ -739,11 +743,9 @@ two_stage_empirical_recruit <- R6Class(
       cli_alert_info("num_low_recruits: {.val {self$num_low_recruits}}")
       cli_alert_info("num_high_recruits: {.val {self$num_high_recruits}}")
       cli_alert_info("low_recruitment:")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
       cli_alert_info("high_recruitment:")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
 
 
@@ -987,7 +989,7 @@ parametric_curve <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_text("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("alpha: {.val {private$.alpha}}")
       cli_alert_info("beta: {.val {private$.beta}}")
       cli_alert_info("variance: {.val {private$.variance}}")
@@ -999,7 +1001,7 @@ parametric_curve <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -1014,11 +1016,14 @@ parametric_curve <- R6Class(
       self$variance <- inp_line[3]
 
       #self$print()
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("parametric_fields")
 
       return(nline)
     }
@@ -1188,7 +1193,7 @@ shepherd_curve_model <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{.field {self$model_name}}")
+      private$print_model_num_name()
       cli_alert_info("alpha: {.val {private$.alpha}}")
       cli_alert_info("beta: {.val {private$.beta}}")
       cli_alert_info("kpar: {.val {private$.kpar}}")
@@ -1202,7 +1207,7 @@ shepherd_curve_model <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -1217,13 +1222,14 @@ shepherd_curve_model <- R6Class(
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
 
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("K: {.val {private$.kpar}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
-
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("shepherd_curve_fields")
 
 
       return(nline)
