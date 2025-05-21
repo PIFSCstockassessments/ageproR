@@ -84,7 +84,7 @@ agepro_model <- R6Class(
       }
 
 
-      cli::cli_alert_success("Done")
+      cli::cli_alert_success("Agepro Model Initialized")
       invisible(self)
     },
 
