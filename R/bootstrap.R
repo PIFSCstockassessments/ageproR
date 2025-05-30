@@ -221,9 +221,11 @@ bootstrap <- R6Class(
                             "{.val {value}}"))
         cli_end()
 
-        warning(paste0("'", value, "' does not exist. \n",
-                       "Please provide a vaild bootstrap filepath when saving to input ",
-                       "file for the AGEPRO calcuation engine."), call. = FALSE)
+        warning(paste0("'", value, "' is an invalid path or doesn't exist in ",
+                       "working directory. \n",
+                       "Please save AGEPRO input files with a vaild bootstrap_",
+                       "file, especially with running models with the ",
+                       "calculation engine."), call. = FALSE)
       }
 
     }
