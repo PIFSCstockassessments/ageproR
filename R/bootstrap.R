@@ -119,9 +119,8 @@ bootstrap <- R6Class(
       cli_alert_info("num_bootstraps: {.val {self$num_bootstraps}}")
       cli_alert_info(paste0("pop_scale_factor {.emph (BootFac)}: ",
                "{.val {self$pop_scale_factor}}"))
-      cli_alert_info("bootstrap_file:")
-
-      private$validate_bootstrap_file(self$bootstrap_file)
+      cli_alert_info(paste0("bootstrap_file:",
+                            "{.val {self$bootstrap_file}}"))
 
       cli_end()
     }
@@ -197,7 +196,6 @@ bootstrap <- R6Class(
     .bootstrap_file = NULL,
     .keyword_name = "bootstrap",
 
-
     #Validate bootstrap_file
     validate_bootstrap_file = function(value) {
 
@@ -205,29 +203,23 @@ bootstrap <- R6Class(
       if (test_file_exists(value, access = "r", extension = "bsn")) {
         #If validated, assign value
         cli_alert_success("bootstrap_file: {.val {value}}")
+        return()
+      }
 
-      }else if (is.null(value)) {
-        #Warn if file path is NULL,
+      #Warn if file path is NULL
+      if (is.null(value)) {
         warning(paste0("NULL bootstrap_file path. Please provide valid ",
                        "bootstrap (*.bsn) filepath before saving input file ",
                        "or running model to calcuation engine."),
                 call. = FALSE)
-      }else {
-        #Else, warn bootstrap file name does not exist
-        cli_div(
-          theme = list(span.val = list(color = "orange",
-                                       "font-style" = "italic")))
-        cli_alert_warning(c("bootstrap_file path does not exist in system: ",
-                            "{.val {value}}"))
-        cli_end()
-
-        warning(paste0("'", value, "' is an invalid path or doesn't exist in ",
-                       "working directory. \n",
-                       "Please save AGEPRO input files with a vaild bootstrap_",
-                       "file, especially with running models with the ",
-                       "calculation engine."), call. = FALSE)
+        return()
       }
 
+      #Else, warn bootstrap file name does not exist
+      warning(paste0(invalid_path_message(value),
+                     "Please save AGEPRO input files with a vaild ",
+                     "bootstrap_file, especially with running models with ",
+                     "the calculation engine.", call. = FALSE))
     }
 
   )
