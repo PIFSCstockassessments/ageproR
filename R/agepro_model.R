@@ -933,6 +933,8 @@ agepro_inp_model <- R6Class(
         {
           #(Re)Set File connection to input file
           inp_con <- file(file.path(inpfile), "r")
+          #Hacky way to get input filename from file connection
+          private$set_inp_filepath(summary(inp_con)$description)
 
           self$setup_projection_analyses_values("standard")
           self$read_inpfile_values(inp_con)
@@ -1196,12 +1198,32 @@ agepro_inp_model <- R6Class(
       }else {
         private$.nline <- val
       }
+    },
+
+    #' @field inp_filepath Filepath of AGEPRO input file
+    inp_filepath = function(val) {
+      if(isFALSE(missing(val))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.inp_filepath
     }
 
   ),
   private = list(
 
     .nline = NULL,
+    .inp_filepath = NULL,
+
+    set_inp_filepath = function(value) {
+      if(isFALSE(checkmate::test_file_exists(value))) {
+        warning(paste0(
+          "Input file '", value, "' is an invalid path or doesn't exist in ",
+          "current working directory. \n",
+        ))
+        return()
+      }
+      private$.inp_filepath <- value
+    },
 
     read_case_id = function(con, nline) {
       self$nline <- self$case_id$read_inp_lines(con, nline)

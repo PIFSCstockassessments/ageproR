@@ -18,6 +18,8 @@ File Functionality is based on AGEPRO-CoreLib implementation
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{nline}}{nlines}
+
+\item{\code{inp_filepath}}{Filepath of AGEPRO input file}
 }
 \if{html}{\out{</div>}}
 }
