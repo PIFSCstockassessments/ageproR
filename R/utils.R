@@ -72,6 +72,17 @@ create_blank_parameter_table = function(num_rows, num_cols,
 
 }
 
+#' Invalid Path Message
+#'
+#' Returns a reusable invalid Path Message
+#'
+#' @param x Filepath string
+#'
+invalid_path_message <- function(x) {
+  paste0("'", x, "' is an invalid path or doesn't exist in ",
+         "working directory. \n")
+}
+
 
 #' converts output as messages
 #'
