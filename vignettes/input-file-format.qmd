@@ -1,0 +1,20 @@
+---
+title: "input-file-format"
+vignette: >
+  %\VignetteIndexEntry{input-file-format}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+library(ageproR)
+```
+
+## AGEPRO Input Files
+
+{{< include table3_keyword-struct.qmd >}}
