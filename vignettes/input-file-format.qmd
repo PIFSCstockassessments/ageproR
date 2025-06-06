@@ -17,4 +17,6 @@ library(ageproR)
 
 ## AGEPRO Input Files
 
+{{< include structure_AGEPRO-input-file.qmd >}}
+
 {{< include table3_keyword-struct.qmd >}}
