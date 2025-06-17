@@ -1,5 +1,5 @@
 ---
-title: "input-file-format"
+title: "AGEPRO Input File Format"
 vignette: >
   %\VignetteIndexEntry{input-file-format}
   %\VignetteEngine{quarto::html}
@@ -12,11 +12,12 @@ knitr:
 
 ```{r}
 #| label: setup
+#| echo: false
 library(ageproR)
 ```
 
-## AGEPRO Input Files
+## AGEPRO Input Files (*.INP)
 
-{{< include structure_AGEPRO-input-file.qmd >}}
+Note: Documented for **StockSummaryFlag** changes for AGEPRO VERSION 4.25 format, for compatibility to the AGEPRO VERSION 4.0 format use Input=0 and Input=1.  
 
 {{< include table3_keyword-struct.qmd >}}
