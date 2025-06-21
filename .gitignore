@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 *_snaps
+**/.quarto/
+/doc/
+/Meta/
