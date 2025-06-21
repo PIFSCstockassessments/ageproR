@@ -311,10 +311,12 @@ projection year (**NFyear**) to the last projection year (**NXyear**).
 +-------------------+-------------------------------------------------------------------------------------------------------+
 | `OPTIONS`         | 1. Single Line containing 3 integers:                                                                 |
 |                   |    - **StockSummaryFlag** (I) – this is the logical flag to output stock summary information          |
-|                   |      - I=0: No stock summary or auxiliary files                                                       |
+|                   |      - I=0. No stock summary or auxiliary files                                                       |
 |                   |      - I=1. Stock summary in output file and no auxiliary files                                       |
-|                   |      - ~~I=2. Stock summary in output file and auxiliary files 2 through 10 are produced~~            |
-|                   |      - ~~I=3. Stock summary in output file and all auxiliary files are produced~~                     |
+|                   |      - I=2. Stock summary in output file and auxiliary files 2 through 10 are produced <br />         |
+|                   |        *Note: Option flag is not compatible with `AGEPRO VERSION 4.0` format*                         |
+|                   |      - I=3. Stock summary in output file and all auxiliary files are produced <br />                  |
+|                   |        *Note: Option flag is not compatible with `AGEPRO VERSION 4.0` format*                         |
 |                   |    - **DataFlag** (I) – this is the logical flag to output population and fishery processes           |
 |                   |      simulated with lognormal process error to auxiliary output files                                 |
 |                   |    - **ExportRFlag** (I) – this is the logical flag to output projection results to an R dataframe    |
