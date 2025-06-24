@@ -79,8 +79,19 @@ user-defined options}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-options_flags-new}{\code{options_flags$new()}}
 \item \href{#method-options_flags-clone}{\code{options_flags$clone()}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-options_flags-new"></a>}}
+\if{latex}{\out{\hypertarget{method-options_flags-new}{}}}
+\subsection{Method \code{new()}}{
+Initialize
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{options_flags$new()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-options_flags-clone"></a>}}

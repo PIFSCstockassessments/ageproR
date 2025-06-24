@@ -64,7 +64,10 @@ options_flags <- R6Class(
     #' @field op
     #' Class container that encapsulates logical flags to enable AGEPRO
     #' user-defined options
-    op = options_flag_container$new()
+    op = NULL,
+
+    #' @description Initialize
+    initialize = function() self$op <- options_flag_container$new()
   )
 )
 
