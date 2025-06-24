@@ -172,7 +172,7 @@ percentile_summary <- R6Class(
         checkmate::assert_numeric(value, null.ok = TRUE, len = 1,
                                   lower = 0, upper = 100)
         if(isFALSE(self$flag$op$enable_percentile_summary)) {
-          stop(paste0("{private$.name_options_flag} flag is FALSE. ",
+          stop(paste0(private$.name_options_flag," flag is FALSE. ",
                         "Set flag to TRUE to set value.") )
         }
 

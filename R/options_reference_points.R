@@ -381,7 +381,7 @@ reference_points <- R6Class(
     # enable_reference_points is FALSE
     unenabled_options_flag_message = function() {
       return(invisible(
-        paste0("{private$.name_options.flag} is FALSE. ",
+        paste0(private$.name_options_flag, " is FALSE. ",
                   "Set flag to TRUE to set value.")
         ))
     },
