@@ -30,9 +30,9 @@ reference_points <- R6Class(
   "reference_points",
   public = list(
 
-    #' @field flag
+    #' @field refpoint_flag
     #' R6class containing option_flags
-    flag = options_flags$new(),
+    refpoint_flag = NULL,
 
     #' @description
     #' Initializes the class
@@ -49,16 +49,20 @@ reference_points <- R6Class(
     #' @param fmort_threshold
     #' Fishing mortality threshold
     #'
+    #' @param option_flag
+    #' Option flag to allow reference points values to be used
+    #'
     initialize = function(ssb_threshold = 0,
                          stockbio_threshold = 0,
                          meanbio_threshold = 0,
-                         fmort_threshold = 0) {
+                         fmort_threshold = 0,
+                         option_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
-      # When agepro_model is reinitialized, reset the value for this class's
-      # option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      ##TODO: Add warning to state for nonenabled Option Classes with non-default values
+
+      refpoint_flag = option_flag
 
       # If all parameters are non-default values set the flag to FALSE.
       default_ssb_threshold <-
@@ -330,7 +334,7 @@ reference_points <- R6Class(
     #' until this option flag is TRUE.
     enable_reference_points = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_reference_points)
+        return(self$refpoint_flag$op$enable_reference_points)
       } else {
         private$set_enable_reference_points(value)
       }
@@ -367,12 +371,12 @@ reference_points <- R6Class(
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$flag$op$enable_reference_points <- x
+      self$refpoint_flag$op$enable_reference_points <- x
 
       cli::cli_alert_info(
         paste0("{private$.name_options_flag} to ",
                "{.val ",
-               "{self$flag$op$enable_reference_points}}"))
+               "{self$refpoint_flag$op$enable_reference_points}}"))
 
 
     },
@@ -384,18 +388,7 @@ reference_points <- R6Class(
         paste0(private$.name_options_flag, " is FALSE. ",
                   "Set flag to TRUE to set value.")
         ))
-    },
-
-
-    reset_options_flags = function() {
-      #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$op$enable_reference_points))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
-                              "for initialization"))
-        self$flag$op$enable_reference_points <- NULL
-      }
     }
-
 
   )
 )

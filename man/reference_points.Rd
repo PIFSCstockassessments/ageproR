@@ -25,7 +25,7 @@ parameter used in the AGEPRO input file format, but it is optional.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{flag}}{R6class containing option_flags}
+\item{\code{refpoint_flag}}{R6class containing option_flags}
 }
 \if{html}{\out{</div>}}
 }
@@ -73,7 +73,8 @@ Initializes the class
   ssb_threshold = 0,
   stockbio_threshold = 0,
   meanbio_threshold = 0,
-  fmort_threshold = 0
+  fmort_threshold = 0,
+  option_flag = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -87,6 +88,8 @@ Initializes the class
 \item{\code{meanbio_threshold}}{Mean biomass threshold expressed in biomass output units (MT)}
 
 \item{\code{fmort_threshold}}{Fishing mortality threshold}
+
+\item{\code{option_flag}}{Option flag to allow reference points values to be used}
 }
 \if{html}{\out{</div>}}
 }

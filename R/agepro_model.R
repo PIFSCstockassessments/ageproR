@@ -117,6 +117,9 @@ agepro_model <- R6Class(
                                          "seed"),
                            .var.name = "general")
 
+      # Option Flags
+      refpoint_flag = options_flags$new()
+
       #Assign and verify projection_analyses_type
       self$setup_projection_analyses_values(projection_analyses_type)
 
@@ -212,7 +215,7 @@ agepro_model <- R6Class(
 
       self$bounds <- max_bounds$new()
 
-      self$refpoint <- reference_points$new()
+      self$refpoint <- reference_points$new(option_flag=refpoint_flag)
 
       self$scale <- scaling_factors$new()
 
