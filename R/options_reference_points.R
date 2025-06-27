@@ -49,14 +49,14 @@ reference_points <- R6Class(
     #' @param fmort_threshold
     #' Fishing mortality threshold
     #'
-    #' @param refpoint_flag
+    #' @param option_flag
     #' R6class containing option flags to allow reference points to be used
     #'
     initialize = function(ssb_threshold = 0,
                          stockbio_threshold = 0,
                          meanbio_threshold = 0,
                          fmort_threshold = 0,
-                         refpoint_flag = NULL) {
+                         option_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
@@ -65,7 +65,7 @@ reference_points <- R6Class(
       ##TODO check refpoint_flag is a option_flag R6class
 
       # Check and warn if input refpoint_flag param has a non-null enable_reference_points value
-      if(isFALSE(is.null(refpoint_flag$op$enable_reference_points))){
+      if(isFALSE(is.null(option_flag$op$enable_reference_points))){
         warning("refpoint_flag$op$enable_reference_points initialized with non-null value")
       }
 
