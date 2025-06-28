@@ -340,7 +340,7 @@ reference_points <- R6Class(
     #' until this option flag is TRUE.
     enable_reference_points = function(value) {
       if(isTRUE(missing(value))){
-        return(self$refpoint_flag$op$enable_reference_points)
+        return(private$.refpoint_flag$op$enable_reference_points)
       } else {
         private$set_enable_reference_points(value)
       }
@@ -369,6 +369,7 @@ reference_points <- R6Class(
     .mean_biomass_threshold = NULL,
     .fishing_mortality_threshold = NULL,
 
+    .refpoint_flag = NULL,  #R6class containing option_flags
     .name_options_flag = "enable_reference_points",
 
     # Wrapper Function to toggle enable_reference_points options_flag.
@@ -377,13 +378,12 @@ reference_points <- R6Class(
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$refpoint_flag$op$enable_reference_points <- x
+      private$.refpoint_flag$op$enable_reference_points <- x
 
       cli::cli_alert_info(
         paste0("{private$.name_options_flag} to ",
                "{.val ",
-               "{self$refpoint_flag$op$enable_reference_points}}"))
-
+               "{private$.refpoint_flag$op$enable_reference_points}}"))
 
     },
 
