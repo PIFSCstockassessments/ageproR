@@ -49,24 +49,25 @@ reference_points <- R6Class(
     #' @param fmort_threshold
     #' Fishing mortality threshold
     #'
-    #' @param option_flag
+    #' @param refpoint_flag
     #' R6class containing option flags to allow reference points to be used
     #'
     initialize = function(ssb_threshold = 0,
                          stockbio_threshold = 0,
                          meanbio_threshold = 0,
                          fmort_threshold = 0,
-                         option_flag = NULL) {
+                         refpoint_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
-      ##TODO: Add warning to state for nonenabled Option Classes with non-default values
-
-      ##TODO check refpoint_flag is a option_flag R6class
+      # Check refpoint_flag is a options_flag R6class w/ "op" field
+      checkmate::assert_r6(refpoint_flag, classes = "options_flags",
+                           public = "op")
 
       # Check and warn if input refpoint_flag param has a non-null enable_reference_points value
-      if(isFALSE(is.null(option_flag$op$enable_reference_points))){
-        warning("refpoint_flag$op$enable_reference_points initialized with non-null value")
+      if(isFALSE(is.null(refpoint_flag$op$enable_reference_points))){
+        warning(paste0("Initializing reference points with a non-null ",
+                       "options flag value"))
       }
 
       # If all parameters are non-default values set the flag to FALSE.

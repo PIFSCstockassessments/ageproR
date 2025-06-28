@@ -74,7 +74,7 @@ Initializes the class
   stockbio_threshold = 0,
   meanbio_threshold = 0,
   fmort_threshold = 0,
-  option_flag = NULL
+  refpoint_flag = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -89,7 +89,7 @@ Initializes the class
 
 \item{\code{fmort_threshold}}{Fishing mortality threshold}
 
-\item{\code{option_flag}}{R6class containing option flags to allow reference points to be used}
+\item{\code{refpoint_flag}}{R6class containing option flags to allow reference points to be used}
 }
 \if{html}{\out{</div>}}
 }

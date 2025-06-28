@@ -212,7 +212,7 @@ agepro_model <- R6Class(
 
       self$bounds <- max_bounds$new()
 
-      self$refpoint <- reference_points$new(option_flag = options_flags$new())
+      self$refpoint <- reference_points$new(refpoint_flag = options_flags$new())
 
       self$scale <- scaling_factors$new()
 
