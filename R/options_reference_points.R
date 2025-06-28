@@ -64,7 +64,8 @@ reference_points <- R6Class(
       checkmate::assert_r6(refpoint_flag, classes = "options_flags",
                            public = "op")
 
-      # Check and warn if input refpoint_flag param has a non-null enable_reference_points value
+      # Check and warn if input refpoint_flag param has a non-null
+      # enable_reference_points value
       if(isFALSE(is.null(refpoint_flag$op$enable_reference_points))){
         warning(paste0("Initializing reference points with a non-null ",
                        "options flag value"))
