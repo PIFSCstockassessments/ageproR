@@ -22,13 +22,6 @@ set this flag to TRUE.
 The reference_points class (\code{REFPOINTS}) is recognized as a keyword
 parameter used in the AGEPRO input file format, but it is optional.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{refpoint_flag}}{R6class containing option_flags}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

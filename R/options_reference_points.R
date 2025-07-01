@@ -30,10 +30,6 @@ reference_points <- R6Class(
   "reference_points",
   public = list(
 
-    #' @field refpoint_flag
-    #' R6class containing option_flags
-    refpoint_flag = NULL,
-
     #' @description
     #' Initializes the class
     #'
