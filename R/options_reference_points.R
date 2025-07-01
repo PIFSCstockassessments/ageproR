@@ -58,7 +58,7 @@ reference_points <- R6Class(
 
       # Check refpoint_flag is a options_flag R6class w/ "op" field
       checkmate::assert_r6(refpoint_flag, classes = "options_flags",
-                           public = "op")
+                           public = "op", null.ok = TRUE)
 
       # Check and warn if input refpoint_flag param has a non-null
       # enable_reference_points value
