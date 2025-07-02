@@ -247,7 +247,7 @@ percentile_summary <- R6Class(
 
       # Check and warn if input perc_flag_param has a non-null
       # enable_reference_points value
-      if(isFALSE(is.null(perc_flag_param$op$enable_reference_points))){
+      if(isFALSE(is.null(perc_flag_param$op$enable_percentile_summary))){
         warning(paste0("Initializing percentile summary with a non-null ",
                        private$name_options_flag,
                        " value"))
