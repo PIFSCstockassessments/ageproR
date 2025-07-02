@@ -27,25 +27,22 @@ percentile_summary <- R6Class(
   "percentile_summary",
   public = list(
 
-    #' @field flag
-    #' A R6class containing
-    #' [flags for optional AGEPRO options][ageproR::options_flags]
-    flag = options_flags$new(),
-
     #' @description
     #' Initializes the class
     #'
     #' @param perc User-defined percentile of projected distributions
     #'
-    initialize = function(perc = 0){
+    #' @param perc_flag
+    #' R6class containing option flags to allow reference points to be used
+    #'
+    initialize = function(perc = 0,
+                          perc_flag = NULL){
 
       div_keyword_header(private$.keyword_name)
 
-      #' When agepro_model is reinitialized, reset the value for this class's
-      #' option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      private$validate_perc_flag(perc_flag)
 
-      # Presume default if perc is 0.
+      # Presume perc default is 0.
       # If all parameters are non-default values set the flag to FALSE.
       default_perc <- formals(self$initialize)[["perc"]]
       if(isTRUE(all.equal(perc,default_perc))){
@@ -53,7 +50,7 @@ percentile_summary <- R6Class(
 
         self$report_percentile <- perc
 
-        self$set_enable_percentile_summary(FALSE)
+        private$set_enable_percentile_summary(FALSE)
 
         return()
 
@@ -62,7 +59,7 @@ percentile_summary <- R6Class(
       cli::cli_alert("Setting percentile_summary values ... ")
 
       self$report_percentile <- perc
-      self$set_enable_percentile_summary(TRUE)
+      private$set_enable_percentile_summary(TRUE)
 
     },
 
@@ -77,30 +74,6 @@ percentile_summary <- R6Class(
                "{.emph (Request Percentile Report)}: ",
                "{.val {self$enable_percentile_summary}}"))
       cli::cli_alert_info("report_percentile: {.val {self$report_percentile}}")
-    },
-
-    #' @description
-    #' Wrapper Function to toggle enable_percentile_summary options_flag.
-    #'
-    #' The percentile_summary class will not accept values until it is
-    #' enable_percentile_summary is TRUE.
-    #'
-    #' @param x
-    #' Logical value for enable_percentile_summary options_flag
-    #'
-    set_enable_percentile_summary = function(x) {
-
-      checkmate::assert_logical(x)
-
-      #Set value to options flags field reference "flag"
-      self$flag$op$enable_percentile_summary <- x
-
-      cli::cli_alert_info(
-        paste0("{private$.name_options_flag} to ",
-               "{.val ",
-               "{self$flag$op$enable_percentile_summary}}"))
-
-
     },
 
 
@@ -171,7 +144,7 @@ percentile_summary <- R6Class(
 
         checkmate::assert_numeric(value, null.ok = TRUE, len = 1,
                                   lower = 0, upper = 100)
-        if(isFALSE(self$flag$op$enable_percentile_summary)) {
+        if(isFALSE(self$enable_percentile_summary)) {
           stop(paste0(private$.name_options_flag," flag is FALSE. ",
                         "Set flag to TRUE to set value.") )
         }
@@ -195,10 +168,10 @@ percentile_summary <- R6Class(
     #' the value use `set_enable_percentile_summary` or field
     enable_percentile_summary = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_percentile_summary)
+        return(private$.perc_flag$op$enable_percentile_summary)
       }else{
         #Validate and set value via set_enable_percentile_summary
-        self$set_enable_percentile_summary(value)
+        private$set_enable_percentile_summary(value)
       }
 
     },
@@ -232,15 +205,54 @@ percentile_summary <- R6Class(
 
     .report_percentile = NULL,
 
+    .perc_flag = NULL,
     .name_options_flag = "enable_percentile_summary",
 
-    reset_options_flags = function() {
-      #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$op$enable_percentile_summary))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
-                              "for initialization"))
-        self$flag$op$enable_percentile_summary <- NULL
+    # Wrapper Function to toggle enable_percentile_summary options_flag.
+    #
+    #The percentile_summary class will not accept values until it is
+    #enable_percentile_summary is TRUE.
+    set_enable_percentile_summary = function(x) {
+
+      checkmate::assert_logical(x)
+
+      #Set value to options flags field reference "flag"
+      private$.perc_flag$op$enable_percentile_summary <- x
+
+      cli::cli_alert_info(
+        paste0("{private$.name_options_flag} to ",
+               "{.val ",
+               "{private$.perc_flag$op$enable_percentile_summary}}"))
+
+
+    },
+
+
+    # Error message when setting values to reference_points while
+    # enable_reference_points is FALSE
+    unenabled_options_flag_message = function() {
+      return(invisible(
+        paste0(private$.name_options_flag, " is FALSE. ",
+               "Set flag to TRUE to set value.")
+      ))
+    },
+
+    # Convenience function to validate input perc_flag parameter at
+    # percentile_summary initialization
+    validate_perc_flag = function(perc_flag_param) {
+
+      # Check perc_flag_param is a options_flag R6class w/ "op" field
+      checkmate::assert_r6(perc_flag_param, classes = "options_flags",
+                           public = "op", null.ok = TRUE)
+
+      # Check and warn if input perc_flag_param has a non-null
+      # enable_reference_points value
+      if(isFALSE(is.null(perc_flag_param$op$enable_reference_points))){
+        warning(paste0("Initializing percentile summary with a non-null ",
+                       private$name_options_flag,
+                       " value"))
       }
+
     }
 
   )

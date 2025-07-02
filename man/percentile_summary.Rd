@@ -21,14 +21,6 @@ default values will set this flag to TRUE.#'
 The percentile_summary class (or \code{PERC}) is an optional keyword
 parameter used in the AGEPRO input file format.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{flag}}{A R6class containing
-\link[=options_flags]{flags for optional AGEPRO options}}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -54,7 +46,6 @@ the value use \code{set_enable_percentile_summary} or field}
 \itemize{
 \item \href{#method-percentile_summary-new}{\code{percentile_summary$new()}}
 \item \href{#method-percentile_summary-print}{\code{percentile_summary$print()}}
-\item \href{#method-percentile_summary-set_enable_percentile_summary}{\code{percentile_summary$set_enable_percentile_summary()}}
 \item \href{#method-percentile_summary-read_inp_lines}{\code{percentile_summary$read_inp_lines()}}
 \item \href{#method-percentile_summary-get_inp_lines}{\code{percentile_summary$get_inp_lines()}}
 \item \href{#method-percentile_summary-clone}{\code{percentile_summary$clone()}}
@@ -66,16 +57,15 @@ the value use \code{set_enable_percentile_summary} or field}
 \subsection{Method \code{new()}}{
 Initializes the class
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{percentile_summary$new(perc = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{percentile_summary$new(perc = 0, perc_flag = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{perc}}{User-defined percentile of projected distributions
+\item{\code{perc}}{User-defined percentile of projected distributions}
 
-When agepro_model is reinitialized, reset the value for this class's
-option_flag to NULL to cleanup any values it retained previously.}
+\item{\code{perc_flag}}{R6class containing option flags to allow reference points to be used}
 }
 \if{html}{\out{</div>}}
 }
@@ -89,26 +79,6 @@ Formatted to print out output_option values
 \if{html}{\out{<div class="r">}}\preformatted{percentile_summary$print()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-percentile_summary-set_enable_percentile_summary"></a>}}
-\if{latex}{\out{\hypertarget{method-percentile_summary-set_enable_percentile_summary}{}}}
-\subsection{Method \code{set_enable_percentile_summary()}}{
-Wrapper Function to toggle enable_percentile_summary options_flag.
-
-The percentile_summary class will not accept values until it is
-enable_percentile_summary is TRUE.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{percentile_summary$set_enable_percentile_summary(x)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{Logical value for enable_percentile_summary options_flag}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-percentile_summary-read_inp_lines"></a>}}

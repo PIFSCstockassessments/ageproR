@@ -208,7 +208,7 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
-      self$perc <- percentile_summary$new()
+      self$perc <- percentile_summary$new(perc_flag = options_flags$new())
 
       self$bounds <- max_bounds$new()
 
