@@ -214,7 +214,7 @@ agepro_model <- R6Class(
 
       self$refpoint <- reference_points$new(refpoint_flag = options_flags$new())
 
-      self$scale <- scaling_factors$new()
+      self$scale <- scaling_factors$new(scale_flag = options_flags$new())
 
       self$retroadjust <- retrospective_adjustments$new(
         enable_cat_print = enable_cat_print)
