@@ -210,7 +210,7 @@ agepro_model <- R6Class(
 
       self$perc <- percentile_summary$new(perc_flag = options_flags$new())
 
-      self$bounds <- max_bounds$new()
+      self$bounds <- max_bounds$new(bounds_flag = options_flags$new())
 
       self$refpoint <- reference_points$new(refpoint_flag = options_flags$new())
 
