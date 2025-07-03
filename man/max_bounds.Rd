@@ -69,7 +69,7 @@ Initializes the class
 
 \item{\code{max_nat_mort}}{Maximum bound of natural mortality. Default is 1.0.}
 
-\item{\code{bounds_flag}}{R6class containing option flags to allow reference points to be used}
+\item{\code{bounds_flag}}{R6class containing option flags to allow max bounds to be used}
 }
 \if{html}{\out{</div>}}
 }

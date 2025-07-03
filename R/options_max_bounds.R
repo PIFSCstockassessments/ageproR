@@ -42,7 +42,7 @@ max_bounds <- R6Class(
     #' Maximum bound of natural mortality. Default is 1.0.
     #'
     #' @param bounds_flag
-    #' R6class containing option flags to allow reference points to be used
+    #' R6class containing option flags to allow max bounds to be used
     #'
     initialize = function(max_weight = 10.0,
                           max_nat_mort = 1.0,

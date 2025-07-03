@@ -65,7 +65,7 @@ Initializes the class
 \describe{
 \item{\code{perc}}{User-defined percentile of projected distributions}
 
-\item{\code{perc_flag}}{R6class containing option flags to allow reference points to be used}
+\item{\code{perc_flag}}{R6class containing option flags to allow percentile summary to be used}
 }
 \if{html}{\out{</div>}}
 }

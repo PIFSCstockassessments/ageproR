@@ -33,7 +33,7 @@ percentile_summary <- R6Class(
     #' @param perc User-defined percentile of projected distributions
     #'
     #' @param perc_flag
-    #' R6class containing option flags to allow reference points to be used
+    #' R6class containing option flags to allow percentile summary to be used
     #'
     initialize = function(perc = 0,
                           perc_flag = NULL){
