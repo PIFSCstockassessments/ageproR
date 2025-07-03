@@ -40,6 +40,8 @@ percentile_summary <- R6Class(
 
       div_keyword_header(private$.keyword_name)
 
+      # Validation checks in case percentile_summary is initialized w/ non-null
+      # or invalid type for enable_percentile_summary
       private$validate_perc_flag(perc_flag)
 
       # Presume perc default is 0.
