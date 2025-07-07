@@ -51,7 +51,7 @@ scaling_factors <-R6Class(
 
       div_keyword_header(private$.keyword_name)
 
-      # Validation checks in case max_bounds is initialized w/ non-null
+      # Validation checks in case scaling_factors is initialized w/ non-null
       # or invalid enable_scaling_factors
       private$validate_scale_flag(scale_flag)
 
@@ -339,9 +339,9 @@ scaling_factors <-R6Class(
       # Check and warn if parameter has a non-null
       # enable_scaling_factors value
       if(isFALSE(is.null(scale_flag_param$op$enable_scaling_factors))){
-        warning(paste0("Initializing max bounds with a non-null ",
-                       private$name_options_flag,
-                       " value"))
+        warning(paste0("Initializing ",
+                       private$.keyword_name ," with a non-null ",
+                       private$.name_options_flag, " value"))
       }
 
     }

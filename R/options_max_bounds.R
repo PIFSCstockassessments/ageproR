@@ -296,9 +296,9 @@ max_bounds <- R6Class(
       # Check and warn if parameter has a non-null
       # enable_max_bounds value
       if(isFALSE(is.null(bounds_flag_param$op$enable_max_bounds))){
-        warning(paste0("Initializing max bounds with a non-null ",
-                       private$name_options_flag,
-                       " value"))
+        warning(paste0("Initializing ",
+                       private$.keyword_name, " with a non-null ",
+                       private$.name_options_flag, " value"))
       }
 
     }
