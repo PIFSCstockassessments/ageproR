@@ -30,10 +30,6 @@ retrospective_adjustments <- R6Class(
   "retrospective_adjustments",
   public = list(
 
-    #' @field flag
-    #' R6class containing option_flags
-    flag = options_flags$new(),
-
     #' @description
     #' Initializes the class
     #'
@@ -41,16 +37,21 @@ retrospective_adjustments <- R6Class(
     #' @param retro_adjust
     #' Vector for retrospective bias adjustment
     #'
+    #' @param retro_flag
+    #' R6class containing option flags to allow retrospective adjustments
+    #' to be used
+    #'
     initialize = function(retro_adjust,
-                          enable_cat_print = TRUE) {
+                          enable_cat_print = TRUE,
+                          retro_flag = NULL) {
 
       #TODO: Include private (max) num_ages parameter to limit
 
       div_keyword_header(private$.keyword_name)
 
-      # When agepro_model is reinitialized, reset the value for this class's
-      # option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      # Validation checks in case retrospective_adjustments is initialized w/
+      # non-null or invalid enable_retrospective_adjustments
+      private$validate_retro_flag(retro_flag)
 
       #If retro_adjust is missing, assume default values.
       if(missing(retro_adjust)){
@@ -113,7 +114,7 @@ retrospective_adjustments <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline, num_ages) {
 
-      if(isFALSE(self[[private$.name_options_flag]])){
+      if(isFALSE(self$enable_retrospective_adjustments)){
         stop(private$unenabled_options_flag_message())
       }
 
@@ -196,7 +197,7 @@ retrospective_adjustments <- R6Class(
     #' until this option flag is TRUE.
     enable_retrospective_adjustments = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_retrospective_adjustments)
+        return(private$.retro_flag$op$enable_retrospective_adjustments)
       } else {
         private$set_enable_retrospective_adjustments(value)
       }
@@ -229,6 +230,7 @@ retrospective_adjustments <- R6Class(
     .retro_adjust = NULL,
 
     .keyword_name = "retroadjust",
+    .retro_flag = NULL,
     .name_options_flag = "enable_retrospective_adjustments",
 
 
@@ -238,24 +240,14 @@ retrospective_adjustments <- R6Class(
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$flag$op[[private$.name_options_flag]] <- x
+      private$.retro_flag$op$enable_retrospective_adjustments <- x
 
       cli::cli_alert_info(
         paste0("{private$.name_options_flag} to ",
                "{.val ",
-               "{self$flag$op[[private$.name_options_flag]]}}"))
+               "{private$.retro_flag$op$enable_retrospective_adjustments}}"))
 
 
-    },
-
-    reset_options_flags = function() {
-      #Reset option_flag to NULL at initialization
-
-      if(isFALSE(is.null(self$flag$op[[private$.name_options_flag]]))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
-                              "for initalization"))
-        self$flag$op[[private$.name_options_flag]] <- NULL
-      }
     },
 
     # Error message when setting retrospective_coefficient values while
@@ -265,7 +257,27 @@ retrospective_adjustments <- R6Class(
         paste0(private$.name_options_flag,
                " is FALSE. Set flag to TRUE to set value.")
       ))
+    },
+
+    # Convenience function to validate parameter `retro_flag_param` at
+    # initialization
+    validate_retro_flag = function(retro_flag_param) {
+
+      # Check if parameter is a options_flag R6class w/ "op" field (or NULL)
+      checkmate::assert_r6(retro_flag_param, classes = "options_flags",
+                           public = "op", null.ok = TRUE)
+
+      # Check and warn if parameter has a non-null
+      # enable_retrospective_adjustments value
+      if(isFALSE(is.null(retro_flag_param$op$enable_scaling_factors))){
+        warning(paste0("Initializing ",
+                       private$.keyword_name ," with a non-null ",
+                       private$.name_options_flag,
+                       " value"))
+      }
+
     }
+
 
   )
 )

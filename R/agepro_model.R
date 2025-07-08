@@ -208,16 +208,17 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
-      self$perc <- percentile_summary$new()
+      self$perc <- percentile_summary$new(perc_flag = options_flags$new())
 
-      self$bounds <- max_bounds$new()
+      self$bounds <- max_bounds$new(bounds_flag = options_flags$new())
 
-      self$refpoint <- reference_points$new()
+      self$refpoint <- reference_points$new(refpoint_flag = options_flags$new())
 
-      self$scale <- scaling_factors$new()
+      self$scale <- scaling_factors$new(scale_flag = options_flags$new())
 
       self$retroadjust <- retrospective_adjustments$new(
-        enable_cat_print = enable_cat_print)
+        enable_cat_print = enable_cat_print,
+        retro_flag = options_flags$new())
 
 
     },
@@ -1382,12 +1383,12 @@ agepro_inp_model <- R6Class(
 
     read_percentile_summary = function(con, nline) {
 
-      self$perc$set_enable_percentile_summary(TRUE)
+      self$perc$enable_percentile_summary <- TRUE
       self$nline <- self$perc$read_inp_lines(con, nline)
     },
 
     read_max_bounds = function(con, nline) {
-      self$bounds$set_enable_max_bounds(TRUE)
+      self$bounds$enable_max_bounds <- TRUE
       self$nline <- self$bounds$read_inp_lines(con, nline)
     },
 

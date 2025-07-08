@@ -5,3 +5,12 @@
 ^README\.Rmd$
 ^inst$
 ^\.Rhistory$
+^vignettes/\.quarto$
+^vignettes/*_files$
+..Rcheck
+.git
+^doc$
+^Meta$
+^vignettes/articles/\.quarto$
+^vignettes/articles/*_files$
+^vignettes/articles$

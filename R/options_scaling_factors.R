@@ -29,10 +29,6 @@ scaling_factors <-R6Class(
   "scaling_factors",
   public = list(
 
-    #' @field flag
-    #' R6class containing option_flags
-    flag = options_flags$new(),
-
     #' @description
     #' Initializes the class
     #'
@@ -45,15 +41,19 @@ scaling_factors <-R6Class(
     #' @param scale_stock_size
     #' Output Units of Stock Size Numbers
     #'
+    #' @param scale_flag
+    #' R6class containing option flags to allow scaling factors to be used
+    #'
     initialize = function(scale_bio = 0,
                           scale_recruit = 0,
-                          scale_stock_size = 0) {
+                          scale_stock_size = 0,
+                          scale_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
-      # When agepro_model is reinitialized, reset the value for this class's
-      # option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      # Validation checks in case scaling_factors is initialized w/ non-null
+      # or invalid enable_scaling_factors
+      private$validate_scale_flag(scale_flag)
 
       #Check for defaults
       default_scale_bio <- formals(self$initialize)[["scale_bio"]]
@@ -262,7 +262,7 @@ scaling_factors <-R6Class(
     #' until this option flag is TRUE.
     enable_scaling_factors = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_scaling_factors)
+        return(private$.scale_flag$op$enable_scaling_factors)
       } else {
         private$set_enable_scaling_factors(value)
       }
@@ -301,6 +301,7 @@ scaling_factors <-R6Class(
     .recruitment_scale = NULL,
     .stock_size_scale = NULL,
 
+    .scale_flag = NULL,
     .name_options_flag = "enable_scaling_factors",
 
     # Wrapper Function to toggle enable_reference_points options_flag.
@@ -309,12 +310,12 @@ scaling_factors <-R6Class(
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$flag$op$enable_scaling_factors <- x
+      private$.scale_flag$op$enable_scaling_factors <- x
 
       cli::cli_alert_info(
-        paste0("enable_scaling_factors to ",
+        paste0("{private$.name_options_flag} to ",
                "{.val ",
-               "{self$flag$op$enable_scaling_factors}}"))
+               "{private$.scale_flag$op$enable_scaling_factors}}"))
 
     },
 
@@ -322,18 +323,27 @@ scaling_factors <-R6Class(
     # enable_reference_points is FALSE
     unenabled_options_flag_message = function() {
       return(invisible(
-        paste0("enable_scaling_factors is FALSE. ",
+        paste0(private$.name_options_flag," is FALSE. ",
                "Set flag to TRUE to set value.")
       ))
     },
 
-    #Reset option_flag to NULL at initialization
-    reset_options_flags = function() {
+    # Convenience function to validate parameter `scale_flag_param` at
+    # initialization
+    validate_scale_flag = function(scale_flag_param) {
 
-      if(isFALSE(is.null(self$flag$op$enable_scaling_factors))){
-        cli::cli_alert("Reset enable_scaling_factors to NULL for initalization")
-        self$flag$op$enable_scaling_factors <- NULL
+      # Check if parameter is a options_flag R6class w/ "op" field (or NULL)
+      checkmate::assert_r6(scale_flag_param, classes = "options_flags",
+                           public = "op", null.ok = TRUE)
+
+      # Check and warn if parameter has a non-null
+      # enable_scaling_factors value
+      if(isFALSE(is.null(scale_flag_param$op$enable_scaling_factors))){
+        warning(paste0("Initializing ",
+                       private$.keyword_name ," with a non-null ",
+                       private$.name_options_flag, " value"))
       }
+
     }
 
 

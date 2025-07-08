@@ -22,13 +22,6 @@ set this flag to TRUE.
 The reference_points class (\code{REFPOINTS}) is recognized as a keyword
 parameter used in the AGEPRO input file format, but it is optional.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{flag}}{R6class containing option_flags}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -73,7 +66,8 @@ Initializes the class
   ssb_threshold = 0,
   stockbio_threshold = 0,
   meanbio_threshold = 0,
-  fmort_threshold = 0
+  fmort_threshold = 0,
+  refpoint_flag = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -87,6 +81,8 @@ Initializes the class
 \item{\code{meanbio_threshold}}{Mean biomass threshold expressed in biomass output units (MT)}
 
 \item{\code{fmort_threshold}}{Fishing mortality threshold}
+
+\item{\code{refpoint_flag}}{R6class containing option flags to allow reference points to be used}
 }
 \if{html}{\out{</div>}}
 }

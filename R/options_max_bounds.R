@@ -32,10 +32,6 @@ max_bounds <- R6Class(
   "max_bounds",
   public = list(
 
-    #' @field flag
-    #' R6class containing option_flags
-    flag = options_flags$new(),
-
     #' @description
     #' Initializes the class
     #'
@@ -45,14 +41,18 @@ max_bounds <- R6Class(
     #' @param max_nat_mort
     #' Maximum bound of natural mortality. Default is 1.0.
     #'
+    #' @param bounds_flag
+    #' R6class containing option flags to allow max bounds to be used
+    #'
     initialize = function(max_weight = 10.0,
-                          max_nat_mort = 1.0) {
+                          max_nat_mort = 1.0,
+                          bounds_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
-      # When agepro_model is reinitialized, reset the value for this class's
-      # option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      # Validation checks in case max_bounds is initialized w/ non-null
+      # or invalid enable_max_bounds
+      private$validate_bounds_flag(bounds_flag)
 
       #If all max_bounds parameters are non-default values set the flag
       #set_enable_max_bounds to FALSE.
@@ -66,7 +66,7 @@ max_bounds <- R6Class(
         self$max_weight <- max_weight
         self$max_natural_mortality <- max_nat_mort
 
-        self$set_enable_max_bounds(FALSE)
+        private$set_enable_max_bounds(FALSE)
 
         return()
       }
@@ -76,11 +76,7 @@ max_bounds <- R6Class(
       self$max_weight <- max_weight
       self$max_natural_mortality <- max_nat_mort
 
-      self$set_enable_max_bounds(TRUE)
-
-
-
-
+      private$set_enable_max_bounds(TRUE)
 
     },
 
@@ -101,28 +97,6 @@ max_bounds <- R6Class(
 
 
     #' @description
-    #' Wrapper Function to toggle enable_max_bounds options_flag.
-    #'
-    #' The class will not accept from max_weight and max_natural_mortality
-    #' values until enable_max_max_bounds is TRUE.
-    #'
-    #' @param x
-    #' Logical value for enable_max_bounds options_flag
-    #'
-    set_enable_max_bounds = function(x) {
-
-      checkmate::assert_logical(x)
-
-      #Set value to options flags field reference "flag"
-      self$flag$op$enable_max_bounds <- x
-
-      cli::cli_alert_info(
-        paste0("enable_max_bounds to ",
-               "{.val ",
-               "{self$flag$op$enable_max_bounds}}"))
-    },
-
-    #' @description
     #' Reads in the values from the keyword parameter BOUNDS from the
     #' AGEPRO Input file
     #'
@@ -132,6 +106,10 @@ max_bounds <- R6Class(
     #' @template nline
     #'
     read_inp_lines = function(inp_con, nline) {
+
+      if(isFALSE(self$enable_max_bounds)){
+        stop(private$unenabled_options_flag_message())
+      }
 
       cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
@@ -147,7 +125,6 @@ max_bounds <- R6Class(
       self$max_natural_mortality <- inp_line[2]
 
       cli::cli_end("max_bounds_fields")
-
 
       return(nline)
     },
@@ -191,9 +168,8 @@ max_bounds <- R6Class(
         return(private$.max_weight)
       }else{
 
-        if(isFALSE(self$flag$op$enable_max_bounds)) {
-          stop(paste0("enable_max_bounds flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+        if(isFALSE(self$enable_max_bounds)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value, len = 1, lower = 0)
@@ -220,9 +196,8 @@ max_bounds <- R6Class(
         return(private$.max_natural_mortality)
       }else{
 
-        if(isFALSE(self$flag$op$enable_max_bounds)) {
-          stop(paste0("enable_max_bounds flag is FALSE. ",
-                      "Set flag to TRUE to set value.") )
+        if(isFALSE(self$enable_max_bounds)) {
+          stop(private$unenabled_options_flag_message(), call. = FALSE)
         }
 
         checkmate::assert_numeric(value, len = 1, lower = 0)
@@ -256,10 +231,10 @@ max_bounds <- R6Class(
     #' the value use `set_enable_max_bounds` or field
     enable_max_bounds = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_max_bounds)
+        return(private$.bounds_flag$op$enable_max_bounds)
       } else {
         #Validate and set value via set_enable_max_bounds
-        self$set_enable_max_bounds(value)
+        private$set_enable_max_bounds(value)
       }
 
     },
@@ -284,15 +259,51 @@ max_bounds <- R6Class(
     .max_weight = NULL,
     .max_natural_mortality = NULL,
 
+    .bounds_flag = NULL,
     .name_options_flag = "enable_max_bounds",
 
-    reset_options_flags = function() {
-      #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$op$enable_max_bounds))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
-                              "for initialization"))
-        self$flag$op$enable_max_bounds <- NULL
-        }
+    # Wrapper Function to toggle enable_max_bounds options_flag.
+    #
+    # The class will not accept from max_weight and max_natural_mortality
+    # values until enable_max_max_bounds is TRUE.
+    set_enable_max_bounds = function(x) {
+
+      checkmate::assert_logical(x)
+
+      #Set value to options flags field reference "flag"
+      private$.bounds_flag$op$enable_max_bounds <- x
+
+      cli::cli_alert_info(
+        paste0("{private$.name_options_flag} to ",
+               "{.val ",
+               "{private$.bounds_flag$op$enable_max_bounds}}"))
+    },
+
+    # Error message when setting values to this class while
+    # enable_max_bounds is FALSE
+    unenabled_options_flag_message = function() {
+      return(invisible(
+        paste0(private$.name_options_flag, " is FALSE. ",
+               "Set flag to TRUE to set value.")
+      ))
+    },
+
+    # Convenience function to validate parameter `bounds_flag_param` at
+    # initialization
+    validate_bounds_flag = function(bounds_flag_param) {
+
+      # Check if parameter is a options_flag R6class w/ "op" field (or NULL)
+      checkmate::assert_r6(bounds_flag_param, classes = "options_flags",
+                           public = "op", null.ok = TRUE)
+
+      # Check and warn if parameter has a non-null
+      # enable_max_bounds value
+      if(isFALSE(is.null(bounds_flag_param$op$enable_max_bounds))){
+        warning(paste0("Initializing ",
+                       private$.keyword_name, " with a non-null ",
+                       private$.name_options_flag, " value"))
+      }
+
     }
 
 

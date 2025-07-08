@@ -30,10 +30,6 @@ reference_points <- R6Class(
   "reference_points",
   public = list(
 
-    #' @field flag
-    #' R6class containing option_flags
-    flag = options_flags$new(),
-
     #' @description
     #' Initializes the class
     #'
@@ -49,16 +45,27 @@ reference_points <- R6Class(
     #' @param fmort_threshold
     #' Fishing mortality threshold
     #'
+    #' @param refpoint_flag
+    #' R6class containing option flags to allow reference points to be used
+    #'
     initialize = function(ssb_threshold = 0,
                          stockbio_threshold = 0,
                          meanbio_threshold = 0,
-                         fmort_threshold = 0) {
+                         fmort_threshold = 0,
+                         refpoint_flag = NULL) {
 
       div_keyword_header(private$.keyword_name)
 
-      # When agepro_model is reinitialized, reset the value for this class's
-      # option_flag to NULL to cleanup any values it retained previously.
-      private$reset_options_flags()
+      # Check refpoint_flag is a options_flag R6class w/ "op" field
+      checkmate::assert_r6(refpoint_flag, classes = "options_flags",
+                           public = "op", null.ok = TRUE)
+
+      # Check and warn if input refpoint_flag param has a non-null
+      # enable_reference_points value
+      if(isFALSE(is.null(refpoint_flag$op$enable_reference_points))){
+        warning(paste0("Initializing reference points with a non-null ",
+                       "options flag value"))
+      }
 
       # If all parameters are non-default values set the flag to FALSE.
       default_ssb_threshold <-
@@ -330,7 +337,7 @@ reference_points <- R6Class(
     #' until this option flag is TRUE.
     enable_reference_points = function(value) {
       if(isTRUE(missing(value))){
-        return(self$flag$op$enable_reference_points)
+        return(private$.refpoint_flag$op$enable_reference_points)
       } else {
         private$set_enable_reference_points(value)
       }
@@ -359,6 +366,7 @@ reference_points <- R6Class(
     .mean_biomass_threshold = NULL,
     .fishing_mortality_threshold = NULL,
 
+    .refpoint_flag = NULL,  #R6class containing option_flags
     .name_options_flag = "enable_reference_points",
 
     # Wrapper Function to toggle enable_reference_points options_flag.
@@ -367,13 +375,12 @@ reference_points <- R6Class(
       checkmate::assert_logical(x, null.ok = TRUE)
 
       #Set value to options flags field reference "flag"
-      self$flag$op$enable_reference_points <- x
+      private$.refpoint_flag$op$enable_reference_points <- x
 
       cli::cli_alert_info(
         paste0("{private$.name_options_flag} to ",
                "{.val ",
-               "{self$flag$op$enable_reference_points}}"))
-
+               "{private$.refpoint_flag$op$enable_reference_points}}"))
 
     },
 
@@ -381,21 +388,10 @@ reference_points <- R6Class(
     # enable_reference_points is FALSE
     unenabled_options_flag_message = function() {
       return(invisible(
-        paste0("{private$.name_options.flag} is FALSE. ",
+        paste0(private$.name_options_flag, " is FALSE. ",
                   "Set flag to TRUE to set value.")
         ))
-    },
-
-
-    reset_options_flags = function() {
-      #Reset option_flag to NULL at initialization
-      if(isFALSE(is.null(self$flag$op$enable_reference_points))){
-        cli::cli_alert(paste0("Reset {private$.name_options_flag} ",
-                              "for initialization"))
-        self$flag$op$enable_reference_points <- NULL
-      }
     }
-
 
   )
 )
