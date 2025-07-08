@@ -88,6 +88,10 @@ percentile_summary <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
+      if(isFALSE(self$enable_percentile_summary)){
+        stop(private$unenabled_options_flag_message())
+      }
+
       cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1

@@ -107,6 +107,10 @@ max_bounds <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
+      if(isFALSE(self$enable_max_bounds)){
+        stop(private$unenabled_options_flag_message())
+      }
+
       cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
@@ -121,7 +125,6 @@ max_bounds <- R6Class(
       self$max_natural_mortality <- inp_line[2]
 
       cli::cli_end("max_bounds_fields")
-
 
       return(nline)
     },

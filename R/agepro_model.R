@@ -1382,12 +1382,12 @@ agepro_inp_model <- R6Class(
 
     read_percentile_summary = function(con, nline) {
 
-      self$perc$set_enable_percentile_summary(TRUE)
+      self$perc$enable_percentile_summary <- TRUE
       self$nline <- self$perc$read_inp_lines(con, nline)
     },
 
     read_max_bounds = function(con, nline) {
-      self$bounds$set_enable_max_bounds(TRUE)
+      self$bounds$enable_max_bounds <- TRUE
       self$nline <- self$bounds$read_inp_lines(con, nline)
     },
 
