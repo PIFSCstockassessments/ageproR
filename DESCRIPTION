@@ -14,6 +14,8 @@ Description: Object-oriented data structures based on the input file format
     experimental JSON input file format.
 URL: https://github.com/PIFSCstockassessments/ageproR
 BugReports: https://github.com/PIFSCstockassessments/ageproR/issues
+Depends:
+  R (>= 4.1.0)
 Imports:
   jsonlite,
   here,
