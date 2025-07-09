@@ -5,8 +5,7 @@
 ^README\.Rmd$
 ^inst$
 ^\.Rhistory$
-^vignettes/\.quarto$
-^vignettes/*_files$
+^vignettes$
 ..Rcheck
 .git
 ^doc$
