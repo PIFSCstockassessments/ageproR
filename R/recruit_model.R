@@ -534,6 +534,42 @@ empirical_recruit <- R6Class(
   )
 )
 
+#' Empirical Recruits Per Spawning Biomass Distribution (SSB) (Model #2)
+#'
+#' The empirical recruits per spawning biomass distribution model depends on
+#' spawning biomass and is time-invariant.
+#'
+#' @template num_observations
+#' @template obs_table
+#'
+#' @export
+#'
+empirical_ssb <- R6Class(
+  "empirical_ssb",
+  inherit = empirical_recruit,
+  public = list(
+    #' @description
+    #' Initializes the Empirical Recruits Per Spawning Biomass
+    #' Distribution Model
+    initialize = function(num_observations,
+                          obs_table = NULL) {
+
+      super$super_$model_num <- 2
+      super$super_$model_name <-
+        "Empirical Recruits Per Spawning Biomass Distribution (SSB)"
+      super$initialize(num_observations,
+                       with_ssb = TRUE,
+                       obs_table = obs_table)
+
+    }
+
+  )
+)
+
+
+
+
+
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations

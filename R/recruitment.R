@@ -663,8 +663,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       # `.number_projection_years` is used for recruitment
       # models that use the model projection year time horizon for setup.
+      #
+      # Uses a pyhton-like data structure (collections::dict) to store
+      # expressions and evaluate via tidy evaluation to initialize recruitment
+      # models
       model_dict <- dict(list(
         "0" = rlang::expr(null_recruit_model$new()),
+        "2" = rlang::expr(empirical_ssb$new(
+          private$.number_projection_years)),
         "3" = rlang::expr(empirical_distribution_model$new(
           private$.number_projection_years)),
         "4" = rlang::expr(two_stage_empirical_ssb$new()),
