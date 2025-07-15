@@ -1295,7 +1295,7 @@ ricker_curve_model <- R6Class(
   inherit = parametric_curve,
   public = list(
     #' @description
-    #' Initalizes the Ricker Curve Model
+    #' Initializes the Ricker Curve Model
     initialize = function(alpha = 0,
                           beta = 0,
                           variance = 0) {
