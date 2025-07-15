@@ -136,6 +136,9 @@ is_rstudio_desktop <- function(){
 #' into substrings by whitespace, validates for numerical strings, and
 #' then converts to numerical vector.
 #'
+#' Function uses regular expressions to validate if the string vector is
+#' numeric. If non-digits were found, then function will throw an exception.
+#'
 #' @template inp_con
 #'
 #' @keywords internal
@@ -149,6 +152,18 @@ read_inp_numeric_line <- function(inp_con) {
   inp_line <-
     unlist(strsplit(readLines(inp_con, n = 1, warn = FALSE), " +"))
 
-  return(validate_numeric_substrings(inp_line))
+  ## Validate numeric substrings
+
+  numeric_regex <- "^[-]?[[:digit:]]"
+
+  if (!all(grepl(numeric_regex, inp_line))) {
+
+    non_numerics <- inp_line[!grepl(numeric_regex, inp_line)]
+    stop("Line contains a Non Numeric Substring",
+         paste(non_numerics, collapse = ", "))
+  }
+
+  return(invisible(as.numeric(inp_line)))
+
 }
 
