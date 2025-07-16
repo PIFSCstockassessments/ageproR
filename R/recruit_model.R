@@ -1171,6 +1171,8 @@ parametric_autocorrelated_error <- R6Class(
       self$variance <- variance
       self$phi <- phi
       self$log_residual <- log_residual
+
+
     },
 
     #' @description
@@ -1182,7 +1184,59 @@ parametric_autocorrelated_error <- R6Class(
       cli::cli_alert_info("phi: {.val {self$phi}}")
       cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
 
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for autocorrleated parametric curve
+    #' recruitment as formatted AGEPRO input file lines.
+    #'
+    inp_lines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        self$phi,
+                        self$log_residual,
+                        sep = delimiter)))
+    },
+    #' @description
+    #' Reads Autocorrelated Parametric Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      #TODO: Check to see if inp_line is a vector of 5 numeric values
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+      self$phi <- inp_line[4]
+      self$log_residual <- inp_line[5]
+
+      #self$print()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("parametric_fields")
+
+      return(nline)
     }
+
   ),
 
   active = list(

@@ -27,17 +27,11 @@ Returns the current value if no argument was passed.}
 \itemize{
 \item \href{#method-parametric_autocorrelated_error-new}{\code{parametric_autocorrelated_error$new()}}
 \item \href{#method-parametric_autocorrelated_error-print}{\code{parametric_autocorrelated_error$print()}}
+\item \href{#method-parametric_autocorrelated_error-inp_lines_recruit_data}{\code{parametric_autocorrelated_error$inp_lines_recruit_data()}}
+\item \href{#method-parametric_autocorrelated_error-read_inp_lines}{\code{parametric_autocorrelated_error$read_inp_lines()}}
 \item \href{#method-parametric_autocorrelated_error-clone}{\code{parametric_autocorrelated_error$clone()}}
 }
 }
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="inp_lines_recruit_data"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-inp_lines_recruit_data'><code>ageproR::parametric_curve$inp_lines_recruit_data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="ageproR" data-topic="parametric_curve" data-id="read_inp_lines"><a href='../../ageproR/html/parametric_curve.html#method-parametric_curve-read_inp_lines'><code>ageproR::parametric_curve$read_inp_lines()</code></a></span></li>
-</ul>
-</details>
-}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-parametric_autocorrelated_error-new"></a>}}
 \if{latex}{\out{\hypertarget{method-parametric_autocorrelated_error-new}{}}}
@@ -88,6 +82,45 @@ Prints out Parametric Data
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{further arguments passed to or from other methods}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-parametric_autocorrelated_error-inp_lines_recruit_data"></a>}}
+\if{latex}{\out{\hypertarget{method-parametric_autocorrelated_error-inp_lines_recruit_data}{}}}
+\subsection{Method \code{inp_lines_recruit_data()}}{
+Exports RECRUIT submodel data for autocorrleated parametric curve
+recruitment as formatted AGEPRO input file lines.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{parametric_autocorrelated_error$inp_lines_recruit_data(delimiter = " ")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delimiter}}{Character string delimiter separating values of AGEPRO input file line.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-parametric_autocorrelated_error-read_inp_lines"></a>}}
+\if{latex}{\out{\hypertarget{method-parametric_autocorrelated_error-read_inp_lines}{}}}
+\subsection{Method \code{read_inp_lines()}}{
+Reads Autocorrelated Parametric Curve model data from AGEPRO Input file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{parametric_autocorrelated_error$read_inp_lines(inp_con, nline)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{inp_con}}{Open file connection to AGEPRO Input File.}
+
+\item{\code{nline}}{\cr
+Location of the current line number being read when the file connection to
+the AGEPRO input file is open.}
 }
 \if{html}{\out{</div>}}
 }
