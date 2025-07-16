@@ -488,7 +488,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
-    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 10, 14, 15),
+    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 10, 11, 14, 15),
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
@@ -679,6 +679,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         "7" = rlang::expr(shepherd_curve_model$new()),
         "9" = rlang::expr(deprecated_recruit_model_9$new()),
         "10" = rlang::expr(beverton_holt_autocorrelated_error$new()),
+        "11" = rlang::expr(ricker_curve_autocorrelated_error$new()),
         "14" = rlang::expr(empirical_cdf_model$new()),
         "15" = rlang::expr(two_stage_empirical_cdf$new())
       ))

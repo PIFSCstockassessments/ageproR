@@ -1339,7 +1339,7 @@ beverton_holt_autocorrelated_error <- R6Class(
 )
 
 
-#'Ricker Curve #/ Lognormal Error (Model #6)
+#' Ricker Curve #/ Lognormal Error (Model #6)
 #'
 #' @template parametric_parameters
 #' @export
@@ -1359,6 +1359,32 @@ ricker_curve_model <- R6Class(
       super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
 
 
+    }
+  )
+)
+
+#' Ricker Curve with Autocorrelated Lognormal Error (Model #11)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#'
+#' @export
+#'
+ricker_curve_autocorrelated_error <- R6Class(
+  "ricker_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+    #' @description
+    #' Initializes the Ricker Curve with Autocorrelated Error Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+      self$model_num <- 11
+      self$model_name <- "Ricker Curve w/ Autocorrelated Lognonormal Error"
     }
   )
 )
