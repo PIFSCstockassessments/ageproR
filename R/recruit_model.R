@@ -1461,6 +1461,7 @@ shepherd_curve_model <- R6Class(
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
 
+
       li_nested <-
         cli::cli_div(id = "shepherd_curve_fields",
                      theme = list(".alert-info" = list("margin-left" = 2)))
@@ -1527,3 +1528,132 @@ shepherd_curve_model <- R6Class(
   )
 )
 
+
+#' Shepherd Curve with Autocorrelated Lognormal Error (Model #12)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#' @template elipses
+#' @template inp_con
+#' @template nline
+#' @template delimiter
+#' @param kpar kpar
+#'
+#' @export
+#'
+shepherd_curve_autocorrelated_error <- R6Class(
+  "shepherd_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+
+    #' @description
+    #' Initializes the Shepherd Autocorrelated Curve Model
+    #'
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          kpar = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+
+      #Set Active Bindings
+      self$kpar <- kpar
+
+      self$model_num <- 12
+      self$model_name <- "Shepherd Curve w/ Autocorrelated Lognormal Error"
+
+    },
+
+    #' @description
+    #' Prints out Parametric Autocorrelated Curve Data
+    #'
+    print = function(...) {
+
+      #Model Name
+      private$print_model_num_name()
+      cli::cli_alert_info("alpha: {.val {self$alpha}}")
+      cli::cli_alert_info("beta: {.val {self$beta}}")
+      cli::cli_alert_info("kpar: {.val {self$kpar}}")
+      cli::cli_alert_info("variance: {.val {self$variance}}")
+      cli::cli_alert_info("phi: {.val {self$phi}}")
+      cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
+
+    },
+
+
+    #' @description
+    #' Reads Parametric Autocorreled Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline}: parameters ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$kpar <- inp_line[3]
+      self$variance <- inp_line[4]
+      self$phi <- inp_line[5]
+      self$log_residual <- inp_line[6]
+
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_autocorrelated_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("shepherd_curve_autocorrelated_fields")
+
+
+      return(nline)
+    }
+
+  ),
+  active = list(
+
+    #' @field kpar
+    #' Sets the Autocorrelated parametric Curve Parameter, phi. Returns the
+    #' current value if no argument was passed.
+    #'
+    kpar = function(value) {
+      if(missing(value)){
+        return(private$.kpar)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.kpar <- value
+      }
+    },
+
+
+    #' @field json_recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    #'
+    json_recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        k = self$kpar,
+        variance = self$variance,
+        phi = self$phi,
+        log_residual = self$log_residual))
+    }
+
+  ),
+  private = list(
+
+    .kpar = 0
+
+  )
+)
