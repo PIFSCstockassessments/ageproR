@@ -31,7 +31,7 @@ Ricker Curve #/ Lognormal Error (Model #6)
 \if{html}{\out{<a id="method-ricker_curve_model-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ricker_curve_model-new}{}}}
 \subsection{Method \code{new()}}{
-Initalizes the Ricker Curve Model
+Initializes the Ricker Curve Model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ricker_curve_model$new(alpha = 0, beta = 0, variance = 0)}\if{html}{\out{</div>}}
 }

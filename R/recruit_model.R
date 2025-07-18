@@ -1137,8 +1137,157 @@ parametric_curve <- R6Class(
 
   )
 
-
 )
+
+#' Parametric Recruitment Model w/ correlated lognormal error
+#'
+#' @inherit recruit_model description
+#'
+#' @template model_num
+#' @template parametric_parameters
+#' @template elipses
+#' @template inp_con
+#' @template nline
+#' @template delimiter
+#' @template parametric_autocorrelated_params
+#'
+#' @importFrom checkmate assert_numeric
+#'
+parametric_autocorrelated_error <- R6Class(
+  "parametric_autocorrelated_error",
+  inherit = parametric_curve,
+  public = list(
+    #' @description
+    #' Initializes the Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      #Set to Active Bindings
+      self$alpha <- alpha
+      self$beta <- beta
+      self$variance <- variance
+      self$phi <- phi
+      self$log_residual <- log_residual
+
+
+    },
+
+    #' @description
+    #' Prints out Parametric Data
+    #'
+    print = function(...) {
+
+      super$print(...)
+      cli::cli_alert_info("phi: {.val {self$phi}}")
+      cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
+
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for autocorrleated parametric curve
+    #' recruitment as formatted AGEPRO input file lines.
+    #'
+    inp_lines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        self$phi,
+                        self$log_residual,
+                        sep = delimiter)))
+    },
+    #' @description
+    #' Reads Autocorrelated Parametric Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      #TODO: Check to see if inp_line is a vector of 5 numeric values
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+      self$phi <- inp_line[4]
+      self$log_residual <- inp_line[5]
+
+      #self$print()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("parametric_fields")
+
+      return(nline)
+    }
+
+  ),
+
+  active = list(
+
+    #' @field phi
+    #' Sets the Autocorrelated parametric Curve Parameter, phi. Returns the
+    #' current value if no argument was passed.
+    phi = function(value) {
+      if(missing(value)){
+        return(private$.phi)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.phi <- value
+      }
+    },
+
+    #' @field log_residual
+    #' Sets the Autocorrelated parametric Curve Parameter, log_residual.
+    #' Returns the current value if no argument was passed.
+    log_residual = function(value) {
+      if(missing(value)){
+        return(private$.log_residual)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.log_residual
+      }
+    },
+
+    #' @field json_recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    #'
+    json_recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        variance = self$variance,
+        phi = self$phi,
+        log_residual = self$log_residual))
+    }
+
+  ),
+  private = list(
+
+    .phi = 0,
+    .log_residual = 0
+
+  )
+)
+
+
+
 
 #' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
@@ -1162,7 +1311,35 @@ beverton_holt_curve_model <- R6Class(
   )
 )
 
-#'Ricker Curve #/ Lognormal Error (Model #6)
+#' Beverton-Holt Curve w/ Autocorrected Lognormal Error (Model #10)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#'
+#' @export
+beverton_holt_autocorrelated_error <- R6Class(
+  "beverton_holt_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+    #' @description
+    #' Initializes the Beverton Holt Curve with Autocorrelatred Error
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+      self$model_num <- 10
+      self$model_name <- "Beverton-Holt Curve w/ Autocorrected Lognormal Error"
+    }
+
+
+  )
+)
+
+
+#' Ricker Curve #/ Lognormal Error (Model #6)
 #'
 #' @template parametric_parameters
 #' @export
@@ -1172,7 +1349,7 @@ ricker_curve_model <- R6Class(
   inherit = parametric_curve,
   public = list(
     #' @description
-    #' Initalizes the Ricker Curve Model
+    #' Initializes the Ricker Curve Model
     initialize = function(alpha = 0,
                           beta = 0,
                           variance = 0) {
@@ -1182,6 +1359,32 @@ ricker_curve_model <- R6Class(
       super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
 
 
+    }
+  )
+)
+
+#' Ricker Curve with Autocorrelated Lognormal Error (Model #11)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#'
+#' @export
+#'
+ricker_curve_autocorrelated_error <- R6Class(
+  "ricker_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+    #' @description
+    #' Initializes the Ricker Curve with Autocorrelated Error Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+      self$model_num <- 11
+      self$model_name <- "Ricker Curve w/ Autocorrelated Lognonormal Error"
     }
   )
 )
@@ -1258,6 +1461,7 @@ shepherd_curve_model <- R6Class(
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
 
+
       li_nested <-
         cli::cli_div(id = "shepherd_curve_fields",
                      theme = list(".alert-info" = list("margin-left" = 2)))
@@ -1320,6 +1524,136 @@ shepherd_curve_model <- R6Class(
     .beta = 0.1,
     .kpar = 0.1,
     .variance = 0.1
+
+  )
+)
+
+
+#' Shepherd Curve with Autocorrelated Lognormal Error (Model #12)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#' @template elipses
+#' @template inp_con
+#' @template nline
+#' @template delimiter
+#' @param kpar kpar
+#'
+#' @export
+#'
+shepherd_curve_autocorrelated_error <- R6Class(
+  "shepherd_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+
+    #' @description
+    #' Initializes the Shepherd Autocorrelated Curve Model
+    #'
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          kpar = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+
+      #Set Active Bindings
+      self$kpar <- kpar
+
+      self$model_num <- 12
+      self$model_name <- "Shepherd Curve w/ Autocorrelated Lognormal Error"
+
+    },
+
+    #' @description
+    #' Prints out Parametric Autocorrelated Curve Data
+    #'
+    print = function(...) {
+
+      #Model Name
+      private$print_model_num_name()
+      cli::cli_alert_info("alpha: {.val {self$alpha}}")
+      cli::cli_alert_info("beta: {.val {self$beta}}")
+      cli::cli_alert_info("kpar: {.val {self$kpar}}")
+      cli::cli_alert_info("variance: {.val {self$variance}}")
+      cli::cli_alert_info("phi: {.val {self$phi}}")
+      cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
+
+    },
+
+
+    #' @description
+    #' Reads Parametric Autocorreled Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline}: parameters ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$kpar <- inp_line[3]
+      self$variance <- inp_line[4]
+      self$phi <- inp_line[5]
+      self$log_residual <- inp_line[6]
+
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_autocorrelated_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("shepherd_curve_autocorrelated_fields")
+
+
+      return(nline)
+    }
+
+  ),
+  active = list(
+
+    #' @field kpar
+    #' Sets the Autocorrelated parametric Curve Parameter, phi. Returns the
+    #' current value if no argument was passed.
+    #'
+    kpar = function(value) {
+      if(missing(value)){
+        return(private$.kpar)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.kpar <- value
+      }
+    },
+
+
+    #' @field json_recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    #'
+    json_recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        k = self$kpar,
+        variance = self$variance,
+        phi = self$phi,
+        log_residual = self$log_residual))
+    }
+
+  ),
+  private = list(
+
+    .kpar = 0
 
   )
 )
