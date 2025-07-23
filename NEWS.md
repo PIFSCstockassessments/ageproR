@@ -1,4 +1,4 @@
-# ageproR 0.8.0 2025-07-00
+# ageproR 0.8.0 2025-07-23
 
 - Recruitment 
   - Added `empirical_ssb` for **Empirical Recruit Per Spawning Mass Distribution** (Recruitment model 2) (#76)
@@ -44,7 +44,6 @@
     - Console alert symbols ℹ️ (or `i`) focuses on keyword parameter classes fields; ◀️ (or `<`) for a interface event (or input line read)
   - Output from initializing **agepro_model** classes or "printing" AGEPRO keyword parameters classes, will print under the _R message_ format. 
     - This resolves an issue with console output changes with [RStudio 2025.05.0+496](https://docs.posit.co/ide/news/#rstudio-2025.05.0). 
-      - Previously, verbose output when initializing agepro models with ageproR were in mixed formats: messages and other output (stdout, stderr).
     - Pass `print_parameter_table` output through `capture_output_as_message`
       - Replaces use of tibbles for output; Removes **tibble** dependency.
       - Replaces redundant function `cli_print_process_error_table` in process_error class.
@@ -55,7 +54,6 @@
 - Replace test AGEPRO input File, Bootstrap File, and json input file with **AGEPRO-GUI** Hawaii Uku Example, which was based on 2020 Hawaii Uku (_Aprion virescens_) Assessment.
   - Hawaii Uku JSON input file imported from Hawaii Uku AGEPRO input file.
   - Added description of example.
-  - Using (non-functional) relative paths for example bootstrap_file.
 - Added Vignette as "Article" format (#84)
   - Includes AGEPRO Input File Keyword Parameter Structure and stub for JSON experimental file
 
