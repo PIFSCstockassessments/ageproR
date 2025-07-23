@@ -90,67 +90,37 @@ process_error <- R6Class(
     print = function(enable_cat_print = TRUE, ...) {
       #TODO: If (a valid) input_option is -1, -2, -3, or -4 say that
       #this parameter used a "weight-of-age"
-      cli::cli_ul()
-      cli::cli_li("input_option: {.val {self$input_option}}")
-      private$print_input_option_name()
-      cli::cli_li("time_varying: {.val {self$time_varying}}")
-      cli::cli_end()
+      private$print_process_error_fields()
 
       cli::cli_par()
       cli::cli_alert_info("parameter_table:")
-      cli::cli_text("{symbol$bullet} {self$parameter_title}")
+      cli::cli_text("{.emph {self$parameter_title}}")
       #Verbose flag check
       if(enable_cat_print){
         #Allow `cli::cat_print` message
-        self$cli_print_process_error_table(self$parameter_table, ...)
+        print_parameter_table(self$parameter_table, omit_rows = TRUE)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output( x <- self$cli_print_process_error_table(
-          self$parameter_table, ...))
+        capture.output( x <- print_parameter_table(
+          self$parameter_table, omit_rows = TRUE))
+
       }
       cli::cli_end()
 
       cli::cli_par()
       cli::cli_alert_info("cv_table: ")
-      cli::cli_text("{symbol$bullet} Coefficient of Variation")
+      cli::cli_text("{.emph Coefficient of Variation}")
       if(enable_cat_print) {
         #Allow `cli::cat_print` message
-        self$cli_print_process_error_table(self$cv_table, ...)
+        print_parameter_table(self$cv_table, omit_rows = TRUE)
       }else {
         #Suppress `cli::cat_print` message
-        capture.output( x <- self$cli_print_process_error_table(
-          self$cv_table, ...))
+        capture.output( x <- print_parameter_table(
+          self$cv_table, omit_rows = TRUE))
       }
 
 
       cli::cli_end()
-
-    },
-
-
-    #' @description
-    #' Helper function to print out Process Error keyword parameter data to
-    #' Console.
-    #'
-    #' @param tbl Process Error Parameter or cv Table
-    #' @param omit_rows Logical flag, if `TRUE`, will print the first rows of
-    #' the process error table, via [`head()`][utils::head], to R console. In
-    #' addition total number of rows and rows omitted will be displayed. By
-    #' default is set to `FALSE`, prints normally.
-    #'
-    cli_print_process_error_table = function (tbl, omit_rows=FALSE) {
-
-      if(omit_rows) {
-
-        omitted_num_rows <- pmax(0, nrow(tbl)-6)
-
-        cli::cat_print(head(tbl)) #first 6 roww
-        cli::cli_text(
-          paste0("{symbol$info} ","Total of {nrow(tbl)} row{?s}; ",
-                 "{no(omitted_num_rows)} row{?s} omitted"))
-      }else{
-        cli::cat_print(tbl)
-      }
 
     },
 
@@ -164,7 +134,7 @@ process_error <- R6Class(
                               num_ages,
                               num_fleets = 1) {
 
-      cli::cli_alert_info(paste0("Reading {.strong {private$.keyword_name}}: ",
+      cli::cli_alert(paste0("Reading {.strong {private$.keyword_name}}: ",
                                  "{self$parameter_title}"))
 
       nline <- nline + 1
@@ -183,13 +153,11 @@ process_error <- R6Class(
                                private$.valid_input_options,
                                .var.name = "Input Option")
 
-      cli::cli_ul()
-      a <- cli::cli_ul()
-      cli::cli_li("input_option: {.val {self$input_option}}")
-      private$print_input_option_name()
-      cli::cli_li("time_varying: {.val {self$time_varying}}")
-      cli::cli_end(a)
-      cli::cli_end()
+      #Verbose output
+      cli::cli_div(id = "process_error_fields",
+                   theme = list(".alert-info" = list("margin-left" = 2)))
+      private$print_process_error_fields()
+      cli::cli_end("process_error_fields")
 
 
       # TODO: Setup instances where proj_years is passed as a projection_year class
@@ -569,8 +537,8 @@ process_error <- R6Class(
     },
 
     # Function helper that prints the name representing the process error's
-    # input option.
-    print_input_option_name = function() {
+    # input option. Also prints time varying.
+    print_process_error_fields = function() {
       #Check if input option is valid
       checkmate::assert_choice(self$input_option,
                                private$.valid_input_options,
@@ -579,11 +547,13 @@ process_error <- R6Class(
       input_option_name <-
         private$.names_input_option[[as.character(self$input_option)]]
 
-      li_nested <- cli::cli_div(class = "input_field",
-                                theme = list(.input_field =
-                                               list("margin-left" = 2)))
-      cli::cli_text("{.emph {.field {input_option_name}}}")
-      cli::cli_end(li_nested)
+      #input options
+      cli::cli_alert_info(
+        paste0("input_option: {.val {self$input_option}} ",
+               "{.emph {.field ({input_option_name})}}"))
+      #time varying
+      cli::cli_alert_info("time_varying: {.val {self$time_varying}}")
+
 
     },
 

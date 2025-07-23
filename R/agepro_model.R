@@ -10,6 +10,7 @@
 #' determine age-structured population over a time period. Brodziak, 2022
 #'
 #' @template model_num
+#' @template elipses
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -29,10 +30,14 @@ agepro_model <- R6Class(
     #' Initializes the instance of the AGEPRO Model
     #'
     #' @template model_general_params
+    #' @param show_general_params
+    #' Logical flag to show AGEPRO model's general parameters on R console.
+    #' TRUE, by default.
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli**
-    #' [`cat_print`][cli::cat_print] messages to be seen on console. By default,
-    #' this is set to TRUE.
+    #' [`cat_print`][cli::cat_print] messages to be seen on console. This is
+    #' also used to print verbose information about the the initialized object.
+    #' By default, this is set to TRUE.
     #'
     initialize = function(yr_start,
                            yr_end,
@@ -43,7 +48,9 @@ agepro_model <- R6Class(
                            num_rec_models,
                            discards_present = FALSE,
                            seed = sample.int(1e8, 1),
-                          enable_cat_print = TRUE) {
+                          show_general_params = TRUE,
+                          enable_cat_print = TRUE,
+                          ...) {
 
       #Current Input File Version
       private$.ver_inpfile_string = private$.currentver_inpfile_string
@@ -60,22 +67,24 @@ agepro_model <- R6Class(
                                          num_rec_models,
                                          discards_present,
                                          seed,
-                                         enable_cat_print = enable_cat_print)
+                                         enable_cat_print = show_general_params)
 
       ## Helper function to create a new instance of agepro_model
       if(enable_cat_print){
 
         self$default_agepro_keyword_params(self$general,
-                                           enable_cat_print = enable_cat_print)
+                                           enable_cat_print = enable_cat_print,
+                                           ...)
       }else{
 
         suppressMessages(
           self$default_agepro_keyword_params(self$general,
-                                           enable_cat_print = enable_cat_print))
+                                           enable_cat_print = enable_cat_print,
+                                           ...))
       }
 
 
-      cli::cli_alert_success("Done")
+      cli::cli_alert_success("Agepro Model Initialized")
       invisible(self)
     },
 
@@ -93,7 +102,8 @@ agepro_model <- R6Class(
     #'
     default_agepro_keyword_params = function (x, projection_analyses_type =
                                                 "standard",
-                                              enable_cat_print = TRUE) {
+                                              enable_cat_print = TRUE,
+                                              ...) {
 
       #Verify general param
       checkmate::assert_r6(x, public = c("yr_start",
@@ -118,7 +128,8 @@ agepro_model <- R6Class(
       self$recruit <- recruitment$new(rep(0, x$num_rec_models),
                                       x$seq_years,
                                       num_recruit_models = x$num_rec_models,
-                                      enable_cat_print = enable_cat_print)
+                                      enable_cat_print = enable_cat_print,
+                                      ...)
 
       self$bootstrap <- bootstrap$new()
 
@@ -183,7 +194,7 @@ agepro_model <- R6Class(
         mortality_fraction_prior_spawn$new(x$seq_years,
                                            enable_cat_print = enable_cat_print)
 
-      self$options <- output_options$new()
+      self$options <- options_output$new()
 
 
       if(self$projection_analyses_type == "pstar") {
@@ -197,16 +208,17 @@ agepro_model <- R6Class(
           rebuild_projection$new(x$seq_years)
       }
 
-      self$perc <- user_percentile_summary$new()
+      self$perc <- percentile_summary$new(perc_flag = options_flags$new())
 
-      self$bounds <- max_bounds$new()
+      self$bounds <- max_bounds$new(bounds_flag = options_flags$new())
 
-      self$refpoint <- reference_points$new()
+      self$refpoint <- reference_points$new(refpoint_flag = options_flags$new())
 
-      self$scale <- scaling_factors$new()
+      self$scale <- scaling_factors$new(scale_flag = options_flags$new())
 
       self$retroadjust <- retrospective_adjustments$new(
-        enable_cat_print = enable_cat_print)
+        enable_cat_print = enable_cat_print,
+        retro_flag = options_flags$new())
 
 
     },
@@ -222,11 +234,11 @@ agepro_model <- R6Class(
     #' [general parameter's][ageproR::general_params] `num_rec_models`
     #' value, it will throw an error.
     #'
-    #' @template elipses
     #'
-    set_recruit_model = function(...) {
+    set_recruit_model = function(..., enable_cat_print = TRUE) {
 
       validation_error <- checkmate::makeAssertCollection()
+      # Custom Validation check to input format
       assert_model_num_vector_format(list(...), add = validation_error,
                                    .var.name = "model_num")
 
@@ -237,7 +249,8 @@ agepro_model <- R6Class(
 
         #Combines lists elements as a vector
         model_num <- purrr::list_c(list(...))
-
+        # Throw informative error if model_num count doesn't match
+        # num_recruit_models
         assert_model_num_vector_count(model_num, self$general$num_rec_models,
                                       add = validation_error)
 
@@ -258,13 +271,14 @@ agepro_model <- R6Class(
 
       checkmate::reportAssertions(validation_error)
 
-      div_keyword_header(self$recruit$keyword_name)
-      cli_alert("Recruitment Data Setup")
-      cli_alert("Using Model Number {.field {model_num}}")
+
+      cli_alert("{.emph Recruitment Data Setup}")
+      cli_alert("{.emph Using Model Number {.field {model_num}}}")
 
       self$recruit <- recruitment$new(model_num,
                       seq_years = self$general$seq_years,
-                      num_recruit_models = self$general$num_rec_models)
+                      num_recruit_models = self$general$num_rec_models,
+                      enable_cat_print = enable_cat_print)
 
 
 
@@ -292,14 +306,14 @@ agepro_model <- R6Class(
     #'
     #' @param type projection_analyses_type
     #'
-    #' @template enable_cat_print
+    #'
     #'
     setup_projection_analyses_values = function(type,
                                             enable_cat_print = FALSE) {
 
       previous_projection_type <- self$projection_analyses_type
 
-      cli::cli_alert_info(paste0("AGEPRO Model Projection analyses type set ",
+      cli::cli_alert(paste0("AGEPRO Model Projection analyses type set ",
                                  "to {.field {type}}"))
       tryCatch({
 
@@ -582,14 +596,14 @@ agepro_model <- R6Class(
     #'
     perc = function(value) {
       if(missing(value)){
-        return(private$.user_percentile_summary)
+        return(private$.percentile_summary)
       }else{
         tryCatch({
 
-          #Validate value as user_percentile_summary R6class
+          #Validate value as percentile_summary R6class
           assert_perc_active_binding(value, .var.name = "perc")
 
-          private$.user_percentile_summary <- value
+          private$.percentile_summary <- value
 
         },
         error = function(err) {
@@ -609,7 +623,7 @@ agepro_model <- R6Class(
       }else{
         tryCatch({
 
-          #Validate value as user_percentile_summary R6class
+          #Validate value as percentile_summary R6class
           assert_bounds_active_binding(value, .var.name = "bounds")
 
           private$.max_bounds <- value
@@ -666,7 +680,7 @@ agepro_model <- R6Class(
       if(missing(value)) {
         return(private$.retrospective_adjustments)
       }else {
-        checkmate::assert_r6(value, public = c("retrospective_coefficients"),
+        checkmate::assert_r6(value, public = c("retro_adjust"),
                              .var.name = "retroadjust")
 
         private$.retrospective_adjustments <- value
@@ -745,13 +759,13 @@ agepro_model <- R6Class(
     #'
     options = function(value) {
       if(missing(value)){
-        return(private$.output_options)
+        return(private$.options_output)
       }else {
         checkmate::check_r6(value,
                             public = c("output_stock_summary",
                                        "output_process_error_aux_files",
                                        "output_data_frame"))
-        private$.output_options <- value
+        private$.options_output <- value
       }
     },
 
@@ -794,8 +808,8 @@ agepro_model <- R6Class(
     .pstar_projection = NULL,
     .rebuild_projection = NULL,
     .mortality_fraction_prior_spawn = NULL,
-    .output_options = NULL,
-    .user_percentile_summary = NULL,
+    .options_output = NULL,
+    .percentile_summary = NULL,
     .max_bounds = NULL,
     .reference_points = NULL,
     .scaling_factors = NULL,
@@ -820,6 +834,7 @@ agepro_model <- R6Class(
 #' @template inp_line
 #' @template inp_con
 #' @template delimiter
+#' @template elipses
 #'
 #' @export
 #' @importFrom R6 R6Class
@@ -851,6 +866,9 @@ agepro_inp_model <- R6Class(
     #' @param enable_cat_print
     #' Logical flag to show target function's **cli** [`cat_print`][cli::cat_print]
     #' messages to be seen on console. In this instance, this is set to TRUE
+    #' @param show_general_params
+    #' Logical flag to show AGEPRO model's general parameters on R console.
+    #' TRUE, by default.
     #'
     initialize = function(yr_start = 0,
                           yr_end = 2,
@@ -860,8 +878,10 @@ agepro_inp_model <- R6Class(
                           num_fleets = 1,
                           num_rec_models = 1,
                           discards_present = 0,
-                          seed =  sample.int(1e8, 1),
-                          enable_cat_print = TRUE) {
+                          seed = sample.int(1e8, 1),
+                          enable_cat_print = TRUE,
+                          show_general_params = TRUE,
+                          ...) {
 
 
       if(all(isTRUE(c(
@@ -885,7 +905,9 @@ agepro_inp_model <- R6Class(
                        num_rec_models,
                        discards_present,
                        seed,
-                       enable_cat_print = enable_cat_print)
+                       enable_cat_print = enable_cat_print,
+                       show_general_params = show_general_params,
+                       ...)
 
     },
 
@@ -912,23 +934,25 @@ agepro_inp_model <- R6Class(
         {
           #(Re)Set File connection to input file
           inp_con <- file(file.path(inpfile), "r")
+          #Hacky way to get input filename from file connection
+          private$set_inp_filepath(summary(inp_con)$description)
 
           self$setup_projection_analyses_values("standard")
           self$read_inpfile_values(inp_con)
 
           #Cleanup and close file connections
-          cli::cli_alert_info("Input File Read")
+          cli::cli_alert("Input File Read")
 
         },
         error = function(cond) {
           message("There was an error reading this file. \n", cond)
           #Reset projection_analyses_type
           self$projection_analyses_type <- "standard"
-          self$perc$set_enable_user_percentile_summary(FALSE)
+          self$perc$set_enable_percentile_summary(FALSE)
           return(invisible())
         },
         finally = {
-          cli::cli_alert_info("Closing connection to file.")
+          cli::cli_alert("Closing connection to file.")
           close(inp_con)
         }
       )
@@ -1030,10 +1054,10 @@ agepro_inp_model <- R6Class(
           rlang::expr(private$read_rebuild_projection(inp_con, self$nline))
         },
         "[OPTIONS]" = {
-          rlang::expr(private$read_output_options(inp_con, self$nline))
+          rlang::expr(private$read_options_output(inp_con, self$nline))
         },
         "[PERC]" = {
-          rlang::expr(private$read_user_percentile_summary(inp_con, self$nline))
+          rlang::expr(private$read_percentile_summary(inp_con, self$nline))
         },
         "[BOUNDS]" = {
           rlang::expr(private$read_max_bounds(inp_con, self$nline))
@@ -1143,7 +1167,7 @@ agepro_inp_model <- R6Class(
             if(self$scale$flag$op$enable_scaling_factors){
               self$scale$get_inp_lines(delimiter)
             },
-            if(self$perc$flag$op$enable_user_percentile_summary){
+            if(self$perc$flag$op$enable_percentile_summary){
               self$perc$get_inp_lines(delimiter)
             }
 
@@ -1175,12 +1199,32 @@ agepro_inp_model <- R6Class(
       }else {
         private$.nline <- val
       }
+    },
+
+    #' @field inp_filepath Filepath of AGEPRO input file
+    inp_filepath = function(val) {
+      if(isFALSE(missing(val))){
+        stop("active binding is read only", call. = FALSE)
+      }
+      private$.inp_filepath
     }
 
   ),
   private = list(
 
     .nline = NULL,
+    .inp_filepath = NULL,
+
+    set_inp_filepath = function(value) {
+      if(isFALSE(checkmate::test_file_exists(value))) {
+        warning(paste0(
+          "Input file '", value, "' is an invalid path or doesn't exist in ",
+          "current working directory. \n",
+        ))
+        return()
+      }
+      private$.inp_filepath <- value
+    },
 
     read_case_id = function(con, nline) {
       self$nline <- self$case_id$read_inp_lines(con, nline)
@@ -1195,8 +1239,10 @@ agepro_inp_model <- R6Class(
     read_recruit = function(con, nline) {
       # Set Recruitment's observation year sequence array using GENERAL's
       # year names from the projection time period
-      cli_alert_info(c("Setting Recruitment data for ",
-                       "{self$general$yr_start} - {self$general$yr_end} ..."))
+      cli::cli_alert(paste0("Reading {.strong recruit}: ",
+                            "Recruitment for time period from ",
+                            "{.val {self$general$yr_start}}"," to ",
+                            "{.val {self$general$yr_end}} ..."))
 
       self$nline <- self$recruit$read_inp_lines(con, nline,
                                                 self$general$seq_years,
@@ -1330,19 +1376,19 @@ agepro_inp_model <- R6Class(
       self$nline <- self$rebuild$read_inp_lines(con, nline)
     },
 
-    read_output_options = function(con, nline) {
+    read_options_output = function(con, nline) {
 
       self$nline <- self$options$read_inp_lines(con, nline)
     },
 
-    read_user_percentile_summary = function(con, nline) {
+    read_percentile_summary = function(con, nline) {
 
-      self$perc$set_enable_user_percentile_summary(TRUE)
+      self$perc$enable_percentile_summary <- TRUE
       self$nline <- self$perc$read_inp_lines(con, nline)
     },
 
     read_max_bounds = function(con, nline) {
-      self$bounds$set_enable_max_bounds(TRUE)
+      self$bounds$enable_max_bounds <- TRUE
       self$nline <- self$bounds$read_inp_lines(con, nline)
     },
 
@@ -1518,7 +1564,7 @@ agepro_json_model <- R6Class(
         "rebuild" = self$rebuild$json_list_object,
         "options" = self$options$json_list_object,
         "perc" = {
-          if(self$perc$flag$op$enable_user_percentile_summary){
+          if(self$perc$flag$op$enable_percentile_summary){
             self$perc$json_list_object
           }else{
             NA

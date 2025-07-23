@@ -13,7 +13,7 @@
 #' Associated with AGEPRO's output options (OPTIONS) are additional optional
 #' options:
 #'
-#' * `PERC` :  user_percentile_summary
+#' * `PERC` :  percentile_summary
 #' * `REFPOINT` :  reference_points
 #' * `SCALE` :  scaling_factors
 #' * `BOUNDS` :  max_bounds
@@ -27,13 +27,13 @@
 #' Then it will be TRUE
 #'
 #'
-optional_options_container <- R6Class(
-  "optional_options_container",
+options_flag_container <- R6Class(
+  "options_flag_container",
   public = list(
 
-    #' @field enable_user_percentile_summary
+    #' @field enable_percentile_summary
     #' Enables output summary report of specific Percentile
-    enable_user_percentile_summary = NULL,
+    enable_percentile_summary = NULL,
 
     #' @field enable_reference_points
     #' Enables biological reference points threshold report
@@ -53,7 +53,7 @@ optional_options_container <- R6Class(
   )
 )
 
-#' @rdname optional_options_container
+#' @rdname options_flag_container
 #'
 #' @export
 #'
@@ -64,7 +64,10 @@ options_flags <- R6Class(
     #' @field op
     #' Class container that encapsulates logical flags to enable AGEPRO
     #' user-defined options
-    op = optional_options_container$new()
+    op = NULL,
+
+    #' @description Initialize
+    initialize = function() self$op <- options_flag_container$new()
   )
 )
 

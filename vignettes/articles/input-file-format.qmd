@@ -1,0 +1,19 @@
+---
+title: "AGEPRO Input File Format"
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+#| echo: false
+library(ageproR)
+```
+
+## AGEPRO Input Files (*.INP)
+
+Note: Documented for **StockSummaryFlag** changes for AGEPRO VERSION 4.25 format, for compatibility to the AGEPRO VERSION 4.0 format use Input=0 and Input=1.  
+
+{{< include table3_keyword-struct.qmd >}}

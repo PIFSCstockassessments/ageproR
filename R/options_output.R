@@ -15,8 +15,8 @@
 #'
 #' @export
 #'
-output_options <- R6Class(
-  "output_options",
+options_output <- R6Class(
+  "options_output",
   public = list(
 
     #' @description
@@ -61,23 +61,22 @@ output_options <- R6Class(
     #' Formatted to print out output_option values
     #'
     print = function() {
-      cli::cli_ul(id = "output_options_fields")
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
           "output_stock_summary: ",
           "{.val {private$.output_stock_summary}} ",
           "{.emph ({private$aux_flag_string(private$.output_stock_summary)})}"))
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
           "output_process_error_aux_files: ",
           "{.val {private$.output_process_error_aux_files}} ",
           "{.emph ({as.logical(private$.output_process_error_aux_files)})}"))
-      cli::cli_li(
+      cli::cli_alert_info(
         paste0(
-          "output_data_frame (export AGEPRO output as data.frame): ",
+          "output_data_frame {.emph (export output as data.frame)}: ",
           "{.val {private$.output_data_frame}} ",
           "{.emph ({as.logical(private$.output_data_frame)})}"))
-      cli::cli_end(id = "output_options_fields")
+
 
     },
 
@@ -87,7 +86,7 @@ output_options <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_alert_info("Reading {.strong {private$.keyword_name}}")
+      cli::cli_alert("Reading {.strong {private$.keyword_name}}")
 
       nline <- nline + 1
       inp_line <- read_inp_numeric_line(inp_con)
@@ -99,14 +98,16 @@ output_options <- R6Class(
       cli::cli_alert(paste0("Line {nline} : ",
                             "Reading AGEPRO projection output options ..."))
 
-      cli::cli_div(theme= list(ul = list(`margin-left` = 2, before = "")))
+      cli::cli_div(id = "options_fields",
+                   theme = list(".alert-info" = list("margin-left" = 2)))
       self$print()
+      cli::cli_end("options_fields")
 
       return(nline)
     },
 
     #' @description
-    #' Returns values from the output_options (OPTIONS)
+    #' Returns values from the options_output (OPTIONS)
     #' AGEPRO keyword parameter formatted as AGEPRO input file lines.
     #'
     #' @template delimiter
@@ -135,7 +136,7 @@ output_options <- R6Class(
         # message
         withCallingHandlers(
           message = function (cnd) {
-            cli::cli_alert(
+            cli::cli_alert_info(
               paste0("output_summary_report: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
 
@@ -160,8 +161,9 @@ output_options <- R6Class(
         # message
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(
-              paste0("output_process_error_aux_files: ",
+            cli::cli_alert_info(
+              paste0("output_process_error_aux_files ",
+                     "{.emph (Auxillary output files)}: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
 
             rlang::cnd_muffle(cnd)
@@ -186,8 +188,9 @@ output_options <- R6Class(
         # message
         withCallingHandlers(
           message = function(cnd) {
-            cli::cli_alert(
-              paste0("output_data_frame: ",
+            cli::cli_alert_info(
+              paste0("output_data_frame ",
+                     "{.emph (AGEPRO output as data.frame)}: ",
                      "{sub('\u2192 ', '', conditionMessage(cnd))}"))
             rlang::cnd_muffle(cnd)
           },
@@ -199,7 +202,7 @@ output_options <- R6Class(
     },
 
     #' @field json_list_object
-    #' Returns JSON list object of containing output_options values
+    #' Returns JSON list object of containing options_output values
     json_list_object = function() {
       return(list(
         stock_summary_flag = self$output_stock_summary,

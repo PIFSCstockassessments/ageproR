@@ -121,7 +121,7 @@ assert_proj_years_sequence <- function(x, .var.name = checkmate::vname(x),
 #'
 #' @description
 #' Custom validation procedure to check if input value matches the structure
-#' of the user_percentile_summary R6Class. It will also catch single numeric
+#' of the percentile_summary R6Class. It will also catch single numeric
 #' input values presuming that the active binder sets the report_percentile.
 #'
 #' @param x
@@ -131,7 +131,7 @@ check_perc_active_binding <- function(x) {
 
   if(checkmate::test_numeric(x, len = 1)) {
     return(paste0(
-      "Input value found as a numeric, not a user_percentile_summary class. ",
+      "Input value found as a numeric, not a percentile_summary class. ",
       "Did you mean to set report_percentile field?"
     ))
   }
@@ -303,9 +303,9 @@ validate_logical_parameter <- function(x) {
   if(checkmate::test_logical(x)){
     logical_x <- x
     x <- as.numeric(x)
-    cli::cli_alert(c("{.val {logical_x}} set as ","{.val {x}}."))
+    cli::cli_alert(c("{.val {x}}"," ({.val {logical_x}})"))
   }else{
-    cli::cli_alert("set as {.val {x}}")
+    cli::cli_alert("{.val {x}}")
   }
 
   validation_error <- checkmate::makeAssertCollection()
@@ -348,31 +348,5 @@ validate_filetype <- function(filetype) {
 
 }
 
-#' Asserts if all substrings of AGEPRO's input data file line can be numeric.
-#'
-#' Validates the string vector via `grepl` if all values match the digit
-#' character class. Function will throw an exception if non digit characters
-#' were found.
-#'
-#' @return Converts the input data line string vector as numeric.
-#'
-#' @template inp_line
-#'
-#' @keywords internal
-#'
-validate_numeric_substrings <- function(inp_line) {
-
-  numeric_regex <- "^[-]?[[:digit:]]"
-
-  if (!all(grepl(numeric_regex, inp_line))) {
-
-    non_numerics <- inp_line[!grepl(numeric_regex, inp_line)]
-    stop("Line contains a Non Numeric Substring",
-         paste(non_numerics, collapse = ", "))
-  }
-
-  invisible(as.numeric(inp_line))
-
-}
 
 

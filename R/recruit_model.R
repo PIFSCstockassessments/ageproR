@@ -93,7 +93,13 @@ recruit_model <- R6Class(
     .model_group = NULL,
     .model_name = NULL,
     .projected_years = NULL,
-    .length_projected_years = NULL
+    .length_projected_years = NULL,
+
+    print_model_num_name= function() {
+      cli::cli_alert(paste0("Recruitment Model #",
+                            "{private$.model_num}: ",
+                            "{.emph {.field {private$.model_name}}}"))
+    }
 
   )
 
@@ -131,7 +137,7 @@ null_recruit_model <- R6Class(
         paste0("NULL Recrumitment model found. ",
                "Replace with a valid recruitment model before ",
                "saving to input file")
-      cli_text("{private$.model_name}")
+      private$print_model_num_name()
 
       warning(warn_null_recruit, call. = FALSE)
     },
@@ -241,10 +247,10 @@ deprecated_recruit_model_9 <- R6Class(
 #' @template inp_con
 #' @template nline
 #' @template delimiter
+#' @template obs_table
 #'
 #' @importFrom jsonlite toJSON
 #' @importFrom checkmate test_int assert_integerish assert_logical assert_matrix
-#' @importFrom tibble as_tibble
 #'
 empirical_recruit <- R6Class(
   "empirical_recruit",
@@ -257,7 +263,8 @@ empirical_recruit <- R6Class(
     #' @param with_ssb Empirical Recruitment includes Spawning
     #' Stock Biomass (SSB)
     #'
-    initialize = function(num_observations = 1, with_ssb = FALSE) {
+    initialize = function(num_observations = 1, with_ssb = FALSE,
+                          obs_table = NULL) {
 
       super$model_group <- 1
 
@@ -270,7 +277,14 @@ empirical_recruit <- R6Class(
         private$.with_ssb <- with_ssb
       }
 
-      self$new_obs_table()
+      # By default, default recruitment observation data is created on initialization.
+      if(is.null(obs_table)){
+        self$new_obs_table()
+      }else{
+        self$set_obs_table_from_df(obs_table)
+      }
+
+
     },
 
     #'@description
@@ -296,6 +310,32 @@ empirical_recruit <- R6Class(
         colnames(self$observations) <- "recruit"
       }
 
+    },
+
+    #' @description
+    #' Input data frame to set empirical recruitment observation data table.
+    #' Typically used at initialization.
+    #'
+    #' @param df Input data frame
+    #'
+    set_obs_table_from_df = function(df) {
+
+      # Validate input empirical recruitment observation data
+      validation_error <- checkmate::makeAssertCollection()
+      checkmate::assert_data_frame(df, nrows = self$observed_points,
+                                   add = validation_error)
+      # Check colnames
+      if(self$with_ssb){
+        checkmate::assert_subset(names(df),c("recruit","ssb"),
+                                 add = validation_error)
+      }else{
+        checkmate::assert_subset(names(df),"recruit",
+                                 add = validation_error)
+      }
+
+      checkmate::reportAssertions(validation_error)
+
+      self$observations <- df
 
     },
 
@@ -303,16 +343,30 @@ empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
+      args <- list(...)
+      #Default to TRUE if NULL
+      verbose <- ifelse(is.null(args[["enable_cat_print"]]),
+                        TRUE,
+                        args[["enable_cat_print"]])
+
+
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Has SSB?  {.val {self$with_ssb}}")
-      cli_li(paste0("Number of Recruitment Data Points: ",
-               "{.val {self$observed_points}}"))
-      cli_alert_info("Observations:")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$observations, .name_repair = "minimal"))))
-      cli_end()
+      private$print_model_num_name()
+      cli_alert_info("with_ssb: {.val {self$with_ssb}}")
+      cli_alert_info(paste0("observed_points ",
+                    "{.emph (Number of Recruitment Data Points)}: ",
+                    "{.val {self$observed_points}}"))
+      cli_alert_info("observations:")
+
+      if(verbose) {
+        print_parameter_table(self$observations, omit_rows = TRUE)
+      }else{
+        #suppresses output
+        capture.output(
+          x <- print_parameter_table(self$observations, omit_rows = TRUE))
+      }
+
+
 
 
     },
@@ -334,7 +388,7 @@ empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -480,9 +534,47 @@ empirical_recruit <- R6Class(
   )
 )
 
+#' Empirical Recruits Per Spawning Biomass Distribution (SSB) (Model #2)
+#'
+#' The empirical recruits per spawning biomass distribution model depends on
+#' spawning biomass and is time-invariant.
+#'
+#' @template num_observations
+#' @template obs_table
+#'
+#' @export
+#'
+empirical_ssb <- R6Class(
+  "empirical_ssb",
+  inherit = empirical_recruit,
+  public = list(
+    #' @description
+    #' Initializes the Empirical Recruits Per Spawning Biomass
+    #' Distribution Model
+    initialize = function(num_observations,
+                          obs_table = NULL) {
+
+      super$super_$model_num <- 2
+      super$super_$model_name <-
+        "Empirical Recruits Per Spawning Biomass Distribution (SSB)"
+      super$initialize(num_observations,
+                       with_ssb = TRUE,
+                       obs_table = obs_table)
+
+    }
+
+  )
+)
+
+
+
+
+
 #' Empirical Recruitment Distribution (Model #3)
 #'
 #' @template num_observations
+#' @template obs_table
+#'
 #' @export
 empirical_distribution_model <- R6Class(
   "empirical_distribution_model",
@@ -490,12 +582,14 @@ empirical_distribution_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical Recruitment Distribution Model
-    initialize = function(num_observations) {
+    initialize = function(num_observations,
+                          obs_table = NULL) {
 
       super$with_ssb <- FALSE
       super$super_$model_num <- 3
       super$super_$model_name <- "Empirical Recruitment Distribution"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )
@@ -504,6 +598,7 @@ empirical_distribution_model <- R6Class(
 #' Empirical CDF of Recruitment (Model #14)
 #'
 #' @template num_observations
+#' @template obs_table
 #' @export
 empirical_cdf_model <- R6Class(
   "empirical_cdf_model",
@@ -511,7 +606,8 @@ empirical_cdf_model <- R6Class(
   public = list(
     #' @description
     #' Initialize the Empirical CDF Model
-    initialize = function(num_observations = 2) {
+    initialize = function(num_observations = 2,
+                          obs_table = NULL) {
 
       self$observed_points <- num_observations
 
@@ -519,7 +615,8 @@ empirical_cdf_model <- R6Class(
       super$super_$model_num <- 14
       super$super_$model_name <-
         "Empirical Cumulative Distribution Function of Recruitment"
-      super$initialize(num_observations)
+      super$initialize(num_observations,
+                       obs_table = obs_table)
 
     }
   )
@@ -608,7 +705,7 @@ two_stage_empirical_recruit <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace and assign as observation recruits
@@ -629,8 +726,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} Low Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
 
 
       ## high_recruitment
@@ -641,8 +737,7 @@ two_stage_empirical_recruit <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline} High Recruitment ...")
-      cat_line(capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal")))
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
       ## ssb_cutoff
       # Read an additional line from the file connection and split the string
@@ -673,23 +768,20 @@ two_stage_empirical_recruit <- R6Class(
     #' Prints out Recruitment Model
     print = function(...) {
 
-      cli_text("{self$model_name}")
-      cli_ul()
-      cli_li("Include state SSB vector? {.val {self$with_ssb}}")
-      cli_li("SSB cutoff level: {.val {self$ssb_cutoff}}")
-      cli_li("Number of Recruitment Data Points: ")
-      a <- cli_ul()
-      cli_li("Number of Low recruitment: {.val {self$num_low_recruits}}")
-      cli_li("Number of High recruitment: {.val {self$num_high_recruits}}")
-      cli_end(a)
-      cli_alert_info("Observations:")
-      cli_text("Low recruitment")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$low_recruitment, .name_repair = "minimal"))))
-      cli_text("High recruitment")
-      cat_line(paste0("  ", capture.output(
-        tibble::as_tibble(self$high_recruitment, .name_repair = "minimal"))))
-      cli_end()
+      private$print_model_num_name()
+
+      cli_alert_info(paste0("with_ssb ",
+                            "{.emph (Include state SSB vector)}? ",
+                            "{.val {self$with_ssb}}"))
+      cli_alert_info(paste0("ssb_cutoff ",
+                            "{.emph (SSB cutoff level)}: ",
+                            "{.val {self$ssb_cutoff}}"))
+      cli_alert_info("num_low_recruits: {.val {self$num_low_recruits}}")
+      cli_alert_info("num_high_recruits: {.val {self$num_high_recruits}}")
+      cli_alert_info("low_recruitment:")
+      print_parameter_table(self$low_recruitment, omit_rows = TRUE)
+      cli_alert_info("high_recruitment:")
+      print_parameter_table(self$high_recruitment, omit_rows = TRUE)
 
 
 
@@ -933,12 +1025,10 @@ parametric_curve <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      private$print_model_num_name()
+      cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli_alert_info("beta: {.val {private$.beta}}")
+      cli_alert_info("variance: {.val {private$.variance}}")
     },
 
     #' @description
@@ -947,7 +1037,7 @@ parametric_curve <- R6Class(
     read_inp_lines = function(inp_con, nline) {
 
       #Model Name
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -962,11 +1052,14 @@ parametric_curve <- R6Class(
       self$variance <- inp_line[3]
 
       #self$print()
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("parametric_fields")
 
       return(nline)
     }
@@ -1044,8 +1137,157 @@ parametric_curve <- R6Class(
 
   )
 
-
 )
+
+#' Parametric Recruitment Model w/ correlated lognormal error
+#'
+#' @inherit recruit_model description
+#'
+#' @template model_num
+#' @template parametric_parameters
+#' @template elipses
+#' @template inp_con
+#' @template nline
+#' @template delimiter
+#' @template parametric_autocorrelated_params
+#'
+#' @importFrom checkmate assert_numeric
+#'
+parametric_autocorrelated_error <- R6Class(
+  "parametric_autocorrelated_error",
+  inherit = parametric_curve,
+  public = list(
+    #' @description
+    #' Initializes the Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      #Set to Active Bindings
+      self$alpha <- alpha
+      self$beta <- beta
+      self$variance <- variance
+      self$phi <- phi
+      self$log_residual <- log_residual
+
+
+    },
+
+    #' @description
+    #' Prints out Parametric Data
+    #'
+    print = function(...) {
+
+      super$print(...)
+      cli::cli_alert_info("phi: {.val {self$phi}}")
+      cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
+
+    },
+
+    #' @description
+    #' Exports RECRUIT submodel data for autocorrleated parametric curve
+    #' recruitment as formatted AGEPRO input file lines.
+    #'
+    inp_lines_recruit_data = function(delimiter = " ") {
+      return(list(paste(self$alpha,
+                        self$beta,
+                        self$variance,
+                        self$phi,
+                        self$log_residual,
+                        sep = delimiter)))
+    },
+    #' @description
+    #' Reads Autocorrelated Parametric Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      #Model Name
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      #TODO: Check to see if inp_line is a vector of 5 numeric values
+
+      nline <- nline + 1
+      cli_alert("Line {nline} ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$variance <- inp_line[3]
+      self$phi <- inp_line[4]
+      self$log_residual <- inp_line[5]
+
+      #self$print()
+      li_nested <-
+        cli::cli_div(id = "parametric_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("parametric_fields")
+
+      return(nline)
+    }
+
+  ),
+
+  active = list(
+
+    #' @field phi
+    #' Sets the Autocorrelated parametric Curve Parameter, phi. Returns the
+    #' current value if no argument was passed.
+    phi = function(value) {
+      if(missing(value)){
+        return(private$.phi)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.phi <- value
+      }
+    },
+
+    #' @field log_residual
+    #' Sets the Autocorrelated parametric Curve Parameter, log_residual.
+    #' Returns the current value if no argument was passed.
+    log_residual = function(value) {
+      if(missing(value)){
+        return(private$.log_residual)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.log_residual
+      }
+    },
+
+    #' @field json_recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    #'
+    json_recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        variance = self$variance,
+        phi = self$phi,
+        log_residual = self$log_residual))
+    }
+
+  ),
+  private = list(
+
+    .phi = 0,
+    .log_residual = 0
+
+  )
+)
+
+
+
 
 #' Beverton-Holt w/ Lognormal Error (Model #5)
 #'
@@ -1069,7 +1311,35 @@ beverton_holt_curve_model <- R6Class(
   )
 )
 
-#'Ricker Curve #/ Lognormal Error (Model #6)
+#' Beverton-Holt Curve w/ Autocorrected Lognormal Error (Model #10)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#'
+#' @export
+beverton_holt_autocorrelated_error <- R6Class(
+  "beverton_holt_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+    #' @description
+    #' Initializes the Beverton Holt Curve with Autocorrelatred Error
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+      self$model_num <- 10
+      self$model_name <- "Beverton-Holt Curve w/ Autocorrected Lognormal Error"
+    }
+
+
+  )
+)
+
+
+#' Ricker Curve #/ Lognormal Error (Model #6)
 #'
 #' @template parametric_parameters
 #' @export
@@ -1079,7 +1349,7 @@ ricker_curve_model <- R6Class(
   inherit = parametric_curve,
   public = list(
     #' @description
-    #' Initalizes the Ricker Curve Model
+    #' Initializes the Ricker Curve Model
     initialize = function(alpha = 0,
                           beta = 0,
                           variance = 0) {
@@ -1089,6 +1359,32 @@ ricker_curve_model <- R6Class(
       super$super_$model_name <- "Ricker Curve w/ Lognonormal Error"
 
 
+    }
+  )
+)
+
+#' Ricker Curve with Autocorrelated Lognormal Error (Model #11)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#'
+#' @export
+#'
+ricker_curve_autocorrelated_error <- R6Class(
+  "ricker_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+    #' @description
+    #' Initializes the Ricker Curve with Autocorrelated Error Model
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+      self$model_num <- 11
+      self$model_name <- "Ricker Curve w/ Autocorrelated Lognonormal Error"
     }
   )
 )
@@ -1136,13 +1432,12 @@ shepherd_curve_model <- R6Class(
     print = function(...) {
 
       #Model Name
-      cli::cli_alert_info("{self$model_name}")
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("k: {.val {private$.kpar}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
+      private$print_model_num_name()
+      cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli_alert_info("beta: {.val {private$.beta}}")
+      cli_alert_info("kpar: {.val {private$.kpar}}")
+      cli_alert_info("variance: {.val {private$.variance}}")
+
 
     },
 
@@ -1151,7 +1446,7 @@ shepherd_curve_model <- R6Class(
     #'
     read_inp_lines = function(inp_con, nline) {
 
-      cli::cli_text("{.emph {.field {self$model_name}}}")
+      private$print_model_num_name()
 
       # Read an additional line from the file connection and split the string
       # into substrings by whitespace
@@ -1166,13 +1461,15 @@ shepherd_curve_model <- R6Class(
       self$kpar <- inp_line[3]
       self$variance <- inp_line[4]
 
-      cli_ul()
-      cli_li("Alpha: {.val {private$.alpha}}")
-      cli_li("Beta: {.val {private$.beta}}")
-      cli_li("K: {.val {private$.kpar}}")
-      cli_li("Variance: {.val {private$.variance}}")
-      cli_end()
 
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_end("shepherd_curve_fields")
 
 
       return(nline)
@@ -1227,6 +1524,136 @@ shepherd_curve_model <- R6Class(
     .beta = 0.1,
     .kpar = 0.1,
     .variance = 0.1
+
+  )
+)
+
+
+#' Shepherd Curve with Autocorrelated Lognormal Error (Model #12)
+#'
+#' @template parametric_parameters
+#' @template parametric_autocorrelated_params
+#' @template elipses
+#' @template inp_con
+#' @template nline
+#' @template delimiter
+#' @param kpar kpar
+#'
+#' @export
+#'
+shepherd_curve_autocorrelated_error <- R6Class(
+  "shepherd_curve_autocorrelated_error",
+  inherit = parametric_autocorrelated_error,
+  public = list(
+
+    #' @description
+    #' Initializes the Shepherd Autocorrelated Curve Model
+    #'
+    initialize = function(alpha = 0,
+                          beta = 0,
+                          kpar = 0,
+                          variance = 0,
+                          phi = 0,
+                          log_residual = 0) {
+
+      super$initialize(alpha, beta, variance, phi, log_residual)
+
+      #Set Active Bindings
+      self$kpar <- kpar
+
+      self$model_num <- 12
+      self$model_name <- "Shepherd Curve w/ Autocorrelated Lognormal Error"
+
+    },
+
+    #' @description
+    #' Prints out Parametric Autocorrelated Curve Data
+    #'
+    print = function(...) {
+
+      #Model Name
+      private$print_model_num_name()
+      cli::cli_alert_info("alpha: {.val {self$alpha}}")
+      cli::cli_alert_info("beta: {.val {self$beta}}")
+      cli::cli_alert_info("kpar: {.val {self$kpar}}")
+      cli::cli_alert_info("variance: {.val {self$variance}}")
+      cli::cli_alert_info("phi: {.val {self$phi}}")
+      cli::cli_alert_info("log_residual: {.val {self$log_residual}}")
+
+    },
+
+
+    #' @description
+    #' Reads Parametric Autocorreled Curve model data from AGEPRO Input file
+    #'
+    read_inp_lines = function(inp_con, nline) {
+
+      private$print_model_num_name()
+
+      # Read an additional line from the file connection and split the string
+      # into substrings by whitespace
+      inp_line <- read_inp_numeric_line(inp_con)
+
+      nline <- nline + 1
+      cli_alert("Line {nline}: parameters ...")
+
+      # Assign substrings
+      self$alpha <- inp_line[1]
+      self$beta <- inp_line[2]
+      self$kpar <- inp_line[3]
+      self$variance <- inp_line[4]
+      self$phi <- inp_line[5]
+      self$log_residual <- inp_line[6]
+
+      li_nested <-
+        cli::cli_div(id = "shepherd_curve_autocorrelated_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("alpha: {.val {private$.alpha}}")
+      cli::cli_alert_info("beta: {.val {private$.beta}}")
+      cli::cli_alert_info("kpar {.emph (K)}: {.val {private$.kpar}}")
+      cli::cli_alert_info("variance: {.val {private$.variance}}")
+      cli::cli_alert_info("phi: {.val {private$.phi}}")
+      cli::cli_alert_info("log_residual: {.val {private$.log_residual}}")
+      cli::cli_end("shepherd_curve_autocorrelated_fields")
+
+
+      return(nline)
+    }
+
+  ),
+  active = list(
+
+    #' @field kpar
+    #' Sets the Autocorrelated parametric Curve Parameter, phi. Returns the
+    #' current value if no argument was passed.
+    #'
+    kpar = function(value) {
+      if(missing(value)){
+        return(private$.kpar)
+      }else{
+        checkmate::assert_numeric(value, len = 1)
+        private$.kpar <- value
+      }
+    },
+
+
+    #' @field json_recruit_data
+    #' Returns JSON-ready Recruit Model Data
+    #'
+    json_recruit_data = function() {
+      return(list(
+        alpha = self$alpha,
+        beta = self$beta,
+        k = self$kpar,
+        variance = self$variance,
+        phi = self$phi,
+        log_residual = self$log_residual))
+    }
+
+  ),
+  private = list(
+
+    .kpar = 0
 
   )
 )

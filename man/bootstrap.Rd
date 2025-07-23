@@ -56,13 +56,13 @@ Initializes the Bootstrap Class
 \subsection{Method \code{set_bootstrap_filename()}}{
 Uses file dialog interface to retrieve Bootstrap file name
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{bootstrap$set_bootstrap_filename(bootstrap_path)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{bootstrap$set_bootstrap_filename(bsn_path)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{bootstrap_path}}{Bootstrap Filename}
+\item{\code{bsn_path}}{Bootstrap Filename (*.bsn) path}
 }
 \if{html}{\out{</div>}}
 }

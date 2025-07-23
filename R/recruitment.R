@@ -32,6 +32,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' @description
     #' Initializes the Recruitment Class
     #'
+    #' @param num_recruit_models
+    #' Number of Recruitment Models in AGEPRO model. Default is 1.
+    #'
+    #' @param recruit_scaling_factor
+    #' Recruit model's multiplier to convert units to absolute numbers of fish.
+    #'
+    #' @param ssb_scaling_factor
+    #' Recruit model's multiplier to convert SSB to absolute
+    #' spawning weight of fish in kilograms (kg)
+    #'
     #' @param max_recruit_obs
     #' Max limit of recruitment observations. Default is 10000.
     #'
@@ -39,11 +49,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' Flag to print out `cat` based cli messages printed on console. Default
     #' is TRUE.
     #'
-    #' @param num_recruit_models
-    #' Number of Recruitment Models in AGEPRO model. Default is 1.
     #'
     initialize = function(model_num, seq_years,
                           num_recruit_models = 1,
+                          recruit_scaling_factor = 1000,
+                          ssb_scaling_factor = 1,
                           max_recruit_obs = 10000,
                           enable_cat_print = TRUE) {
 
@@ -65,18 +75,21 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       # models field sent to the function.
       private$.number_recruit_models <- length(model_num)
 
-      # Setup Recruitment Model data
-      private$set_recruit_scaling_factor(1000)
-      private$set_ssb_scaling_factor(0)
-      private$set_max_recruit_obs(max_recruit_obs)
-      private$setup_recruitment_probability()
-      private$setup_recruit_model_num_list(model_num)
-      private$setup_recruit_data()
-
-
       # 'recruit' cli messages at initialization
       div_keyword_header(self$keyword_name)
-      cli_alert("Creating Default Recruitment Model")
+      cli::cli_alert("Creating Default Recruitment Model")
+
+
+      # Setup Recruitment Model data
+      suppressMessages(private$set_recruit_scaling_factor(recruit_scaling_factor))
+      suppressMessages(private$set_ssb_scaling_factor(ssb_scaling_factor))
+      suppressMessages(private$set_max_recruit_obs(max_recruit_obs))
+
+      private$setup_recruit_model_num_list(model_num)
+
+      private$setup_recruitment_probability()
+      private$setup_recruit_data()
+
       self$print(enable_cat_print)
 
 
@@ -92,6 +105,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       #verify private fields are numeric
       checkmate::assert_numeric(private$.number_recruit_models)
       checkmate::assert_numeric(private$.number_projection_years)
+      #verify recruit_prob list
+      checkmate::assert_list(private$.recruit_probability)
 
       cli::cli_par()
       cli::cli_alert(c("{private$.number_recruit_models} recruitment model{?s}",
@@ -99,11 +114,11 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       cli::cli_alert_info("recruit_scaling_factor: {.val {self$recruit_scaling_factor}}")
       cli::cli_alert_info("ssb_scaling_factor: {.val {self$ssb_scaling_factor}}")
+      cli::cli_alert_info("max_recruit_obs: {.val {self$max_recruit_obs}}")
       cli::cli_end()
 
       #Module to printout Recruitment Probability
       #Verbose flag check
-      cli::cli_par()
       if(enable_cat_print){
         #Allow Recruitment Probability 'cat' cli message
         private$cli_recruit_probability()
@@ -111,19 +126,16 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         #Suppress Recruitment Probability 'cat' cli message
         capture.output(x <- private$cli_recruit_probability())
       }
-      cli::cli_end()
 
-      cli::cli_alert_info("recruit_data")
+      cli::cli_alert_info("recruit_data:")
       for (recruit in 1:private$.number_recruit_models){
         par_recruit <-  cli::cli_par()
         cli::cli_text("[[{recruit}]]")
-        cli::cli_alert(paste0("Recruitment Model #",
-                              "{self$recruit_model_num_list[[recruit]]} "))
 
         #Verify class inherits from "recruit_model"
         assert_r6(self$recruit_data[[recruit]], "recruit_model")
+        self$recruit_data[[recruit]]$print(enable_cat_print = enable_cat_print)
 
-        self$recruit_data[[recruit]]$print()
         cli::cli_end(par_recruit)
       }
 
@@ -150,28 +162,23 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       cli_alert(
         "Line {nline} : Scaling Factors & Max Recruit Observations ...")
 
-      # Assign substrings
+      # Assign substrings (Console Output)
+      cli::cli_div(id = "recruit_inp_fields",
+                     theme = list(".alert-info" = list("margin-left" = 2)))
       private$set_recruit_scaling_factor(inp_line[1])
       private$set_ssb_scaling_factor(inp_line[2])
       private$set_max_recruit_obs(inp_line[3])
 
-      # Console Output
-      cli::cli_ul()
-      cli::cli_li(paste0("Recruit Scaling Factor: ",
-                    "{.val {self$recruit_scaling_factor}}"))
-      cli::cli_li(paste0("SSB Scaling Factor: ",
-                    "{.val {self$ssb_scaling_factor}}"))
-      cli::cli_li(paste0("Max Recruit Observations: ",
-                    "{.val {self$max_recruit_obs}}"))
-      cli::cli_end()
+      cli::cli_end("recruit_inp_fields")
 
       # Read an additional line from the file connection, and parse the
       # substring(s) for Recruitment Model(s) for recruit_data
       inp_line <- read_inp_numeric_line(inp_con)
 
       nline <- nline + 1
-      cli_alert(c("Line {nline}: Reading recruitment model number ",
-                  "{.val {inp_line}} ..."))
+      #TODO: Refactor recruit_model_num_list to a function
+      cli_alert("Line {nline}: Reading recruitment model number ...")
+
 
       # Validate length Recruitment's recruit_model_num_list matches
       # Check if input model number matches the number of observed years
@@ -192,12 +199,19 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       private$setup_recruitment_probability()
 
       # Assign "recruit type" inp_line values to recruit_model_num_list.
+      div_model_num <-
+        cli::cli_div(class = "input_field",
+                     theme = list(.input_field = list("margin-left" = 2)))
       for (recruit in 1:private$.number_recruit_models) {
         #Model Num
         private$set_recruit_model_num_list_item(inp_line[recruit], recruit)
+        cli::cli_text(
+          paste0("{symbol$info} recruit_model_num_list[[", recruit, "]]: ",
+                 "{.val {private$.recruit_model_num_list[[recruit]]}}"))
       }
+      cli::cli_end(div_model_num)
 
-      cli_alert_info("Reading Recruitment Probabaility ... ")
+      cli::cli_alert("Reading Recruitment Probabaility ... ")
       # Set Input File Recruitment Probability values over default values.
       # For each year in AGEPRO Model's observation years ...
       for (year in private$.sequence_projection_years){
@@ -227,23 +241,21 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         private$.recruit_data[[recruit]] <-
           private$initialize_recruit_model(self$recruit_model_num_list[[recruit]])
 
-        cli::cli_alert_info(
-          paste0("{.strong recruit_data} ({recruit} of ",
-                 "{length(self$recruit_data)} ",
-                 "recruit model{?s})"))
+        cli::cli_alert_info("{.strong recruit_data[[{recruit}]]}:")
 
         #Nest Recruitment model read_inp_lines Output per model
-        li_nested <- cli::cli_div(class = "input_field",
-                                  theme = list(.input_field =
-                                                 list("margin-left" = 2)))
-        cli::cli_alert_info(
-          paste0("Reading recruitment model ",
-                 "{.field {self$recruit_model_num_list[[recruit]]}} ..."))
+        div_recruit_model <-
+          cli::cli_div(class = "input_field",
+                       theme = list(.input_field = list("margin-left" = 2)))
+
+        cli::cli_alert(
+          paste0("Reading {.strong recruit_model_num_list[[{recruit}]]}: ",
+                 "{.val {self$recruit_model_num_list[[recruit]]}} ..."))
         #Read in inp lines to set recruitment model data values
         nline <-
           self$recruit_data[[recruit]]$read_inp_lines(inp_con, nline)
 
-        cli::cli_end(li_nested)
+        cli::cli_end(div_recruit_model)
 
       }
 
@@ -302,30 +314,30 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     #' The multiplier to convert recruitment submodel's recruitment units to
     #' absolute numbers of fish
     recruit_scaling_factor = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.recruit_scaling_factor)
       }
-      private$.recruit_scaling_factor
+      private$set_recruit_scaling_factor(value)
     },
 
     #' @field ssb_scaling_factor
     #' The multiplier to convert recruitment submodel's SSB to absolute
     #' spawning weight of fish in kilograms (kg)
     ssb_scaling_factor = function(value) {
-      if(isFALSE(missing(value))){
-        stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.ssb_scaling_factor)
       }
-      private$.ssb_scaling_factor
+      private$set_ssb_scaling_factor(value)
     },
 
 
     #' @field max_recruit_obs
     #' Recruitment submodel's maximum number of observations
     max_recruit_obs = function(value) {
-      if(isFALSE(missing(value))){
-          stop("active binding is read only", call. = FALSE)
+      if(missing(value)){
+        return(private$.max_recruit_obs)
       }
-      private$.max_recruit_obs
+      private$set_max_recruit_obs(value)
     },
 
     #' @field recruit_model_num_list
@@ -476,7 +488,7 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
     .max_recruit_obs = NULL,
 
     .keyword_name = "recruit",
-    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 14, 15),
+    .valid_recruit_model_num = c(0, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15),
 
     .recruit_scaling_factor = NULL,
     .ssb_scaling_factor = NULL,
@@ -491,20 +503,28 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
       checkmate::assert_numeric(value, len = 1,
                                 .var.name = "recruit_scaling_factor")
       private$.recruit_scaling_factor <- value
+      cli::cli_alert_info(paste0("recruit_scaling_factor: ",
+                         "{.val {private$.recruit_scaling_factor}}"))
     },
 
     set_ssb_scaling_factor = function(value) {
       checkmate::assert_numeric(value, len = 1,
                                 .var.name = "ssb_scaling_factor")
       private$.ssb_scaling_factor <- value
+      cli::cli_alert_info(paste0("ssb_scaling_factor: ",
+                         "{.val {private$.ssb_scaling_factor}}"))
     },
 
     set_max_recruit_obs = function(value) {
       checkmate::assert_int(value,
                             .var.name = "max_recruit_obs")
       private$.max_recruit_obs <- value
+      cli::cli_alert_info(paste0("max_recruit_obs: ",
+                         "{.val {private$.max_recruit_obs}}"))
     },
 
+    # Validate and set input Recruitment Model Number to
+    # recruit model number list
     set_recruit_model_num_list_item = function(value, index){
       checkmate::assert_choice(value,
                                choice = private$.valid_recruit_model_num)
@@ -532,11 +552,8 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
     #Module to printout Recruitment probability to Rconsole
     cli_recruit_probability = function() {
-      cli::cli_alert_info("recruitment_probability")
-      #verify recruit_prob list
-      checkmate::assert_list(private$.recruit_probability)
-
-      cli::cat_print(private$.recruit_probability)
+      cli::cli_alert_info("recruitment_probability:")
+      capture_output_as_message(cli::cat_print(private$.recruit_probability))
     },
 
 
@@ -646,8 +663,14 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
 
       # `.number_projection_years` is used for recruitment
       # models that use the model projection year time horizon for setup.
+      #
+      # Uses a pyhton-like data structure (collections::dict) to store
+      # expressions and evaluate via tidy evaluation to initialize recruitment
+      # models
       model_dict <- dict(list(
         "0" = rlang::expr(null_recruit_model$new()),
+        "2" = rlang::expr(empirical_ssb$new(
+          private$.number_projection_years)),
         "3" = rlang::expr(empirical_distribution_model$new(
           private$.number_projection_years)),
         "4" = rlang::expr(two_stage_empirical_ssb$new()),
@@ -655,6 +678,9 @@ recruitment <- R6Class( # nolint: cyclocomp_linter
         "6" = rlang::expr(ricker_curve_model$new()),
         "7" = rlang::expr(shepherd_curve_model$new()),
         "9" = rlang::expr(deprecated_recruit_model_9$new()),
+        "10" = rlang::expr(beverton_holt_autocorrelated_error$new()),
+        "11" = rlang::expr(ricker_curve_autocorrelated_error$new()),
+        "12" = rlang::expr(shepherd_curve_autocorrelated_error$new()),
         "14" = rlang::expr(empirical_cdf_model$new()),
         "15" = rlang::expr(two_stage_empirical_cdf$new())
       ))

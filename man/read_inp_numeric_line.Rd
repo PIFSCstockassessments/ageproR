@@ -14,4 +14,8 @@ Reads in a line from the open file connection, splits the string
 into substrings by whitespace, validates for numerical strings, and
 then converts to numerical vector.
 }
+\details{
+Function uses regular expressions to validate if the string vector is
+numeric. If non-digits were found, then function will throw an exception.
+}
 \keyword{internal}

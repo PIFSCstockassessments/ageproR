@@ -23,6 +23,6 @@ Collection to store assertion messages. See
 }
 \description{
 Custom validation procedure to check if input value matches the structure
-of the user_percentile_summary R6Class. It will also catch single numeric
+of the percentile_summary R6Class. It will also catch single numeric
 input values presuming that the active binder sets the report_percentile.
 }

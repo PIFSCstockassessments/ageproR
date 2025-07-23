@@ -40,22 +40,22 @@ bootstrap <- R6Class(
     #' @description
     #' Uses file dialog interface to retrieve Bootstrap file name
     #'
-    #' @param bootstrap_path Bootstrap Filename
-    set_bootstrap_filename = function(bootstrap_path) {
+    #' @param bsn_path Bootstrap Filename (*.bsn) path
+    set_bootstrap_filename = function(bsn_path) {
 
-      if(missing(bootstrap_path)){
-        bootstrap_path <-
+      if(missing(bsn_path)){
+        bsn_path <-
             open_file_dialog(c("AGEPRO Bootstrap File", ".bsn"))
       }
 
-      if (test_file_exists(bootstrap_path, access = "r", extension = "bsn")) {
-        self$bootstrap_file <- bootstrap_path
+      if (test_file_exists(bsn_path, access = "r", extension = "bsn")) {
+        self$bootstrap_file <- bsn_path
       }else{
         local({
           #Disable cli hyperlinking
           withr::local_options(cli.hyperlink = FALSE)
           cli::cli_alert_danger(
-            "Falied to reconzise as bootstrap file: {.path {bootstrap_path}}.")
+            "Falied to reconzise as bootstrap file: {.path {bsn_path}}.")
         })
 
       }
@@ -76,15 +76,22 @@ bootstrap <- R6Class(
 
       nline <- nline + 1
       cli_alert("Line {nline}: ")
-      cli_text("num_bootstraps: {.val {self$num_bootstraps}}")
-      cli_text(c("pop_scale_factor (BootFac): ",
-                 "{.val {self$pop_scale_factor}}"))
+      cli::cli_div(id = "bootstrap_fields",
+                   theme = list(".alert-info" = list("margin-left" = 2)))
+      cli::cli_alert_info("num_bootstraps: {.val {self$num_bootstraps}}")
+      cli::cli_alert_info(paste0("pop_scale_factor {.emph (BootFac)}: ",
+                                 "{.val {self$pop_scale_factor}}"))
+      cli::cli_end("bootstrap_fields")
 
       #Read another line from the file connection, and
       #assign it as bootstrap filename
       nline <- nline + 1
-      cli_alert("Line {nline}: ")
-      self$bootstrap_file <- readLines(inp_con, n = 1, warn = FALSE)
+      suppressMessages(invisible(capture.output(
+        self$bootstrap_file <- readLines(inp_con, n = 1, warn = FALSE))))
+      cli::cli_alert(paste0("Line {nline}: bootstrap_file: ",
+                            "{.val {self$bootstrap_file}}"))
+
+
       return(nline)
 
     },
@@ -109,13 +116,11 @@ bootstrap <- R6Class(
     #'
     print = function(...) {
       cli::cli_par()
-      cli_ul()
-      cli_li("num_bootstraps: {.val {self$num_bootstraps}}")
-      cli_li(paste0("pop_scale_factor (BootFac): ",
+      cli_alert_info("num_bootstraps: {.val {self$num_bootstraps}}")
+      cli_alert_info(paste0("pop_scale_factor {.emph (BootFac)}: ",
                "{.val {self$pop_scale_factor}}"))
-      cli_alert_info("bootstrap_file:")
-
-      private$validate_bootstrap_file(self$bootstrap)
+      cli_alert_info(paste0("bootstrap_file:",
+                            "{.val {self$bootstrap_file}}"))
 
       cli_end()
     }
@@ -156,6 +161,7 @@ bootstrap <- R6Class(
       }else {
         #Validate that 'value' points to a existing bootstrap file.
         private$validate_bootstrap_file(value)
+        private$.bootstrap_file <- value
       }
     },
 
@@ -190,38 +196,30 @@ bootstrap <- R6Class(
     .bootstrap_file = NULL,
     .keyword_name = "bootstrap",
 
-
     #Validate bootstrap_file
     validate_bootstrap_file = function(value) {
-
-      #Set value to bootstrap file
-      private$.bootstrap_file <- value
 
       #Validate that 'value' points to a existing file.
       if (test_file_exists(value, access = "r", extension = "bsn")) {
         #If validated, assign value
-        cli_alert_success("Bootstrap file: {.val {value}}")
-
-      }else if (is.null(value)) {
-        #Warn if file path is NULL,
-        warning(paste0("NULL Bootstrap file path. ",
-                       "Please provide a vaild bootstrap filepath when saving ",
-                       "to input file for the AGEPRO calcuation engine."),
-                call. = FALSE)
-      }else {
-        #Else, warn bootstrap file name does not exist
-        cli_div(
-          theme = list(span.val = list(color = "orange",
-                                       "font-style" = "italic")))
-        cli_alert_warning(c("Bootstrap file path does not exist in system: ",
-                            "{.val {value}}"))
-        cli_end()
-
-        warning(paste0("'", value, "' does not exist. \n",
-                       "Please provide a vaild bootstrap filepath when saving to input ",
-                       "file for the AGEPRO calcuation engine."), call. = FALSE)
+        cli_alert_success("bootstrap_file: {.val {value}}")
+        return()
       }
 
+      #Warn if file path is NULL
+      if (is.null(value)) {
+        warning(paste0("NULL bootstrap_file path. Please provide valid ",
+                       "bootstrap (*.bsn) filepath before saving input file ",
+                       "or running model to calcuation engine."),
+                call. = FALSE)
+        return()
+      }
+
+      #Else, warn bootstrap file name does not exist
+      warning(paste0(invalid_path_message(value),
+                     "Please save AGEPRO input files with a vaild ",
+                     "bootstrap_file, especially with running models with ",
+                     "the calculation engine.", call. = FALSE))
     }
 
   )

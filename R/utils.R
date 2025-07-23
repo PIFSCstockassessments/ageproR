@@ -19,7 +19,7 @@ div_keyword_header <- function(keyword, header_color = "cyan") {
 }
 
 
-#' Print AGEPRO table-like values to the console
+#' Use cli commands to display AGEPRO table-like values
 #'
 #' Helper function to print out AGEPRO keyword parameter's table-like matrix or
 #' vector variables to console. Includes an option to show the first few rows
@@ -32,6 +32,7 @@ div_keyword_header <- function(keyword, header_color = "cyan") {
 #' the matrix or vector prints normally.
 #'
 #' @importFrom utils head
+#' @export
 #'
 print_parameter_table = function (tbl, omit_rows=FALSE) {
 
@@ -39,12 +40,12 @@ print_parameter_table = function (tbl, omit_rows=FALSE) {
 
     omitted_num_rows <- pmax(0, nrow(tbl)-6)
 
-    cli::cat_print(head(tbl)) #first 6 rows
+    capture_output_as_message(cli::cat_print(head(tbl))) #first 6 rows
     cli::cli_text(
       paste0("{symbol$info} ","Total of {nrow(tbl)} row{?s}; ",
              "{no(omitted_num_rows)} row{?s} omitted"))
   }else{
-    cli::cat_print(tbl)
+    capture_output_as_message(cli::cat_print(tbl))
   }
 
 }
@@ -68,6 +69,33 @@ create_blank_parameter_table = function(num_rows, num_cols,
                 nrow = num_rows,
                 ncol = num_cols,
                 dimnames = dimnames))
+
+}
+
+#' Invalid Path Message
+#'
+#' Returns a reusable invalid Path Message
+#'
+#' @param x Filepath string
+#'
+invalid_path_message <- function(x) {
+  paste0("'", x, "' is an invalid path or doesn't exist in ",
+         "working directory. \n")
+}
+
+
+#' converts output as messages
+#'
+#' Helper function to format vector output, such as data.frames, matrices. or
+#' lists to message format.
+#'
+#' @param x Vector output object
+#'
+#' @importFrom utils capture.output
+#'
+capture_output_as_message <- function(x) {
+
+  paste(capture.output(x), collapse = "\n") |> message()
 
 }
 

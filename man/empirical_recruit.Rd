@@ -31,6 +31,7 @@ Recruitment Model Description
 \itemize{
 \item \href{#method-empirical_recruit-new}{\code{empirical_recruit$new()}}
 \item \href{#method-empirical_recruit-new_obs_table}{\code{empirical_recruit$new_obs_table()}}
+\item \href{#method-empirical_recruit-set_obs_table_from_df}{\code{empirical_recruit$set_obs_table_from_df()}}
 \item \href{#method-empirical_recruit-print}{\code{empirical_recruit$print()}}
 \item \href{#method-empirical_recruit-print_json}{\code{empirical_recruit$print_json()}}
 \item \href{#method-empirical_recruit-read_inp_lines}{\code{empirical_recruit$read_inp_lines()}}
@@ -44,7 +45,7 @@ Recruitment Model Description
 \subsection{Method \code{new()}}{
 Creates an Empirical Recruit instance
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(num_observations = 1, with_ssb = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new(num_observations = 1, with_ssb = FALSE, obs_table = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -55,6 +56,9 @@ Number of Empirical Observation Records}
 
 \item{\code{with_ssb}}{Empirical Recruitment includes Spawning
 Stock Biomass (SSB)}
+
+\item{\code{obs_table}}{Data Frame containing empirical recruitment
+observation table. If NULL, set to default values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -68,6 +72,24 @@ Create Obs table
 \if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$new_obs_table()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-empirical_recruit-set_obs_table_from_df"></a>}}
+\if{latex}{\out{\hypertarget{method-empirical_recruit-set_obs_table_from_df}{}}}
+\subsection{Method \code{set_obs_table_from_df()}}{
+Input data frame to set empirical recruitment observation data table.
+Typically used at initialization.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{empirical_recruit$set_obs_table_from_df(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{Input data frame}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-empirical_recruit-print"></a>}}
