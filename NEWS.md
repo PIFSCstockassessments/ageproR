@@ -32,7 +32,7 @@
     - renamed R script `optional_options_flags.R` -> `option_flags.R`
       - renamed R6Class `optional_optional_flags` -> `option_flags`
   - "options w/ options_flags" (option_flag class reference for: **max_bounds**, **percentile_summary**, **reference_points**, **scaling_factors**, **retrospective_adjustments**)
-    - Fixed an issue where option_flags reference R6class was improperly referenced, causing unintended consequences using multiple **agepro_model** instances (#85) 
+    - Fixed an issue where option_flags reference class was improperly referenced, causing unintended consequences using multiple **agepro_model** instances (#85) 
       - Make option_flag R6class a non-shared Reference, and instantiate reference **per agepro_model class instance**. 
       - During **agepro_model** instantiation, each "options w/ options_flags" is instantiated with an option_flag class reference.
     - Use **formals** to detect parameter defaults to determine option_flag is enabled at initialization:
@@ -40,7 +40,7 @@
       - **retrospective_adjustments**: removed default value for `retro_adjust`. If `retrospective_adjust` is missing in a new instances of this class, set `enable_retrospective_adjustments` to FALSE. Otherwise, its TRUE
   - Fixup option_flags inconsistencies, messages
 - cli consistency tweaks (_R message_ format) 
-  - Reworded console to represent the keyword parameter class field names.
+  - Reworded Rconsole to represent the keyword parameter class field names.
     - Console alert symbols ℹ️ (or `i`) focuses on keyword parameter classes fields; ◀️ (or `<`) for a interface event (or input line read)
   - Output from initializing **agepro_model** classes or "printing" AGEPRO keyword parameters classes, will print under the _R message_ format. 
     - This resolves an issue with console output changes with [RStudio 2025.05.0+496](https://docs.posit.co/ide/news/#rstudio-2025.05.0). 
@@ -51,12 +51,12 @@
 - Bootstrap
   - Clarified bootstrap_file warning message for relative path cases
   - cli fix to show Bootstrap File at **agepro_model** initialization
-- Replace test AGEPRO input File, Bootstrap File, and json input file with **AGEPRO-GUI** Hawaii Uku Example, which was based on 2020 Hawaii Uku (_Aprion virescens_) Assessment.
+- Replace test AGEPRO input File, Bootstrap File, and json input file with **AGEPRO-GUI** Hawaii Uku Example, based on 2020 Hawaii Uku (_Aprion virescens_) Assessment.
   - Hawaii Uku JSON input file imported from Hawaii Uku AGEPRO input file.
-  - Added description of example.
+  - Added description file of example.
 - Added Vignette as "Article" format (#84)
   - Includes AGEPRO Input File Keyword Parameter Structure and stub for JSON experimental file
-
+- README update (#88)
 
 
 # ageproR 0.7.3 2025-04-03
