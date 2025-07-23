@@ -1,4 +1,63 @@
-# ageproR (development version)
+# ageproR 0.8.0 2025-07-23
+
+- Recruitment 
+  - Added `empirical_ssb` for **Empirical Recruit Per Spawning Mass Distribution** (Recruitment model 2) (#76)
+  - Added `parametric_autocorrelated_error` as a base R6Class for Parametric Recruitment w/ Autocorrelated Lognormal Errors (#75)
+    - Added `berverton_holt_autocorrelated_error` for **Beverton-Holt w/ Autocorrelated Lognormal Error** (Model 10)
+    - Added `shepherd_curve_autocorrelated_error` for **Shepherd Curve w/ Autocorrelated Lognormal Error** (Model 11)
+    - Added `ricker_curve_autocorrelated_error` for **Ricker Curve w/ Autocorrelated Lognormal Error** (Model 12)
+  - Recruitment models **2**, **10**, **11**, **12** added to list to valid recruitment numbers, and can be passed through `set_recruit_model` function.
+  - Allow active binding recruitment fields (`recruit_scaling_factor`, `ssb_scaling_factor`, and `max_recruit_obs`) to be settable.
+  - Empirical observation tables
+    - Added `obs_table` parameter to set observation data at initialization. Default is NULL, generating default values, the original behavior.
+    - Added method to set empirical recruitment observation data from data frames
+  - Recruitment cli tweaks
+    - cli tweaks improve readability with Recruitment Model and Name on Rconsole.
+      - `print` now shows `max_recruit_obs` (#71)
+    - Rename `print_input_option_name` -> `print_process_error_fields`
+    - Minor `read_inp_lines` message tweak to clarify recruitment time period range.
+  - Consolidated validate_numeric_substrings code into `read_inp_numeric_lines` function
+  - Added option to toggle verbosity when setting new recruitment models via `set_recruit_model`
+- Options
+  - Consistency cli tweaks between Option classes
+  - Renamed options-related files with option prefix and simplified some R6Classes names:
+    - renamed R script `max_bounds.R` -> `options_max_bounds.R`
+    - renamed R script `user_percentile_summary.R` -> `options_percentile_summary.R`
+      - renamed R6Class `user_percentile_summary` -> `percentile_summary`
+    - renamed R script `reference_points.R` -> `options_reference_points.R`
+    - renamed R script `scaling_factors.R` -> `options_scaling_factors.R`
+    - renamed R script `retrospective_adjustments.R` -> `options_retrospective_adjustments.R`
+    - renamed R script `output_options.R` -> `options_output.R`
+      - renamed R6class `output_options` -> `options_output`
+    - renamed R script `optional_options_flags.R` -> `option_flags.R`
+      - renamed R6Class `optional_optional_flags` -> `option_flags`
+  - "options w/ options_flags" (option_flag class reference for: **max_bounds**, **percentile_summary**, **reference_points**, **scaling_factors**, **retrospective_adjustments**)
+    - Fixed an issue where option_flags reference R6class was improperly referenced, causing unintended consequences using multiple **agepro_model** instances (#85) 
+      - Make option_flag R6class a non-shared Reference, and instantiate reference **per agepro_model class instance**. 
+      - During **agepro_model** instantiation, each "options w/ options_flags" is instantiated with an option_flag class reference.
+    - Use **formals** to detect parameter defaults to determine option_flag is enabled at initialization:
+      - **max_bounds**, **percentile_summary**, **reference_points**, **scaling_factors**: Initialize with a non-default parameter: set its flag to TRUE; If all class parameters match default values, set the flag to FALSE.
+      - **retrospective_adjustments**: removed default value for `retro_adjust`. If `retrospective_adjust` is missing in a new instances of this class, set `enable_retrospective_adjustments` to FALSE. Otherwise, its TRUE
+  - Fixup option_flags inconsistencies, messages
+- cli consistency tweaks (_R message_ format) 
+  - Reworded console to represent the keyword parameter class field names.
+    - Console alert symbols ℹ️ (or `i`) focuses on keyword parameter classes fields; ◀️ (or `<`) for a interface event (or input line read)
+  - Output from initializing **agepro_model** classes or "printing" AGEPRO keyword parameters classes, will print under the _R message_ format. 
+    - This resolves an issue with console output changes with [RStudio 2025.05.0+496](https://docs.posit.co/ide/news/#rstudio-2025.05.0). 
+    - Pass `print_parameter_table` output through `capture_output_as_message`
+      - Replaces use of tibbles for output; Removes **tibble** dependency.
+      - Replaces redundant function `cli_print_process_error_table` in process_error class.
+  - Added verbosity toggle to specifically show General Parameters to R console during agepro_model initialization. TRUE by default.
+- Bootstrap
+  - Clarified bootstrap_file warning message for relative path cases
+  - cli fix to show Bootstrap File at **agepro_model** initialization
+- Replace test AGEPRO input File, Bootstrap File, and json input file with **AGEPRO-GUI** Hawaii Uku Example, which was based on 2020 Hawaii Uku (_Aprion virescens_) Assessment.
+  - Hawaii Uku JSON input file imported from Hawaii Uku AGEPRO input file.
+  - Added description of example.
+- Added Vignette as "Article" format (#84)
+  - Includes AGEPRO Input File Keyword Parameter Structure and stub for JSON experimental file
+
+
 
 # ageproR 0.7.3 2025-04-03
 
