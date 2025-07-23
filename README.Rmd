@@ -26,12 +26,12 @@ AGEPRO (Age Structured Projection Model).
 **ageproR** is still in development. These features will be implemented in future updates. 
 
 - Predictor Recruitment Models 
-- Autocorrelated Lognormals Recruitment Models 
 - Fixed Recruitment Model 
-- Empirical Per SSB
-- Empirical Culumative Distrubutuion Fact for w/ Linear Decilne to Zero
+- Empirical Cumulative Distrubutuion Factor for w/ Linear Decline to Zero
 - Markov Matrix Recruitment Model
-- Run AGEPRO models to AGEPRO calcuation engine.
+- Run AGEPRO models with Jon Brodziak's AGEPRO calculation engine within R.
+
+Importing Stock Synthesis report data as AGEPRO input data is being developed as a separate R-package: ss3agepro
 
 
 **If you using AGEPRO for production, please use:**
@@ -46,12 +46,13 @@ You can install the development version of ageproR from
 with:
 
 ```{r, eval = FALSE}
-install.packages("remotes")
-remotes::install_github("PIFSCstockassessments/ageproR")
-
-# Alternative method via `pak`
+# via `pak`
 install.packages("pak")
 pak::pkg_install("PIFSCstockassessments/ageproR")
+
+# alternative\legacy method
+install.packages("remotes")
+remotes::install_github("PIFSCstockassessments/ageproR")
 ```
 
 ## AGEPRO input file format
@@ -60,13 +61,11 @@ pak::pkg_install("PIFSCstockassessments/ageproR")
 `AGEPRO VERSION 4.0` & `AGEPRO VERSION 4.25`. By default, **ageproR** writes
 to the `AGEPRO VERSION 4.0` Input File Format.
 
-The Included example AGEPRO input file (`inst/test-example4.inp`) is used to 
-demonstrate it's implemented features.
+Please refer to the *AGEPRO Reference Manual* for more technical details.
 
+## Hawaiian Uku Projection Projection base example
 
-## Documentation 
-
-Hawaiian Uku Projection Projection base example (TODO)
+TODO
 
 
 
