@@ -12,7 +12,7 @@
     - Added `obs_table` parameter to set observation data at initialization. Default is NULL, generating default values, the original behavior.
     - Added method to set empirical recruitment observation data from data frames
   - Recruitment cli tweaks
-    - Refactored the way Recruitment Model and Name is displayed on Rconsole.
+    - cli tweaks improve readability with Recruitment Model and Name on Rconsole.
       - `print` now shows `max_recruit_obs` (#71)
     - Rename `print_input_option_name` -> `print_process_error_fields`
     - Minor `read_inp_lines` message tweak to clarify recruitment time period range.
